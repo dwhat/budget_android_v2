@@ -22,7 +22,8 @@ import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, CategoriesMain.OnFragmentInteractionListener, VendorsMain.OnFragmentInteractionListener,
-                    IncomesMain.OnFragmentInteractionListener {
+                    IncomeMain.OnFragmentInteractionListener, Logout.OnFragmentInteractionListener, LossMain.OnFragmentInteractionListener,
+                    DashboardMain.OnFragmentInteractionListener{
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -56,13 +57,13 @@ public class MainActivity extends ActionBarActivity
         Fragment fragment = null;
         switch (position) {
             case 0:
-                fragment = new CategoriesMain();
+                fragment = new DashboardMain();
                 break;
             case 1:
-                fragment = new CategoriesMain();
+                fragment = new IncomeMain();
                 break;
             case 2:
-                fragment = new CategoriesMain();
+                fragment = new LossMain();
                 break;
             case 3:
                 fragment = new VendorsMain();
@@ -71,7 +72,7 @@ public class MainActivity extends ActionBarActivity
                 fragment = new CategoriesMain();
                 break;
             case 5:
-                fragment = new CategoriesMain();
+                fragment = new Logout();
                 break;
             default:
                 break;
@@ -145,14 +146,20 @@ public class MainActivity extends ActionBarActivity
     }
     @Override
     public void onCategoriesMainFragmentInteraction(Uri uri){
-
     }
     @Override
     public void onVendorsMainFragmentInteraction(Uri uri){
-
     }
     @Override
-    public void onIncomesMainFragmentInteraction(Uri uri){
-
+    public void onIncomeMainFragmentInteraction(Uri uri){
+    }
+    @Override
+    public void onLogoutFragmentInteraction(Uri uri){
+    }
+    @Override
+    public void onLossMainFragmentInteraction(Uri uri){
+    }
+    @Override
+    public void onDashboardMainFragmentInteraction(Uri uri){
     }
 }
