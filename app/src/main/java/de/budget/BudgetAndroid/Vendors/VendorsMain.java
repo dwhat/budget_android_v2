@@ -1,4 +1,4 @@
-package de.budget;
+package de.budget.BudgetAndroid.Vendors;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -8,16 +8,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
 
+import de.budget.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link CategoriesMain.OnFragmentInteractionListener} interface
+ * {@link VendorsMain.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link CategoriesMain#newInstance} factory method to
+ * Use the {@link VendorsMain#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CategoriesMain extends Fragment {
+public class VendorsMain extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -35,11 +37,11 @@ public class CategoriesMain extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment CategoriesMain.
+     * @return A new instance of fragment VendorsMain.
      */
     // TODO: Rename and change types and number of parameters
-    public static CategoriesMain newInstance(String param1, String param2) {
-        CategoriesMain fragment = new CategoriesMain();
+    public static VendorsMain newInstance(String param1, String param2) {
+        VendorsMain fragment = new VendorsMain();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -47,7 +49,7 @@ public class CategoriesMain extends Fragment {
         return fragment;
     }
 
-    public CategoriesMain() {
+    public VendorsMain() {
         // Required empty public constructor
     }
 
@@ -64,13 +66,13 @@ public class CategoriesMain extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_categories_main, container, false);
+        return inflater.inflate(R.layout.fragment_vendors_main, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onCategoriesMainFragmentInteraction(uri);
+            mListener.onVendorsMainFragmentInteraction(uri);
         }
     }
 
@@ -103,9 +105,7 @@ public class CategoriesMain extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onCategoriesMainFragmentInteraction(Uri uri);
+        public void onVendorsMainFragmentInteraction(Uri uri);
     }
-
-
 
 }

@@ -1,4 +1,4 @@
-package de.budget;
+package de.budget.BudgetAndroid.Income;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -8,16 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import de.budget.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link DashboardMain.OnFragmentInteractionListener} interface
+ * {@link IncomeMain.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link DashboardMain#newInstance} factory method to
+ * Use the {@link IncomeMain#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DashboardMain extends Fragment {
+public class IncomeMain extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -35,11 +37,11 @@ public class DashboardMain extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment DashboardMain.
+     * @return A new instance of fragment IncomeMain.
      */
     // TODO: Rename and change types and number of parameters
-    public static DashboardMain newInstance(String param1, String param2) {
-        DashboardMain fragment = new DashboardMain();
+    public static IncomeMain newInstance(String param1, String param2) {
+        IncomeMain fragment = new IncomeMain();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -47,7 +49,7 @@ public class DashboardMain extends Fragment {
         return fragment;
     }
 
-    public DashboardMain() {
+    public IncomeMain() {
         // Required empty public constructor
     }
 
@@ -64,13 +66,13 @@ public class DashboardMain extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dashboard_main, container, false);
+        return inflater.inflate(R.layout.fragment_income_main, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onDashboardMainFragmentInteraction(uri);
+            mListener.onIncomeMainFragmentInteraction(uri);
         }
     }
 
@@ -103,7 +105,7 @@ public class DashboardMain extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onDashboardMainFragmentInteraction(Uri uri);
+        public void onIncomeMainFragmentInteraction(Uri uri);
     }
 
 }

@@ -1,23 +1,20 @@
-package de.budget;
+package de.budget.BudgetAndroid;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
+
+import de.budget.BudgetAndroid.Categories.CategoriesMain;
+import de.budget.BudgetAndroid.Income.IncomeMain;
+import de.budget.BudgetAndroid.Loss.LossMain;
+import de.budget.BudgetAndroid.Vendors.VendorsMain;
+import de.budget.R;
 
 
 public class MainActivity extends ActionBarActivity

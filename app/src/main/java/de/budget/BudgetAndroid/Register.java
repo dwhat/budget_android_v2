@@ -1,26 +1,25 @@
-package de.budget;
+package de.budget.BudgetAndroid;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.content.Intent;
-import android.widget.EditText;
+
+import de.budget.R;
 
 
-public class Login extends ActionBarActivity {
+public class Register extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
+        getMenuInflater().inflate(R.menu.menu_register, menu);
         return true;
     }
 
@@ -37,16 +36,5 @@ public class Login extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    /** Called when the user clicks the Login button */
-    public void login(View view) {
-        // Do something in response to button
-    }
-
-    /** Called when the user clicks the Register button */
-    public void register(View view) {
-        Intent intent = new Intent(this, Register.class);
-        startActivity(intent);
     }
 }
