@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
-    private static final String NAMESPACE = "http://budget.de/";
+    private static final String NAMESPACE = "http://onlinebudget.budget.de/";
 
     private static final String URL = "http://10.0.2.2:8080/budget/BudgetOnlineServiceBean";
 
