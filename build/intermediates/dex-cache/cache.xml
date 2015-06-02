@@ -2,6 +2,13 @@
 <items version="2" >
 
     <item
+        jar="/home/christopher/AndroidStudioProjects/Budget/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="d84409890828e07d344a3b9b1da545dba9897b51">
+        <dex dex="/home/christopher/AndroidStudioProjects/Budget/app/build/intermediates/pre-dexed/debug/classes-35148ff7a89e20317abc12ec1d6f7ff15b2aea6c.jar" />
+    </item>
+    <item
         jar="/home/christopher/AndroidStudioProjects/Budget/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/jars/libs/internal_impl-22.0.0.jar"
         jumboMode="false"
         revision="21.1.2"
@@ -16,18 +23,18 @@
         <dex dex="/home/christopher/AndroidStudioProjects/Budget/app/build/intermediates/pre-dexed/debug/support-annotations-22.0.0-3592598f68df8ac66846aa376e2f5becaefebdb7.jar" />
     </item>
     <item
-        jar="/home/christopher/AndroidStudioProjects/Budget/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="d84409890828e07d344a3b9b1da545dba9897b51">
-        <dex dex="/home/christopher/AndroidStudioProjects/Budget/app/build/intermediates/pre-dexed/debug/classes-35148ff7a89e20317abc12ec1d6f7ff15b2aea6c.jar" />
-    </item>
-    <item
         jar="/home/christopher/AndroidStudioProjects/Budget/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/jars/classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
         <dex dex="/home/christopher/AndroidStudioProjects/Budget/app/build/intermediates/pre-dexed/debug/classes-5f62eb2976cf1c44e269618fb1102f3e4355565f.jar" />
+    </item>
+    <item
+        jar="/home/christopher/AndroidStudioProjects/Budget/ksoap2-android-assembly-3.4.0-jar-with-dependencies/ksoap2-android-assembly-3.4.0-jar-with-dependencies.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="45fbaab416fb5cff992e662d1f7a83786f084fc3">
+        <dex dex="/home/christopher/AndroidStudioProjects/Budget/app/build/intermediates/pre-dexed/debug/ksoap2-android-assembly-3.4.0-jar-with-dependencies-4739b89dd316ee367e07f3990dcc6b3c5951954b.jar" />
     </item>
 
 </items>

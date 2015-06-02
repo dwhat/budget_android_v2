@@ -8,8 +8,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.content.Intent;
+import android.widget.EditText;
 import android.widget.Toast;
-
+import de.budget.BudgetService.Response.UserLoginResponse;
 import de.budget.R;
 
 
@@ -45,6 +46,27 @@ public class Login extends ActionBarActivity {
 
     /** Called when the user clicks the Login button */
     public void login(View view) {
+        EditText txtUsername = (EditText) findViewById(R.id.username);
+        EditText txtPassword = (EditText) findViewById(R.id.password);
+        String username = txtUsername.getText().toString();
+        String password = txtPassword.getText().toString();
+
+        if(!"".equals(username) && !"".equals(password))
+        {
+            LoginTask loginTask = new LoginTask(this);
+            //Proxy asynchron aufrufen
+            loginTask.execute(username, password);
+        }
+        else
+        {
+            //Toast anzeigen
+            CharSequence text = "Fehlende Logindaten bitte in den Einstellungen eintragen!";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(this, text, duration);
+            toast.show();
+        }
+
+        //Nächste Activity anzeigen
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
@@ -55,7 +77,7 @@ public class Login extends ActionBarActivity {
         startActivity(intent);
     }
 
-    private class LoginTask extends AsyncTask<String, Integer, User>
+    private class LoginTask extends AsyncTask<String, Integer, UserLoginResponse>
     {
         private Context context;
 
@@ -67,16 +89,16 @@ public class Login extends ActionBarActivity {
         }
 
         @Override
-        protected User doInBackground(String... params){
+        protected UserLoginResponse doInBackground(String... params){
             if(params.length != 2)
                 return null;
             String username = params[0];
             String password = params[1];
-            XbankAndroidApplication myApp = (XbankAndroidApplication) getApplication();
+            BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
             try {
-                Customer myCustomer = myApp.getXbankOnlineService().login(username, password);
-                return myCustomer;
-            } catch (InvalidLoginException e) {
+                UserLoginResponse myUser = myApp.getBudgetOnlineService().login(username, password);
+                return myUser;
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return null;
@@ -87,23 +109,23 @@ public class Login extends ActionBarActivity {
             //wird in diesem Beispiel nicht verwendet
         }
 
-        protected void onPostExecute(Customer result)
+        protected void onPostExecute(UserLoginResponse result)
         {
             if(result != null)
             {
                 //erfolgreich eingeloggt
-                XbankAndroidApplication myApp = (XbankAndroidApplication) getApplication();
-                myApp.setUser(result);
+                if (result.getReturnCode() == 0){
 
-                //Toast anzeigen
-                CharSequence text = "Login erfolgreich! Angemeldeter Benutzername: " + result.getUserName();
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+                    BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
+                    myApp.setSession(result.getSessionId());
 
-                //Nächste Activity anzeigen
-                Intent i = new Intent(context, BankingActivity.class);
-                startActivity(i);
+                    //Toast anzeigen
+                    CharSequence text = "Login erfolgreich!";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+
+                }
             }
             else
             {
