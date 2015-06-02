@@ -25,7 +25,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     private static final String NAMESPACE = "http://budget.de/";
 
-    private static final String URL = "http://10.70.14.228:8080/budget/BudgetOnlineServiceBean";
+    private static final String URL = "http://10.0.2.2:8080/budget/BudgetOnlineServiceBean";
 
     private static final String TAG = BudgetOnlineServiceImpl.class.getName();
 
