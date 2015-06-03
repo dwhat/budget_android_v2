@@ -1,12 +1,16 @@
 package de.budget.BudgetAndroid;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import de.budget.R;
 
@@ -30,6 +34,9 @@ public class DashboardMain extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    // Floating Action Button
+    ImageButton FAB;
 
     /**
      * Use this factory method to create a new instance of
@@ -56,10 +63,12 @@ public class DashboardMain extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -107,5 +116,6 @@ public class DashboardMain extends Fragment {
         // TODO: Update argument type and name
         public void onDashboardMainFragmentInteraction(Uri uri);
     }
+
 
 }

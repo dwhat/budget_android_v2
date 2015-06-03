@@ -24,4 +24,7 @@
     <string name="title_activity_register">Register</string>
     <!-- Register Activity -->
     <string name="email">Email</string>
+
+
+
 </resources>

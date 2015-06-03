@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
+import android.view.View;
+import android.widget.Toast;
 
 import de.budget.BudgetAndroid.Categories.CategoriesMain;
 import de.budget.BudgetAndroid.Income.IncomeMain;
@@ -159,4 +161,10 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onDashboardMainFragmentInteraction(Uri uri){
     }
+
+    public void toast(View view) {
+        Toast.makeText(MainActivity.this, "Hello World", Toast.LENGTH_SHORT).show();
+    }
+
+
 }
