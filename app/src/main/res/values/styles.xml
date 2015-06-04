@@ -2,13 +2,18 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="android:activatedBackgroundIndicator">@drawable/activated_background</item>
+
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
 
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
         <item name="android:buttonStyle">@style/RobotoButtonStyle</item>
 
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
         <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
 
@@ -24,14 +29,18 @@
 
     <!-- Set Default Heading -->
     <style name="Headline" parent="android:Widget.Holo.Light.TextView">
-        <item name="android:drawableBottom">@drawable/header</item>
-        <item name="android:drawablePadding">4dp</item>
-
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
         <item name="android:paddingLeft">16dp</item>
-        <item name="android:textAllCaps">true</item>
         <item name="android:textColor">#fff</item>
-        <item name="android:textSize">24sp</item>
-        <item name="android:background">@color/ColorPrimaryDark</item>
+        <item name="android:background">@color/ColorPrimary</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="MyActionBar"
+        parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/ColorPrimary</item>
     </style>
 
 </resources>

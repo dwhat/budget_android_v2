@@ -12,15 +12,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Dashboard"
-            android:id="@+id/Dashheading"
-            android:layout_gravity="center_horizontal"
-            android:drawableLeft="@drawable/ic_dashboard_b"
-            style="@style/Headline" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:src="@drawable/ic_dashboard_w"
+                android:layout_gravity="center_horizontal"
+                style="@style/Headline"
+                android:layout_width="wrap_content" />
+
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/title_dashboard"
+                android:id="@+id/title_dashboard"
+                android:layout_gravity="center_horizontal"
+                style="@style/Headline"
+                android:layout_width="match_parent" />
+        </LinearLayout>
 
 
         <Space
