@@ -19,7 +19,8 @@
             android:text="Dashboard"
             android:id="@+id/Dashheading"
             android:layout_gravity="center_horizontal"
-            android:drawableLeft="@drawable/ic_dashboard"/>
+            android:drawableLeft="@drawable/ic_dashboard_b"
+            style="@style/Headline" />
 
 
         <Space

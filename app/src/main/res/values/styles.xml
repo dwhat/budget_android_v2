@@ -4,6 +4,34 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
+
+        <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
+        <item name="android:buttonStyle">@style/RobotoButtonStyle</item>
+
+        <item name="android:windowActionBarOverlay">true</item>
+    </style>
+
+
+    <!-- Set Default Font for Texts -->
+    <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <!-- Set Default Font for Buttons -->
+    <style name="RobotoButtonStyle" parent="android:Widget.Holo.Button">
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <!-- Set Default Heading -->
+    <style name="Headline" parent="android:Widget.Holo.Light.TextView">
+        <item name="android:drawableBottom">@drawable/header</item>
+        <item name="android:drawablePadding">4dp</item>
+
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:background">@color/ColorPrimaryDark</item>
     </style>
 
 </resources>

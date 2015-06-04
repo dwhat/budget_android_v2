@@ -7,14 +7,14 @@
     <item
         android:id="@+id/action_loss"
         android:title="@string/action_loss"
-        android:icon="@drawable/ic_basket_b"
+        android:icon="@drawable/ic_basket_w"
         app:showAsAction="withText|ifRoom" />
 
 
     <item
         android:id="@+id/action_sync"
         android:title="@string/action_sync"
-        android:icon="@drawable/ic_sync"
+        android:icon="@drawable/ic_sync_w"
         app:showAsAction="withText|ifRoom" />
 
 

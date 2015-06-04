@@ -161,7 +161,7 @@ public class MainActivity extends ActionBarActivity
      * Methode zum synchroniseren der Applikation, bei Fehlerfall, evtl für später bei mehrern Frontends
       *
      */
-    @Author("Mark")
+    @Author(name = "Mark")
     private void synchronizeApplication() {
         Toast.makeText(MainActivity.this, "Synchronisierung des Systems", Toast.LENGTH_SHORT).show();
     }
@@ -169,7 +169,7 @@ public class MainActivity extends ActionBarActivity
     /*
      * Methode zum ändern der Activity je nach eingegebener Klasse
      */
-    @Author("Mark")
+    @Author(name = "Mark")
     private void changeActivity(Class c) {
         Intent intent = new Intent(this, c);
         startActivity(intent);
