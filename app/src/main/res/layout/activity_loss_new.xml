@@ -18,17 +18,22 @@
         <EditText
             style="@style/EditTextBasic"
             android:inputType="date"
+            android:hint="30.06.1992"
             android:ems="10"
-            android:id="@+id/editText" />
+            android:id="@+id/date_loss" />
 
         <EditText
             style="@style/EditTextBasic"
-            android:id="@+id/editText2"
+            android:hint="@string/loss_name"
+            android:id="@+id/loss_name"
             android:layout_gravity="center_horizontal" />
 
         <EditText
             style="@style/EditTextBasic"
-            android:id="@+id/editText3" />
+            android:hint="@string/loss_value"
+            android:id="@+id/loss_value"
+            android:numeric="decimal"
+            android:inputType="numberDecimal" />
 
         <Spinner
             android:layout_width="match_parent"
@@ -61,7 +66,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="false"
+        android:gravity="bottom">
 
         <EditText
             android:layout_width="wrap_content"
@@ -90,17 +96,12 @@
             android:id="@+id/editText5"
             android:layout_weight="1" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button2" />
+        <ImageButton
+            android:src="@drawable/button"
+            android:id="@+id/imageButton"
+            android:onClick="save"
+            style="@style/fab" />
 
     </LinearLayout>
 
-    <ImageButton
-        android:src="@drawable/button"
-        android:id="@+id/imageButton"
-        android:onClick="save"
-        style="@style/fab" />
 </RelativeLayout>

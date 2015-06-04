@@ -41,7 +41,8 @@
         android:layout_marginTop="48dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/ColorPrimaryDark"/>
+        android:textColor="@color/ColorPrimaryDark"
+        android:elegantTextHeight="false" />
 
     <Button
         android:layout_width="wrap_content"
@@ -70,4 +71,5 @@
         android:onClick="register"
         android:background="@color/ColorPrimary"
         android:paddingBottom="16dp"/>
+
 </RelativeLayout>
