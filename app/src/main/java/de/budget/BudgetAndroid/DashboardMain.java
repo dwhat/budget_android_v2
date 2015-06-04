@@ -35,9 +35,6 @@ public class DashboardMain extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    // Floating Action Button
-    ImageButton FAB;
-
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.

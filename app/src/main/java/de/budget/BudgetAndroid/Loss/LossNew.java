@@ -1,10 +1,13 @@
 package de.budget.BudgetAndroid.Loss;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import de.budget.BudgetAndroid.MainActivity;
 import de.budget.R;
 
 public class LossNew extends ActionBarActivity {
@@ -30,10 +33,22 @@ public class LossNew extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_save) {
+            saveLossNew();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void saveLossNew() {
+        //TODO Die eingengeben Werte an den Server schicken
+        Toast.makeText(this, "Speiechern", Toast.LENGTH_SHORT).show();
+
+        //Nächste Activity anzeigen
+        Intent intent = new Intent(this, MainActivity.class);
+        Bundle bundle = intent.getExtras();
+        bundle.putString("class", this.getClass().toString());
+        startActivity(intent, bundle);
     }
 }

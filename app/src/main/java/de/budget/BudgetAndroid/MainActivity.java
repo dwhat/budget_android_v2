@@ -42,6 +42,7 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -122,8 +123,16 @@ public class MainActivity extends ActionBarActivity
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
 
-        // @Author Mark entfernt den Schatten der Actionbar http://stackoverflow.com/questions/12246388/remove-shadow-below-actionbar
+        // @Author Mark
+        // entfernt den Schatten der Actionbar
+        // //http://stackoverflow.com/questions/12246388/remove-shadow-below-actionbar
         actionBar.setElevation(0);
+
+        // @Author Mark
+        // entfernt den Titel
+        // http://stackoverflow.com/questions/7655874/how-do-you-remove-the-title-text-from-the-android-actionbar
+        actionBar.setDisplayShowTitleEnabled(false);
+
     }
 
 
@@ -206,5 +215,30 @@ public class MainActivity extends ActionBarActivity
         Toast.makeText(MainActivity.this, "Hello World", Toast.LENGTH_SHORT).show();
     }
 
+    /*
+     * Wenn ein intent aus einer anderen Activity aufgerufen wird und ein spezielles Fragment angezeigt werden soll
+     * Wird ein String Bundle mit der entsprechenden Klasse übergeben
+     * Diese Methode wertet dieses Bundle aus und erzeugt entsprechend das Fragement
+     */
+    @Author(name="Mark")
+    public void getFragmentByIntent() {
 
+        String value = getIntent().getExtras().getString("class");
+
+        if(!value.isEmpty()) {
+            int pos;
+
+            switch (value) {
+                case "LossNew":
+                    pos = 2;
+                    break;
+                default:
+                    pos = 0;
+                    break;
+
+            }
+
+            onNavigationDrawerItemSelected(pos);
+        }
+    }
 }
