@@ -56,10 +56,24 @@
 
     <!-- Loss Activity -->
     <string name="title_activity_loss_new">Neue Ausgabe</string>
+    <string name="loss_name">Name</string>
+    <string name="loss_value">Wert</string>
+    <string name="article_name">Name</string>
+    <string name="article_amount">Anzahl</string>
+    <string name="article_value">Wert</string>
 
     <!-- Vendor Activity -->
+    <string name="title_activity_vendor_new">Neuer Händler</string>
     <string name="vendor_name">Händlername</string>
     <string name="vendor_address">Adresse</string>
+
+    <!-- Category Activity -->
+    <string name="title_activity_category_new">Neue Kategorie</string>
+    <string name="category_name">Kategorie Name</string>
+
+    <!-- Radio Buttons -->
+    <string name="rb_income">Einnahme</string>
+    <string name="rb_loss">Ausgabe</string>
 
     <!-- Buttons -->
     <string name="action_loss">Neue Ausgabe</string>
@@ -72,7 +86,7 @@
 
     <!-- Sonstiges -->
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_vendor_new">VendorNew</string>
+
     <string name="title_activity_test">TestActivity</string>
 
 </resources>

@@ -80,6 +80,7 @@
 
     </LinearLayout>
 
+    <!-- FAB -->
     <ImageButton
         android:layout_margin="15dp"
         android:layout_width="70dp"
