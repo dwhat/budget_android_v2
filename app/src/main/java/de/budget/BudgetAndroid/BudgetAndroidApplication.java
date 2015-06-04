@@ -25,4 +25,9 @@ public class BudgetAndroidApplication extends Application{
     public BudgetOnlineService getBudgetOnlineService() {
         return this.budgetOnlineService;
     }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+    }
 }

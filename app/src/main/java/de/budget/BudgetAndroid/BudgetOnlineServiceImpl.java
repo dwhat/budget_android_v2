@@ -3,6 +3,7 @@ package de.budget.BudgetAndroid;
 import android.util.Log;
 
 import de.budget.BudgetService.BudgetOnlineService;
+import de.budget.BudgetService.Exception.BudgetOnlineException;
 import de.budget.BudgetService.Exception.InvalidLoginException;
 import de.budget.BudgetService.Response.ReturnCodeResponse;
 import de.budget.BudgetService.Response.UserLoginResponse;
@@ -29,7 +30,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     private static final String TAG = BudgetOnlineServiceImpl.class.getName();
 
-    private int sessionId;
+    private int tmp;
 
     @Override
     public UserLoginResponse setUser(String username, String password, String email) {
@@ -44,9 +45,9 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
         try {
             response = executeSoapAction(METHOD_NAME, username, password);
             Log.d(TAG, response.toString());
-            sessionId = Integer.parseInt(response.getPrimitivePropertySafelyAsString("sessionId"));
-            if (sessionId != 0) {
-                result.setSessionId(sessionId);
+            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("sessionId"));
+            if (tmp != 0) {
+                result.setSessionId(tmp);
                 return result;
             }
             else {
@@ -58,8 +59,24 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
     }
 
     @Override
-    public ReturnCodeResponse logout(int sessionID) {
-        return null;
+    public ReturnCodeResponse logout(int sessionID) throws Exception{
+        ReturnCodeResponse result = new ReturnCodeResponse();
+        String METHOD_NAME = "logout";
+        SoapObject response = null;
+        try {
+            response = executeSoapAction(METHOD_NAME, sessionID);
+            Log.d(TAG, response.toString());
+            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            if (tmp != 0) {
+                result.setReturnCode(tmp);
+                return result;
+            }
+            else {
+                throw new Exception("Logout not successful!");
+            }
+        } catch (SoapFault e) {
+            throw new Exception(e.getMessage());
+        }
     }
 
     @Override
