@@ -58,7 +58,7 @@
         android:background="@drawable/circle"
         android:id="@+id/imageButton"
         android:layout_gravity="right|bottom"
-        android:onClick="addVendor"/>
+        android:onClick="newIncome"/>
 
 
 </FrameLayout>

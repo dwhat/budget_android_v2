@@ -51,7 +51,7 @@
 
     <!-- Register Activity -->
     <string name="title_activity_register">Register</string>
-    <string name="email">Email</string>
+    <string name="email">E-Mail</string>
     <string name="register">Registrieren</string>
 
     <!-- Loss Activity -->
@@ -62,14 +62,19 @@
     <string name="article_amount">Anzahl</string>
     <string name="article_value">Wert</string>
 
+    <!-- Income Activity -->
+    <string name="title_activity_income_new">Neue Einnahme</string>
+    <string name="income_name">Name</string>
+    <string name="income_value">Wert</string>
+
     <!-- Vendor Activity -->
     <string name="title_activity_vendor_new">Neuer Händler</string>
-    <string name="vendor_name">Händlername</string>
+    <string name="vendor_name">Händler</string>
     <string name="vendor_address">Adresse</string>
 
     <!-- Category Activity -->
     <string name="title_activity_category_new">Neue Kategorie</string>
-    <string name="category_name">Kategorie Name</string>
+    <string name="category_name">Kategorie</string>
 
     <!-- Radio Buttons -->
     <string name="rb_income">Einnahme</string>
@@ -88,5 +93,6 @@
     <string name="hello_world">Hello world!</string>
 
     <string name="title_activity_test">TestActivity</string>
+
 
 </resources>

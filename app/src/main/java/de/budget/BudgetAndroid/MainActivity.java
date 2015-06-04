@@ -20,7 +20,9 @@ import android.widget.Toast;
 
 import de.budget.BudgetAndroid.Annotations.Author;
 import de.budget.BudgetAndroid.Categories.CategoriesMain;
+import de.budget.BudgetAndroid.Categories.CategoryNew;
 import de.budget.BudgetAndroid.Income.IncomeMain;
+import de.budget.BudgetAndroid.Income.IncomeNew;
 import de.budget.BudgetAndroid.Loss.LossMain;
 import de.budget.BudgetAndroid.Loss.LossNew;
 import de.budget.BudgetAndroid.Vendors.VendorNew;
@@ -200,9 +202,26 @@ public class MainActivity extends ActionBarActivity
      * Öffne Händler Maske zum anlegen
      */
     @Author(name="Mark")
-    public void addVendor (View v){
+    public void newVendor (View v){
         changeActivity(VendorNew.class);
     }
+
+    @Author(name="Mark")
+    public void newCategory (View v){
+        changeActivity(CategoryNew.class);
+    }
+
+    @Author(name="Mark")
+    public void newLoss (View v){
+        changeActivity(LossNew.class);
+    }
+
+    @Author(name="Mark")
+    public void newIncome (View v){
+        changeActivity(IncomeNew.class);
+    }
+
+
 
     /*
      * Zeige das Bottom Sheet Menu

@@ -1,26 +1,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:layout_height="wrap_content" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="de.budget.BudgetAndroid.Vendors.VendorNew">
+    tools:context="de.budget.BudgetAndroid.Vendors.VendorNew"
+    >
 
-
-    <EditText
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <EditText
+        style="@style/EditTextBasic"
         android:id="@+id/vendor_name"
-        android:text="@string/vendor_name"
+        android:hint="@string/vendor_name"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="51dp" />
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/EditTextBasic"
         android:id="@+id/vendor_address"
-        android:text="@string/vendor_address"
+        android:hint="@string/vendor_address"
         android:layout_below="@+id/vendor_name"
         android:layout_alignParentStart="true" />
 
@@ -37,19 +39,25 @@
         android:layout_centerHorizontal="true">
 
         <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New RadioButton"
-            android:id="@+id/radioButton2" />
+            style="@style/rb"
+            android:text="@string/rb_income"
+            android:id="@+id/rb_vendor_income" />
 
         <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New RadioButton"
-            android:id="@+id/radioButton" />
-
-
+            style="@style/rb"
+            android:text="@string/rb_loss"
+            android:id="@+id/rb_vendor_loss" />
 
     </RadioGroup>
+
+    </LinearLayout>
+
+    <ImageButton
+        android:src="@drawable/button"
+        android:id="@+id/imageButton"
+        android:onClick="save"
+        style="@style/fab" />
+
+
 
 </RelativeLayout>

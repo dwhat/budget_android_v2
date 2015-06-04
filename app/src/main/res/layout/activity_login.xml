@@ -9,10 +9,9 @@
     tools:context="de.budget.BudgetAndroid.Login">
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/EditTextBasic"
         android:id="@+id/username"
-        android:text="@string/username"
+        android:hint="@string/username"
         android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -21,8 +20,7 @@
         android:layout_alignParentEnd="true" />
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/EditTextBasic"
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/password"
@@ -31,7 +29,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:text="@string/password"/>
+        android:hint="@string/password"
+        />
 
     <TextView
         android:layout_width="wrap_content"
@@ -41,7 +40,8 @@
         android:id="@+id/textView"
         android:layout_marginTop="48dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/ColorPrimaryDark"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -53,7 +53,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:onClick="login"/>
+        android:onClick="login"
+        android:background="@color/ColorPrimary"
+        android:paddingBottom="16dp"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -65,5 +67,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:onClick="register"/>
+        android:onClick="register"
+        android:background="@color/ColorPrimary"
+        android:paddingBottom="16dp"/>
 </RelativeLayout>

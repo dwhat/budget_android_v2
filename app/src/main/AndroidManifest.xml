@@ -19,7 +19,6 @@
             android:label="@string/title_activity_login" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -42,12 +41,27 @@
         <activity
             android:name=".BudgetAndroid.Vendors.VendorNew"
             android:label="@string/title_activity_vendor_new"
-            android:parentActivityName=".BudgetAndroid.MainActivity">
+            android:parentActivityName=".BudgetAndroid.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.budget.BudgetAndroid.MainActivity" />
         </activity>
-
+        <activity
+            android:name=".BudgetAndroid.Categories.CategoryNew"
+            android:label="@string/title_activity_category_new"
+            android:parentActivityName=".BudgetAndroid.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.budget.BudgetAndroid.MainActivity" />
+        </activity>
+        <activity
+            android:name=".BudgetAndroid.Income.IncomeNew"
+            android:label="@string/title_activity_income_new"
+            android:parentActivityName=".BudgetAndroid.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.budget.BudgetAndroid.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

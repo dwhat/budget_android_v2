@@ -1,28 +1,27 @@
-package de.budget.BudgetAndroid.Loss;
+package de.budget.BudgetAndroid.Income;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import de.budget.BudgetAndroid.MainActivity;
 import de.budget.R;
 
-public class LossNew extends ActionBarActivity {
+public class IncomeNew extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_loss_new);
+        setContentView(R.layout.activity_income_new);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_loss_new, menu);
+        getMenuInflater().inflate(R.menu.menu_income_new, menu);
         return true;
     }
 
@@ -45,12 +44,12 @@ public class LossNew extends ActionBarActivity {
     public void save() {
         //TODO Die eingengeben Werte an den Server schicken
         Toast.makeText(this, "Speichern", Toast.LENGTH_SHORT).show();
-    /*
+        /*
         //Nächste Activity anzeigen
         Intent intent = new Intent(this, MainActivity.class);
         Bundle bundle = intent.getExtras();
         bundle.putString("class", this.getClass().toString());
         startActivity(intent, bundle);
-    */
+        */
     }
 }

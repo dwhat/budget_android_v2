@@ -16,21 +16,18 @@
         android:id="@+id/linearLayout">
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/EditTextBasic"
             android:inputType="date"
             android:ems="10"
             android:id="@+id/editText" />
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/EditTextBasic"
             android:id="@+id/editText2"
             android:layout_gravity="center_horizontal" />
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/EditTextBasic"
             android:id="@+id/editText3" />
 
         <Spinner
@@ -100,4 +97,10 @@
             android:id="@+id/button2" />
 
     </LinearLayout>
+
+    <ImageButton
+        android:src="@drawable/button"
+        android:id="@+id/imageButton"
+        android:onClick="save"
+        style="@style/fab" />
 </RelativeLayout>

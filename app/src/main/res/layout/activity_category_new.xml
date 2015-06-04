@@ -1,0 +1,55 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="de.budget.BudgetAndroid.Categories.CategoryNew"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/category_name"
+            android:hint="@string/category_name"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="51dp"
+            style="@style/EditTextBasic" />
+
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/category_name"
+            android:id="@+id/spinner3" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/spinner3"
+            android:layout_centerHorizontal="true">
+
+            <RadioButton
+                android:text="@string/rb_income"
+                android:id="@+id/rb_category_income"
+                style="@style/rb"/>
+
+            <RadioButton
+                android:text="@string/rb_loss"
+                android:id="@+id/rb_category_loss"
+                style="@style/rb" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <ImageButton
+        android:src="@drawable/button"
+        android:id="@+id/imageButton"
+        android:onClick="save"
+        style="@style/fab" />
+
+</RelativeLayout>
