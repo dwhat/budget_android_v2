@@ -1,5 +1,6 @@
 package de.budget.BudgetAndroid;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -12,9 +13,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.Toast;
 
+import de.budget.BudgetAndroid.Annotations.Author;
 import de.budget.BudgetAndroid.Categories.CategoriesMain;
 import de.budget.BudgetAndroid.Income.IncomeMain;
 import de.budget.BudgetAndroid.Loss.LossMain;
+import de.budget.BudgetAndroid.Loss.LossNew;
 import de.budget.BudgetAndroid.Vendors.VendorsMain;
 import de.budget.R;
 
@@ -136,13 +139,42 @@ public class MainActivity extends ActionBarActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        // Wähle welches Bedienelement geklickt wurde
+        switch (id) {
 
-        return super.onOptionsItemSelected(item);
+
+            case R.id.action_sync:
+                synchronizeApplication();
+                return true;
+
+            case R.id.action_loss:
+
+                changeActivity(LossNew.class);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
+
+    /*
+     * Methode zum synchroniseren der Applikation, bei Fehlerfall, evtl für später bei mehrern Frontends
+      *
+     */
+    @Author("Mark")
+    private void synchronizeApplication() {
+        Toast.makeText(MainActivity.this, "Synchronisierung des Systems", Toast.LENGTH_SHORT).show();
+    }
+
+    /*
+     * Methode zum ändern der Activity je nach eingegebener Klasse
+     */
+    @Author("Mark")
+    private void changeActivity(Class c) {
+        Intent intent = new Intent(this, c);
+        startActivity(intent);
+    }
+
     @Override
     public void onCategoriesMainFragmentInteraction(Uri uri){
     }
