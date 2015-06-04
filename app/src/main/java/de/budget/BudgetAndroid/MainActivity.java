@@ -68,10 +68,10 @@ public class MainActivity extends ActionBarActivity
                 fragment = new LossMain();
                 break;
             case 3:
-                fragment = new VendorsMain();
+                fragment = new CategoriesMain();
                 break;
             case 4:
-                fragment = new CategoriesMain();
+                fragment = new VendorsMain();
                 break;
             case 5:
                 fragment = new Logout();
