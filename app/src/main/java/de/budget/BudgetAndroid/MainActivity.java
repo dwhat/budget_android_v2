@@ -86,7 +86,12 @@ public class MainActivity extends ActionBarActivity
     }
 
     public void onSectionAttached(int number) {
-        switch (number) {
+        String[] stringArray = getResources().getStringArray(R.array.section_titles);
+        if (number >= 1) {
+            mTitle = stringArray[number - 1];
+        }
+        // ------------- ALT ----------------------
+        /*switch (number) {
             case 0:
                 mTitle = getString(R.string.title_dashboard);
                 break;
@@ -105,7 +110,7 @@ public class MainActivity extends ActionBarActivity
             case 5:
                 mTitle = getString(R.string.title_logout);
                 break;
-        }
+        }*/
     }
 
     public void restoreActionBar() {

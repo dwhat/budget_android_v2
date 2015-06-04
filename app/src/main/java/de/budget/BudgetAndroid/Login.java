@@ -13,7 +13,9 @@ import android.widget.Toast;
 import de.budget.BudgetService.Response.UserLoginResponse;
 import de.budget.R;
 
-
+/**
+ * Created by christopher on 01.06.15.
+ */
 public class Login extends ActionBarActivity {
 
     @Override
