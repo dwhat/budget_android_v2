@@ -43,4 +43,20 @@
         <item name="android:background">@color/ColorPrimary</item>
     </style>
 
+    <style name="bottom_sheet">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:textColor">#fff</item>
+    </style>
+
+    <style name="bottom_sheet_backgorund">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/ColorPrimary</item>
+        <item name="android:gravity">bottom</item>
+    </style>
+
 </resources>

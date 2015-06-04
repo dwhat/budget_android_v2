@@ -65,17 +65,6 @@ public class DashboardMain extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-        // Author Mark
-        // Get FAB und erzeuge Methode für den Buttonclick
-        ImageButton fab = (ImageButton) getView().findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v) {
-                clickFAB(v);
-            }
-        });
-
     }
 
     @Override

@@ -88,7 +88,71 @@
         android:background="@drawable/circle"
         android:id="@+id/fab"
         android:layout_gravity="right|bottom"
+        android:onClick="toggleBottomSheetMenu"
         />
+
+    <!-- Bottom Sheet Menu -->
+    <LinearLayout
+        android:id="@+id/bottom_sheet_menu"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:visibility="invisible">
+
+        <!-- New income -->
+        <LinearLayout
+            style="@style/bottom_sheet_backgorund">
+            <ImageView
+                android:id="@+id/sheet_img_income"
+                android:src="@drawable/ic_income_w"
+                style="@style/bottom_sheet" />
+            <TextView
+                android:text="@string/action_income"
+                android:id="@+id/sheet_txt_income"
+                style="@style/bottom_sheet"/>
+        </LinearLayout>
+
+        <!-- New Loss -->
+        <LinearLayout style="@style/bottom_sheet_backgorund">
+            <ImageView
+                android:id="@+id/sheet_img_loss"
+                android:src="@drawable/ic_basket_w"
+                style="@style/bottom_sheet" />
+            <TextView
+                android:text="@string/action_loss"
+                android:id="@+id/sheet_txt_loss"
+                style="@style/bottom_sheet" />
+        </LinearLayout>
+
+        <!-- New Category -->
+        <LinearLayout
+            style="@style/bottom_sheet_backgorund">
+            <ImageView
+                android:id="@+id/sheet_img_category"
+                android:src="@drawable/ic_category_w"
+                style="@style/bottom_sheet" />
+            <TextView
+                android:text="@string/action_category"
+                android:id="@+id/sheet_txt_category"
+                style="@style/bottom_sheet"/>
+        </LinearLayout>
+
+        <!-- New Vendor -->
+        <LinearLayout
+            style="@style/bottom_sheet_backgorund">
+            <ImageView
+                android:id="@+id/sheet_img_vendor"
+                android:src="@drawable/ic_vendor_w"
+                style="@style/bottom_sheet" />
+            <TextView
+                android:text="@string/action_vendor"
+                android:id="@+id/sheet_txt_vendor"
+                style="@style/bottom_sheet"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
 
 
 </FrameLayout>

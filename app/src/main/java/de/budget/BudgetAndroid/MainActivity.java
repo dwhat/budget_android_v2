@@ -1,16 +1,21 @@
 package de.budget.BudgetAndroid;
 
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+import android.view.ViewPropertyAnimator;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import de.budget.BudgetAndroid.Annotations.Author;
@@ -191,8 +196,35 @@ public class MainActivity extends ActionBarActivity
     public void onDashboardMainFragmentInteraction(Uri uri){
     }
 
-    public void addVendor (){
+    /*
+     * Öffne Händler Maske zum anlegen
+     */
+    @Author(name="Mark")
+    public void addVendor (View v){
         changeActivity(VendorNew.class);
+    }
+
+    /*
+     * Zeige das Bottom Sheet Menu
+     */
+    @Author(name="Mark")
+    public void toggleBottomSheetMenu (View v) {
+        LinearLayout bsm = (LinearLayout) findViewById(R.id.bottom_sheet_menu);
+        ImageButton fab = (ImageButton) findViewById(R.id.fab);
+
+        if (bsm.getVisibility() != View.VISIBLE){
+            bsm.setVisibility(View.VISIBLE);
+            fab.setImageDrawable(getDrawable(R.drawable.ic_clear_w));
+            fab.bringToFront();
+            ViewPropertyAnimator vpa = fab.animate();
+            vpa.translationYBy(-535);
+        } else {
+            bsm.setVisibility(View.INVISIBLE);
+            fab.setImageDrawable(getDrawable(R.drawable.ic_add_w));
+            //TODO berechnen der translation evtl durch bsm.getHeight(), Padding und größe vom fab ermitteln und davon abziehen
+            fab.animate().translationYBy(535);
+        }
+
     }
 
     /*

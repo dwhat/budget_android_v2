@@ -63,6 +63,9 @@
 
     <!-- Buttons -->
     <string name="action_loss">Neue Ausgabe</string>
+    <string name="action_income">Neue Einnahme</string>
+    <string name="action_category">Neue Kategorie</string>
+    <string name="action_vendor">Neuer Händler</string>
     <string name="action_sync">Synchronisieren</string>
     <string name="action_settings">Settings</string>
     <string name="action_save">Speichern</string>
@@ -70,5 +73,6 @@
     <!-- Sonstiges -->
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_vendor_new">VendorNew</string>
+    <string name="title_activity_test">TestActivity</string>
 
 </resources>
