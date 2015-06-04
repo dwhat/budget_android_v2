@@ -29,9 +29,8 @@ import de.budget.R;
 
 
 /**
- * Fragment used for managing interactions for and presentation of a navigation drawer.
- * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
- * design guidelines</a> for a complete explanation of the behaviors implemented here.
+ * @author christopher
+ * @date 01.06.2015
  */
 public class NavigationDrawerFragment extends Fragment {
 
@@ -103,22 +102,6 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-
-        // ------------- ALt -------------------------------
-        /*
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_dashboard),
-                        getString(R.string.title_incomes),
-                        getString(R.string.title_losses),
-                        getString(R.string.title_vendors),
-                        getString(R.string.title_categories),
-                        getString(R.string.title_logout),
-                }));
-        */
         final TypedArray typedArray = getResources().obtainTypedArray(R.array.sections_icons);
         mDrawerListView.setAdapter(new ArrayAdapter<String>(
                 getActionBar().getThemedContext(),

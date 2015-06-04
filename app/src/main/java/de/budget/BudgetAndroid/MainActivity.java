@@ -93,27 +93,6 @@ public class MainActivity extends ActionBarActivity
         if (number >= 1) {
             mTitle = stringArray[number - 1];
         }
-        // ------------- ALT ----------------------
-        /*switch (number) {
-            case 0:
-                mTitle = getString(R.string.title_dashboard);
-                break;
-            case 1:
-                mTitle = getString(R.string.title_incomes);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_losses);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_vendors);
-                break;
-            case 4:
-                mTitle = getString(R.string.title_categories);
-                break;
-            case 5:
-                mTitle = getString(R.string.title_logout);
-                break;
-        }*/
     }
 
     public void restoreActionBar() {
