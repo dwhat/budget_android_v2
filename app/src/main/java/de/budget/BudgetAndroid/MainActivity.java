@@ -18,6 +18,7 @@ import de.budget.BudgetAndroid.Categories.CategoriesMain;
 import de.budget.BudgetAndroid.Income.IncomeMain;
 import de.budget.BudgetAndroid.Loss.LossMain;
 import de.budget.BudgetAndroid.Loss.LossNew;
+import de.budget.BudgetAndroid.Vendors.VendorNew;
 import de.budget.BudgetAndroid.Vendors.VendorsMain;
 import de.budget.R;
 
@@ -188,10 +189,6 @@ public class MainActivity extends ActionBarActivity
     }
     @Override
     public void onDashboardMainFragmentInteraction(Uri uri){
-    }
-
-    public void toast(View view) {
-        Toast.makeText(MainActivity.this, "Hello World", Toast.LENGTH_SHORT).show();
     }
 
     public void addVendor (){

@@ -66,6 +66,16 @@ public class DashboardMain extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        // Author Mark
+        // Get FAB und erzeuge Methode für den Buttonclick
+        ImageButton fab = (ImageButton) getView().findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v) {
+                clickFAB(v);
+            }
+        });
+
     }
 
     @Override
@@ -115,4 +125,7 @@ public class DashboardMain extends Fragment {
     }
 
 
+    public void clickFAB (View v ){
+
+    }
 }

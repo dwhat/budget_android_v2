@@ -86,9 +86,9 @@
         android:layout_height="70dp"
         android:src="@drawable/button"
         android:background="@drawable/circle"
-        android:id="@+id/imageButton"
+        android:id="@+id/fab"
         android:layout_gravity="right|bottom"
-        android:onClick="toggleButtons"/>
+        />
 
 
 </FrameLayout>
