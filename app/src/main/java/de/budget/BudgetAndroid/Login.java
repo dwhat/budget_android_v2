@@ -116,7 +116,7 @@ public class Login extends ActionBarActivity {
             if(result != null)
             {
                 //erfolgreich eingeloggt
-                if (result.getReturnCode() == 0){
+                if (result.getReturnCode() == 200){
 
                     BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
                     myApp.setSession(result.getSessionId());
