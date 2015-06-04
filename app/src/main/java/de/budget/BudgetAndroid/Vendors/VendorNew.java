@@ -1,4 +1,4 @@
-package de.budget.BudgetAndroid.Loss;
+package de.budget.BudgetAndroid.Vendors;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -10,18 +10,18 @@ import android.widget.Toast;
 import de.budget.BudgetAndroid.MainActivity;
 import de.budget.R;
 
-public class LossNew extends ActionBarActivity {
+public class VendorNew extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_loss_new);
+        setContentView(R.layout.activity_vendor_new);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_loss_new, menu);
+        getMenuInflater().inflate(R.menu.menu_vendor_new, menu);
         return true;
     }
 
@@ -34,14 +34,14 @@ public class LossNew extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save) {
-            saveLossNew();
+            saveVendorNew();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void saveLossNew() {
+    public void saveVendorNew() {
         //TODO Die eingengeben Werte an den Server schicken
         Toast.makeText(this, "Speichern", Toast.LENGTH_SHORT).show();
 

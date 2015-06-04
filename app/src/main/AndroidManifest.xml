@@ -39,6 +39,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.budget.BudgetAndroid.MainActivity" />
         </activity>
+        <activity
+            android:name=".BudgetAndroid.Vendors.VendorNew"
+            android:label="@string/title_activity_vendor_new" >
+        </activity>
     </application>
 
 </manifest>

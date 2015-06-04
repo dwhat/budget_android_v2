@@ -57,6 +57,10 @@
     <!-- Loss Activity -->
     <string name="title_activity_loss_new">Neue Ausgabe</string>
 
+    <!-- Vendor Activity -->
+    <string name="vendor_name">Händlername</string>
+    <string name="vendor_address">Adresse</string>
+
     <!-- Buttons -->
     <string name="action_loss">Neue Ausgabe</string>
     <string name="action_sync">Synchronisieren</string>
@@ -65,5 +69,6 @@
 
     <!-- Sonstiges -->
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_vendor_new">VendorNew</string>
 
 </resources>

@@ -194,6 +194,10 @@ public class MainActivity extends ActionBarActivity
         Toast.makeText(MainActivity.this, "Hello World", Toast.LENGTH_SHORT).show();
     }
 
+    public void addVendor (){
+        changeActivity(VendorNew.class);
+    }
+
     /*
      * Wenn ein intent aus einer anderen Activity aufgerufen wird und ein spezielles Fragment angezeigt werden soll
      * Wird ein String Bundle mit der entsprechenden Klasse übergeben
