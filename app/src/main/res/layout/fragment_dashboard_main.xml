@@ -99,12 +99,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:visibility="invisible">
+        android:visibility="invisible"
+        android:touchscreenBlocksFocus="true">
 
         <!-- New income -->
         <LinearLayout
             style="@style/bottom_sheet_backgorund"
-            android:onClick="newIncome">
+            android:onClick="newIncome"
+            android:focusable="true"
+            android:clickable="true">
             <ImageView
                 android:id="@+id/sheet_img_income"
                 android:src="@drawable/ic_income_w"
@@ -117,7 +120,9 @@
 
         <!-- New Loss -->
         <LinearLayout style="@style/bottom_sheet_backgorund"
-            android:onClick="newLoss">
+            android:onClick="newLoss"
+            android:focusable="true"
+            android:clickable="true">
             <ImageView
                 android:id="@+id/sheet_img_loss"
                 android:src="@drawable/ic_basket_w"
@@ -131,7 +136,9 @@
         <!-- New Category -->
         <LinearLayout
             style="@style/bottom_sheet_backgorund"
-            android:onClick="newCategory">
+            android:onClick="newCategory"
+            android:focusable="true"
+            android:clickable="true">
             <ImageView
                 android:id="@+id/sheet_img_category"
                 android:src="@drawable/ic_category_w"
@@ -145,7 +152,9 @@
         <!-- New Vendor -->
         <LinearLayout
             style="@style/bottom_sheet_backgorund"
-            android:onClick="newVendor">
+            android:onClick="newVendor"
+            android:focusable="true"
+            android:clickable="true">
             <ImageView
                 android:id="@+id/sheet_img_vendor"
                 android:src="@drawable/ic_vendor_w"
