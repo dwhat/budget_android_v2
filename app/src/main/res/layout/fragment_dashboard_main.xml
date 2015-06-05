@@ -1,9 +1,163 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="de.budget.BudgetAndroid.DashboardMain">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="de.budget.BudgetAndroid.DashboardMain">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="Dashboard" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:src="@drawable/ic_dashboard_w"
+                android:layout_gravity="center_horizontal"
+                style="@style/Headline"
+                android:layout_width="wrap_content" />
+
+            <TextView
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/title_dashboard"
+                android:id="@+id/title_dashboard"
+                android:layout_gravity="center_horizontal"
+                style="@style/Headline"
+                android:layout_width="match_parent" />
+        </LinearLayout>
+
+
+        <Space
+            android:layout_width="20px"
+            android:layout_height="300px" />
+
+        <TabHost
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tabHost"
+            android:layout_gravity="center_horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></TabWidget>
+
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:id="@+id/tab1"
+                        android:text="Einnahmen"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"></LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/tab2"
+                        android:text="Ausgaben"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"></LinearLayout>
+
+                </FrameLayout>
+            </LinearLayout>
+        </TabHost>
+
+
+    </LinearLayout>
+
+    <!-- FAB -->
+    <ImageButton
+        android:layout_margin="15dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/button"
+        android:background="@drawable/circle"
+        android:id="@+id/fab"
+        android:layout_gravity="right|bottom"
+        android:onClick="toggleBottomSheetMenu"
+        />
+
+    <!-- Bottom Sheet Menu -->
+    <LinearLayout
+        android:id="@+id/bottom_sheet_menu"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:visibility="invisible">
+
+        <!-- New income -->
+        <LinearLayout
+            style="@style/bottom_sheet_backgorund"
+            android:onClick="newIncome">
+            <ImageView
+                android:id="@+id/sheet_img_income"
+                android:src="@drawable/ic_income_w"
+                style="@style/bottom_sheet" />
+            <TextView
+                android:text="@string/action_income"
+                android:id="@+id/sheet_txt_income"
+                style="@style/bottom_sheet"/>
+        </LinearLayout>
+
+        <!-- New Loss -->
+        <LinearLayout style="@style/bottom_sheet_backgorund"
+            android:onClick="newLoss">
+            <ImageView
+                android:id="@+id/sheet_img_loss"
+                android:src="@drawable/ic_basket_w"
+                style="@style/bottom_sheet" />
+            <TextView
+                android:text="@string/action_loss"
+                android:id="@+id/sheet_txt_loss"
+                style="@style/bottom_sheet" />
+        </LinearLayout>
+
+        <!-- New Category -->
+        <LinearLayout
+            style="@style/bottom_sheet_backgorund"
+            android:onClick="newCategory">
+            <ImageView
+                android:id="@+id/sheet_img_category"
+                android:src="@drawable/ic_category_w"
+                style="@style/bottom_sheet" />
+            <TextView
+                android:text="@string/action_category"
+                android:id="@+id/sheet_txt_category"
+                style="@style/bottom_sheet"/>
+        </LinearLayout>
+
+        <!-- New Vendor -->
+        <LinearLayout
+            style="@style/bottom_sheet_backgorund"
+            android:onClick="newVendor">
+            <ImageView
+                android:id="@+id/sheet_img_vendor"
+                android:src="@drawable/ic_vendor_w"
+                style="@style/bottom_sheet" />
+            <TextView
+                android:text="@string/action_vendor"
+                android:id="@+id/sheet_txt_vendor"
+                style="@style/bottom_sheet"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
 
 </FrameLayout>

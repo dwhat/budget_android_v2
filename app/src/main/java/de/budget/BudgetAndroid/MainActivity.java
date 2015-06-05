@@ -1,18 +1,31 @@
 package de.budget.BudgetAndroid;
 
+import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
+import android.view.View;
+import android.view.ViewPropertyAnimator;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import de.budget.BudgetAndroid.Annotations.Author;
 import de.budget.BudgetAndroid.Categories.CategoriesMain;
+import de.budget.BudgetAndroid.Categories.CategoryNew;
 import de.budget.BudgetAndroid.Income.IncomeMain;
+import de.budget.BudgetAndroid.Income.IncomeNew;
 import de.budget.BudgetAndroid.Loss.LossMain;
+import de.budget.BudgetAndroid.Loss.LossNew;
+import de.budget.BudgetAndroid.Vendors.VendorNew;
 import de.budget.BudgetAndroid.Vendors.VendorsMain;
 import de.budget.R;
 
@@ -36,6 +49,7 @@ public class MainActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -63,10 +77,10 @@ public class MainActivity extends ActionBarActivity
                 fragment = new LossMain();
                 break;
             case 3:
-                fragment = new VendorsMain();
+                fragment = new CategoriesMain();
                 break;
             case 4:
-                fragment = new CategoriesMain();
+                fragment = new VendorsMain();
                 break;
             case 5:
                 fragment = new Logout();
@@ -77,32 +91,15 @@ public class MainActivity extends ActionBarActivity
 
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, fragment).commit();
+            fragmentManager.beginTransaction().add(R.id.container, fragment).addToBackStack("fragback").commit();
 
         }
     }
 
     public void onSectionAttached(int number) {
-        switch (number) {
-            case 0:
-                mTitle = getString(R.string.title_dashboard);
-                break;
-            case 1:
-                mTitle = getString(R.string.title_incomes);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_losses);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_vendors);
-                break;
-            case 4:
-                mTitle = getString(R.string.title_categories);
-                break;
-            case 5:
-                mTitle = getString(R.string.title_logout);
-                break;
+        String[] stringArray = getResources().getStringArray(R.array.section_titles);
+        if (number >= 1) {
+            mTitle = stringArray[number - 1];
         }
     }
 
@@ -111,6 +108,17 @@ public class MainActivity extends ActionBarActivity
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
+
+        // @Author Mark
+        // entfernt den Schatten der Actionbar
+        // //http://stackoverflow.com/questions/12246388/remove-shadow-below-actionbar
+        actionBar.setElevation(0);
+
+        // @Author Mark
+        // entfernt den Titel
+        // http://stackoverflow.com/questions/7655874/how-do-you-remove-the-title-text-from-the-android-actionbar
+        actionBar.setDisplayShowTitleEnabled(false);
+
     }
 
 
@@ -134,13 +142,42 @@ public class MainActivity extends ActionBarActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        // Wähle welches Bedienelement geklickt wurde
+        switch (id) {
 
-        return super.onOptionsItemSelected(item);
+
+            case R.id.action_sync:
+                synchronizeApplication();
+                return true;
+
+            case R.id.action_loss:
+
+                changeActivity(LossNew.class);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
+
+    /*
+     * Methode zum synchroniseren der Applikation, bei Fehlerfall, evtl für später bei mehrern Frontends
+      *
+     */
+    @Author(name = "Mark")
+    private void synchronizeApplication() {
+        Toast.makeText(MainActivity.this, "Synchronisierung des Systems", Toast.LENGTH_SHORT).show();
+    }
+
+    /*
+     * Methode zum ändern der Activity je nach eingegebener Klasse
+     */
+    @Author(name = "Mark")
+    private void changeActivity(Class c) {
+        Intent intent = new Intent(this, c);
+        startActivity(intent);
+    }
+
     @Override
     public void onCategoriesMainFragmentInteraction(Uri uri){
     }
@@ -158,5 +195,80 @@ public class MainActivity extends ActionBarActivity
     }
     @Override
     public void onDashboardMainFragmentInteraction(Uri uri){
+    }
+
+    /*
+     * Öffne Händler Maske zum anlegen
+     */
+    @Author(name="Mark")
+    public void newVendor (View v){
+        changeActivity(VendorNew.class);
+    }
+
+    @Author(name="Mark")
+    public void newCategory (View v){
+        changeActivity(CategoryNew.class);
+    }
+
+    @Author(name="Mark")
+    public void newLoss (View v){
+        changeActivity(LossNew.class);
+    }
+
+    @Author(name="Mark")
+    public void newIncome (View v){
+        changeActivity(IncomeNew.class);
+    }
+
+
+
+    /*
+     * Zeige das Bottom Sheet Menu
+     */
+    @Author(name="Mark")
+    public void toggleBottomSheetMenu (View v) {
+        LinearLayout bsm = (LinearLayout) findViewById(R.id.bottom_sheet_menu);
+        ImageButton fab = (ImageButton) findViewById(R.id.fab);
+
+        if (bsm.getVisibility() != View.VISIBLE){
+            bsm.setVisibility(View.VISIBLE);
+            fab.setImageDrawable(getDrawable(R.drawable.ic_clear_w));
+            fab.bringToFront();
+            ViewPropertyAnimator vpa = fab.animate();
+            vpa.translationYBy(-535);
+        } else {
+            bsm.setVisibility(View.INVISIBLE);
+            fab.setImageDrawable(getDrawable(R.drawable.ic_add_w));
+            //TODO berechnen der translation evtl durch bsm.getHeight(), Padding und größe vom fab ermitteln und davon abziehen
+            fab.animate().translationYBy(535);
+        }
+
+    }
+
+    /*
+     * Wenn ein intent aus einer anderen Activity aufgerufen wird und ein spezielles Fragment angezeigt werden soll
+     * Wird ein String Bundle mit der entsprechenden Klasse übergeben
+     * Diese Methode wertet dieses Bundle aus und erzeugt entsprechend das Fragement
+     */
+    @Author(name="Mark")
+    public void getFragmentByIntent() {
+
+        String value = getIntent().getExtras().getString("class");
+
+        if(!value.isEmpty()) {
+            int pos;
+
+            switch (value) {
+                case "LossNew":
+                    pos = 2;
+                    break;
+                default:
+                    pos = 0;
+                    break;
+
+            }
+
+            onNavigationDrawerItemSelected(pos);
+        }
     }
 }

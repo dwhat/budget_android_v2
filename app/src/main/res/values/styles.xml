@@ -2,7 +2,85 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+
+        <item name="android:activatedBackgroundIndicator">@drawable/activated_background</item>
+
+        <item name="colorPrimary">@color/ColorPrimary</item>
+        <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
+
+        <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
+        <item name="android:buttonStyle">@style/RobotoButtonStyle</item>
+
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+
+    <!-- Set Default Font for Texts -->
+    <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <!-- Set Default Font for Buttons -->
+    <style name="RobotoButtonStyle" parent="android:Widget.Holo.Button">
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <!-- Set Default Heading -->
+    <style name="Headline" parent="android:Widget.Holo.Light.TextView">
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:background">@color/ColorPrimary</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="MyActionBar"
+        parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/ColorPrimary</item>
+    </style>
+
+    <style name="bottom_sheet">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:textColor">#fff</item>
+    </style>
+
+    <style name="bottom_sheet_backgorund">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/ColorPrimary</item>
+        <item name="android:gravity">bottom</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="fab">
+        <item name="android:layout_margin">15dp</item>
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">70dp</item>
+        <item name="android:background">@drawable/circle</item>
+        <item name="android:layout_gravity">right|bottom</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+    </style>
+
+    <style name="rb">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:buttonTint">@color/ColorPrimary</item>
+    </style>
+
+    <style name="EditTextBasic">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:backgroundTint">@color/ColorPrimary</item>
+        <item name="android:textCursorDrawable">@color/ColorPrimaryDark</item>
     </style>
 
 </resources>

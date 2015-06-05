@@ -1,5 +1,7 @@
 package de.budget.BudgetAndroid;
 
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -20,15 +22,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import de.budget.R;
 
 
 /**
- * Fragment used for managing interactions for and presentation of a navigation drawer.
- * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
- * design guidelines</a> for a complete explanation of the behaviors implemented here.
+ * @author christopher
+ * @date 01.06.2015
  */
 public class NavigationDrawerFragment extends Fragment {
 
@@ -100,18 +102,23 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
+        final TypedArray typedArray = getResources().obtainTypedArray(R.array.sections_icons);
         mDrawerListView.setAdapter(new ArrayAdapter<String>(
                 getActionBar().getThemedContext(),
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_dashboard),
-                        getString(R.string.title_incomes),
-                        getString(R.string.title_losses),
-                        getString(R.string.title_vendors),
-                        getString(R.string.title_categories),
-                        getString(R.string.title_logout),
-                }));
+                getResources().getStringArray(R.array.sections)
+        ) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                int resourceId = typedArray.getResourceId(position, 0);
+                Drawable drawable = getResources().getDrawable(resourceId);
+                ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+                return v;
+            }
+        });
+        //---- ENDE NEUE ----
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
     }
@@ -253,10 +260,13 @@ public class NavigationDrawerFragment extends Fragment {
             return true;
         }
 
-        if (item.getItemId() == R.id.action_example) {
+        // @Author Mark
+        // Wird in der MainActivity geregelt -> spezialisiert in den Fragements
+
+        /* if (item.getItemId() == R.id.action_example) {
             Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
             return true;
-        }
+        } */
 
         return super.onOptionsItemSelected(item);
     }
@@ -270,6 +280,7 @@ public class NavigationDrawerFragment extends Fragment {
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setTitle(R.string.app_name);
+        actionBar.setDisplayShowTitleEnabled(false);
     }
 
     private ActionBar getActionBar() {

@@ -12,8 +12,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 import de.budget.BudgetService.Response.UserLoginResponse;
 import de.budget.R;
+import android.util.Log;
 
-
+/**
+ * Created by christopher on 01.06.15.
+ */
 public class Login extends ActionBarActivity {
 
     @Override
@@ -65,10 +68,6 @@ public class Login extends ActionBarActivity {
             Toast toast = Toast.makeText(this, text, duration);
             toast.show();
         }
-
-        //Nächste Activity anzeigen
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
     }
 
     /** Called when the user clicks the Register button */
@@ -97,6 +96,8 @@ public class Login extends ActionBarActivity {
             BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
             try {
                 UserLoginResponse myUser = myApp.getBudgetOnlineService().login(username, password);
+                Integer rt =  myUser.getReturnCode();
+                Log.d("INFO", "Returncode: " + rt.toString());
                 return myUser;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -111,6 +112,7 @@ public class Login extends ActionBarActivity {
 
         protected void onPostExecute(UserLoginResponse result)
         {
+            int duration = Toast.LENGTH_SHORT;
             if(result != null)
             {
                 //erfolgreich eingeloggt
@@ -118,22 +120,25 @@ public class Login extends ActionBarActivity {
 
                     BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
                     myApp.setSession(result.getSessionId());
-
+                    Log.d("INFO", "Login erfolgreich, SessionId: " + myApp.getSession());
                     //Toast anzeigen
                     CharSequence text = "Login erfolgreich!";
-                    int duration = Toast.LENGTH_SHORT;
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
-
+                    //Nächste Activity anzeigen
+                    Intent intent = new Intent(context, MainActivity.class);
+                    startActivity(intent);
                 }
             }
             else
             {
                 //Toast anzeigen
                 CharSequence text = "Login fehlgeschlagen!";
-                int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
+                // nur für entwicklung, muss wieder weg!
+                Intent intent = new Intent(context, MainActivity.class);
+                startActivity(intent);
             }
         }
     }

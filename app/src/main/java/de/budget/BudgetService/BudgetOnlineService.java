@@ -39,7 +39,7 @@ public interface BudgetOnlineService {
      * @author Marco
      * @date 08.05.2015
      */
-    public ReturnCodeResponse logout(int sessionID);
+    public ReturnCodeResponse logout(int sessionID) throws Exception;
 
 
     /**

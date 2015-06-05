@@ -9,12 +9,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/username"
-        android:text="@string/username"
+        android:hint="@string/username"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:backgroundTint="@color/ColorPrimary"
+        android:paddingBottom="16dp"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -22,12 +24,15 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/password"
-        android:text="@string/password"
+        android:hint="@string/password"
         android:layout_below="@+id/username"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:backgroundTint="@color/ColorPrimary"
+        android:paddingBottom="16dp"
+        />
 
     <EditText
         android:layout_width="wrap_content"
@@ -40,7 +45,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:text="@string/email"/>
+        android:hint="@string/email"
+        android:backgroundTint="@color/ColorPrimary"
+        android:paddingBottom="16dp"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -51,5 +58,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:background="@color/ColorPrimary"
+        android:paddingBottom="16dp"/>
 </RelativeLayout>
