@@ -20,7 +20,8 @@ import java.util.List;
 
 
 /**
- * Created by christopher on 02.06.15.
+ * @author christopher
+ * @date 01.06.2015
  */
 public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
@@ -33,8 +34,24 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
     private int tmp;
 
     @Override
-    public UserLoginResponse setUser(String username, String password, String email) {
-        return null;
+    public UserLoginResponse setUser(String username, String password, String email) throws  Exception{
+        UserLoginResponse result = new UserLoginResponse();
+        String METHOD_NAME = "setUser";
+        SoapObject response = null;
+        try {
+            response = executeSoapAction(METHOD_NAME, username, password, email);
+            Log.d(TAG, response.toString());
+            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("sessionId"));
+            if (tmp != 0) {
+                result.setSessionId(tmp);
+                return result;
+            }
+            else {
+                throw new Exception("Registration not successful!");
+            }
+        } catch (SoapFault e) {
+            throw new Exception(e.getMessage());
+        }
     }
 
     @Override
