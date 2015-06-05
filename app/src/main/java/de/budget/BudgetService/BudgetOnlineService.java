@@ -19,7 +19,7 @@ public interface BudgetOnlineService {
      * @date 18.05.2015
      * @author Marco
      */
-    public UserLoginResponse setUser(String username, String password, String email);
+    public UserLoginResponse setUser(String username, String password, String email) throws Exception;
 
 
     /**
