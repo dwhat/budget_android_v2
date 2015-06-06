@@ -3,6 +3,7 @@ package de.budget.BudgetAndroid.Vendors;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.app.ListFragment;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -80,21 +81,40 @@ public class VendorsMain extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_vendors_main, container, false);
 
-        String[] mockVendors = new String[] { "Aldi","Lidel","ReWe", "Mensa", "Kneipe"};
-        ArrayAdapter<String> ArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, mockVendors);
+        // Author Mark
+        // Createing Mock Objects
+        // TODO: Holen der Vendors vom Server
+        String[] vendors = new String[] { "Aldi","Lidel","ReWe", "Mensa", "Kneipe"};
 
+        // Starten des Array Adapters
+        ArrayAdapter<String> ArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, vendors);
+
+        // Listview ermitteln
         listView = (ListView)rootView.findViewById(R.id.listView_vendor);
 
+        // ListView setzten mit entsprehcenden Objekten aus dem Adapter
         listView.setAdapter(ArrayAdapter);
 
+        // OnClick Listener für Interaktion
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+
+                // Neuen Intent erzeugen der beim Klick auf die Vendor Show verweißt
+                Intent intent = new Intent(getActivity(), VendorShow.class);
+
+                // Bundle anlegen
+                Bundle bundle = new Bundle ();
                 int itemPosition     = position;
                 String  itemValue    = (String) listView.getItemAtPosition(position);
-                Toast.makeText(getActivity(),
-                        "Position :" + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_SHORT)
-                        .show();
+
+                // Setzte im Bundle das Objekt
+                bundle.putString("VENDOR_NAME", itemValue);
+
+                // Übergebe das Objekt an den Intent
+                intent.putExtras(bundle);
+
+                startActivity(intent);
             }
         });
 

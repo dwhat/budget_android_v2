@@ -1,13 +1,18 @@
 package de.budget.BudgetAndroid.Loss;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
+import de.budget.BudgetAndroid.Income.IncomeShow;
 import de.budget.R;
 
 
@@ -30,6 +35,8 @@ public class LossMain extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private ListView listView;
 
     /**
      * Use this factory method to create a new instance of
@@ -66,7 +73,46 @@ public class LossMain extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_loss_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_loss_main, container, false);
+
+        // Author Mark
+        // Createing Mock Objects
+        // TODO: Holen der Vendors vom Server
+        String[] loss = new String[] { "Einkauf 1","Einkauf 2","Einkauf 3", "Einkauf 4"};
+
+        // Starten des Array Adapters
+        ArrayAdapter<String> ArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, loss);
+
+        // Listview ermitteln
+        listView = (ListView)rootView.findViewById(R.id.listView_vendor);
+
+        // ListView setzten mit entsprehcenden Objekten aus dem Adapter
+        listView.setAdapter(ArrayAdapter);
+
+        // OnClick Listener für Interaktion
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+
+                // Neuen Intent erzeugen der beim Klick auf die Vendor Show verweißt
+                Intent intent = new Intent(getActivity(), LossShow.class);
+
+                // Bundle anlegen
+                Bundle bundle = new Bundle ();
+                int itemPosition     = position;
+                String  itemValue    = (String) listView.getItemAtPosition(position);
+
+                // Setzte im Bundle das Objekt
+                bundle.putString("LOSS_NAME", itemValue);
+
+                // Übergebe das Objekt an den Intent
+                intent.putExtras(bundle);
+
+                startActivity(intent);
+            }
+        });
+
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

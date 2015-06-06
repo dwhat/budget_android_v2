@@ -65,7 +65,7 @@
                 android:value="de.budget.BudgetAndroid.MainActivity" />
         </activity>
         <activity
-            android:name=".BudgetAndroid.Categories.CategoriesShow"
+            android:name=".BudgetAndroid.Categories.CategoryShow"
             android:label="@string/title_activity_categories_show"
             android:parentActivityName=".BudgetAndroid.MainActivity" >
             <meta-data
