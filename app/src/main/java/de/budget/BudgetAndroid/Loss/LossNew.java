@@ -1,6 +1,7 @@
 package de.budget.BudgetAndroid.Loss;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -35,16 +36,19 @@ public class LossNew extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save) {
-            save();
+            showDialog();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void save() {
+    public void save(View v) {
+
         //TODO Die eingengeben Werte an den Server schicken
         Toast.makeText(this, "Speichern", Toast.LENGTH_SHORT).show();
+
+
     /*
         //Nächste Activity anzeigen
         Intent intent = new Intent(this, MainActivity.class);
@@ -52,5 +56,11 @@ public class LossNew extends ActionBarActivity {
         bundle.putString("class", this.getClass().toString());
         startActivity(intent, bundle);
     */
+    }
+
+    private void showDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        LossNewDialog lossNewDialog = new LossNewDialog();
+        lossNewDialog.show(fm, "activity_loss_new_dialog");
     }
 }

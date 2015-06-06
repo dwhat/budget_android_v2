@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/edit_name"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical"  >
+
+    <EditText
+        style="@style/EditTextBasic"
+        android:inputType="date"
+        android:hint="30.06.1992"
+        android:ems="10"
+        android:id="@+id/date_loss" />
+
+    <EditText
+        style="@style/EditTextBasic"
+        android:hint="@string/loss_name"
+        android:id="@+id/loss_name"
+        android:layout_gravity="center_horizontal" />
+
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+        android:layout_gravity="center_horizontal" />
+
+    <EditText
+        style="@style/EditTextBasic"
+        android:hint="@string/loss_value"
+        android:id="@+id/loss_value"
+        android:numeric="decimal"
+        android:inputType="numberDecimal"
+        android:imeOptions="actionDone"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title_activity_loss_new"
+        android:id="@+id/save_loss_new"
+        android:layout_gravity="center_horizontal"
+        android:drawableLeft="@drawable/ic_done_w"
+        android:padding="16dp"
+        android:background="@color/ColorPrimary"
+        android:onClick="save()"/>
+
+</LinearLayout>
