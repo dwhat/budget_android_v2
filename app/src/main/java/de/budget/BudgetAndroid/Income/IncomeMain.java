@@ -85,7 +85,7 @@ public class IncomeMain extends Fragment {
         ArrayAdapter<String> ArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, incomes);
 
         // Listview ermitteln
-        listView = (ListView)rootView.findViewById(R.id.listView_vendor);
+        listView = (ListView)rootView.findViewById(R.id.listView_income);
 
         // ListView setzten mit entsprehcenden Objekten aus dem Adapter
         listView.setAdapter(ArrayAdapter);

@@ -84,7 +84,7 @@ public class CategoriesMain extends Fragment {
         ArrayAdapter<String> ArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, categories);
 
         // Listview ermitteln
-        listView = (ListView)rootView.findViewById(R.id.listView_vendor);
+        listView = (ListView)rootView.findViewById(R.id.listView_category);
 
         // ListView setzten mit entsprehcenden Objekten aus dem Adapter
         listView.setAdapter(ArrayAdapter);

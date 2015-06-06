@@ -84,7 +84,7 @@ public class LossMain extends Fragment {
         ArrayAdapter<String> ArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, loss);
 
         // Listview ermitteln
-        listView = (ListView)rootView.findViewById(R.id.listView_vendor);
+        listView = (ListView)rootView.findViewById(R.id.listView_loss);
 
         // ListView setzten mit entsprehcenden Objekten aus dem Adapter
         listView.setAdapter(ArrayAdapter);
