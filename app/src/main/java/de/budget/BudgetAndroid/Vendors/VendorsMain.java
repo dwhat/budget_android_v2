@@ -1,12 +1,18 @@
 package de.budget.BudgetAndroid.Vendors;
 
 import android.app.Activity;
+import android.app.ListActivity;
+import android.app.ListFragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import de.budget.R;
 
@@ -30,6 +36,8 @@ public class VendorsMain extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private ListView listView;
 
     /**
      * Use this factory method to create a new instance of
@@ -56,17 +64,42 @@ public class VendorsMain extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View rootView = inflater.inflate(R.layout.fragment_vendors_main, container, false);
+
+        String[] mockVendors = new String[] { "Aldi","Lidel","ReWe", "Mensa", "Kneipe"};
+        ArrayAdapter<String> ArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, mockVendors);
+
+        listView = (ListView)rootView.findViewById(R.id.listView_vendor);
+
+        listView.setAdapter(ArrayAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                int itemPosition     = position;
+                String  itemValue    = (String) listView.getItemAtPosition(position);
+                Toast.makeText(getActivity(),
+                        "Position :" + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_vendors_main, container, false);
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -92,6 +125,7 @@ public class VendorsMain extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
 
     /**
      * This interface must be implemented by activities that contain this

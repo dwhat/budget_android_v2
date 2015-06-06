@@ -1,11 +1,20 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context="de.budget.BudgetAndroid.Income.IncomeMain">
+
+    <!-- FAB -->
+    <ImageButton
+        android:src="@drawable/button"
+        android:id="@+id/fab_income"
+        android:onClick="newIncome"
+        style="@style/FAB" />
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
+        <!-- Menu -->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -27,38 +36,15 @@
                 android:layout_width="match_parent" />
         </LinearLayout>
 
-        <Space
+        <!-- Items -->
+        <ListView
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_gravity="center_horizontal" />
+            android:layout_height="fill_parent"
+            android:id="@+id/listView_income"
+            android:layout_gravity="center"
+            android:choiceMode="singleChoice" />
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/scrollView2">
-
-            <ListView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/listView2" />
-        </ScrollView>
     </LinearLayout>
-
-    <SearchView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/searchView"
-        android:layout_gravity="right|top" />
-
-    <ImageButton
-        android:layout_margin="15dp"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:src="@drawable/button"
-        android:background="@drawable/circle"
-        android:id="@+id/imageButton"
-        android:layout_gravity="right|bottom"
-        android:onClick="newIncome"/>
 
 
 </FrameLayout>

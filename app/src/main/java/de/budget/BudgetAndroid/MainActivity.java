@@ -1,5 +1,6 @@
 package de.budget.BudgetAndroid;
 
+import android.app.ListFragment;
 import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
@@ -91,7 +92,7 @@ public class MainActivity extends ActionBarActivity
 
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().add(R.id.container, fragment).addToBackStack("fragback").commit();
+            fragmentManager.beginTransaction().replace(R.id.container, fragment).addToBackStack("fragback").commit();
 
         }
     }
@@ -251,7 +252,7 @@ public class MainActivity extends ActionBarActivity
      * Diese Methode wertet dieses Bundle aus und erzeugt entsprechend das Fragement
      */
     @Author(name="Mark")
-    public void getFragmentByIntent() {
+    public void getFragmentByIntentBundle() {
 
         String value = getIntent().getExtras().getString("class");
 

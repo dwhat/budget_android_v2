@@ -2,11 +2,19 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context="de.budget.BudgetAndroid.Vendors.VendorsMain">
 
+    <!-- FAB -->
+    <ImageButton
+        android:src="@drawable/button"
+        android:id="@+id/fab_vendor"
+        android:onClick="newVendor"
+        style="@style/FAB" />
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
+        <!-- Menu -->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -26,36 +34,16 @@
                 android:layout_gravity="center_horizontal"
                 style="@style/Headline"
                 android:layout_width="match_parent" />
-
         </LinearLayout>
 
-        <ScrollView
+        <!-- Items -->
+        <ListView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/scrollView2"
-            android:layout_gravity="center" >
+            android:layout_height="fill_parent"
+            android:id="@+id/listView_vendor"
+            android:layout_gravity="center"
+            android:choiceMode="singleChoice" />
 
-            <ListView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/listView2" />
-        </ScrollView>
     </LinearLayout>
-
-    <SearchView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/searchView"
-        android:layout_gravity="right|top" />
-
-    <ImageButton
-        android:layout_margin="15dp"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:src="@drawable/button"
-        android:background="@drawable/circle"
-        android:id="@+id/imageButton"
-        android:layout_gravity="right|bottom"
-        android:onClick="newVendor"/>
 
 </FrameLayout>
