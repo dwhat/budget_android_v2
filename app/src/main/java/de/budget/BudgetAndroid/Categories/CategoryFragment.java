@@ -1,16 +1,16 @@
-package de.budget.BudgetAndroid;
+package de.budget.BudgetAndroid.Categories;
 
 import android.app.Activity;
-import android.graphics.Typeface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.Toast;
+import android.support.v4.app.Fragment;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import de.budget.R;
 
@@ -18,12 +18,12 @@ import de.budget.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link DashboardMain.OnFragmentInteractionListener} interface
+ * {@link CategoryFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link DashboardMain#newInstance} factory method to
+ * Use the {@link CategoryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DashboardMain extends Fragment {
+public class CategoryFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -35,17 +35,19 @@ public class DashboardMain extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private ListView listView;
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment DashboardMain.
+     * @return A new instance of fragment CategoryFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static DashboardMain newInstance(String param1, String param2) {
-        DashboardMain fragment = new DashboardMain();
+    public static CategoryFragment newInstance(String param1, String param2) {
+        CategoryFragment fragment = new CategoryFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -53,14 +55,13 @@ public class DashboardMain extends Fragment {
         return fragment;
     }
 
-    public DashboardMain() {
+    public CategoryFragment() {
         // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -71,13 +72,52 @@ public class DashboardMain extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dashboard_main, container, false);
+        View rootView =  inflater.inflate(R.layout.fragment_category, container, false);
+
+        // Author Mark
+        // Createing Mock Objects
+        // TODO: Holen der Vendors vom Server
+        String[] categories = new String[] { "Haushalt","Sport","Sonstiges", "Luxus"};
+
+        // Starten des Array Adapters
+        ArrayAdapter<String> ArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, categories);
+
+        // Listview ermitteln
+        listView = (ListView)rootView.findViewById(R.id.listView_category);
+
+        // ListView setzten mit entsprehcenden Objekten aus dem Adapter
+        listView.setAdapter(ArrayAdapter);
+
+        // OnClick Listener für Interaktion
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+
+                // Neuen Intent erzeugen der beim Klick auf die Vendor Show verweißt
+                Intent intent = new Intent(getActivity(), CategoryActivity.class);
+
+                // Bundle anlegen
+                Bundle bundle = new Bundle ();
+                int itemPosition     = position;
+                String  itemValue    = (String) listView.getItemAtPosition(position);
+
+                // Setzte im Bundle das Objekt
+                bundle.putString("CATEGORY_NAME", itemValue);
+
+                // Übergebe das Objekt an den Intent
+                intent.putExtras(bundle);
+
+                startActivity(intent);
+            }
+        });
+
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onDashboardMainFragmentInteraction(uri);
+            mListener.onCategoriesMainFragmentInteraction(uri);
         }
     }
 
@@ -110,11 +150,9 @@ public class DashboardMain extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onDashboardMainFragmentInteraction(Uri uri);
+        public void onCategoriesMainFragmentInteraction(Uri uri);
     }
 
 
-    public void clickFAB (View v ){
 
-    }
 }

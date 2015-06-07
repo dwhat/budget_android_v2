@@ -15,7 +15,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
 
-    <!-- Menü -->
+    <!-- Off-Canvas Menü -->
     <string-array name="sections">
         <item>Dashboard</item>
         <item>Einnahmen</item>
@@ -55,8 +55,7 @@
     <string name="register">Registrieren</string>
 
     <!-- Loss Activity -->
-    <string name="title_activity_loss_show">Ausgabe</string>
-    <string name="title_activity_loss_new">Neue Ausgabe</string>
+    <string name="title_activity_loss">Ausgabe</string>
     <string name="loss_name">Name</string>
     <string name="loss_value">Wert</string>
     <string name="article_name">Name</string>
@@ -64,20 +63,17 @@
     <string name="article_value">Wert</string>
 
     <!-- Income Activity -->
-    <string name="title_activity_income_show">Einnahme</string>
-    <string name="title_activity_income_new">Neue Einnahme</string>
+    <string name="title_activity_income">Einnahme</string>
     <string name="income_name">Name</string>
     <string name="income_value">Wert</string>
 
     <!-- Vendor Activity -->
-    <string name="title_activity_vendor_show">Händler</string>
-    <string name="title_activity_vendor_new">Neuer Händler</string>
+    <string name="title_activity_vendor">Händler</string>
     <string name="vendor_name">Händler</string>
     <string name="vendor_address">Adresse</string>
 
     <!-- Category Activity -->
-    <string name="title_activity_categories_show">Kategorie</string>
-    <string name="title_activity_category_new">Neue Kategorie</string>
+    <string name="title_activity_category">Kategorie</string>
     <string name="category_name">Kategorie</string>
 
     <!-- Radio Buttons -->
@@ -95,7 +91,6 @@
 
     <!-- Sonstiges -->
     <string name="hello_world">Hello world!</string>
-
     <string name="title_activity_test">TestActivity</string>
     <string name="title_activity_list_view_loader">ListViewLoader</string>
 

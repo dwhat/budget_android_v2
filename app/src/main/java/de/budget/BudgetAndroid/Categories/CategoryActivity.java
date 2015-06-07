@@ -4,16 +4,28 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import de.budget.R;
 
-public class CategoryNew extends ActionBarActivity {
+public class CategoryActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_new);
+        setContentView(R.layout.activity_category);
+
+
+        Bundle bundle = getIntent().getExtras();
+        // Prüfe ob ein Objekt übergeben worden ist
+        if (bundle != null) {
+
+            // Schreibe Objekt in das Layout
+            String name = bundle.getString("CATEGORY_NAME");
+            EditText editText = (EditText) findViewById(R.id.category_name);
+            editText.setText(name);
+        }
     }
 
     @Override

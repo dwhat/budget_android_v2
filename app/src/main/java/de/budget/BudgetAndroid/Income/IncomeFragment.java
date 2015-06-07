@@ -1,4 +1,4 @@
-package de.budget.BudgetAndroid.Loss;
+package de.budget.BudgetAndroid.Income;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,19 +12,18 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import de.budget.BudgetAndroid.Income.IncomeShow;
 import de.budget.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link LossMain.OnFragmentInteractionListener} interface
+ * {@link IncomeFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link LossMain#newInstance} factory method to
+ * Use the {@link IncomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LossMain extends Fragment {
+public class IncomeFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -44,11 +43,11 @@ public class LossMain extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment LossMain.
+     * @return A new instance of fragment IncomeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static LossMain newInstance(String param1, String param2) {
-        LossMain fragment = new LossMain();
+    public static IncomeFragment newInstance(String param1, String param2) {
+        IncomeFragment fragment = new IncomeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -56,7 +55,7 @@ public class LossMain extends Fragment {
         return fragment;
     }
 
-    public LossMain() {
+    public IncomeFragment() {
         // Required empty public constructor
     }
 
@@ -73,18 +72,19 @@ public class LossMain extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_loss_main, container, false);
+        View rootView =  inflater.inflate(R.layout.fragment_income, container, false);
+
 
         // Author Mark
         // Createing Mock Objects
         // TODO: Holen der Vendors vom Server
-        String[] loss = new String[] { "Einkauf 1","Einkauf 2","Einkauf 3", "Einkauf 4"};
+        String[] incomes = new String[] { "Einkauf 1","Einkauf 2","Einkauf 3", "Einkauf 4"};
 
         // Starten des Array Adapters
-        ArrayAdapter<String> ArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, loss);
+        ArrayAdapter<String> ArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, incomes);
 
         // Listview ermitteln
-        listView = (ListView)rootView.findViewById(R.id.listView_loss);
+        listView = (ListView)rootView.findViewById(R.id.listView_income);
 
         // ListView setzten mit entsprehcenden Objekten aus dem Adapter
         listView.setAdapter(ArrayAdapter);
@@ -95,7 +95,7 @@ public class LossMain extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
 
                 // Neuen Intent erzeugen der beim Klick auf die Vendor Show verweißt
-                Intent intent = new Intent(getActivity(), LossShow.class);
+                Intent intent = new Intent(getActivity(), IncomeActivity.class);
 
                 // Bundle anlegen
                 Bundle bundle = new Bundle ();
@@ -103,7 +103,7 @@ public class LossMain extends Fragment {
                 String  itemValue    = (String) listView.getItemAtPosition(position);
 
                 // Setzte im Bundle das Objekt
-                bundle.putString("LOSS_NAME", itemValue);
+                bundle.putString("INCOME_NAME", itemValue);
 
                 // Übergebe das Objekt an den Intent
                 intent.putExtras(bundle);
@@ -118,7 +118,7 @@ public class LossMain extends Fragment {
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onLossMainFragmentInteraction(uri);
+            mListener.onIncomeMainFragmentInteraction(uri);
         }
     }
 
@@ -151,7 +151,7 @@ public class LossMain extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onLossMainFragmentInteraction(Uri uri);
+        public void onIncomeMainFragmentInteraction(Uri uri);
     }
 
 }

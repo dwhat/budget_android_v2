@@ -1,12 +1,12 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="de.budget.BudgetAndroid.Categories.CategoriesMain">
+    android:layout_height="match_parent" tools:context="de.budget.BudgetAndroid.Vendors.VendorsFragment">
 
     <!-- FAB -->
     <ImageButton
         android:src="@drawable/button"
-        android:id="@+id/fab_category"
-        android:onClick="newCategory"
+        android:id="@+id/fab_vendor"
+        android:onClick="newVendor"
         style="@style/FAB" />
 
     <LinearLayout
@@ -22,15 +22,15 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:src="@drawable/ic_category_w"
+                android:src="@drawable/ic_vendor_w"
                 android:layout_gravity="center_horizontal"
                 style="@style/Headline"
                 android:layout_width="wrap_content" />
 
             <TextView
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/title_categories"
-                android:id="@+id/title_categories"
+                android:text="@string/title_vendors"
+                android:id="@+id/title_vendors"
                 android:layout_gravity="center_horizontal"
                 style="@style/Headline"
                 android:layout_width="match_parent" />
@@ -40,9 +40,10 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/listView_category"
+            android:id="@+id/listView_vendor"
             android:layout_gravity="center"
             android:choiceMode="singleChoice" />
 
     </LinearLayout>
+
 </FrameLayout>

@@ -32,8 +32,8 @@
                 android:value=".BudgetAndroid.Login" />
         </activity>
         <activity
-            android:name=".BudgetAndroid.Loss.LossNew"
-            android:label="@string/title_activity_loss_new"
+            android:name=".BudgetAndroid.Loss.LossActivity"
+            android:label="@string/title_activity_loss"
             android:launchMode="singleTop"
             android:parentActivityName=".BudgetAndroid.MainActivity" >
             <meta-data
@@ -41,56 +41,24 @@
                 android:value="de.budget.BudgetAndroid.MainActivity" />
         </activity>
         <activity
-            android:name=".BudgetAndroid.Vendors.VendorNew"
-            android:label="@string/title_activity_vendor_new"
+            android:name=".BudgetAndroid.Vendors.VendorActivity"
+            android:label="@string/title_activity_vendor"
             android:parentActivityName=".BudgetAndroid.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.budget.BudgetAndroid.MainActivity" />
         </activity>
         <activity
-            android:name=".BudgetAndroid.Categories.CategoryNew"
-            android:label="@string/title_activity_category_new"
+            android:name=".BudgetAndroid.Categories.CategoryActivity"
+            android:label="@string/title_activity_category"
             android:parentActivityName=".BudgetAndroid.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.budget.BudgetAndroid.MainActivity" />
         </activity>
         <activity
-            android:name=".BudgetAndroid.Income.IncomeNew"
-            android:label="@string/title_activity_income_new"
-            android:parentActivityName=".BudgetAndroid.MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.budget.BudgetAndroid.MainActivity" />
-        </activity>
-        <activity
-            android:name=".BudgetAndroid.Categories.CategoryShow"
-            android:label="@string/title_activity_categories_show"
-            android:parentActivityName=".BudgetAndroid.MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.budget.BudgetAndroid.MainActivity" />
-        </activity>
-        <activity
-            android:name=".BudgetAndroid.Income.IncomeShow"
-            android:label="@string/title_activity_income_show"
-            android:parentActivityName=".BudgetAndroid.MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.budget.BudgetAndroid.MainActivity" />
-        </activity>
-        <activity
-            android:name=".BudgetAndroid.Loss.LossShow"
-            android:label="@string/title_activity_loss_show"
-            android:parentActivityName=".BudgetAndroid.MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.budget.BudgetAndroid.MainActivity" />
-        </activity>
-        <activity
-            android:name=".BudgetAndroid.Vendors.VendorShow"
-            android:label="@string/title_activity_vendor_show"
+            android:name=".BudgetAndroid.Income.IncomeActivity"
+            android:label="@string/title_activity_income"
             android:parentActivityName=".BudgetAndroid.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

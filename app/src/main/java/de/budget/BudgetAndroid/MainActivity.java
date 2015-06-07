@@ -1,15 +1,12 @@
 package de.budget.BudgetAndroid;
 
-import android.app.ListFragment;
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
@@ -20,21 +17,21 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import de.budget.BudgetAndroid.Annotations.Author;
-import de.budget.BudgetAndroid.Categories.CategoriesMain;
-import de.budget.BudgetAndroid.Categories.CategoryNew;
-import de.budget.BudgetAndroid.Income.IncomeMain;
-import de.budget.BudgetAndroid.Income.IncomeNew;
-import de.budget.BudgetAndroid.Loss.LossMain;
-import de.budget.BudgetAndroid.Loss.LossNew;
-import de.budget.BudgetAndroid.Vendors.VendorNew;
-import de.budget.BudgetAndroid.Vendors.VendorsMain;
+import de.budget.BudgetAndroid.Categories.CategoryFragment;
+import de.budget.BudgetAndroid.Categories.CategoryActivity;
+import de.budget.BudgetAndroid.Income.IncomeFragment;
+import de.budget.BudgetAndroid.Income.IncomeActivity;
+import de.budget.BudgetAndroid.Loss.LossActivity;
+import de.budget.BudgetAndroid.Loss.LossFragment;
+import de.budget.BudgetAndroid.Vendors.VendorActivity;
+import de.budget.BudgetAndroid.Vendors.VendorsFragment;
 import de.budget.R;
 
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, CategoriesMain.OnFragmentInteractionListener, VendorsMain.OnFragmentInteractionListener,
-                    IncomeMain.OnFragmentInteractionListener, Logout.OnFragmentInteractionListener, LossMain.OnFragmentInteractionListener,
-                    DashboardMain.OnFragmentInteractionListener{
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, CategoryFragment.OnFragmentInteractionListener, VendorsFragment.OnFragmentInteractionListener,
+                    IncomeFragment.OnFragmentInteractionListener, Logout.OnFragmentInteractionListener, LossFragment.OnFragmentInteractionListener,
+                    DashboardFragment.OnFragmentInteractionListener{
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -69,19 +66,19 @@ public class MainActivity extends ActionBarActivity
         Fragment fragment = null;
         switch (position) {
             case 0:
-                fragment = new DashboardMain();
+                fragment = new DashboardFragment();
                 break;
             case 1:
-                fragment = new IncomeMain();
+                fragment = new IncomeFragment();
                 break;
             case 2:
-                fragment = new LossMain();
+                fragment = new LossFragment();
                 break;
             case 3:
-                fragment = new CategoriesMain();
+                fragment = new CategoryFragment();
                 break;
             case 4:
-                fragment = new VendorsMain();
+                fragment = new VendorsFragment();
                 break;
             case 5:
                 fragment = new Logout();
@@ -153,7 +150,7 @@ public class MainActivity extends ActionBarActivity
 
             case R.id.action_loss:
 
-                changeActivity(LossNew.class);
+                changeActivity(LossActivity.class);
                 return true;
 
             default:
@@ -203,22 +200,22 @@ public class MainActivity extends ActionBarActivity
      */
     @Author(name="Mark")
     public void newVendor (View v){
-        changeActivity(VendorNew.class);
+        changeActivity(VendorActivity.class);
     }
 
     @Author(name="Mark")
     public void newCategory (View v){
-        changeActivity(CategoryNew.class);
+        changeActivity(CategoryActivity.class);
     }
 
     @Author(name="Mark")
     public void newLoss (View v){
-        changeActivity(LossNew.class);
+        changeActivity(LossActivity.class);
     }
 
     @Author(name="Mark")
     public void newIncome (View v){
-        changeActivity(IncomeNew.class);
+        changeActivity(IncomeActivity.class);
     }
 
 
@@ -260,7 +257,7 @@ public class MainActivity extends ActionBarActivity
             int pos;
 
             switch (value) {
-                case "LossNew":
+                case "LossActivity":
                     pos = 2;
                     break;
                 default:

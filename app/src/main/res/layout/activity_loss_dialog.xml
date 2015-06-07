@@ -37,7 +37,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/title_activity_loss_new"
+        android:text="@string/title_activity_loss"
         android:id="@+id/save_loss_new"
         android:layout_gravity="center_horizontal"
         android:drawableLeft="@drawable/ic_done_w"
