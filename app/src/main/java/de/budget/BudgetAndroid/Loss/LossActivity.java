@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import de.budget.BudgetAndroid.Annotations.Author;
 import de.budget.R;
 
 public class LossActivity extends ActionBarActivity {
@@ -42,28 +43,28 @@ public class LossActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save) {
-            showDialog();
+            save(null);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    /*
+     * Methode zum speichern des Objekts
+     */
+    @Author(name="Mark")
     public void save(View v) {
-
+        showDialog();
         //TODO Die eingengeben Werte an den Server schicken
         Toast.makeText(this, "Speichern", Toast.LENGTH_SHORT).show();
 
-
-    /*
-        //Nächste Activity anzeigen
-        Intent intent = new Intent(this, MainActivity.class);
-        Bundle bundle = intent.getExtras();
-        bundle.putString("class", this.getClass().toString());
-        startActivity(intent, bundle);
-    */
     }
 
+    /*
+     * Zeige ein Dialog an um den Namen der Ausgabe und den Wert zu ermitteln
+     */
+    @Author(name="Mark")
     private void showDialog() {
         FragmentManager fm = getSupportFragmentManager();
         LossDialog lossDialog = new LossDialog();

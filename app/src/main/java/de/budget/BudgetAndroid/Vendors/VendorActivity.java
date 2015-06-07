@@ -5,9 +5,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import de.budget.BudgetAndroid.Annotations.Author;
 import de.budget.BudgetAndroid.MainActivity;
 import de.budget.R;
 
@@ -42,21 +44,19 @@ public class VendorActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save) {
-            saveVendorNew();
+            save(null);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-    public void saveVendorNew() {
+    /*
+     * Methode zum speichern des Objekts
+     */
+    @Author(name="Mark")
+    public void save(View v) {
         //TODO Die eingengeben Werte an den Server schicken
         Toast.makeText(this, "Speichern", Toast.LENGTH_SHORT).show();
 
-        //Nächste Activity anzeigen
-        Intent intent = new Intent(this, MainActivity.class);
-        Bundle bundle = intent.getExtras();
-        bundle.putString("class", this.getClass().toString());
-        startActivity(intent, bundle);
     }
 }
