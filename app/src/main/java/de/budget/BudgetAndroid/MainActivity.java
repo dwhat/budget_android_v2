@@ -156,7 +156,7 @@ public class MainActivity extends ActionBarActivity
     public void onResume() {
         super.onResume();
 
-        // Get Bundle
+        // Wenn ein spezielles Bundle Navigation gewünscht ist benutzte sharedPreference nicht
         Bundle bundle = getIntent().getExtras();
         if (bundle == null) {
             // Hole das in onPause gespeicherte Fragment und lade es in die Activity
