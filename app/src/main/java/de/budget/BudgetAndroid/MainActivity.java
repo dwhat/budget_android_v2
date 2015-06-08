@@ -57,6 +57,7 @@ public class MainActivity extends ActionBarActivity
 
     // privater Modus
     private static final int PREFERENCE_MODE_PRIVATE = 0;
+    private static final String PREFERENCE_NAVIGATION_STATE_FILE = "PREFERENCE_NAVIGATION_STATE";
 
 
     @Override
@@ -70,7 +71,7 @@ public class MainActivity extends ActionBarActivity
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        sharedPreferences = getPreferences(PREFERENCE_MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(PREFERENCE_NAVIGATION_STATE_FILE, PREFERENCE_MODE_PRIVATE);
         sharedPreferencesEditor = sharedPreferences.edit();
     }
 
@@ -135,7 +136,7 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onResume() {
         super.onResume();
-        sharedPreferences = getPreferences(PREFERENCE_MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(PREFERENCE_NAVIGATION_STATE_FILE, PREFERENCE_MODE_PRIVATE);
         onNavigationDrawerItemSelected(sharedPreferences.getInt("NAVIGATION_POSITION", 0));
     }
 
