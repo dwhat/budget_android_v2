@@ -63,7 +63,7 @@ public class IncomeActivity extends ActionBarActivity {
 
     public void change(View view){
         Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-        intent.putExtra("fragment",1);
+        intent.putExtra(MainActivity.FRAGMENT_NAVIGATION,1);
         startActivity(intent);
     }
 

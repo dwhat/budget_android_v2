@@ -50,8 +50,8 @@ public class MainActivity extends ActionBarActivity
     /*
      * Speichert die geöffnete Fragment Instanz als Position im Navigationdarwer
      */
-     private int savedNavigationPosition;
-    private static final String SAVED_FRAGMENT_POSITION = "NAVIGATION_POSITION";
+    private int savedNavigationPosition;
+    public static final String FRAGMENT_NAVIGATION = "FRAGMENT_NAVIGATION_POSITION";
 
     // Erzeuge zwischenspeicher
     private SharedPreferences sharedPreferences;
@@ -82,11 +82,9 @@ public class MainActivity extends ActionBarActivity
 
         // Get Bundle
         Bundle bundle = getIntent().getExtras();
-
         if (bundle != null)  {
-
             // Wechsel zum gewünschten Fragment
-            savedNavigationPosition = bundle.getInt(SAVED_FRAGMENT_POSITION);
+            savedNavigationPosition = bundle.getInt(FRAGMENT);
             Log.d("INFO", getFragmentByPosition(savedNavigationPosition).toString());
             onNavigationDrawerItemSelected(savedNavigationPosition);
         }
@@ -149,7 +147,7 @@ public class MainActivity extends ActionBarActivity
         super.onPause();
 
         // Speichere das ausgeäwhlte Fragment, sobald die Acitivty gewechselt wird
-        sharedPreferencesEditor.putInt(SAVED_FRAGMENT_POSITION, savedNavigationPosition);
+        sharedPreferencesEditor.putInt(FRAGMENT, savedNavigationPosition);
         sharedPreferencesEditor.commit();
     }
 
@@ -159,7 +157,7 @@ public class MainActivity extends ActionBarActivity
 
         // Hole das in onPause gespeicherte Fragment und lade es in die Activity
         sharedPreferences = getSharedPreferences(PREFERENCE_NAVIGATION_STATE_FILE, PREFERENCE_MODE_PRIVATE);
-        onNavigationDrawerItemSelected(sharedPreferences.getInt(SAVED_FRAGMENT_POSITION, 0));
+        onNavigationDrawerItemSelected(sharedPreferences.getInt(FRAGMENT, 0));
     }
 
     @Override
