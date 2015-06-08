@@ -1,7 +1,10 @@
 package de.budget.BudgetAndroid;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -43,55 +46,116 @@ public class MainActivity extends ActionBarActivity
      */
     private CharSequence mTitle;
 
+    /*
+     * Speichert die geöffnete Fragment Instanz als Position im Navigationdarwer
+     */
+     private int savedNavigationPosition;
+
+    // Erzeuge zwischenspeicher
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor sharedPreferencesEditor;
+
+    // privater Modus
+    private static final int PREFERENCE_MODE_PRIVATE = 0;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+        // Get the Navigation Fragment
+        mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
-
         // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        sharedPreferences = getPreferences(PREFERENCE_MODE_PRIVATE);
+        sharedPreferencesEditor = sharedPreferences.edit();
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
 
-        Fragment fragment = null;
-        switch (position) {
-            case 0:
-                fragment = new DashboardFragment();
-                break;
-            case 1:
-                fragment = new IncomeFragment();
-                break;
-            case 2:
-                fragment = new LossFragment();
-                break;
-            case 3:
-                fragment = new CategoryFragment();
-                break;
-            case 4:
-                fragment = new VendorsFragment();
-                break;
-            case 5:
-                fragment = new Logout();
-                break;
-            default:
-                break;
-        }
+        savedNavigationPosition = position;
+
+        // update the main content by replacing fragments
+        Fragment fragment = getFragmentByPosition(position);
 
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.container, fragment).addToBackStack("fragback").commit();
 
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (!mNavigationDrawerFragment.isDrawerOpen()) {
+            // Only show items in the action bar relevant to this screen
+            // if the drawer is not showing. Otherwise, let the drawer
+            // decide what to show in the action bar.
+            getMenuInflater().inflate(R.menu.main, menu);
+            restoreActionBar();
+            return true;
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        // Wähle welches Bedienelement geklickt wurde
+        switch (id) {
+            case R.id.action_sync:
+                synchronizeApplication();
+                return true;
+
+            case R.id.action_loss:
+
+                changeActivity(LossActivity.class);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        sharedPreferencesEditor.putInt("NAVIGATION_POSITION", savedNavigationPosition);
+        sharedPreferencesEditor.commit();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sharedPreferences = getPreferences(PREFERENCE_MODE_PRIVATE);
+        onNavigationDrawerItemSelected(sharedPreferences.getInt("NAVIGATION_POSITION", 0));
+    }
+
+    @Override
+    public void onCategoriesMainFragmentInteraction(Uri uri){
+    }
+    @Override
+    public void onVendorsMainFragmentInteraction(Uri uri){
+    }
+    @Override
+    public void onIncomeMainFragmentInteraction(Uri uri){
+    }
+    @Override
+    public void onLogoutFragmentInteraction(Uri uri){
+    }
+    @Override
+    public void onLossMainFragmentInteraction(Uri uri){
+    }
+    @Override
+    public void onDashboardMainFragmentInteraction(Uri uri){
     }
 
     public void onSectionAttached(int number) {
@@ -119,82 +183,6 @@ public class MainActivity extends ActionBarActivity
 
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
-            restoreActionBar();
-            return true;
-        }
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        // Wähle welches Bedienelement geklickt wurde
-        switch (id) {
-
-
-            case R.id.action_sync:
-                synchronizeApplication();
-                return true;
-
-            case R.id.action_loss:
-
-                changeActivity(LossActivity.class);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    /*
-     * Methode zum synchroniseren der Applikation, bei Fehlerfall, evtl für später bei mehrern Frontends
-      *
-     */
-    @Author(name = "Mark")
-    private void synchronizeApplication() {
-        Toast.makeText(MainActivity.this, "Synchronisierung des Systems", Toast.LENGTH_SHORT).show();
-    }
-
-    /*
-     * Methode zum ändern der Activity je nach eingegebener Klasse
-     */
-    @Author(name = "Mark")
-    private void changeActivity(Class c) {
-        Intent intent = new Intent(this, c);
-        startActivity(intent);
-    }
-
-    @Override
-    public void onCategoriesMainFragmentInteraction(Uri uri){
-    }
-    @Override
-    public void onVendorsMainFragmentInteraction(Uri uri){
-    }
-    @Override
-    public void onIncomeMainFragmentInteraction(Uri uri){
-    }
-    @Override
-    public void onLogoutFragmentInteraction(Uri uri){
-    }
-    @Override
-    public void onLossMainFragmentInteraction(Uri uri){
-    }
-    @Override
-    public void onDashboardMainFragmentInteraction(Uri uri){
-    }
-
     /*
      * Öffne Händler Maske zum anlegen
      */
@@ -218,16 +206,21 @@ public class MainActivity extends ActionBarActivity
         changeActivity(IncomeActivity.class);
     }
 
-
-
     /*
-     * Zeige das Bottom Sheet Menu
+     * Toggle das Bottom Sheet Menu
+     * Zeige das Menü an oder nicht
+     * schiebe den FAB auf die Position des oberen Rands des Bottom Sheet Menüs
      */
     @Author(name="Mark")
     public void toggleBottomSheetMenu (View v) {
+
+        // Hole die Menüliste
         LinearLayout bsm = (LinearLayout) findViewById(R.id.bottom_sheet_menu);
+
+        // Hole den FAB
         ImageButton fab = (ImageButton) findViewById(R.id.fab);
 
+        // Wähle ob Menü sichtbar oder nicht
         if (bsm.getVisibility() != View.VISIBLE){
             bsm.setVisibility(View.VISIBLE);
             fab.setImageDrawable(getDrawable(R.drawable.ic_clear_w));
@@ -244,29 +237,55 @@ public class MainActivity extends ActionBarActivity
     }
 
     /*
-     * Wenn ein intent aus einer anderen Activity aufgerufen wird und ein spezielles Fragment angezeigt werden soll
-     * Wird ein String Bundle mit der entsprechenden Klasse übergeben
-     * Diese Methode wertet dieses Bundle aus und erzeugt entsprechend das Fragement
+     * Liefert das Fragment je nach Positionsnummer im Array
      */
     @Author(name="Mark")
-    public void getFragmentByIntentBundle() {
+    public Fragment getFragmentByPosition(int position) {
 
-        String value = getIntent().getExtras().getString("class");
+        Fragment fragment = null;
 
-        if(!value.isEmpty()) {
-            int pos;
-
-            switch (value) {
-                case "LossActivity":
-                    pos = 2;
-                    break;
-                default:
-                    pos = 0;
-                    break;
-
-            }
-
-            onNavigationDrawerItemSelected(pos);
+        switch (position) {
+            case 0:
+                fragment = new DashboardFragment();
+                break;
+            case 1:
+                fragment = new IncomeFragment();
+                break;
+            case 2:
+                fragment = new LossFragment();
+                break;
+            case 3:
+                fragment = new CategoryFragment();
+                break;
+            case 4:
+                fragment = new VendorsFragment();
+                break;
+            case 5:
+                fragment = new Logout();
+                break;
+            default:
+                break;
         }
+
+        return fragment;
+
+    }
+
+    /*
+     * Methode zum synchroniseren der Applikation, bei Fehlerfall, evtl für später bei mehrern Frontends
+     *
+     */
+    @Author(name = "Mark")
+    private void synchronizeApplication() {
+        Toast.makeText(MainActivity.this, "Synchronisierung des Systems", Toast.LENGTH_SHORT).show();
+    }
+
+    /*
+     * Methode zum ändern der Activity je nach eingegebener Klasse
+     */
+    @Author(name = "Mark")
+    private void changeActivity(Class c) {
+        Intent intent = new Intent(this, c);
+        startActivity(intent);
     }
 }

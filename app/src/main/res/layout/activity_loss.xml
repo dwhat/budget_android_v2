@@ -64,6 +64,7 @@
             android:id="@+id/item_name"
             android:gravity="bottom"
             android:layout_gravity="bottom"
+            android:singleLine="true"
             android:layout_weight="0.45"/>
 
         <EditText
@@ -75,6 +76,7 @@
             android:layout_alignParentBottom="true"
             android:gravity="bottom"
             android:layout_gravity="bottom"
+            android:singleLine="true"
             android:layout_weight="0.1"/>
 
         <Spinner
@@ -96,6 +98,8 @@
             android:layout_alignParentBottom="true"
             android:gravity="bottom"
             android:layout_gravity="bottom"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
             android:layout_weight="0.1"/>
 
         <ImageButton
