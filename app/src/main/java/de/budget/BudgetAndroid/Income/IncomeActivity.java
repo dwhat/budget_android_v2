@@ -1,5 +1,6 @@
 package de.budget.BudgetAndroid.Income;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import de.budget.BudgetAndroid.Annotations.Author;
+import de.budget.BudgetAndroid.MainActivity;
 import de.budget.R;
 
 public class IncomeActivity extends ActionBarActivity {
@@ -58,4 +60,11 @@ public class IncomeActivity extends ActionBarActivity {
         Toast.makeText(this, "Speichern", Toast.LENGTH_SHORT).show();
 
     }
+
+    public void change(View view){
+        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+        intent.putExtra("fragment",1);
+        startActivity(intent);
+    }
+
 }

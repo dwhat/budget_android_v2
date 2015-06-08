@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
@@ -57,6 +58,17 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        if (getIntent()!= null) {
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                Integer startFragment = extras.getInt("fragment");
+                if (startFragment != 0) {
+                    Log.d("INFO", startFragment.toString());
+                    onNavigationDrawerItemSelected(startFragment);
+                }
+            }
+        }
     }
 
     @Override
