@@ -84,7 +84,7 @@ public class MainActivity extends ActionBarActivity
         Bundle bundle = getIntent().getExtras();
         if (bundle != null)  {
             // Wechsel zum gewünschten Fragment
-            savedNavigationPosition = bundle.getInt(FRAGMENT);
+            savedNavigationPosition = bundle.getInt(FRAGMENT_NAVIGATION);
             Log.d("INFO", getFragmentByPosition(savedNavigationPosition).toString());
             onNavigationDrawerItemSelected(savedNavigationPosition);
         }
