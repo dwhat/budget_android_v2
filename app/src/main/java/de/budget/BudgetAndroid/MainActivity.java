@@ -78,6 +78,7 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
 
+        // Speichere den Satatus des ausgewählten Items
         savedNavigationPosition = position;
 
         // update the main content by replacing fragments
@@ -129,6 +130,8 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onPause() {
         super.onPause();
+
+        // Speichere das ausgeäwhlte Fragment, sobald die Acitivty gewechselt wird
         sharedPreferencesEditor.putInt("NAVIGATION_POSITION", savedNavigationPosition);
         sharedPreferencesEditor.commit();
     }
@@ -136,6 +139,8 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onResume() {
         super.onResume();
+
+        // Hole das in onPause gespeicherte Fragment und lade es in die Activity
         sharedPreferences = getSharedPreferences(PREFERENCE_NAVIGATION_STATE_FILE, PREFERENCE_MODE_PRIVATE);
         onNavigationDrawerItemSelected(sharedPreferences.getInt("NAVIGATION_POSITION", 0));
     }
