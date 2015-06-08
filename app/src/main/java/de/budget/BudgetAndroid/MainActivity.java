@@ -84,9 +84,10 @@ public class MainActivity extends ActionBarActivity
         Bundle bundle = getIntent().getExtras();
         if (bundle != null)  {
             // Wechsel zum gewünschten Fragment
-            savedNavigationPosition = bundle.getInt(FRAGMENT_NAVIGATION);
-            Log.d("INFO", getFragmentByPosition(savedNavigationPosition).toString());
-            onNavigationDrawerItemSelected(savedNavigationPosition);
+            int fragmentNavigation = bundle.getInt(FRAGMENT_NAVIGATION);
+
+            Log.d("INFO", getFragmentByPosition(fragmentNavigation).toString());
+            onNavigationDrawerItemSelected(fragmentNavigation);
         }
     }
 
@@ -147,7 +148,7 @@ public class MainActivity extends ActionBarActivity
         super.onPause();
 
         // Speichere das ausgeäwhlte Fragment, sobald die Acitivty gewechselt wird
-        sharedPreferencesEditor.putInt(FRAGMENT, savedNavigationPosition);
+        sharedPreferencesEditor.putInt(FRAGMENT_NAVIGATION, savedNavigationPosition);
         sharedPreferencesEditor.commit();
     }
 
@@ -155,9 +156,13 @@ public class MainActivity extends ActionBarActivity
     public void onResume() {
         super.onResume();
 
-        // Hole das in onPause gespeicherte Fragment und lade es in die Activity
-        sharedPreferences = getSharedPreferences(PREFERENCE_NAVIGATION_STATE_FILE, PREFERENCE_MODE_PRIVATE);
-        onNavigationDrawerItemSelected(sharedPreferences.getInt(FRAGMENT, 0));
+        // Get Bundle
+        Bundle bundle = getIntent().getExtras();
+        if (bundle == null) {
+            // Hole das in onPause gespeicherte Fragment und lade es in die Activity
+            sharedPreferences = getSharedPreferences(PREFERENCE_NAVIGATION_STATE_FILE, PREFERENCE_MODE_PRIVATE);
+            onNavigationDrawerItemSelected(sharedPreferences.getInt(FRAGMENT_NAVIGATION, 0));
+        }
     }
 
     @Override
