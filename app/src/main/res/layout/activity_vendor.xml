@@ -10,14 +10,34 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-    <EditText
+        android:orientation="vertical"
+        android:layout_marginTop="51dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/name"
+            android:id="@+id/label_vendor_name"
+            android:textColor="@color/ColorPrimaryDark"
+            />
+
+        <EditText
         style="@style/EditTextBasic"
         android:id="@+id/vendor_name"
         android:hint="@string/vendor_name"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="51dp" />
+ />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/address"
+            android:id="@+id/label_vendor_address"
+            android:textColor="@color/ColorPrimaryDark"
+            />
 
     <EditText
         style="@style/EditTextBasic"
@@ -26,29 +46,7 @@
         android:layout_below="@+id/vendor_name"
         android:layout_alignParentStart="true" />
 
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/vendor_address"
-        android:id="@+id/spinner3" />
 
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/spinner3"
-        android:layout_centerHorizontal="true">
-
-        <RadioButton
-            style="@style/rb"
-            android:text="@string/rb_income"
-            android:id="@+id/rb_vendor_income" />
-
-        <RadioButton
-            style="@style/rb"
-            android:text="@string/rb_loss"
-            android:id="@+id/rb_vendor_loss" />
-
-    </RadioGroup>
 
     </LinearLayout>
 

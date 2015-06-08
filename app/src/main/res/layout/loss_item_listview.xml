@@ -1,0 +1,78 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:padding="6dip" >
+
+    <TextView
+        android:id="@+id/item_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="6dip"
+        android:text="2 x"
+        android:contentDescription="TODO"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:gravity="center_vertical"
+        android:textColor="@color/ColorPrimaryDark" />
+
+    <TextView
+        android:id="@+id/item_value"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/item_amount"
+        android:layout_marginRight="6dip"
+        android:text="5 €"
+        android:contentDescription="TODO"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:gravity="center_vertical"
+        android:textColor="@color/ColorPrimaryDark" />
+
+
+    <TextView
+        android:id="@+id/item_notice"
+        android:layout_width="fill_parent"
+        android:layout_height="26dip"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/item_value"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="Notiz"
+        android:textSize="12sp"
+        android:paddingLeft="16dp"
+        />
+
+    <TextView
+        android:id="@+id/item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/item_notice"
+        android:layout_alignParentTop="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_toRightOf="@id/item_value"
+        android:gravity="center_vertical"
+        android:layout_marginRight="6dip"
+        android:text="Name des Items"
+        android:textSize="16sp"
+        android:paddingLeft="16dp"
+        android:textColor="@color/ColorPrimaryDark" />
+
+    <TextView
+        android:id="@+id/item_category"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/item_notice"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_toRightOf="@id/item_name"
+        android:gravity="center_vertical"
+        android:text="Kategorie"
+        android:textSize="16sp"
+        android:paddingLeft="16dp"
+        android:textColor="@color/ColorPrimaryDark" />
+
+</RelativeLayout>
