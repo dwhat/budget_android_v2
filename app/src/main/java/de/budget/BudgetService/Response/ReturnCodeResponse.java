@@ -3,14 +3,14 @@ package de.budget.BudgetService.Response;
 import java.io.Serializable;
 
 /**
- * ReturnCode Klasse die verschiedene Stati(ReturnCodes,Messages) an den Aufrufer zur�ckgeben kann 
+ * ReturnCode SuperKlasse die verschiedene Stati(ReturnCodes,Messages) an den Aufrufer zur�ckgeben kann 
  * @author Moritz
  *
  */
 public class ReturnCodeResponse implements Serializable {
 	
 	private static final long serialVersionUID = 3397348747136795401L;
-	private static final int CODE_OK = 0;
+	private static final int CODE_OK = 200;
 	
 	private int returnCode;
 	private String message;

@@ -5,9 +5,24 @@ import android.util.Log;
 import de.budget.BudgetService.BudgetOnlineService;
 import de.budget.BudgetService.Exception.BudgetOnlineException;
 import de.budget.BudgetService.Exception.InvalidLoginException;
+import de.budget.BudgetService.Response.AmountResponse;
+import de.budget.BudgetService.Response.BasketListResponse;
+import de.budget.BudgetService.Response.BasketResponse;
+import de.budget.BudgetService.Response.CategoryListResponse;
+import de.budget.BudgetService.Response.CategoryResponse;
+import de.budget.BudgetService.Response.IncomeListResponse;
+import de.budget.BudgetService.Response.IncomeResponse;
+import de.budget.BudgetService.Response.ItemListResponse;
+import de.budget.BudgetService.Response.ItemResponse;
+import de.budget.BudgetService.Response.PaymentListResponse;
+import de.budget.BudgetService.Response.PaymentResponse;
 import de.budget.BudgetService.Response.ReturnCodeResponse;
 import de.budget.BudgetService.Response.UserLoginResponse;
 import de.budget.BudgetService.Response.UserResponse;
+import de.budget.BudgetService.Response.VendorListResponse;
+import de.budget.BudgetService.Response.VendorResponse;
+import de.budget.BudgetService.dto.*;
+
 import org.ksoap2.HeaderProperty;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
@@ -16,6 +31,7 @@ import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 
@@ -105,6 +121,487 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
     public ReturnCodeResponse deleteUser(int sessionId, String username) {
         return null;
     }
+
+
+
+	/*#################      VENDOR - SECTION     ##############*/
+
+    /**
+     * @author Marco
+     * @date 19.05.2015
+     * @param sessionId
+     * @return VendorListResponse Object
+     */
+    public VendorListResponse getVendors(int sessionId){
+        return null;
+    }
+
+    /**
+     * Method to get a Vendor with the SessionId and the vendorId
+     * @author Marco
+     * @date 18.05.2015
+     * @param sessionId
+     * @param vendorId
+     * @return VendorResponse Object
+     */
+    public VendorResponse getVendor(int sessionId, int vendorId){
+        return null;
+    }
+
+    /**
+     * method to create a vendor
+     * @author Marco
+     * @date 26.05.2015
+     * @param sessionId
+     * @param vendorId only necessary for update
+     * @param name
+     * @param logo (base64 String)
+     * @return
+     */
+    public VendorResponse createOrUpdateVendor(int sessionId, int vendorId, String name, String logo){
+        return null;
+    }
+
+    /**
+     * Method to delete a vendor
+     * @author Marco
+     * @date 26.05.2015
+     * @param sessionId
+     * @param vendorId
+     * @return
+     */
+    public ReturnCodeResponse deleteVendor(int sessionId, int vendorId){
+        return null;
+    }
+
+
+
+
+
+	/*#################      PAYMENT - SECTION     ##############*/
+
+    /**
+     * @author Marco
+     * @date 19.05.2015
+     * @param sessionId
+     * @return PaymentListResponse Object
+     */
+    public PaymentListResponse getPayments(int sessionId){
+        return null;
+    }
+
+    /**
+     * Method to get a payment with the SessionId and the paymentId
+     * @author Marco
+     * @date 18.05.2015
+     * @param sessionId
+     * @param paymentId
+     * @return PaymentResponse Object
+     */
+    public PaymentResponse getPayment(int sessionId, int paymentId){
+        return null;
+    }
+
+    /**
+     * Method to delete a payment
+     * @author Marco
+     * @param sessionId
+     * @param paymentId
+     * @return ReturnCodeResponse Object
+     */
+    public ReturnCodeResponse deletePayment(int sessionId, int paymentId){
+        return null;
+    }
+
+
+    /**
+     * method to create or update a payment
+     * @author Marco
+     * @author Moritz
+     * @param sessionId
+     * @param paymentId
+     * @param name
+     * @param number
+     * @param bic
+     * @param active
+     * @return PaymentResponse
+     */
+    public PaymentResponse createOrUpdatePayment(int sessionId, int paymentId, String name, String number, String bic, boolean active){
+        return null;
+    }
+
+
+
+
+
+	/*#################      CATEGORY - SECTION     ##############*/
+
+    /**
+     * @author Marco
+     * @param sessionId
+     * @param categoryId
+     * @return
+     */
+    public CategoryResponse getCategory(int sessionId, int categoryId){
+        return null;
+    }
+
+    /**
+     * @author Marco
+     * @date 19.05.2015
+     * @param sessionId
+     * @return CategoryListResponse Object
+     */
+    public CategoryListResponse getCategorys(int sessionId){
+        return null;
+    }
+
+    /**
+     * @author Marco
+     * @date 26.05.2015
+     * @param sessionId
+     * @param categoryId only necessary for update
+     * @param income
+     * @param active
+     * @param name
+     * @param notice
+     * @return
+     */
+    public CategoryResponse createOrUpdateCategory(int sessionId, int categoryId, boolean income, boolean active, String name, String notice, String colour)throws Exception{
+        CategoryResponse result = new CategoryResponse();
+        String METHOD_NAME = "createOrUpdateCategory";
+        SoapObject response = null;
+        try {
+            response = executeSoapAction(METHOD_NAME, sessionId, categoryId, income, active, name, notice, colour);
+            Log.d(TAG, response.toString());
+            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            if (tmp != 0) {
+                result.setReturnCode(tmp);
+                return result;
+            }
+            else {
+                throw new Exception("Create/Update category was not successful!");
+            }
+        } catch (SoapFault e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    /**
+     * @author Marco
+     * @date 26.05.2015
+     * @param sessionId
+     * @param categoryId
+     * @return
+     */
+    public ReturnCodeResponse deleteCategory(int sessionId, int categoryId){
+        return null;
+    }
+
+
+
+
+
+	/*#################      BASKET - SECTION     ##############*/
+
+    /**
+     * Gives a Response Object with all Baskets in a list
+     * @author Marco
+     * @date 19.05.2015
+     * @param sessionId
+     * @return BasketListResponse Object
+     */
+    public BasketListResponse getBaskets(int sessionId){
+        return null;
+    }
+
+    /**
+     * @author Marco
+     * @date 18.05.2015
+     * @param sessionId
+     * @param basketID
+     * @return Basket Object
+     */
+    public BasketResponse getBasket(int sessionId, int basketID){
+        return null;
+    }
+
+    /**
+     * TODO MARCO ITEM
+     * Method to create a basket
+     * @author Marco
+     * @date 26.05.2015
+     * @param sessionId
+     * @param basketId
+     * @param name
+     * @param notice
+     * @param amount
+     * @param purchaseDate
+     * @param paymentId
+     * @param vendorId
+     * @param items   List with items to add to the basket
+     * @return
+     */
+    public BasketResponse createOrUpdateBasket(int sessionId, int basketId, String name, String notice, double amount, Timestamp purchaseDate, int paymentId, int vendorId, List<ItemTO> items){
+        return null;
+    }
+
+    /**
+     * Method to delete a basket
+     * @author marco
+     * @date 26.05.2015
+     * @param sessionId
+     * @param basketID
+     * @return
+     */
+    public ReturnCodeResponse deleteBasket(int sessionId, int basketID){
+        return null;
+    }
+
+    /**
+     * Gibt die letzten Baskets als Liste zur�ck
+     * @author Marco
+     * @date 29.05.2015
+     * @param sessionId
+     * @param numberOfBaskets Anzahl der letzten auszugebenen Baskets
+     * @return BasketListResponse Object
+     */
+    public BasketListResponse getLastBaskets(int sessionId, int numberOfBaskets){
+        return null;
+    }
+
+    /**
+     * @author Marco
+     * @date 29.05.2015
+     * @param sessionId
+     * @param vendorId
+     * @return a list with all baskets of a vendor
+     */
+    public BasketListResponse getBasketsByVendor(int sessionId, int vendorId){
+        return null;
+    }
+
+    /**
+     * gets all baskets of the actual month
+     * @author Marco
+     * @param sessionId
+     * @return
+     */
+    public BasketListResponse getBasketsOfActualMonth(int sessionId){
+        return null;
+    }
+
+
+    /**
+     * gets all baskets of a specific payment
+     * @author Marco
+     * @date 29.05.2015
+     * @param sessionId
+     * @param paymentId
+     * @return
+     */
+    public BasketListResponse getBasketsByPayment(int sessionId, int paymentId){
+        return null;
+    }
+
+
+
+
+
+
+
+
+	/*#################      INCOME - SECTION     ##############*/
+
+    /**
+     * @author Marco
+     * @date 26.05.2015
+     * @param sessionId
+     * @param incomeId    only necessary for update
+     * @param name
+     * @param quantity
+     * @param amount
+     * @param notice
+     * @param period
+     * @param launchDate
+     * @param finishDate
+     * @param categoryId
+     * @return
+     */
+    public IncomeResponse createOrUpdateIncome(int sessionId, int incomeId, String name, double  quantity, double amount, String notice, int period, Timestamp launchDate, Timestamp finishDate, int categoryId){
+        return null;
+    }
+
+    //public int updateIncome(Customer income,int incomeID);
+
+    /**
+     * @author Marco
+     * @date 26.05.2015
+     * @param sessionId
+     * @param itemId
+     * @return
+     */
+    public IncomeResponse getIncome(int sessionId, int itemId){
+        return null;
+    }
+
+    /**
+     * Gibt die letzten Incomes als Liste zur�ck
+     * @author Marco
+     * @date 29.05.2015
+     * @param sessionId
+     * @param numberOfIncome
+     * @return IncomeListResponse
+     */
+    public IncomeListResponse getLastIncomes(int sessionId, int numberOfIncome){
+        return null;
+    }
+
+    /**
+     * gets all Incomes of a specific category for incomes
+     * @author Marco
+     * @date 29.05.2015
+     * @param sessionId
+     * @param categoryId
+     * @return
+     */
+    public IncomeListResponse getIncomesByCategory(int sessionId, int categoryId){
+        return null;
+    }
+
+
+    /**
+     * gets all income of the actual month
+     * @author Marco
+     * @param sessionId
+     * @return
+     */
+    public IncomeListResponse getIncomesOfActualMonth(int sessionId){
+        return null;
+    }
+
+
+    /**
+     * @author Marco
+     * @date 26.05.2015
+     * @param sessionId
+     * @param itemID
+     * @return
+     */
+    public ReturnCodeResponse deleteIncome(int sessionId, int itemID){
+        return null;
+    }
+
+
+
+
+
+
+
+
+	/*#################      ITEM - SECTION     ##############*/
+
+    /**
+     * @author Marco
+     * @date 26.05.2015
+     * @param sessionId
+     * @param itemId
+     * @param name
+     * @param quantity
+     * @param price
+     * @param notice
+     * @param period
+     * @param launchDate
+     * @param finishDate
+     * @param basketId
+     * @param categoryId
+     * @return
+     */
+    public ItemResponse createOrUpdateItem(int sessionId, int itemId, String name, double  quantity, double price, String notice, int period, Timestamp launchDate, Timestamp finishDate, int basketId, int categoryId){
+        return null;
+    }
+
+    /**
+     * @author Marco
+     * @date 26.05.2015
+     * @param sessionId
+     * @param lossId
+     * @return
+     */
+    public ReturnCodeResponse deleteItem(int sessionId, int lossId){
+        return null;
+    }
+
+    /**
+     * @author Marco
+     * @date 26.05.2015
+     * @param sessionId
+     * @param itemId
+     * @return
+     */
+    public ItemResponse getItemByBasket(int sessionId, int itemId, int basketId){
+        return null;
+    }
+
+    /**
+     * @author Marco
+     * @date 26.05.2015
+     * @param sessionId
+     * @param basketId
+     * @return
+     */
+    public ItemListResponse getItemsByBasket(int sessionId, int basketId){
+        return null;
+    }
+
+
+    /**
+     * gets all Items of a specific category for losses
+     * @author Marco
+     * @date 29.05.2015
+     * @param sessionId
+     * @param categoryId
+     * @return
+     */
+    public ItemListResponse getItemsByLossCategory(int sessionId, int categoryId){
+        return null;
+    }
+
+
+
+
+
+
+	/*#################      XYZ - SECTION     ##############*/
+
+    //public Map<Integer,Integer> getChart(int customerID);
+
+    //public int getBalance(int customerID);
+
+    /**
+     * @author Marco
+     * @date 26.05.2015
+     * @param sessionId
+     * @param daysOfPeriod
+     * @return
+     */
+    public AmountResponse getLossByPeriod(int sessionId, int daysOfPeriod){
+        return null;
+    }
+
+    /**
+     * @author Marco
+     * @date 26.05.2015
+     * @param sessionId
+     * @param daysOfPeriod
+     * @return
+     */
+    public AmountResponse getIncomeByPeriod(int sessionId, int daysOfPeriod){
+        return null;
+    }
+
+
+
 
 
     /**

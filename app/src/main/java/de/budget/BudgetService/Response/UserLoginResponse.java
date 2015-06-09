@@ -12,7 +12,6 @@ public class UserLoginResponse extends ReturnCodeResponse {
 	private int sessionId;
 	
 	public UserLoginResponse() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public int getSessionId() {
@@ -22,5 +21,4 @@ public class UserLoginResponse extends ReturnCodeResponse {
 	public void setSessionId(int sessionId) {
 		this.sessionId = sessionId;
 	}
-
 }

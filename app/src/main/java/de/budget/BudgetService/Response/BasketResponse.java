@@ -1,6 +1,7 @@
 package de.budget.BudgetService.Response;
 
-import de.budget.BudgetService.dto.BasketTO;
+
+		import de.budget.BudgetService.dto.BasketTO;
 
 /**
  * Class for the Basket response
