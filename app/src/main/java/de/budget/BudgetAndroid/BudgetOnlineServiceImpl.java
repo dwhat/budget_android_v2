@@ -32,6 +32,7 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -153,8 +154,8 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     /**
      * method to create a vendor
-     * @author Marco
-     * @date 26.05.2015
+     * @author Christopher
+     * @date 09.06.2015
      * @param sessionId
      * @param vendorId only necessary for update
      * @param name
@@ -266,18 +267,51 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
     }
 
     /**
-     * @author Marco
-     * @date 19.05.2015
+     * @author Christopher
+     * @date 09.06.2015
      * @param sessionId
      * @return CategoryListResponse Object
      */
-    public CategoryListResponse getCategorys(int sessionId){
-        return null;
+    public CategoryListResponse getCategorys(int sessionId) throws Exception{
+        CategoryListResponse result = new CategoryListResponse();
+        String METHOD_NAME = "getCategorys";
+        SoapObject response = null;
+        try {
+            response = executeSoapAction(METHOD_NAME, sessionId);
+            Log.d(TAG, response.toString() + response.getPropertyCount());
+
+            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            if (tmp == 200) {
+                result.setReturnCode(tmp);
+                ArrayList<CategoryTO> test = new ArrayList<>();
+                if (response.getPropertyCount() > 1) {
+                    for (int idx = 1; idx < response.getPropertyCount(); idx++) {
+                        SoapObject ListObject = (SoapObject) response.getProperty(idx);
+                        Log.d("INFO", "categoryList gefunden : " + ListObject.toString() + "Länge: " + ListObject.getPropertyCount());
+                        String name = ListObject.getPrimitivePropertySafelyAsString("name");
+                        CategoryTO tmp = new CategoryTO();
+                        tmp.setName(name);
+                        test.add(tmp);
+
+                    }
+                }
+
+                result.setCategoryList(test);
+
+                return result;
+            }
+            else {
+                throw new Exception("Create/Update category was not successful!");
+            }
+        } catch (SoapFault e) {
+            throw new Exception(e.getMessage());
+        }
+
     }
 
     /**
-     * @author Marco
-     * @date 26.05.2015
+     * @author Christopher
+     * @date 09.06.2015
      * @param sessionId
      * @param categoryId only necessary for update
      * @param income

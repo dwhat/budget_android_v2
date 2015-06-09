@@ -189,7 +189,7 @@ public interface BudgetOnlineService {
      * @param sessionId
      * @return CategoryListResponse Object
      */
-    public CategoryListResponse getCategorys(int sessionId);
+    public CategoryListResponse getCategorys(int sessionId) throws Exception;
 
     /**
      * @author Marco

@@ -1,9 +1,14 @@
 package de.budget.BudgetAndroid.Categories;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +16,17 @@ import android.support.v4.app.Fragment;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
+import de.budget.BudgetAndroid.BudgetAndroidApplication;
+import de.budget.BudgetAndroid.MainActivity;
+import de.budget.BudgetService.Response.CategoryListResponse;
+import de.budget.BudgetService.Response.CategoryResponse;
+import de.budget.BudgetService.dto.CategoryTO;
 import de.budget.R;
 
 
@@ -74,10 +89,17 @@ public class CategoryFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.fragment_category, container, false);
 
-        // Author Mark
-        // Createing Mock Objects
-        // TODO: Holen der Vendors vom Server
-        String[] categories = new String[] { "Haushalt","Sport","Sonstiges", "Luxus"};
+        // @Author Christopher
+        // 09.06.2015
+        // Abholen der Categorien
+        BudgetAndroidApplication myApp = (BudgetAndroidApplication) getActivity().getApplication();
+        List<CategoryTO> test = myApp.getCategories();
+        String[] categories = new String[test.size()];
+        for (int i=0; i< test.size(); i++){
+            categories[i] = test.get(i).getName();
+        }
+
+        //String[] categories = new String[] { "Haushalt","Sport","Sonstiges", "Luxus"};
 
         // Starten des Array Adapters
         ArrayAdapter<String> ArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, categories);
@@ -149,10 +171,7 @@ public class CategoryFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         public void onCategoriesMainFragmentInteraction(Uri uri);
     }
-
-
 
 }

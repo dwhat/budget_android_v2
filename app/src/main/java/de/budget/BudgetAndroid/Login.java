@@ -12,6 +12,8 @@ import android.view.View;
 import android.content.Intent;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import de.budget.BudgetService.Response.CategoryListResponse;
 import de.budget.BudgetService.Response.UserLoginResponse;
 import de.budget.R;
 import android.util.Log;
@@ -64,6 +66,8 @@ public class Login extends ActionBarActivity {
             if(networkInfo != null && networkInfo.isConnected()){
                 LoginTask loginTask = new LoginTask(this);
                 loginTask.execute(username, password);
+                getCategorysTask categorysTask = new getCategorysTask(this);
+                categorysTask.execute();
             }
             else {
                 CharSequence text = "Keine Netzwerkverbindung! :(";
@@ -155,4 +159,61 @@ public class Login extends ActionBarActivity {
             }
         }
     }
+
+    /*
+    * @author Christopher
+    * @date 09.06.2015
+    */
+    private class getCategorysTask extends AsyncTask<String, Integer, CategoryListResponse>
+    {
+        private Context context;
+
+        public getCategorysTask(Context context)
+        {
+            this.context = context;
+        }
+
+        @Override
+        protected CategoryListResponse doInBackground(String... params){
+            if(params.length != 0)
+                return null;
+
+            BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
+            try {
+                CategoryListResponse myCategorys = myApp.getBudgetOnlineService().getCategorys(myApp.getSession());
+                Integer rt =  myCategorys.getReturnCode();
+                Log.d("INFO", "Returncode: " + rt.toString());
+                return myCategorys;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onProgessUpdate(Integer... values)
+        {
+            //wird in diesem Beispiel nicht verwendet
+        }
+
+        protected void onPostExecute(CategoryListResponse result)
+        {
+            int duration = Toast.LENGTH_SHORT;
+            if(result != null)
+            {
+                //erfolgreich eingeloggt
+                if (result.getReturnCode() == 200){
+
+                    BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
+                    myApp.setCategories(result.getCategoryList());
+                    Log.d("INFO", "KategorieListe erfolgreich angelegt.");
+                }
+            }
+            else
+            {
+                Log.d("INFO", "Kategorien konnten nicht geladen werden.");
+
+            }
+        }
+    }
+
 }
