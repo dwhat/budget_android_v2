@@ -1,10 +1,14 @@
 package de.budget.BudgetAndroid;
 
 import android.app.Application;
+import android.content.Context;
+import android.net.ConnectivityManager;
+
 import de.budget.BudgetService.BudgetOnlineService;
 
 /**
- * Created by christopher on 01.06.15.
+ * @Author Christopher
+ * @date 01.06.2015
  */
 public class BudgetAndroidApplication extends Application{
     private int sessionId;
@@ -25,6 +29,7 @@ public class BudgetAndroidApplication extends Application{
     public BudgetOnlineService getBudgetOnlineService() {
         return this.budgetOnlineService;
     }
+
 
     @Override
     public void onTerminate() {

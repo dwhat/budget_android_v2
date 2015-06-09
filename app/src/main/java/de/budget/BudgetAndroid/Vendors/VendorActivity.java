@@ -2,6 +2,8 @@ package de.budget.BudgetAndroid.Vendors;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -60,8 +62,9 @@ public class VendorActivity extends ActionBarActivity {
     }
     /*
      * Methode zum speichern des Objekts
+     * @author Christopher
+     * @date 09.06.2015
      */
-    @Author(name="Christopher")
     public void save(View v) {
         //TODO Die eingengeben Werte an den Server schicken
         Toast.makeText(this, "Speichern", Toast.LENGTH_SHORT).show();
@@ -75,9 +78,18 @@ public class VendorActivity extends ActionBarActivity {
 
         if(!"".equals(vendorName) && !"".equals(vendorAddress))
         {
-            createOrUpdateVendorTask task = new createOrUpdateVendorTask(this);
-            //Proxy asynchron aufrufen
-            task.execute(vendorName, vendorAddress);
+            ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+            if(networkInfo != null && networkInfo.isConnected()){
+                createOrUpdateVendorTask task = new createOrUpdateVendorTask(this);
+                task.execute(vendorName, vendorAddress);
+            }
+            else {
+                CharSequence text = "Keine Netzwerkverbindung! :(";
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(this, text, duration);
+                toast.show();
+            }
         }
         else
         {
@@ -92,7 +104,7 @@ public class VendorActivity extends ActionBarActivity {
 
     /*
     * @author Christopher
-    * @date 08.06.2015
+    * @date 09.06.2015
     */
     private class createOrUpdateVendorTask extends AsyncTask<String, Integer, VendorResponse>
     {

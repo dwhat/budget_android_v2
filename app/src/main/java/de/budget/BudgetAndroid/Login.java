@@ -1,6 +1,8 @@
 package de.budget.BudgetAndroid;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -15,7 +17,8 @@ import de.budget.R;
 import android.util.Log;
 
 /**
- * Created by christopher on 01.06.15.
+ * @author christopher
+ * @date 01.06,2015
  */
 public class Login extends ActionBarActivity {
 
@@ -56,9 +59,18 @@ public class Login extends ActionBarActivity {
 
         if(!"".equals(username) && !"".equals(password))
         {
-            LoginTask loginTask = new LoginTask(this);
-            //Proxy asynchron aufrufen
-            loginTask.execute(username, password);
+            ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+            if(networkInfo != null && networkInfo.isConnected()){
+                LoginTask loginTask = new LoginTask(this);
+                loginTask.execute(username, password);
+            }
+            else {
+                CharSequence text = "Keine Netzwerkverbindung! :(";
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(this, text, duration);
+                toast.show();
+            }
         }
         else
         {

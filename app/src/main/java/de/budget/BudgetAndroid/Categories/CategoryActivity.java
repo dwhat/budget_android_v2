@@ -2,6 +2,8 @@ package de.budget.BudgetAndroid.Categories;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -83,12 +85,20 @@ public class CategoryActivity extends ActionBarActivity {
         String categoryNotice = radioButton.getText().toString();
         String categoryColor = "gelb";
 
-        Log.d("INFO", incomeOrLoss);
         if(!"".equals(categoryName) && !"".equals(incomeOrLoss))
         {
-            createOrUpdateCategoryTask task = new createOrUpdateCategoryTask(this);
-            //Proxy asynchron aufrufen
-            task.execute(incomeOrLoss, categoryName, categoryNotice, categoryColor);
+            ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+            if(networkInfo != null && networkInfo.isConnected()){
+                createOrUpdateCategoryTask task = new createOrUpdateCategoryTask(this);
+                task.execute(incomeOrLoss, categoryName, categoryNotice, categoryColor);
+            }
+            else {
+                CharSequence text = "Keine Netzwerkverbindung! :(";
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(this, text, duration);
+                toast.show();
+            }
         }
         else
         {

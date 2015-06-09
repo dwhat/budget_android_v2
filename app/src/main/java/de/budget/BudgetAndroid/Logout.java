@@ -1,8 +1,11 @@
 package de.budget.BudgetAndroid;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -45,11 +48,21 @@ public class Logout extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LogoutTask logoutTask = new LogoutTask(context);
-        //Proxy asynchron aufrufen
-        BudgetAndroidApplication myApp = (BudgetAndroidApplication) getActivity().getApplication();
-        int sessionId = myApp.getSession();
-        logoutTask.execute(sessionId);
+
+        ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if(networkInfo != null && networkInfo.isConnected()){
+            LogoutTask logoutTask = new LogoutTask(context);
+            BudgetAndroidApplication myApp = (BudgetAndroidApplication) getActivity().getApplication();
+            int sessionId = myApp.getSession();
+            logoutTask.execute(sessionId);
+        }
+        else {
+            CharSequence text = "Keine Netzwerkverbindung! :(";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(getActivity().getBaseContext(), text, duration);
+            toast.show();
+        }
     }
 
     @Override
