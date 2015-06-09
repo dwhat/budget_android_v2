@@ -43,6 +43,14 @@
         <item>@drawable/ic_logout_w</item>
     </string-array>
 
+    <!-- Labels -->
+    <string name="notice">Notiz</string>
+    <string name="name">Name</string>
+    <string name="type">Typ</string>
+    <string name="address">Anschrift</string>
+    <string name="amount">Wert</string>
+    <string name="quantity">Anzahl</string>
+
     <!-- Login Activity -->
     <string name="title_activity_login">Login</string>
     <string name="username">Username</string>
@@ -65,7 +73,8 @@
     <!-- Income Activity -->
     <string name="title_activity_income">Einnahme</string>
     <string name="income_name">Name</string>
-    <string name="income_value">Wert</string>
+    <string name="income_amount">Wert</string>
+    <string name="income_quantity">Anzahl</string>
 
     <!-- Vendor Activity -->
     <string name="title_activity_vendor">Händler</string>
@@ -75,6 +84,7 @@
     <!-- Category Activity -->
     <string name="title_activity_category">Kategorie</string>
     <string name="category_name">Kategorie</string>
+    <string name="category_type">Typ</string>
 
     <!-- Radio Buttons -->
     <string name="rb_income">Einnahme</string>

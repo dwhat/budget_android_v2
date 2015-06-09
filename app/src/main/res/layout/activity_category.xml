@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/category_name"
+            android:text="@string/name"
             android:id="@+id/label_category_name" />
 
         <EditText
@@ -28,17 +28,19 @@
             style="@style/EditTextBasic" />
 
 
-        <Spinner
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/category_name"
-            android:id="@+id/spinner3" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/type"
+            android:id="@+id/label_category_type" />
 
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/spinner3"
-            android:layout_centerHorizontal="true">
+            android:orientation="horizontal"
+            android:id="@+id/category_type">
 
             <RadioButton
                 android:text="@string/rb_income"
@@ -52,6 +54,23 @@
 
         </RadioGroup>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/notice"
+            android:id="@+id/label_category_notice"
+            android:layout_below="@+id/rb_group"
+             />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/category_notice"
+            android:layout_below="@+id/category_notice" />
+
     </LinearLayout>
 
     <ImageButton
@@ -59,5 +78,7 @@
         android:id="@+id/imageButton"
         android:onClick="save"
         style="@style/fab" />
+
+
 
 </RelativeLayout>
