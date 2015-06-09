@@ -3,11 +3,15 @@ package de.budget.BudgetAndroid.Loss;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.io.ByteArrayInputStream;
+import java.io.ObjectInputStream;
 
 import de.budget.BudgetAndroid.Annotations.Author;
 import de.budget.R;
@@ -21,8 +25,10 @@ public class LossActivity extends ActionBarActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            String name = bundle.getString("LOSS_NAME");
+            String name = bundle.getString(Item.NAME);
+            Log.d(this.getClass().toString(), name);
             EditText editText = (EditText) findViewById(R.id.loss_name);
+            Log.d(this.getClass().toString(), editText.toString());
             editText.setText(name);
         }
     }

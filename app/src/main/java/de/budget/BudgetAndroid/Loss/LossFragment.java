@@ -12,6 +12,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import de.budget.R;
 
 
@@ -69,19 +76,28 @@ public class LossFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_loss, container, false);
 
         // Author Mark
         // Createing Mock Objects
         // TODO: Holen der Vendors vom Server
-        String[] loss = new String[] { "Einkauf 1","Einkauf 2","Einkauf 3", "Einkauf 4"};
+        ArrayList <HashMap<String, String>> array = new ArrayList ();
+
+        HashMap<String, String> firstItem = new HashMap();
+        firstItem.put(Item.NAME,"Erstes Item");
+        firstItem.put(Item.CATEGORY, "Haushalt");
+        firstItem.put(Item.NOTICE, "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam");
+        firstItem.put(Item.AMOUNT, "2 x ");
+        firstItem.put(Item.VALUE, "0.50€");
+        firstItem.put(Item.TOTAL, "1.00€");
+
+        array.add(firstItem);
 
         // Starten des Array Adapters
-        ArrayAdapter<String> ArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, loss);
-
+        ItemArrayAdapter ArrayAdapter = new ItemArrayAdapter (getActivity(), R.layout.item_listview, array);
         // Listview ermitteln
         listView = (ListView)rootView.findViewById(R.id.listView_loss);
 
@@ -99,12 +115,15 @@ public class LossFragment extends Fragment {
                 // Bundle anlegen
                 Bundle bundle = new Bundle ();
                 int itemPosition     = position;
-                String  itemValue    = (String) listView.getItemAtPosition(position);
+                HashMap  item  = (HashMap) listView.getItemAtPosition(position);
 
-                // Setzte im Bundle das Objekt
-                bundle.putString("LOSS_NAME", itemValue);
+                bundle.putString(Item.NAME,     (String) item.get(Item.NAME));
+                bundle.putString(Item.CATEGORY, (String) item.get(Item.CATEGORY));
+                bundle.putString(Item.NOTICE,   (String) item.get(Item.NOTICE));
+                bundle.putString(Item.AMOUNT,   (String) item.get(Item.AMOUNT));
+                bundle.putString(Item.VALUE,    (String) item.get(Item.VALUE));
+                bundle.putString(Item.TOTAL,    (String) item.get(Item.TOTAL));
 
-                // Übergebe das Objekt an den Intent
                 intent.putExtras(bundle);
 
                 startActivity(intent);
