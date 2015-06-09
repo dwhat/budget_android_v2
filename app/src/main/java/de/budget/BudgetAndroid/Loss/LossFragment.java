@@ -87,17 +87,15 @@ public class LossFragment extends Fragment {
         ArrayList <HashMap<String, String>> array = new ArrayList ();
 
         HashMap<String, String> firstItem = new HashMap();
-        firstItem.put(Item.NAME,"Erstes Item");
-        firstItem.put(Item.CATEGORY, "Haushalt");
-        firstItem.put(Item.NOTICE, "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam");
-        firstItem.put(Item.AMOUNT, "2 x ");
-        firstItem.put(Item.VALUE, "0.50€");
-        firstItem.put(Item.TOTAL, "1.00€");
+        firstItem.put(Loss.NAME,"Erstes Item");
+        firstItem.put(Loss.DATE, "30.06.1992");
+        firstItem.put(Loss.NOTICE, "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam");
+        firstItem.put(Loss.TOTAL, "1.00€");
 
         array.add(firstItem);
 
         // Starten des Array Adapters
-        ItemArrayAdapter ArrayAdapter = new ItemArrayAdapter (getActivity(), R.layout.item_listview, array);
+        LossArrayAdapter ArrayAdapter = new LossArrayAdapter (getActivity(), R.layout.loss_listview, array);
         // Listview ermitteln
         listView = (ListView)rootView.findViewById(R.id.listView_loss);
 
@@ -114,15 +112,13 @@ public class LossFragment extends Fragment {
 
                 // Bundle anlegen
                 Bundle bundle = new Bundle ();
-                int itemPosition     = position;
-                HashMap  item  = (HashMap) listView.getItemAtPosition(position);
+                int itemPosition        = position;
+                HashMap  item           = (HashMap) listView.getItemAtPosition(position);
 
-                bundle.putString(Item.NAME,     (String) item.get(Item.NAME));
-                bundle.putString(Item.CATEGORY, (String) item.get(Item.CATEGORY));
-                bundle.putString(Item.NOTICE,   (String) item.get(Item.NOTICE));
-                bundle.putString(Item.AMOUNT,   (String) item.get(Item.AMOUNT));
-                bundle.putString(Item.VALUE,    (String) item.get(Item.VALUE));
-                bundle.putString(Item.TOTAL,    (String) item.get(Item.TOTAL));
+                bundle.putString(Loss.NAME,     (String) item.get(Loss.NAME));
+                bundle.putString(Loss.DATE,     (String) item.get(Loss.DATE));
+                bundle.putString(Loss.NOTICE,   (String) item.get(Loss.NOTICE));
+                bundle.putString(Loss.TOTAL,    (String) item.get(Loss.TOTAL));
 
                 intent.putExtras(bundle);
 
