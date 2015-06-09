@@ -116,7 +116,7 @@ public class Login extends ActionBarActivity {
             if(result != null)
             {
                 //erfolgreich eingeloggt
-                if (result.getReturnCode() == 0){
+                if (result.getReturnCode() == 200){
 
                     BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
                     myApp.setSession(result.getSessionId());
@@ -127,6 +127,7 @@ public class Login extends ActionBarActivity {
                     toast.show();
                     //Nächste Activity anzeigen
                     Intent intent = new Intent(context, MainActivity.class);
+                    intent.putExtra(MainActivity.FRAGMENT_NAVIGATION,0);
                     startActivity(intent);
                 }
             }

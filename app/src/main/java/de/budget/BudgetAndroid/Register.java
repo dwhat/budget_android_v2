@@ -112,7 +112,7 @@ public class Register extends ActionBarActivity {
             if(result != null)
             {
                 //erfolgreich eingeloggt
-                if (result.getReturnCode() == 0){
+                if (result.getReturnCode() == 200){
 
                     BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
                     myApp.setSession(result.getSessionId());
@@ -123,12 +123,27 @@ public class Register extends ActionBarActivity {
                     toast.show();
                     //Nächste Activity anzeigen
                     Intent intent = new Intent(context, MainActivity.class);
+                    intent.putExtra(MainActivity.FRAGMENT_NAVIGATION,0);
                     startActivity(intent);
+                }
+                else if(result.getReturnCode() == 409){
+                    CharSequence text = "Registrierung fehlgeschlagen, User bereits vorhanden!";
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+                else if(result.getReturnCode() == 500){
+                    CharSequence text = "Registrierung fehlgeschlagen, Passwort zu kurz!";
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+                else{
+                    CharSequence text = "Registrierung fehlgeschlagen!123123";
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
                 }
             }
             else
             {
-                //Toast anzeigen
                 CharSequence text = "Registrierung fehlgeschlagen!";
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();

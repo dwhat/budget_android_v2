@@ -66,27 +66,29 @@ public class CategoryActivity extends ActionBarActivity {
 
     /*
      * Methode zum speichern des Objekts
+     * @author Christopher
+     * @date 08.06.2015
      */
-    @Author(name="Mark")
     public void save(View v) {
         Toast.makeText(this, "Speichern", Toast.LENGTH_SHORT).show();
 
-        // Start Async Task
-        // @author Christopher
-        // @date 08.06.2015
         EditText txtCategoryName = (EditText) findViewById(R.id.category_name);
-        RadioGroup rgIncomeOrLoss =(RadioGroup)findViewById(R.id.category_group);
+        EditText txtCategoryNotice = (EditText) findViewById(R.id.category_notice);
+        RadioGroup rgIncomeOrLoss =(RadioGroup)findViewById(R.id.category_type);
         RadioButton radioButton = (RadioButton) this.findViewById(rgIncomeOrLoss.getCheckedRadioButtonId());
         // TODO Spinner?!
 
         String categoryName = txtCategoryName.getText().toString();
         String incomeOrLoss = radioButton.getText().toString();
+        String categoryNotice = radioButton.getText().toString();
+        String categoryColor = "gelb";
 
+        Log.d("INFO", incomeOrLoss);
         if(!"".equals(categoryName) && !"".equals(incomeOrLoss))
         {
             createOrUpdateCategoryTask task = new createOrUpdateCategoryTask(this);
             //Proxy asynchron aufrufen
-            task.execute(categoryName, incomeOrLoss);
+            task.execute(incomeOrLoss, categoryName, categoryNotice, categoryColor);
         }
         else
         {
@@ -114,27 +116,20 @@ public class CategoryActivity extends ActionBarActivity {
 
         @Override
         protected CategoryResponse doInBackground(String... params){
-            if(params.length != 3)
+            if(params.length != 4)
                 return null;
-            String incomeOrLossString = params[0];
-            String categoryActiveString = params[1];
-            String categoryName = params[2];
-            String categoryNotice = params[3];
-            String categoryColour = params[4];
+            String incomeOrLossString = params[0];;
+            String categoryName = params[1];
+            String categoryNotice = params[2];
+            String categoryColour = params[3];
 
-            Boolean incomeOrLoss, categoryActive;
+            Boolean incomeOrLoss, categoryActive = true;
 
-            if ("income".equals(incomeOrLossString)) {
+            if ("Einnahme".equals(incomeOrLossString)) {
                 incomeOrLoss = true;
             }
             else{
                 incomeOrLoss = false;
-            }
-            if ("active".equals(categoryActiveString)){
-                categoryActive = true;
-            }
-            else{
-                categoryActive = false;
             }
 
             BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();

@@ -47,7 +47,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     private static final String TAG = BudgetOnlineServiceImpl.class.getName();
 
-    private int tmp;
+    private int tmp, rt;
 
     @Override
     public UserLoginResponse setUser(String username, String password, String email) throws  Exception{
@@ -57,13 +57,16 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
         try {
             response = executeSoapAction(METHOD_NAME, username, password, email);
             Log.d(TAG, response.toString());
-            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("sessionId"));
-            if (tmp != 0) {
+            rt = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            if (rt == 200) {
+                tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("sessionId"));
                 result.setSessionId(tmp);
                 return result;
             }
             else {
-                throw new Exception("Registration not successful!");
+                tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+                result.setReturnCode(tmp);
+                return result;
             }
         } catch (SoapFault e) {
             throw new Exception(e.getMessage());
@@ -158,8 +161,24 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @param logo (base64 String)
      * @return
      */
-    public VendorResponse createOrUpdateVendor(int sessionId, int vendorId, String name, String logo){
-        return null;
+    public VendorResponse createOrUpdateVendor(int sessionId, int vendorId, String name, String logo) throws Exception{
+        VendorResponse result = new VendorResponse();
+        String METHOD_NAME = "createOrUpdateVendor";
+        SoapObject response = null;
+        try {
+            response = executeSoapAction(METHOD_NAME, sessionId, vendorId, name, logo);
+            Log.d(TAG, response.toString());
+            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            if (tmp != 0) {
+                result.setReturnCode(tmp);
+                return result;
+            }
+            else {
+                throw new Exception("Create/Update vendor was not successful!");
+            }
+        } catch (SoapFault e) {
+            throw new Exception(e.getMessage());
+        }
     }
 
     /**

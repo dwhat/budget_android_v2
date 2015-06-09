@@ -109,7 +109,7 @@ public interface BudgetOnlineService {
      * @param logo (base64 String)
      * @return
      */
-    public VendorResponse createOrUpdateVendor(int sessionId, int vendorId, String name, String logo);
+    public VendorResponse createOrUpdateVendor(int sessionId, int vendorId, String name, String logo) throws Exception;
 
     /**
      * Method to delete a vendor
