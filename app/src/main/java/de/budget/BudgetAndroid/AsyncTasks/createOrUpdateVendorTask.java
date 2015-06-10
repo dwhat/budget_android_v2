@@ -19,11 +19,14 @@ public class createOrUpdateVendorTask extends AsyncTask<String, Integer, VendorR
 {
     private Context context;
     private static VendorActivity activity;
+    public static MainActivity nextActivity = new MainActivity();
+    private static BudgetAndroidApplication myApp;
 
-    public createOrUpdateVendorTask(Context context, VendorActivity pActivity)
+    public createOrUpdateVendorTask(Context context, BudgetAndroidApplication myApp, VendorActivity pActivity)
     {
         this.context = context;
         this.activity = pActivity;
+        this.myApp = myApp;
     }
 
     @Override
@@ -37,8 +40,6 @@ public class createOrUpdateVendorTask extends AsyncTask<String, Integer, VendorR
         String vendorCity = params[4];
         String vendorId = params[5];
 
-
-        BudgetAndroidApplication myApp = (BudgetAndroidApplication) activity.getApplication();
         try {
             VendorResponse myVendor = myApp.getBudgetOnlineService().createOrUpdateVendor(myApp.getSession(), Integer.parseInt(vendorId), vendorName, "",  vendorStreet, vendorCity, Integer.parseInt(vendorPlz), Integer.parseInt(vendorNr) );
             Integer rt =  myVendor.getReturnCode();
@@ -64,6 +65,8 @@ public class createOrUpdateVendorTask extends AsyncTask<String, Integer, VendorR
             if (result.getReturnCode() == 200){
 
                 Log.d("INFO", "Händler erfolgreich angelegt.");
+                // Update der alten Liste
+                myApp.checkVendorsList(result.getVendorTo());
                 //Toast anzeigen
                 CharSequence text = "Händler gespeichert!";
                 Toast toast = Toast.makeText(context, text, duration);

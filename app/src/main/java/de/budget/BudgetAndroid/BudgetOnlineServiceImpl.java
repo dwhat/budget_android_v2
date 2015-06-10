@@ -208,10 +208,21 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
         SoapObject response = null;
         try {
             response = executeSoapAction(METHOD_NAME, sessionId, vendorId, name, logo, street, city, PLZ, houseNumber);
-            Log.d(TAG, response.toString());
+            Log.d(TAG, "Response: " + response.toString());
+            Log.d(TAG, "Response: " + response.getPropertyCount());
             tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            SoapObject test= (SoapObject) response.getProperty(1);
+            int id = Integer.parseInt(test.getPrimitivePropertySafelyAsString("id"));
             if (tmp != 0) {
                 result.setReturnCode(tmp);
+                VendorTO vendor = new VendorTO();
+                vendor.setName(name);
+                vendor.setId(id);
+                vendor.setStreet(street);
+                vendor.setHouseNumber(houseNumber);
+                vendor.setPLZ(PLZ);
+                vendor.setCity(city);
+                result.setVendorTo(vendor);
                 return result;
             }
             else {
@@ -380,8 +391,18 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
             response = executeSoapAction(METHOD_NAME, sessionId, categoryId, income, active, name, notice, colour);
             Log.d(TAG, response.toString());
             tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            SoapObject test= (SoapObject) response.getProperty(1);
+            int id = Integer.parseInt(test.getPrimitivePropertySafelyAsString("id"));
             if (tmp != 0) {
                 result.setReturnCode(tmp);
+                CategoryTO category = new CategoryTO();
+                category.setName(name);
+                category.setId(id);
+                category.setIncome(income);
+                category.setActive(active);
+                category.setNotice(notice);
+                category.setColour(colour);
+                result.setCategoryTo(category);
                 return result;
             }
             else {

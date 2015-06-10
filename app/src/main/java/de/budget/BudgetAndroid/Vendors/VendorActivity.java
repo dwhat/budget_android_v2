@@ -113,7 +113,8 @@ public class VendorActivity extends ActionBarActivity {
             ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
             if(networkInfo != null && networkInfo.isConnected()){
-                createOrUpdateVendorTask task = new createOrUpdateVendorTask(this,this);
+                BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
+                createOrUpdateVendorTask task = new createOrUpdateVendorTask(this, myApp,this);
                 task.execute(vendorName, vendorStreet, vendorNr, vendorPlz, vendorCity , vendorId);
             }
             else {

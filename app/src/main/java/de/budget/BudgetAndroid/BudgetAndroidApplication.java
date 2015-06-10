@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.budget.BudgetAndroid.Vendors.VendorsFragment;
 import de.budget.BudgetService.BudgetOnlineService;
 import de.budget.BudgetService.Response.CategoryListResponse;
 import de.budget.BudgetService.dto.CategoryTO;
@@ -52,6 +53,42 @@ public class BudgetAndroidApplication extends Application{
 
     public List<VendorTO> getVendors(){
         return this.vendors;
+    }
+
+    public void addToVendors(VendorTO vendor) {
+        this.vendors.add(vendor);
+    }
+
+    public void addToCategories(CategoryTO category) {
+        this.categories.add(category);
+    }
+
+    public void checkVendorsList(VendorTO newVendor){
+        boolean found = false;
+        for(int i=0; i<vendors.size();i++){
+            if(vendors.get(i).getId() == newVendor.getId()) {
+                vendors.remove(i);
+                vendors.add(newVendor);
+                found = true;
+            }
+        }
+        if(!found){
+            vendors.add(newVendor);
+        }
+    }
+
+    public void checkCategoriesList(CategoryTO newCategory){
+        boolean found = false;
+        for(int i=0; i<categories.size();i++){
+            if(categories.get(i).getId() == newCategory.getId()) {
+                categories.remove(i);
+                categories.add(newCategory);
+                found = true;
+            }
+        }
+        if(!found){
+            categories.add(newCategory);
+        }
     }
 
 

@@ -116,7 +116,8 @@ public class CategoryActivity extends ActionBarActivity {
             ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
             if(networkInfo != null && networkInfo.isConnected()){
-                createOrUpdateCategoryTask task = new createOrUpdateCategoryTask(this, this);
+                BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
+                createOrUpdateCategoryTask task = new createOrUpdateCategoryTask(this,myApp, this);
                 task.execute(incomeOrLoss, categoryName, categoryNotice, categoryColor, categoryId);
             }
             else {

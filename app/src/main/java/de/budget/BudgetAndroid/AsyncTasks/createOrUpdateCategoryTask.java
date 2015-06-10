@@ -19,11 +19,14 @@ public class createOrUpdateCategoryTask extends AsyncTask<String, Boolean, Categ
 {
         private Context context;
         private static CategoryActivity activity;
+        public static MainActivity nextActivity = new MainActivity();
+        private static BudgetAndroidApplication myApp;
 
-        public createOrUpdateCategoryTask(Context context, CategoryActivity pActivity)
+        public createOrUpdateCategoryTask(Context context, BudgetAndroidApplication myApp, CategoryActivity pActivity)
         {
             this.context = context;
             this.activity = pActivity;
+            this.myApp = myApp;;
         }
 
         @Override
@@ -45,7 +48,6 @@ public class createOrUpdateCategoryTask extends AsyncTask<String, Boolean, Categ
                 incomeOrLoss = false;
             }
 
-            BudgetAndroidApplication myApp = (BudgetAndroidApplication) activity.getApplication();
             try {
                 CategoryResponse myCategory = myApp.getBudgetOnlineService().createOrUpdateCategory(myApp.getSession(), Integer.parseInt(categoryId), incomeOrLoss, categoryActive, categoryName, categoryNotice, categoryColour);
                 Integer rt =  myCategory.getReturnCode();
@@ -69,8 +71,9 @@ public class createOrUpdateCategoryTask extends AsyncTask<String, Boolean, Categ
             {
                 //erfolgreich eingeloggt
                 if (result.getReturnCode() == 200){
-
                     Log.d("INFO", "Kategorie erfolgreich angelegt.");
+                    // Update der alten Liste
+                    myApp.checkCategoriesList(result.getCategoryTo());
                     //Toast anzeigen
                     CharSequence text = "Kategorie gespeichert!";
                     Toast toast = Toast.makeText(context, text, duration);
