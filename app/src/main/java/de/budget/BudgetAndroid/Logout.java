@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import de.budget.BudgetService.Response.ReturnCodeResponse;
+import de.budget.BudgetAndroid.AsyncTasks.LogoutTask;
 
 import de.budget.R;
 
@@ -52,8 +53,8 @@ public class Logout extends Fragment {
         ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if(networkInfo != null && networkInfo.isConnected()){
-            LogoutTask logoutTask = new LogoutTask(context);
             BudgetAndroidApplication myApp = (BudgetAndroidApplication) getActivity().getApplication();
+            LogoutTask logoutTask = new LogoutTask(context, myApp, this);
             int sessionId = myApp.getSession();
             logoutTask.execute(sessionId);
         }
@@ -110,58 +111,6 @@ public class Logout extends Fragment {
         public void onLogoutFragmentInteraction(Uri uri);
     }
 
-    private class LogoutTask extends AsyncTask<Integer, Integer, ReturnCodeResponse>
-    {
-        private Context context;
 
-        //Dem Konstruktor der Klasse wird der aktuelle Kontext der Activity übergeben
-        //damit auf die UI-Elemente zugegriffen werden kann und Intents gestartet werden können, usw.
-        public LogoutTask(Context context)
-        {
-            this.context = context;
-        }
-
-        @Override
-        protected ReturnCodeResponse doInBackground(Integer... params){
-            if(params.length != 1)
-                return null;
-            int sessionId = params[0];
-            BudgetAndroidApplication myApp = (BudgetAndroidApplication) getActivity().getApplication();
-            try {
-                ReturnCodeResponse myUser = myApp.getBudgetOnlineService().logout(sessionId);
-                Integer rt = myUser.getReturnCode();
-                Log.d("INFO", rt.toString());
-                return myUser;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        protected void onProgessUpdate(Integer... values)
-        {
-            //wird in diesem Beispiel nicht verwendet
-        }
-
-        protected void onPostExecute(ReturnCodeResponse result)
-        {
-            int duration = Toast.LENGTH_SHORT;
-            if(result != null)
-            {
-                //erfolgreich eingeloggt
-                if (result.getReturnCode() == 200){
-
-                    BudgetAndroidApplication myApp = (BudgetAndroidApplication) getActivity().getApplication();
-                    myApp.setSession(0);
-                    Intent intent = new Intent(getActivity().getBaseContext(), Login.class);
-                    startActivity(intent);
-                }
-            }
-            else
-            {
-
-            }
-        }
-    }
 
 }

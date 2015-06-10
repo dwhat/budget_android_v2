@@ -53,6 +53,19 @@
     </LinearLayout>
 
 
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/item_asd"
+        android:gravity="bottom"
+        android:layout_gravity="bottom"
+        android:hint="@string/article_value"
+        android:singleLine="true"
+        android:imeOptions="actionDone"
+        android:layout_weight="0.1"/>
+
 
 
     <LinearLayout
@@ -116,7 +129,8 @@
             android:layout_gravity="bottom|right"
             android:layout_weight="0.1"
             android:src="@drawable/ic_done_w"
-            android:contentDescription="Speichern" />
+            android:background="@color/ColorPrimaryDark"
+             />
 
 
     </LinearLayout>

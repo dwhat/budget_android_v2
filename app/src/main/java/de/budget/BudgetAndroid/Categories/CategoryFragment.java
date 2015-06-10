@@ -100,8 +100,6 @@ public class CategoryFragment extends Fragment {
             categories[i] = test.get(i).getName();
         }
 
-        //String[] categories = new String[] { "Haushalt","Sport","Sonstiges", "Luxus"};
-
         // Starten des Array Adapters
         ArrayAdapter<String> ArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, categories);
 
@@ -121,11 +119,10 @@ public class CategoryFragment extends Fragment {
 
                 // Bundle anlegen
                 Bundle bundle = new Bundle ();
-                int itemPosition     = position;
                 String  itemValue    = (String) listView.getItemAtPosition(position);
 
                 // Setzte im Bundle das Objekt
-                bundle.putString("CATEGORY_NAME", itemValue);
+                bundle.putInt("CATEGORY_POSITION", position);
 
                 // Übergebe das Objekt an den Intent
                 intent.putExtras(bundle);

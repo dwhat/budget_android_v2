@@ -3,8 +3,8 @@ package de.budget.BudgetAndroid.Loss;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
@@ -38,11 +38,6 @@ public class LossActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loss);
 
-
-//        editTextItemName    = (EditText) findViewById(R.layout.item_name);
-//        editTextItemAmount  = (EditText) findViewById(R.layout.item_amount);
-//        editTextItemValue   = (EditText) findViewById(R.layout.item_value);
-//        spinnerCategory     = (Spinner)  findViewById(R.layout.item_category);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {

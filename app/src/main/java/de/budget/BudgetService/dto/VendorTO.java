@@ -2,17 +2,25 @@ package de.budget.BudgetService.dto;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-
+/**
+ * Class for the DTO-Objects of a vendor
+ * @author Marco
+ *
+ */
 public class VendorTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	private int id; 
+
+	private int id;
 	private String name;
-	private Timestamp createDate;
-	private Timestamp lastChanged;
+	private long createDate;
+	private long lastChanged;
 	private UserTO user;
 	private String logo;
+	private String street;
+	private String city;
+	private int PLZ;
+	private int houseNumber;
 
 	/**
 	 * Deafault Constructor
@@ -20,9 +28,9 @@ public class VendorTO implements Serializable {
 	 * @date 19.05.2015
 	 */
 	public VendorTO() {
-		
+
 	}
-	
+
 	/**
 	 * Constructor
 	 * @author Marco
@@ -34,13 +42,17 @@ public class VendorTO implements Serializable {
 	 * @param user
 	 * @param logo
 	 */
-	public VendorTO(int id, String name, Timestamp createDate, Timestamp lastChanged, UserTO user, String logo) {
+	public VendorTO(int id, String name, long createDate, long lastChanged, UserTO user, String logo, String street, String city, int PLZ, int houseNumber) {
 		this.id = id;
 		this.name = name;
 		this.createDate = createDate;
 		this.lastChanged = lastChanged;
 		this.user = user;
 		this.logo = logo;
+		this.street = street;
+		this.houseNumber = houseNumber;
+		this.city = city;
+		this.PLZ = PLZ;
 	}
 
 	/**
@@ -79,39 +91,33 @@ public class VendorTO implements Serializable {
 		this.name = name;
 	}
 
+
+
 	/**
-	 * @author Marco
-	 * @date 19.05.2015
 	 * @return the createDate
 	 */
-	public Timestamp getCreateDate() {
+	public long getCreateDate() {
 		return createDate;
 	}
 
 	/**
-	 * @author Marco
-	 * @date 19.05.2015
 	 * @param createDate the createDate to set
 	 */
-	public void setCreateDate(Timestamp createDate) {
+	public void setCreateDate(long createDate) {
 		this.createDate = createDate;
 	}
 
 	/**
-	 * @author Marco
-	 * @date 19.05.2015
 	 * @return the lastChanged
 	 */
-	public Timestamp getLastChanged() {
+	public long getLastChanged() {
 		return lastChanged;
 	}
 
 	/**
-	 * @author Marco
-	 * @date 19.05.2015
 	 * @param lastChanged the lastChanged to set
 	 */
-	public void setLastChanged(Timestamp lastChanged) {
+	public void setLastChanged(long lastChanged) {
 		this.lastChanged = lastChanged;
 	}
 
@@ -149,5 +155,61 @@ public class VendorTO implements Serializable {
 	 */
 	public void setLogo(String logo) {
 		this.logo = logo;
+	}
+
+	/**
+	 * @return the street
+	 */
+	public String getStreet() {
+		return street;
+	}
+
+	/**
+	 * @param street the street to set
+	 */
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	/**
+	 * @return the city
+	 */
+	public String getCity() {
+		return city;
+	}
+
+	/**
+	 * @param city the city to set
+	 */
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	/**
+	 * @return the pLZ
+	 */
+	public int getPLZ() {
+		return PLZ;
+	}
+
+	/**
+	 * @param pLZ the pLZ to set
+	 */
+	public void setPLZ(int pLZ) {
+		PLZ = pLZ;
+	}
+
+	/**
+	 * @return the houseNumber
+	 */
+	public int getHouseNumber() {
+		return houseNumber;
+	}
+
+	/**
+	 * @param houseNumber the houseNumber to set
+	 */
+	public void setHouseNumber(int houseNumber) {
+		this.houseNumber = houseNumber;
 	}
 }

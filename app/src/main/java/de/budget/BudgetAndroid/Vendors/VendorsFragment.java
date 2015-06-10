@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.List;
+
+import de.budget.BudgetAndroid.BudgetAndroidApplication;
+import de.budget.BudgetService.dto.CategoryTO;
+import de.budget.BudgetService.dto.VendorTO;
 import de.budget.R;
 
 
@@ -78,10 +84,16 @@ public class VendorsFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_vendors, container, false);
 
-        // Author Mark
-        // Createing Mock Objects
-        // TODO: Holen der Vendors vom Server
-        String[] vendors = new String[] { "Aldi","Lidel","ReWe", "Mensa", "Kneipe"};
+        // @Author Christopher
+        // 09.06.2015
+        // Abholen der Categorien
+        BudgetAndroidApplication myApp = (BudgetAndroidApplication) getActivity().getApplication();
+        List<VendorTO> result = myApp.getVendors();
+        String[] vendors = new String[result.size()];
+        Log.d("INFO", "Size of Categoryarray: " + result.size());
+        for (int i=0; i< result.size(); i++){
+            vendors[i] = result.get(i).getName();
+        }
 
         // Starten des Array Adapters
         ArrayAdapter<String> ArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, vendors);
@@ -102,11 +114,10 @@ public class VendorsFragment extends Fragment {
 
                 // Bundle anlegen
                 Bundle bundle = new Bundle ();
-                int itemPosition     = position;
                 String  itemValue    = (String) listView.getItemAtPosition(position);
 
                 // Setzte im Bundle das Objekt
-                bundle.putString("VENDOR_NAME", itemValue);
+                bundle.putInt("VENDOR_POSITION", position);
 
                 // Übergebe das Objekt an den Intent
                 intent.putExtras(bundle);

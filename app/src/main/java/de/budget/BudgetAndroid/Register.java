@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import de.budget.BudgetService.Response.UserLoginResponse;
 import de.budget.R;
+import de.budget.BudgetAndroid.AsyncTasks.RegisterTask;
 
 
 public class Register extends ActionBarActivity {
@@ -56,7 +57,8 @@ public class Register extends ActionBarActivity {
 
         if(!"".equals(username) && !"".equals(password) && !"".equals(email))
         {
-            RegisterTask task = new RegisterTask(this);
+            BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
+            RegisterTask task = new RegisterTask(view.getContext(), myApp, this);
             //Proxy asynchron aufrufen
             task.execute(username, password, email);
         }
@@ -71,83 +73,5 @@ public class Register extends ActionBarActivity {
 
     }
 
-    private class RegisterTask extends AsyncTask<String, Integer, UserLoginResponse>
-    {
-        private Context context;
 
-        //Dem Konstruktor der Klasse wird der aktuelle Kontext der Activity übergeben
-        //damit auf die UI-Elemente zugegriffen werden kann und Intents gestartet werden können, usw.
-        public RegisterTask(Context context)
-        {
-            this.context = context;
-        }
-
-        @Override
-        protected UserLoginResponse doInBackground(String... params){
-            if(params.length != 3)
-                return null;
-            String username = params[0];
-            String password = params[1];
-            String email = params[2];
-            BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
-            try {
-                UserLoginResponse myUser = myApp.getBudgetOnlineService().setUser(username, password,email);
-                Integer rt =  myUser.getReturnCode();
-                Log.d("INFO", "Returncode: " + rt.toString());
-                return myUser;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        protected void onProgessUpdate(Integer... values)
-        {
-            //wird in diesem Beispiel nicht verwendet
-        }
-
-        protected void onPostExecute(UserLoginResponse result)
-        {
-            int duration = Toast.LENGTH_SHORT;
-            if(result != null)
-            {
-                //erfolgreich eingeloggt
-                if (result.getReturnCode() == 200){
-
-                    BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
-                    myApp.setSession(result.getSessionId());
-                    Log.d("INFO", "Registrierung erfolgreich, SessionId: " + myApp.getSession());
-                    //Toast anzeigen
-                    CharSequence text = "Registrierung erfolgreich!";
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
-                    //Nächste Activity anzeigen
-                    Intent intent = new Intent(context, MainActivity.class);
-                    intent.putExtra(MainActivity.FRAGMENT_NAVIGATION,0);
-                    startActivity(intent);
-                }
-                else if(result.getReturnCode() == 409){
-                    CharSequence text = "Registrierung fehlgeschlagen, User bereits vorhanden!";
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
-                }
-                else if(result.getReturnCode() == 500){
-                    CharSequence text = "Registrierung fehlgeschlagen, Passwort zu kurz!";
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
-                }
-                else{
-                    CharSequence text = "Registrierung fehlgeschlagen!123123";
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
-                }
-            }
-            else
-            {
-                CharSequence text = "Registrierung fehlgeschlagen!";
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-            }
-        }
-    }
 }

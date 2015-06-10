@@ -15,14 +15,20 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.budget.BudgetAndroid.Annotations.Author;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.MainActivity;
 import de.budget.BudgetService.Response.CategoryResponse;
 import de.budget.BudgetService.Response.UserLoginResponse;
+import de.budget.BudgetService.dto.CategoryTO;
 import de.budget.R;
+import de.budget.BudgetAndroid.AsyncTasks.createOrUpdateCategoryTask;
 
 public class CategoryActivity extends ActionBarActivity {
 
@@ -37,9 +43,27 @@ public class CategoryActivity extends ActionBarActivity {
         if (bundle != null) {
 
             // Schreibe Objekt in das Layout
-            String name = bundle.getString("CATEGORY_NAME");
-            EditText editText = (EditText) findViewById(R.id.category_name);
-            editText.setText(name);
+            EditText txtCategoryName = (EditText) findViewById(R.id.category_name);
+            EditText txtCategoryNotice = (EditText) findViewById(R.id.category_notice);
+            TextView txtCategoryId = (TextView) findViewById(R.id.label_category_id);
+            RadioButton rbIncome =(RadioButton)findViewById(R.id.rb_category_income);
+            RadioButton rbLoss =(RadioButton)findViewById(R.id.rb_category_loss);
+
+            // @author Christopher
+            int categoryPos = bundle.getInt("CATEGORY_POSITION");
+            BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
+            List<CategoryTO> tmp = myApp.getCategories();
+            CategoryTO category = tmp.get(categoryPos);
+            txtCategoryName.setText(category.getName());
+            txtCategoryNotice.setText(category.getNotice());
+            if(category.isIncome()){
+                rbIncome.toggle();
+            }
+            else{
+                rbLoss.toggle();
+            }
+            txtCategoryId.setText(Integer.toString(category.getId()));
+
         }
     }
 
@@ -78,20 +102,22 @@ public class CategoryActivity extends ActionBarActivity {
         EditText txtCategoryNotice = (EditText) findViewById(R.id.category_notice);
         RadioGroup rgIncomeOrLoss =(RadioGroup)findViewById(R.id.category_type);
         RadioButton radioButton = (RadioButton) this.findViewById(rgIncomeOrLoss.getCheckedRadioButtonId());
+        TextView txtCategoryId = (TextView) findViewById(R.id.label_category_id);
         // TODO Spinner?!
 
         String categoryName = txtCategoryName.getText().toString();
         String incomeOrLoss = radioButton.getText().toString();
-        String categoryNotice = radioButton.getText().toString();
+        String categoryNotice = txtCategoryNotice.getText().toString();
         String categoryColor = "gelb";
+        String categoryId = txtCategoryId.getText().toString();
 
         if(!"".equals(categoryName) && !"".equals(incomeOrLoss))
         {
             ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
             if(networkInfo != null && networkInfo.isConnected()){
-                createOrUpdateCategoryTask task = new createOrUpdateCategoryTask(this);
-                task.execute(incomeOrLoss, categoryName, categoryNotice, categoryColor);
+                createOrUpdateCategoryTask task = new createOrUpdateCategoryTask(this, this);
+                task.execute(incomeOrLoss, categoryName, categoryNotice, categoryColor, categoryId);
             }
             else {
                 CharSequence text = "Keine Netzwerkverbindung! :(";
@@ -111,81 +137,4 @@ public class CategoryActivity extends ActionBarActivity {
 
     }
 
-    /*
-     * @author Christopher
-     * @date 08.06.2015
-     */
-
-    @Author(name="Christophers")
-    private class createOrUpdateCategoryTask extends AsyncTask<String, Boolean, CategoryResponse>
-    {
-        private Context context;
-
-        public createOrUpdateCategoryTask(Context context)
-        {
-            this.context = context;
-        }
-
-        @Override
-        protected CategoryResponse doInBackground(String... params){
-            if(params.length != 4)
-                return null;
-            String incomeOrLossString = params[0];;
-            String categoryName = params[1];
-            String categoryNotice = params[2];
-            String categoryColour = params[3];
-
-            Boolean incomeOrLoss, categoryActive = true;
-
-            if ("Einnahme".equals(incomeOrLossString)) {
-                incomeOrLoss = true;
-            }
-            else{
-                incomeOrLoss = false;
-            }
-
-            BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
-            try {
-                CategoryResponse myCategory = myApp.getBudgetOnlineService().createOrUpdateCategory(myApp.getSession(), 0, incomeOrLoss, categoryActive, categoryName, categoryNotice, categoryColour);
-                Integer rt =  myCategory.getReturnCode();
-                Log.d("INFO", "Returncode: " + rt.toString());
-                return myCategory;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        protected void onProgessUpdate(Integer... values)
-        {
-            //wird in diesem Beispiel nicht verwendet
-        }
-
-        protected void onPostExecute(CategoryResponse result)
-        {
-            int duration = Toast.LENGTH_SHORT;
-            if(result != null)
-            {
-                //erfolgreich eingeloggt
-                if (result.getReturnCode() == 200){
-
-                    Log.d("INFO", "Kategorie erfolgreich angelegt.");
-                    //Toast anzeigen
-                    CharSequence text = "Kategorie gespeichert!";
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
-                    //Nächste Activity anzeigen
-                    Intent intent = new Intent(context, MainActivity.class);
-                    startActivity(intent);
-                }
-            }
-            else
-            {
-                //Toast anzeigen
-                CharSequence text = "Kategorie konnte nicht gespeichert werden.";
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-            }
-        }
-    }
 }

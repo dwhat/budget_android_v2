@@ -80,12 +80,17 @@
     <!-- Vendor Activity -->
     <string name="title_activity_vendor">Händler</string>
     <string name="vendor_name">Händler</string>
-    <string name="vendor_address">Adresse</string>
+    <string name="vendor_street">Straße</string>
+    <string name="vendor_nr">Nr</string>
+    <string name="vendor_plz">PLZ</string>
+    <string name="vendor_city">Stadt</string>
+    <string name="vendor_new">0</string>
 
     <!-- Category Activity -->
     <string name="title_activity_category">Kategorie</string>
     <string name="category_name">Kategorie</string>
     <string name="category_type">Typ</string>
+    <string name="category_new">0</string>
 
     <!-- Radio Buttons -->
     <string name="rb_income">Einnahme</string>
