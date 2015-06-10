@@ -39,10 +39,10 @@ public class LossActivity extends ActionBarActivity {
         setContentView(R.layout.activity_loss);
 
 
-        editTextItemName    = (EditText) findViewById(R.layout.item_name);
-        editTextItemAmount  = (EditText) findViewById(R.layout.item_amount);
-        editTextItemValue   = (EditText) findViewById(R.layout.item_value);
-        spinnerCategory     = (Spinner)  findViewById(R.layout.item_category);
+//        editTextItemName    = (EditText) findViewById(R.layout.item_name);
+//        editTextItemAmount  = (EditText) findViewById(R.layout.item_amount);
+//        editTextItemValue   = (EditText) findViewById(R.layout.item_value);
+//        spinnerCategory     = (Spinner)  findViewById(R.layout.item_category);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -96,16 +96,17 @@ public class LossActivity extends ActionBarActivity {
         listView.setAdapter(ArrayAdapter);
 
 
-        listView.setOnItemClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                HashMap  item = (HashMap) listView.getItemAtPosition(v);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                HashMap  item = (HashMap) listView.getItemAtPosition(position);
 
                 editTextItemName.setText((String) item.get(Item.NAME));
                 editTextItemAmount.setText((String) item.get(Item.AMOUNT));
                 editTextItemValue.setText((String) item.get(Item.VALUE));
             }
+
         });
 
 
