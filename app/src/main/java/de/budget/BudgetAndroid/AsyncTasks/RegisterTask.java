@@ -12,6 +12,10 @@ import de.budget.BudgetAndroid.MainActivity;
 import de.budget.BudgetAndroid.Register;
 import de.budget.BudgetService.Response.UserLoginResponse;
 
+/*
+    * @Author Christopher
+    * @Date 09.06.2015
+    */
 public class RegisterTask extends AsyncTask<String, Integer, UserLoginResponse>
 {
     private Context context;
@@ -66,6 +70,8 @@ public class RegisterTask extends AsyncTask<String, Integer, UserLoginResponse>
                 // Daten holen
                 getCategorysTask categorysTask = new getCategorysTask(context, myApp, nextActivity);
                 categorysTask.execute();
+                getVendorsTask vendorsTask = new getVendorsTask(context, myApp, nextActivity);
+                vendorsTask.execute();
                 //Nächste Activity anzeigen
                 Intent intent = new Intent(context, MainActivity.class);
                 intent.putExtra(MainActivity.FRAGMENT_NAVIGATION,0);
@@ -82,7 +88,7 @@ public class RegisterTask extends AsyncTask<String, Integer, UserLoginResponse>
                 toast.show();
             }
             else{
-                CharSequence text = "Registrierung fehlgeschlagen!123123";
+                CharSequence text = "Registrierung fehlgeschlagen!";
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
             }

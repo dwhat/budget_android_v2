@@ -11,6 +11,10 @@ import de.budget.BudgetAndroid.Login;
 import de.budget.BudgetAndroid.Logout;
 import de.budget.BudgetService.Response.ReturnCodeResponse;
 
+/*
+    * @Author Christopher
+    * @Date 09.06.2015
+    */
 public class LogoutTask extends AsyncTask<Integer, Integer, ReturnCodeResponse>
 {
     private Context context;

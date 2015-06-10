@@ -12,9 +12,10 @@ import de.budget.BudgetAndroid.MainActivity;
 import de.budget.BudgetService.Response.UserLoginResponse;
 import de.budget.BudgetAndroid.AsyncTasks.*;
 
-/**
- * Created by christopher on 10.06.15.
- */
+/*
+    * @Author Christopher
+    * @Date 09.06.2015
+    */
 public class LoginTask extends AsyncTask<String, Integer, UserLoginResponse>
 {
     private Context context;

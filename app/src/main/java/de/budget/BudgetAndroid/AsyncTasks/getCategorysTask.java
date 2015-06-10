@@ -11,8 +11,8 @@ import de.budget.BudgetAndroid.MainActivity;
 import de.budget.BudgetService.Response.CategoryListResponse;
 
 /*
-    * @author Christopher
-    * @date 09.06.2015
+    * @Author Christopher
+    * @Date 09.06.2015
     */
 public class getCategorysTask extends AsyncTask<String, Integer, CategoryListResponse>
 {

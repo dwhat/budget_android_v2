@@ -12,8 +12,8 @@ import de.budget.BudgetAndroid.Vendors.VendorActivity;
 import de.budget.BudgetService.Response.VendorResponse;
 
 /*
-    * @author Christopher
-    * @date 09.06.2015
+    * @Author Christopher
+    * @Date 09.06.2015
     */
 public class createOrUpdateVendorTask extends AsyncTask<String, Integer, VendorResponse>
 {

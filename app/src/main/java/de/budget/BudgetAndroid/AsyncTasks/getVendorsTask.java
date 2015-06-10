@@ -11,8 +11,8 @@ import de.budget.BudgetService.Response.CategoryListResponse;
 import de.budget.BudgetService.Response.VendorListResponse;
 
 /*
-    * @author Christopher
-    * @date 09.06.2015
+    * @Author Christopher
+    * @Date 09.06.2015
     */
 public class getVendorsTask extends AsyncTask<String, Integer, VendorListResponse>
 {

@@ -12,7 +12,8 @@ import de.budget.BudgetAndroid.MainActivity;
 import de.budget.BudgetService.Response.CategoryResponse;
 
 /**
- * Created by christopher on 10.06.15.
+ * @Author Christopher
+ * @date 10.06.2015
  */
 public class createOrUpdateCategoryTask extends AsyncTask<String, Boolean, CategoryResponse>
 {
