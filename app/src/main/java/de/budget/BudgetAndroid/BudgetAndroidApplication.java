@@ -10,6 +10,7 @@ import java.util.List;
 import de.budget.BudgetService.BudgetOnlineService;
 import de.budget.BudgetService.Response.CategoryListResponse;
 import de.budget.BudgetService.dto.CategoryTO;
+import de.budget.BudgetService.dto.VendorTO;
 
 /**
  * @Author Christopher
@@ -19,6 +20,7 @@ public class BudgetAndroidApplication extends Application{
     private int sessionId;
     private BudgetOnlineService budgetOnlineService;
     private List<CategoryTO> categories;
+    private List<VendorTO> vendors;
 
     public BudgetAndroidApplication() {
         this.budgetOnlineService = new BudgetOnlineServiceImpl();
@@ -44,10 +46,20 @@ public class BudgetAndroidApplication extends Application{
         return this.categories;
     }
 
+    public void setVendors(List<VendorTO> list){
+        this.vendors = list;
+    }
+
+    public List<VendorTO> getVendors(){
+        return this.vendors;
+    }
+
+
     @Override
     public void onTerminate() {
         super.onTerminate();
         this.categories = null;
+        this.vendors = null;
         this.sessionId = -99;
         this.budgetOnlineService = null;
     }

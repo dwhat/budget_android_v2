@@ -136,8 +136,48 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @param sessionId
      * @return VendorListResponse Object
      */
-    public VendorListResponse getVendors(int sessionId){
-        return null;
+    public VendorListResponse getVendors(int sessionId) throws Exception{
+        VendorListResponse result = new VendorListResponse();
+        String METHOD_NAME = "getVendors";
+        SoapObject response = null;
+        try {
+            response = executeSoapAction(METHOD_NAME, sessionId);
+            Log.d(TAG, response.toString() + response.getPropertyCount());
+
+            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            if (tmp == 200) {
+                result.setReturnCode(tmp);
+                ArrayList<VendorTO> vendorList = new ArrayList<>();
+                if (response.getPropertyCount() > 1) {
+                    for (int idx = 1; idx < response.getPropertyCount(); idx++) {
+                        SoapObject ListObject = (SoapObject) response.getProperty(idx);
+                        Log.d("INFO", "vendorList gefunden : " + ListObject.toString() + "Länge: " + ListObject.getPropertyCount());
+                        String name = ListObject.getPrimitivePropertySafelyAsString("name");
+                        String street = ListObject.getPrimitivePropertySafelyAsString("street");
+                        String city = ListObject.getPrimitivePropertySafelyAsString("city");
+                        int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString("id"));
+                        int hn = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString("houseNumber"));
+                        int plz = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString("PLZ"));
+                        VendorTO tmp = new VendorTO();
+                        tmp.setName(name);
+                        tmp.setId(id);
+                        tmp.setStreet(street);
+                        tmp.setHouseNumber(hn);
+                        tmp.setPLZ(plz);
+                        tmp.setCity(city);
+                        vendorList.add(tmp);
+
+                    }
+                }
+                result.setVendorList(vendorList);
+                return result;
+            }
+            else {
+                throw new Exception("Create/Update category was not successful!");
+            }
+        } catch (SoapFault e) {
+            throw new Exception(e.getMessage());
+        }
     }
 
     /**
@@ -162,12 +202,12 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @param logo (base64 String)
      * @return
      */
-    public VendorResponse createOrUpdateVendor(int sessionId, int vendorId, String name, String logo) throws Exception{
+    public VendorResponse createOrUpdateVendor(int sessionId, int vendorId, String name, String logo, String street, String city, int PLZ, int houseNumber) throws Exception{
         VendorResponse result = new VendorResponse();
         String METHOD_NAME = "createOrUpdateVendor";
         SoapObject response = null;
         try {
-            response = executeSoapAction(METHOD_NAME, sessionId, vendorId, name, logo);
+            response = executeSoapAction(METHOD_NAME, sessionId, vendorId, name, logo, street, city, PLZ, houseNumber);
             Log.d(TAG, response.toString());
             tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
             if (tmp != 0) {
@@ -283,7 +323,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
             tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
             if (tmp == 200) {
                 result.setReturnCode(tmp);
-                ArrayList<CategoryTO> test = new ArrayList<>();
+                ArrayList<CategoryTO> categoryList = new ArrayList<>();
                 if (response.getPropertyCount() > 1) {
                     for (int idx = 1; idx < response.getPropertyCount(); idx++) {
                         SoapObject ListObject = (SoapObject) response.getProperty(idx);
@@ -295,6 +335,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                             active = true;
                         }
                         int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString("id"));
+                        boolean income = Boolean.parseBoolean(ListObject.getPrimitivePropertySafelyAsString("income"));
                         String notice = ListObject.getPrimitivePropertySafelyAsString("notice");
                         String colour = ListObject.getPrimitivePropertySafelyAsString("colour");
                         CategoryTO tmp = new CategoryTO();
@@ -303,13 +344,12 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                         tmp.setId(id);
                         tmp.setNotice(notice);
                         tmp.setColour(colour);
-                        test.add(tmp);
+                        tmp.setIncome(income);
+                        categoryList.add(tmp);
 
                     }
                 }
-
-                result.setCategoryList(test);
-
+                result.setCategoryList(categoryList);
                 return result;
             }
             else {
@@ -392,7 +432,6 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
     }
 
     /**
-     * TODO MARCO ITEM
      * Method to create a basket
      * @author Marco
      * @date 26.05.2015

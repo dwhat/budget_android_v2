@@ -23,12 +23,11 @@
             />
 
         <EditText
-        style="@style/EditTextBasic"
-        android:id="@+id/vendor_name"
-        android:hint="@string/vendor_name"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
- />
+            style="@style/EditTextBasic"
+            android:id="@+id/vendor_name"
+            android:hint="@string/vendor_name"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,14 +38,40 @@
             android:textColor="@color/ColorPrimaryDark"
             />
 
-    <EditText
-        style="@style/EditTextBasic"
-        android:id="@+id/vendor_address"
-        android:hint="@string/vendor_address"
-        android:layout_below="@+id/vendor_name"
-        android:layout_alignParentStart="true" />
+        <EditText
+            style="@style/EditTextBasic"
+            android:id="@+id/vendor_street"
+            android:hint="@string/vendor_street"
+            android:layout_below="@+id/vendor_name"
+            android:layout_alignParentStart="true" />
 
+        <EditText
+            style="@style/EditTextBasic"
+            android:id="@+id/vendor_nr"
+            android:hint="@string/vendor_nr"
+            android:layout_below="@+id/vendor_street"
+            android:layout_alignParentStart="true" />
 
+        <EditText
+            style="@style/EditTextBasic"
+            android:id="@+id/vendor_plz"
+            android:hint="@string/vendor_plz"
+            android:layout_below="@+id/vendor_nr"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            style="@style/EditTextBasic"
+            android:id="@+id/vendor_city"
+            android:hint="@string/vendor_city"
+            android:layout_below="@+id/vendor_nr"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:id="@+id/label_vendor_id"
+            android:text="@string/vendor_new"/>
 
     </LinearLayout>
 

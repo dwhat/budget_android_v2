@@ -8,12 +8,13 @@ import android.widget.Toast;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.MainActivity;
 import de.budget.BudgetService.Response.CategoryListResponse;
+import de.budget.BudgetService.Response.VendorListResponse;
 
 /*
     * @author Christopher
     * @date 09.06.2015
     */
-public class getVendorsTask extends AsyncTask<String, Integer, CategoryListResponse>
+public class getVendorsTask extends AsyncTask<String, Integer, VendorListResponse>
 {
     private Context context;
     private static MainActivity activity;
@@ -28,15 +29,15 @@ public class getVendorsTask extends AsyncTask<String, Integer, CategoryListRespo
 
 
     @Override
-    protected CategoryListResponse doInBackground(String... params){
+    protected VendorListResponse doInBackground(String... params){
         if(params.length != 0)
             return null;
 
         try {
-            CategoryListResponse myCategorys = myApp.getBudgetOnlineService().getCategorys(myApp.getSession());
-            Integer rt =  myCategorys.getReturnCode();
+            VendorListResponse myVendors = myApp.getBudgetOnlineService().getVendors(myApp.getSession());
+            Integer rt =  myVendors.getReturnCode();
             Log.d("INFO", "Returncode: " + rt.toString());
-            return myCategorys;
+            return myVendors;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -48,7 +49,7 @@ public class getVendorsTask extends AsyncTask<String, Integer, CategoryListRespo
         //wird in diesem Beispiel nicht verwendet
     }
 
-    protected void onPostExecute(CategoryListResponse result)
+    protected void onPostExecute(VendorListResponse result)
     {
         int duration = Toast.LENGTH_SHORT;
         if(result != null)
@@ -56,13 +57,13 @@ public class getVendorsTask extends AsyncTask<String, Integer, CategoryListRespo
             //erfolgreich eingeloggt
             if (result.getReturnCode() == 200){
 
-                myApp.setCategories(result.getCategoryList());
-                Log.d("INFO", "KategorieListe erfolgreich angelegt.");
+                myApp.setVendors(result.getVendorList());
+                Log.d("INFO", "Händlerliste erfolgreich angelegt.");
             }
         }
         else
         {
-            Log.d("INFO", "Kategorien konnten nicht geladen werden.");
+            Log.d("INFO", "Händler konnten nicht geladen werden.");
 
         }
     }

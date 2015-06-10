@@ -87,7 +87,7 @@ public interface BudgetOnlineService {
      * @param sessionId
      * @return VendorListResponse Object
      */
-    public VendorListResponse getVendors(int sessionId);
+    public VendorListResponse getVendors(int sessionId) throws Exception;
 
     /**
      * Method to get a Vendor with the SessionId and the vendorId
@@ -109,7 +109,7 @@ public interface BudgetOnlineService {
      * @param logo (base64 String)
      * @return
      */
-    public VendorResponse createOrUpdateVendor(int sessionId, int vendorId, String name, String logo) throws Exception;
+    public VendorResponse createOrUpdateVendor(int sessionId, int vendorId, String name, String logo, String street, String city, int PLZ, int houseNumber) throws Exception;
 
     /**
      * Method to delete a vendor

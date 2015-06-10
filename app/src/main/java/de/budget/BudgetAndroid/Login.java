@@ -14,9 +14,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import de.budget.BudgetService.Response.CategoryListResponse;
-import de.budget.BudgetService.Response.UserLoginResponse;
 import de.budget.R;
 import android.util.Log;
+import de.budget.BudgetAndroid.AsyncTasks.*;
 
 /**
  * @author christopher
@@ -64,7 +64,7 @@ public class Login extends ActionBarActivity {
             ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
             if(networkInfo != null && networkInfo.isConnected()){
-                LoginTask loginTask = new LoginTask(this);
+                LoginTask loginTask = new LoginTask(view.getContext(), this);
                 loginTask.execute(username, password);
             }
             else {
@@ -90,131 +90,5 @@ public class Login extends ActionBarActivity {
         startActivity(intent);
     }
 
-    private class LoginTask extends AsyncTask<String, Integer, UserLoginResponse>
-    {
-        private Context context;
-
-        //Dem Konstruktor der Klasse wird der aktuelle Kontext der Activity übergeben
-        //damit auf die UI-Elemente zugegriffen werden kann und Intents gestartet werden können, usw.
-        public LoginTask(Context context)
-        {
-            this.context = context;
-        }
-
-        @Override
-        protected UserLoginResponse doInBackground(String... params){
-            if(params.length != 2)
-                return null;
-            String username = params[0];
-            String password = params[1];
-            BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
-            try {
-                UserLoginResponse myUser = myApp.getBudgetOnlineService().login(username, password);
-                Integer rt =  myUser.getReturnCode();
-                Log.d("INFO", "Returncode: " + rt.toString());
-                return myUser;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        protected void onProgessUpdate(Integer... values)
-        {
-            //wird in diesem Beispiel nicht verwendet
-        }
-
-        protected void onPostExecute(UserLoginResponse result)
-        {
-            int duration = Toast.LENGTH_SHORT;
-            if(result != null)
-            {
-                //erfolgreich eingeloggt
-                if (result.getReturnCode() == 200){
-
-                    BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
-                    myApp.setSession(result.getSessionId());
-                    Log.d("INFO", "Login erfolgreich, SessionId: " + myApp.getSession());
-                    //Toast anzeigen
-                    CharSequence text = "Login erfolgreich!";
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
-                    // Daten Holen
-                    getCategorysTask categorysTask = new getCategorysTask(getBaseContext());
-                    categorysTask.execute();
-                    //Nächste Activity anzeigen
-                    Intent intent = new Intent(context, MainActivity.class);
-                    intent.putExtra(MainActivity.FRAGMENT_NAVIGATION,0);
-                    startActivity(intent);
-                }
-            }
-            else
-            {
-                //Toast anzeigen
-                CharSequence text = "Login fehlgeschlagen!";
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-                // nur für entwicklung, muss wieder weg!
-                Intent intent = new Intent(context, MainActivity.class);
-                startActivity(intent);
-            }
-        }
-    }
-
-    /*
-    * @author Christopher
-    * @date 09.06.2015
-    */
-    private class getCategorysTask extends AsyncTask<String, Integer, CategoryListResponse>
-    {
-        private Context context;
-
-        public getCategorysTask(Context context)
-        {
-            this.context = context;
-        }
-
-        @Override
-        protected CategoryListResponse doInBackground(String... params){
-            if(params.length != 0)
-                return null;
-
-            BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
-            try {
-                CategoryListResponse myCategorys = myApp.getBudgetOnlineService().getCategorys(myApp.getSession());
-                Integer rt =  myCategorys.getReturnCode();
-                Log.d("INFO", "Returncode: " + rt.toString());
-                return myCategorys;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        protected void onProgessUpdate(Integer... values)
-        {
-            //wird in diesem Beispiel nicht verwendet
-        }
-
-        protected void onPostExecute(CategoryListResponse result)
-        {
-            int duration = Toast.LENGTH_SHORT;
-            if(result != null)
-            {
-                //erfolgreich eingeloggt
-                if (result.getReturnCode() == 200){
-
-                    BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
-                    myApp.setCategories(result.getCategoryList());
-                    Log.d("INFO", "KategorieListe erfolgreich angelegt.");
-                }
-            }
-            else
-            {
-                Log.d("INFO", "Kategorien konnten nicht geladen werden.");
-
-            }
-        }
-    }
 
 }
