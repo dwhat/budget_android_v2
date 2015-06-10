@@ -19,6 +19,7 @@ public class CategoryTO implements Serializable {
 	private Timestamp createDate;
 	private Timestamp lastChanged;
 	private UserTO user;
+	private String colour;
 	
 	/**
 	 * Default Constructor
@@ -40,7 +41,7 @@ public class CategoryTO implements Serializable {
 	 * @param lastChanged
 	 * @param user
 	 */
-	public CategoryTO(int id, String name, String notice, boolean active, boolean income, Timestamp createDate, Timestamp lastChanged, UserTO user) {
+	public CategoryTO(int id, String name, String notice, boolean active, boolean income, Timestamp createDate, Timestamp lastChanged, UserTO user, String colour) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -50,6 +51,7 @@ public class CategoryTO implements Serializable {
 		this.createDate = createDate;
 		this.lastChanged = lastChanged;
 		this.user = user;
+		this.colour = colour;
 	}
 	
 	/**
@@ -149,6 +151,18 @@ public class CategoryTO implements Serializable {
 	 */
 	public void setUser(UserTO user) {
 		this.user = user;
+	}
+	/**
+	 * @return the user
+	 */
+	public String getColour() {
+		return colour;
+	}
+	/**
+	 * @param colour the user to set
+	 */
+	public void setColour(String colour) {
+		this.colour = colour;
 	}
 
 }

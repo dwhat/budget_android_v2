@@ -289,8 +289,20 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                         SoapObject ListObject = (SoapObject) response.getProperty(idx);
                         Log.d("INFO", "categoryList gefunden : " + ListObject.toString() + "Länge: " + ListObject.getPropertyCount());
                         String name = ListObject.getPrimitivePropertySafelyAsString("name");
+                        String activeString = ListObject.getPrimitivePropertySafelyAsString("active");
+                        boolean active = false;
+                        if("true".equals(activeString)){
+                            active = true;
+                        }
+                        int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString("id"));
+                        String notice = ListObject.getPrimitivePropertySafelyAsString("notice");
+                        String colour = ListObject.getPrimitivePropertySafelyAsString("colour");
                         CategoryTO tmp = new CategoryTO();
                         tmp.setName(name);
+                        tmp.setActive(active);
+                        tmp.setId(id);
+                        tmp.setNotice(notice);
+                        tmp.setColour(colour);
                         test.add(tmp);
 
                     }

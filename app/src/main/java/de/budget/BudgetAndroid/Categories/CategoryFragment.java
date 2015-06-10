@@ -95,6 +95,7 @@ public class CategoryFragment extends Fragment {
         BudgetAndroidApplication myApp = (BudgetAndroidApplication) getActivity().getApplication();
         List<CategoryTO> test = myApp.getCategories();
         String[] categories = new String[test.size()];
+        Log.d("INFO", "Size of Categoryarray: "+test.size());
         for (int i=0; i< test.size(); i++){
             categories[i] = test.get(i).getName();
         }

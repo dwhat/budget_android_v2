@@ -47,5 +47,8 @@ public class BudgetAndroidApplication extends Application{
     @Override
     public void onTerminate() {
         super.onTerminate();
+        this.categories = null;
+        this.sessionId = -99;
+        this.budgetOnlineService = null;
     }
 }

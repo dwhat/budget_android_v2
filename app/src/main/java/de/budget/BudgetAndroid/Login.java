@@ -66,8 +66,6 @@ public class Login extends ActionBarActivity {
             if(networkInfo != null && networkInfo.isConnected()){
                 LoginTask loginTask = new LoginTask(this);
                 loginTask.execute(username, password);
-                getCategorysTask categorysTask = new getCategorysTask(this);
-                categorysTask.execute();
             }
             else {
                 CharSequence text = "Keine Netzwerkverbindung! :(";
@@ -141,6 +139,9 @@ public class Login extends ActionBarActivity {
                     CharSequence text = "Login erfolgreich!";
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
+                    // Daten Holen
+                    getCategorysTask categorysTask = new getCategorysTask(getBaseContext());
+                    categorysTask.execute();
                     //Nächste Activity anzeigen
                     Intent intent = new Intent(context, MainActivity.class);
                     intent.putExtra(MainActivity.FRAGMENT_NAVIGATION,0);
