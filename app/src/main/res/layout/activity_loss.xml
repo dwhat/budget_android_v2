@@ -15,8 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/loss_name"
-            android:text="@string/loss_name"
-            android:visibility="invisible" />
+            android:hint="@string/loss_name" />
 
         <EditText
             android:layout_width="match_parent"
@@ -24,8 +23,8 @@
             android:inputType="date"
             android:ems="10"
             android:id="@+id/loss_date"
-            android:layout_gravity="center_horizontal"
-            android:visibility="invisible" />
+            android:hint="@string/loss_date"
+            android:layout_gravity="center_horizontal" />
 
         <EditText
             android:layout_width="match_parent"
@@ -34,13 +33,21 @@
             android:ems="10"
             android:id="@+id/loss_value"
             android:layout_gravity="center_horizontal"
-            android:text="@string/loss_value"
-            android:visibility="invisible" />
+            android:hint="@string/loss_value" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:id="@+id/loss_notice"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone" />
 
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="94dp"
-            android:id="@+id/listView"
+            android:layout_height="fill_parent"
+            android:id="@+id/listView_item"
             android:layout_gravity="top" />
 
     </LinearLayout>
@@ -60,10 +67,10 @@
         <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:id="@+id/item_name"
             android:gravity="bottom"
             android:layout_gravity="bottom"
+            android:hint="@string/article_name"
             android:singleLine="true"
             android:layout_weight="0.45"/>
 
@@ -73,17 +80,16 @@
             android:inputType="numberDecimal"
             android:ems="10"
             android:id="@+id/item_amount"
-            android:layout_alignParentBottom="true"
             android:gravity="bottom"
             android:layout_gravity="bottom"
             android:singleLine="true"
+            android:hint="@string/article_amount"
             android:layout_weight="0.1"/>
 
         <Spinner
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/item_category"
-            android:layout_alignParentBottom="true"
             android:spinnerMode="dropdown"
             android:gravity="bottom"
             android:layout_gravity="bottom"
@@ -95,9 +101,9 @@
             android:inputType="numberDecimal"
             android:ems="10"
             android:id="@+id/item_value"
-            android:layout_alignParentBottom="true"
             android:gravity="bottom"
             android:layout_gravity="bottom"
+            android:hint="@string/article_value"
             android:singleLine="true"
             android:imeOptions="actionDone"
             android:layout_weight="0.1"/>
@@ -106,12 +112,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/imageButton2"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
             android:gravity="bottom"
             android:layout_gravity="bottom|right"
             android:layout_weight="0.1"
-            android:src="@drawable/ic_done_w" />
+            android:src="@drawable/ic_done_w"
+            android:contentDescription="Speichern" />
 
 
     </LinearLayout>

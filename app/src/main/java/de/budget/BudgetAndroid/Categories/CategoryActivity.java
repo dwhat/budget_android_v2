@@ -115,6 +115,8 @@ public class CategoryActivity extends ActionBarActivity {
      * @author Christopher
      * @date 08.06.2015
      */
+
+    @Author(name="Christophers")
     private class createOrUpdateCategoryTask extends AsyncTask<String, Boolean, CategoryResponse>
     {
         private Context context;
