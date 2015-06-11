@@ -11,4 +11,21 @@
                 android:title="@string/password"
                 android:password="true"/>
     </PreferenceCategory>
+    <PreferenceScreen
+        android:key="payments"
+        android:title="@string/payments"
+        android:summary="@string/paymentsSummary">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="paymentsCash"
+            android:title="@string/paymentsCash" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="paymentsGiro"
+            android:title="@string/paymentsGiro" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="paymentsGiro"
+            android:title="@string/paymentsCredit" />
+    </PreferenceScreen>
 </PreferenceScreen>

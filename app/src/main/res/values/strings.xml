@@ -116,6 +116,11 @@
     <string name="account">Account</string>
     <string name="usernameSummary">Username eintragen</string>
     <string name="passwordSummary">Passwort eintragen</string>
+    <string name="payments">Zahlungsarten</string>
+    <string name="paymentsSummary">Girokarte, Kreditkarte, Barzahlung</string>
+    <string name="paymentsCash">Barzahlung</string>
+    <string name="paymentsGiro">Girokonto</string>
+    <string name="paymentsCredit">Kreditkarte</string>
 
 
 </resources>
