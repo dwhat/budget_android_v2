@@ -2,7 +2,9 @@ package de.budget.BudgetAndroid.AsyncTasks;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -39,6 +41,12 @@ public class LoginTask extends AsyncTask<String, Integer, UserLoginResponse>
             UserLoginResponse myUser = myApp.getBudgetOnlineService().login(username, password);
             Integer rt =  myUser.getReturnCode();
             Log.d("INFO", "Returncode: " + rt.toString());
+            // Speichern der Benutzerdaten
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity.getBaseContext());
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("username", username);
+            editor.putString("password", password);
+            editor.commit();
             return myUser;
         } catch (Exception e) {
             e.printStackTrace();

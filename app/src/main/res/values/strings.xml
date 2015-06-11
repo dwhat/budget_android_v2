@@ -111,7 +111,11 @@
     <string name="title_activity_list_view_loader">ListViewLoader</string>
 
 
-
+    <!-- Preferences -->
+    <string name="title_activity_preferences">Einstellungen</string>
+    <string name="account">Account</string>
+    <string name="usernameSummary">Username eintragen</string>
+    <string name="passwordSummary">Passwort eintragen</string>
 
 
 </resources>

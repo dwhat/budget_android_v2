@@ -1,9 +1,11 @@
 package de.budget.BudgetAndroid;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -28,6 +30,15 @@ public class Login extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String prefUsername = prefs.getString("username", "");
+        EditText txtUserName = (EditText) findViewById(R.id.username);
+        txtUserName.setText(prefUsername);
+
+        String prefPassword = prefs.getString("password", "");
+        EditText txtPassword = (EditText) findViewById(R.id.password);
+        txtPassword.setText(prefPassword);
     }
 
     @Override
@@ -54,6 +65,8 @@ public class Login extends ActionBarActivity {
 
     /** Called when the user clicks the Login button */
     public void login(View view) {
+
+
         EditText txtUsername = (EditText) findViewById(R.id.username);
         EditText txtPassword = (EditText) findViewById(R.id.password);
         String username = txtUsername.getText().toString();

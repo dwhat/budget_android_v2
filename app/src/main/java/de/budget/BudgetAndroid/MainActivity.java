@@ -137,7 +137,11 @@ public class MainActivity extends ActionBarActivity
 
                 changeActivity(LossActivity.class);
                 return true;
-
+            // @author Christopher
+            // @date 11.06.2015
+            case R.id.action_settings:
+                changeActivity(PreferencesActivity.class);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

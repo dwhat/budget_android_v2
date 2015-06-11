@@ -65,6 +65,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.budget.BudgetAndroid.MainActivity" />
         </activity>
+        <activity
+            android:name=".BudgetAndroid.PreferencesActivity"
+            android:label="@string/title_activity_preferences"
+            android:parentActivityName=".BudgetAndroid.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.budget.BudgetAndroid.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
