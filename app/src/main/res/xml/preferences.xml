@@ -11,21 +11,38 @@
                 android:title="@string/password"
                 android:password="true"/>
     </PreferenceCategory>
-    <PreferenceScreen
+    <PreferenceCategory
         android:key="payments"
         android:title="@string/payments"
         android:summary="@string/paymentsSummary">
         <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="paymentsCash"
-            android:title="@string/paymentsCash" />
-        <CheckBoxPreference
-            android:defaultValue="false"
+                android:defaultValue="false"
+                android:key="paymentsCash"
+                android:title="@string/paymentsCash" />
+        <PreferenceScreen
             android:key="paymentsGiro"
-            android:title="@string/paymentsGiro" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="paymentsGiro"
-            android:title="@string/paymentsCredit" />
-    </PreferenceScreen>
+            android:title="@string/paymentsGiro" >
+            <EditTextPreference android:key="paymentsIdCash"/>
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="paymentsActiveGiro"
+                android:title="@string/paymentsGiro" />
+            <EditTextPreference android:key="paymentsNumberGiro"
+                android:title="@string/paymentsNumberGiro"/>
+            <EditTextPreference android:key="paymentsBicGiro"
+                android:title="@string/paymentsBicGiro"/>
+            <EditTextPreference android:key="paymentsIdGiro" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:key="paymentsCredit"
+            android:title="@string/paymentsCredit" >
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="paymentsActiveCredit"
+                android:title="@string/paymentsCredit" />
+            <EditTextPreference android:key="paymentsNumberCredit"
+                android:title="@string/paymentsNumberCredit"/>
+            <EditTextPreference android:key="paymentsIdCredit" />
+        </PreferenceScreen>
+    </PreferenceCategory>
 </PreferenceScreen>

@@ -46,7 +46,7 @@ public class LoginTask extends AsyncTask<String, Integer, UserLoginResponse>
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("username", username);
             editor.putString("password", password);
-            editor.commit();
+            editor.apply();
             return myUser;
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,6 +79,8 @@ public class LoginTask extends AsyncTask<String, Integer, UserLoginResponse>
                 categorysTask.execute();
                 getVendorsTask vendorsTask = new getVendorsTask(context, myApp, nextActivity);
                 vendorsTask.execute();
+                getPaymentsTask paymentsTask = new getPaymentsTask(context, myApp, nextActivity);
+                paymentsTask.execute();
 
                 //Nächste Activity anzeigen
                 Intent intent = new Intent(context,MainActivity.class);

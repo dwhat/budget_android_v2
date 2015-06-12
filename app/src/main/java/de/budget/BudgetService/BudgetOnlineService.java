@@ -133,7 +133,7 @@ public interface BudgetOnlineService {
      * @param sessionId
      * @return PaymentListResponse Object
      */
-    public PaymentListResponse getPayments(int sessionId);
+    public PaymentListResponse getPayments(int sessionId) throws Exception;
 
     /**
      * Method to get a payment with the SessionId and the paymentId
@@ -167,7 +167,7 @@ public interface BudgetOnlineService {
      * @param active
      * @return PaymentResponse
      */
-    public PaymentResponse createOrUpdatePayment(int sessionId, int paymentId, String name, String number, String bic, boolean active);
+    public PaymentResponse createOrUpdatePayment(int sessionId, int paymentId, String name, String number, String bic, boolean active) throws Exception;
 
 
 

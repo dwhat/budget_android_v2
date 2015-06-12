@@ -72,6 +72,9 @@ public class RegisterTask extends AsyncTask<String, Integer, UserLoginResponse>
                 categorysTask.execute();
                 getVendorsTask vendorsTask = new getVendorsTask(context, myApp, nextActivity);
                 vendorsTask.execute();
+                getPaymentsTask paymentsTask = new getPaymentsTask(context, myApp, nextActivity);
+                paymentsTask.execute();
+
                 //Nächste Activity anzeigen
                 Intent intent = new Intent(context, MainActivity.class);
                 intent.putExtra(MainActivity.FRAGMENT_NAVIGATION,0);

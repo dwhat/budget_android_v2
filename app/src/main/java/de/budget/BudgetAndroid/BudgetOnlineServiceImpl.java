@@ -213,7 +213,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
             tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
             SoapObject test= (SoapObject) response.getProperty(1);
             int id = Integer.parseInt(test.getPrimitivePropertySafelyAsString("id"));
-            if (tmp != 0) {
+            if (tmp == 200) {
                 result.setReturnCode(tmp);
                 VendorTO vendor = new VendorTO();
                 vendor.setName(name);
@@ -257,8 +257,45 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @param sessionId
      * @return PaymentListResponse Object
      */
-    public PaymentListResponse getPayments(int sessionId){
-        return null;
+    public PaymentListResponse getPayments(int sessionId) throws Exception{
+        PaymentListResponse result = new PaymentListResponse();
+        String METHOD_NAME = "getPayments";
+        SoapObject response = null;
+        try {
+            response = executeSoapAction(METHOD_NAME, sessionId);
+            Log.d(TAG, response.toString() + response.getPropertyCount());
+
+            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            if (tmp == 200) {
+                result.setReturnCode(tmp);
+                ArrayList<PaymentTO> paymentList = new ArrayList<>();
+                if (response.getPropertyCount() > 1) {
+                    for (int idx = 1; idx < response.getPropertyCount(); idx++) {
+                        SoapObject ListObject = (SoapObject) response.getProperty(idx);
+                        Log.d("INFO", "paymentList gefunden : " + ListObject.toString() + "Länge: " + ListObject.getPropertyCount());
+                        int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString("id"));
+                        String name = ListObject.getPrimitivePropertySafelyAsString("name");
+                        boolean active = Boolean.parseBoolean(ListObject.getPrimitivePropertySafelyAsString("active"));
+                        String bic = ListObject.getPrimitivePropertySafelyAsString("bic");
+                        String number = ListObject.getPrimitivePropertySafelyAsString("number");
+                        PaymentTO tmp = new PaymentTO();
+                        tmp.setName(name);
+                        tmp.setId(id);
+                        tmp.setActive(active);
+                        tmp.setBic(bic);
+                        tmp.setNumber(number);
+                        paymentList.add(tmp);
+                    }
+                }
+                result.setPaymentList(paymentList);
+                return result;
+            }
+            else {
+                throw new Exception("Create/Update category was not successful!");
+            }
+        } catch (SoapFault e) {
+            throw new Exception(e.getMessage());
+        }
     }
 
     /**
@@ -297,8 +334,33 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @param active
      * @return PaymentResponse
      */
-    public PaymentResponse createOrUpdatePayment(int sessionId, int paymentId, String name, String number, String bic, boolean active){
-        return null;
+    public PaymentResponse createOrUpdatePayment(int sessionId, int paymentId, String name, String number, String bic, boolean active) throws Exception{
+        PaymentResponse result = new PaymentResponse();
+        String METHOD_NAME = "createOrUpdatePayment";
+        SoapObject response = null;
+        try {
+            response = executeSoapAction(METHOD_NAME, sessionId, paymentId, name, number, bic, active);
+            Log.d(TAG, response.toString());
+            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            SoapObject test= (SoapObject) response.getProperty(1);
+            int id = Integer.parseInt(test.getPrimitivePropertySafelyAsString("id"));
+            if (tmp != 0) {
+                result.setReturnCode(tmp);
+                PaymentTO payment = new PaymentTO();
+                payment.setName(name);
+                payment.setId(id);
+                payment.setNumber(number);
+                payment.setBic(bic);
+                payment.setActive(active);
+                result.setPaymentTo(payment);
+                return result;
+            }
+            else {
+                throw new Exception("Create/Update payment was not successful!");
+            }
+        } catch (SoapFault e) {
+            throw new Exception(e.getMessage());
+        }
     }
 
 
@@ -393,7 +455,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
             tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
             SoapObject test= (SoapObject) response.getProperty(1);
             int id = Integer.parseInt(test.getPrimitivePropertySafelyAsString("id"));
-            if (tmp != 0) {
+            if (tmp == 200) {
                 result.setReturnCode(tmp);
                 CategoryTO category = new CategoryTO();
                 category.setName(name);

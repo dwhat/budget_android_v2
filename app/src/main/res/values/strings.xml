@@ -121,6 +121,9 @@
     <string name="paymentsCash">Barzahlung</string>
     <string name="paymentsGiro">Girokonto</string>
     <string name="paymentsCredit">Kreditkarte</string>
+    <string name="paymentsNumberGiro">Girokontonummer eintragen</string>
+    <string name="paymentsBicGiro">BIC eintragen</string>
+    <string name="paymentsNumberCredit">Kreditkartenummer eintragen</string>
 
 
 </resources>

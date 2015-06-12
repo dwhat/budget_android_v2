@@ -11,6 +11,7 @@ import de.budget.BudgetAndroid.Vendors.VendorsFragment;
 import de.budget.BudgetService.BudgetOnlineService;
 import de.budget.BudgetService.Response.CategoryListResponse;
 import de.budget.BudgetService.dto.CategoryTO;
+import de.budget.BudgetService.dto.PaymentTO;
 import de.budget.BudgetService.dto.VendorTO;
 
 /**
@@ -22,6 +23,7 @@ public class BudgetAndroidApplication extends Application{
     private BudgetOnlineService budgetOnlineService;
     private List<CategoryTO> categories;
     private List<VendorTO> vendors;
+    private List<PaymentTO> payments;
 
     public BudgetAndroidApplication() {
         this.budgetOnlineService = new BudgetOnlineServiceImpl();
@@ -90,13 +92,30 @@ public class BudgetAndroidApplication extends Application{
             categories.add(newCategory);
         }
     }
+    public void setPayments(List<PaymentTO> list){
+        this.payments = list;
+    }
 
+    public List<PaymentTO> getPayments(){
+        return this.payments;
+    }
+
+    public PaymentTO getPaymentByName(String name){
+        PaymentTO result = null;
+        for(int i=0; i<payments.size();i++){
+            if(name.equals(payments.get(i).getName())) {
+                result = payments.get(i);
+            }
+        }
+        return result;
+    }
 
     @Override
     public void onTerminate() {
         super.onTerminate();
         this.categories = null;
         this.vendors = null;
+        this.payments = null;
         this.sessionId = -99;
         this.budgetOnlineService = null;
     }
