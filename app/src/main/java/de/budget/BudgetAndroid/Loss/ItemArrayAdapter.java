@@ -43,12 +43,12 @@ public class ItemArrayAdapter extends ArrayAdapter<HashMap <String, String>> {
         TextView itemValue      = (TextView) rowView.findViewById(R.id.item_value);
         TextView itemTotal      = (TextView) rowView.findViewById(R.id.item_total);
 
-        itemName        .setText(values.get(position).get("ITEM_NAME"));
-        itemCategory    .setText(values.get(position).get("ITEM_CATEGORY"));
-        itemNotice      .setText(values.get(position).get("ITEM_NOTICE"));
-        itemAmount      .setText(values.get(position).get("ITEM_AMOUNT"));
-        itemValue       .setText(values.get(position).get("ITEM_VALUE"));
-        itemTotal       .setText(values.get(position).get("ITEM_TOTAL"));
+        itemName        .setText(values.get(position).get(Item.NAME));
+        itemCategory    .setText(values.get(position).get(Item.CATEGORY));
+        itemNotice      .setText(values.get(position).get(Item.NOTICE));
+        itemAmount      .setText(values.get(position).get(Item.AMOUNT));
+        itemValue       .setText(values.get(position).get(Item.VALUE));
+        itemTotal       .setText(values.get(position).get(Item.TOTAL));
 
         return rowView;
     }

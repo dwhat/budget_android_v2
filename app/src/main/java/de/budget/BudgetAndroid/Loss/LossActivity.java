@@ -39,6 +39,8 @@ public class LossActivity extends ActionBarActivity {
         setContentView(R.layout.activity_loss);
 
 
+        editTextItemName = (EditText) findViewById(R.id.item_name);
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
 
