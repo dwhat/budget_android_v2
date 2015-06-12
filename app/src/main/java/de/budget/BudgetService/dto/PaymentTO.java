@@ -55,14 +55,6 @@ public class PaymentTO implements Serializable {
 		
 	}
 
-	/**
-	 * @date 19.05.2015
-	 * @author Marco
-	 * @return the id
-	 */
-	public boolean getActive() {
-		return active;
-	}
 
 	/**
 	 * @date 19.05.2015

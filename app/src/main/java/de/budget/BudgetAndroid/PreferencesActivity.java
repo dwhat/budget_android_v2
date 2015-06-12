@@ -25,11 +25,11 @@ public class PreferencesActivity extends PreferenceActivity {
 
         if(myApp.getPayments().size()== 3) {
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("paymentsCash", myApp.getPaymentByName("Cash").getActive());
-            editor.putBoolean("paymentsActiveGiro", myApp.getPaymentByName("Giro").getActive());
+            editor.putBoolean("paymentsCash", myApp.getPaymentByName("Cash").isActive());
+            editor.putBoolean("paymentsActiveGiro", myApp.getPaymentByName("Giro").isActive());
             editor.putString("paymentsNumberGiro", myApp.getPaymentByName("Giro").getNumber());
             editor.putString("paymentsBicGiro", myApp.getPaymentByName("Giro").getBic());
-            editor.putBoolean("paymentsActiveCredit", myApp.getPaymentByName("Credit").getActive());
+            editor.putBoolean("paymentsActiveCredit", myApp.getPaymentByName("Credit").isActive());
             editor.putString("paymentsNumberCredit", myApp.getPaymentByName("Credit").getNumber());
             editor.putString("paymentsIdCash", String.valueOf(myApp.getPaymentByName("Cash").getId()));
             editor.putString("paymentsIdGiro", String.valueOf(myApp.getPaymentByName("Giro").getId()));
