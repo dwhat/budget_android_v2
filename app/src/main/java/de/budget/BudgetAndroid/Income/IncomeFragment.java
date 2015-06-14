@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.List;
+
+import de.budget.BudgetAndroid.BudgetAndroidApplication;
+import de.budget.BudgetService.dto.CategoryTO;
+import de.budget.BudgetService.dto.IncomeTO;
 import de.budget.R;
 
 
@@ -75,13 +81,18 @@ public class IncomeFragment extends Fragment {
         View rootView =  inflater.inflate(R.layout.fragment_income, container, false);
 
 
-        // Author Mark
-        // Createing Mock Objects
-        // TODO: Holen der Vendors vom Server
-        String[] incomes = new String[] { "Einkauf 1","Einkauf 2","Einkauf 3", "Einkauf 4"};
-
+        // @Author Christopher
+        // 14.06.2015
+        // Abholen der Income
+        BudgetAndroidApplication myApp = (BudgetAndroidApplication) getActivity().getApplication();
+        List<IncomeTO> test = myApp.getIncome();
+        String[] income = new String[test.size()];
+        Log.d("INFO", "Size of Incomearray: " + test.size());
+        for (int i=0; i< test.size(); i++){
+            income[i] = test.get(i).getName();
+        }
         // Starten des Array Adapters
-        ArrayAdapter<String> ArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, incomes);
+        ArrayAdapter<String> ArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, income);
 
         // Listview ermitteln
         listView = (ListView)rootView.findViewById(R.id.listView_income);
@@ -103,7 +114,7 @@ public class IncomeFragment extends Fragment {
                 String  itemValue    = (String) listView.getItemAtPosition(position);
 
                 // Setzte im Bundle das Objekt
-                bundle.putString("INCOME_NAME", itemValue);
+                bundle.putInt("INCOME_POSITION", position);
 
                 // Übergebe das Objekt an den Intent
                 intent.putExtras(bundle);

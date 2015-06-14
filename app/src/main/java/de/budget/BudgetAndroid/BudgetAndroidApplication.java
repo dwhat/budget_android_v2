@@ -11,6 +11,7 @@ import de.budget.BudgetAndroid.Vendors.VendorsFragment;
 import de.budget.BudgetService.BudgetOnlineService;
 import de.budget.BudgetService.Response.CategoryListResponse;
 import de.budget.BudgetService.dto.CategoryTO;
+import de.budget.BudgetService.dto.IncomeTO;
 import de.budget.BudgetService.dto.PaymentTO;
 import de.budget.BudgetService.dto.VendorTO;
 
@@ -24,10 +25,17 @@ public class BudgetAndroidApplication extends Application{
     private List<CategoryTO> categories;
     private List<VendorTO> vendors;
     private List<PaymentTO> payments;
+    private List<IncomeTO> income;
 
     public BudgetAndroidApplication() {
         this.budgetOnlineService = new BudgetOnlineServiceImpl();
     }
+
+    public BudgetOnlineService getBudgetOnlineService() {
+        return this.budgetOnlineService;
+    }
+
+    // User Section
 
     public int getSession() {
         return this.sessionId;
@@ -37,9 +45,7 @@ public class BudgetAndroidApplication extends Application{
         this.sessionId = sessionId;
     }
 
-    public BudgetOnlineService getBudgetOnlineService() {
-        return this.budgetOnlineService;
-    }
+    // Categories Section
 
     public void setCategories(List<CategoryTO> list){
         this.categories = list;
@@ -49,20 +55,39 @@ public class BudgetAndroidApplication extends Application{
         return this.categories;
     }
 
+    public CategoryTO getCategorie(int categoryId){
+        CategoryTO result = null;
+        for(int i=0; i<categories.size();i++){
+            if(categories.get(i).getId() == categoryId) {
+                result =  categories.get(i);
+            }
+        }
+        return result;
+    }
+
+
+    public void checkCategoriesList(CategoryTO newCategory){
+        boolean found = false;
+        for(int i=0; i<categories.size();i++){
+            if(categories.get(i).getId() == newCategory.getId()) {
+                categories.remove(i);
+                categories.add(newCategory);
+                found = true;
+            }
+        }
+        if(!found){
+            categories.add(newCategory);
+        }
+    }
+
+    // Vendors Section
+
     public void setVendors(List<VendorTO> list){
         this.vendors = list;
     }
 
     public List<VendorTO> getVendors(){
         return this.vendors;
-    }
-
-    public void addToVendors(VendorTO vendor) {
-        this.vendors.add(vendor);
-    }
-
-    public void addToCategories(CategoryTO category) {
-        this.categories.add(category);
     }
 
     public void checkVendorsList(VendorTO newVendor){
@@ -79,19 +104,32 @@ public class BudgetAndroidApplication extends Application{
         }
     }
 
-    public void checkCategoriesList(CategoryTO newCategory){
+    // Income Section
+
+    public void setIncome(List<IncomeTO> list){
+        this.income = list;
+    }
+
+    public List<IncomeTO> getIncome(){
+        return this.income;
+    }
+
+
+    public void checkIncomeList(IncomeTO newIncome){
         boolean found = false;
-        for(int i=0; i<categories.size();i++){
-            if(categories.get(i).getId() == newCategory.getId()) {
-                categories.remove(i);
-                categories.add(newCategory);
+        for(int i=0; i<income.size();i++){
+            if(income.get(i).getId() == newIncome.getId()) {
+                income.remove(i);
+                income.add(newIncome);
                 found = true;
             }
         }
         if(!found){
-            categories.add(newCategory);
+            income.add(newIncome);
         }
     }
+
+    // Payment Section
     public void setPayments(List<PaymentTO> list){
         this.payments = list;
     }

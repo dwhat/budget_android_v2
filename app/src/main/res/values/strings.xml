@@ -76,6 +76,8 @@
     <string name="income_name">Name</string>
     <string name="income_amount">Wert</string>
     <string name="income_quantity">Anzahl</string>
+    <string name="income_new">0</string>
+    <string name="income_date">Datum</string>
 
     <!-- Vendor Activity -->
     <string name="title_activity_vendor">Händler</string>
@@ -124,6 +126,9 @@
     <string name="paymentsNumberGiro">Girokontonummer eintragen</string>
     <string name="paymentsBicGiro">BIC eintragen</string>
     <string name="paymentsNumberCredit">Kreditkartenummer eintragen</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

@@ -2,6 +2,7 @@ package de.budget.BudgetAndroid;
 
 import android.util.Log;
 
+import de.budget.BudgetAndroid.Income.IncomeActivity;
 import de.budget.BudgetService.BudgetOnlineService;
 import de.budget.BudgetService.Exception.BudgetOnlineException;
 import de.budget.BudgetService.Exception.InvalidLoginException;
@@ -527,10 +528,10 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @param purchaseDate
      * @param paymentId
      * @param vendorId
-     * @param items   List with items to add to the basket
+     * @param items   List with itemTO Objects to add to the basket
      * @return
      */
-    public BasketResponse createOrUpdateBasket(int sessionId, int basketId, String name, String notice, double amount, Timestamp purchaseDate, int paymentId, int vendorId, List<ItemTO> items){
+    public BasketResponse createOrUpdateBasket(int sessionId, int basketId, String name, String notice, double amount, long purchaseDate, int paymentId, int vendorId, List<ItemTO> items){
         return null;
     }
 
@@ -610,17 +611,40 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @param quantity
      * @param amount
      * @param notice
-     * @param period
-     * @param launchDate
-     * @param finishDate
      * @param categoryId
      * @return
      */
-    public IncomeResponse createOrUpdateIncome(int sessionId, int incomeId, String name, double  quantity, double amount, String notice, int period, Timestamp launchDate, Timestamp finishDate, int categoryId){
-        return null;
+    public IncomeResponse createOrUpdateIncome(int sessionId, int incomeId, String name, double  quantity, double amount, String notice, long receiptDate, int categoryId, BudgetAndroidApplication myApp) throws Exception{
+        IncomeResponse result = new IncomeResponse();;
+        String METHOD_NAME = "createOrUpdateIncome";
+        SoapObject response = null;
+        try {
+            response = executeSoapAction(METHOD_NAME, sessionId, incomeId, name, quantity, amount, notice, receiptDate, categoryId);
+            Log.d(TAG, response.toString());
+            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            SoapObject test= (SoapObject) response.getProperty(1);
+            int id = Integer.parseInt(test.getPrimitivePropertySafelyAsString("id"));
+            if (tmp == 200) {
+                result.setReturnCode(tmp);
+                IncomeTO income = new IncomeTO();
+                income.setName(name);
+                income.setId(id);
+                income.setQuantity(quantity);
+                income.setAmount(amount);
+                income.setNotice(notice);
+                income.setReceiptDate(receiptDate);
+                income.setCategory(myApp.getCategorie(categoryId));
+                result.setIncomeTo(income);
+                return result;
+            }
+            else {
+                throw new Exception("Create/Update Income was not successful!");
+            }
+        } catch (SoapFault e) {
+            throw new Exception(e.getMessage());
+        }
     }
 
-    //public int updateIncome(Customer income,int incomeID);
 
     /**
      * @author Marco
@@ -631,6 +655,65 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      */
     public IncomeResponse getIncome(int sessionId, int itemId){
         return null;
+    }
+
+    /**
+     * Method to get all incomes of a user
+     * @author Marco
+     * @date 09.06.2015
+     * @param sessionId
+     * @return
+     */
+    public IncomeListResponse getIncomes(int sessionId, BudgetAndroidApplication myApp) throws Exception{
+        IncomeListResponse result = new IncomeListResponse();
+        //MainActivity activity = new MainActivity();
+        String METHOD_NAME = "getIncomes";
+        SoapObject response = null;
+        try {
+            response = executeSoapAction(METHOD_NAME, sessionId);
+            Log.d(TAG, response.toString() + response.getPropertyCount());
+
+            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            if (tmp == 200) {
+                result.setReturnCode(tmp);
+                ArrayList<IncomeTO> incomeList = new ArrayList<>();
+                if (response.getPropertyCount() > 1) {
+                    for (int idx = 1; idx < response.getPropertyCount(); idx++) {
+                        SoapObject ListObject = (SoapObject) response.getProperty(idx);
+                        Log.d("INFO", "incomeList gefunden : " + ListObject.toString() + "Länge: " + ListObject.getPropertyCount());
+                        String name = ListObject.getPrimitivePropertySafelyAsString("name");
+                        String notice = ListObject.getPrimitivePropertySafelyAsString("notice");
+                        int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString("id"));
+                        Double amount = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString("amount"));
+                        Double quantity = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString("quantity"));
+                        Long receiptDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString("receiptDate"));
+
+                        // Kategorie holen
+                        SoapObject CategoryObject = (SoapObject) ListObject.getProperty("category");
+                        int categoryId = Integer.parseInt(CategoryObject.getPrimitivePropertyAsString("id"));
+
+                        IncomeTO tmp = new IncomeTO();
+                        tmp.setName(name);
+                        tmp.setCategory(myApp.getCategorie(categoryId));
+                        tmp.setId(id);
+                        tmp.setNotice(notice);
+                        tmp.setAmount(amount);
+                        tmp.setQuantity(quantity);
+                        tmp.setReceiptDate(receiptDate);
+                        incomeList.add(tmp);
+
+                    }
+                }
+                result.setIncomeList(incomeList);
+                return result;
+            }
+            else {
+                throw new Exception("Get Incomes was not successful!");
+            }
+        } catch (SoapFault e) {
+            throw new Exception(e.getMessage());
+        }
+
     }
 
     /**
@@ -682,11 +765,6 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
 
 
-
-
-
-
-
 	/*#################      ITEM - SECTION     ##############*/
 
     /**
@@ -698,14 +776,11 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @param quantity
      * @param price
      * @param notice
-     * @param period
-     * @param launchDate
-     * @param finishDate
      * @param basketId
      * @param categoryId
      * @return
      */
-    public ItemResponse createOrUpdateItem(int sessionId, int itemId, String name, double  quantity, double price, String notice, int period, Timestamp launchDate, Timestamp finishDate, int basketId, int categoryId){
+    public ItemResponse createOrUpdateItem(int sessionId, int itemId, String name, double  quantity, double price, String notice, long receiptDate, int basketId, int categoryId){
         return null;
     }
 
@@ -756,15 +831,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
     }
 
 
-
-
-
-
 	/*#################      XYZ - SECTION     ##############*/
-
-    //public Map<Integer,Integer> getChart(int customerID);
-
-    //public int getBalance(int customerID);
 
     /**
      * @author Marco
@@ -790,8 +857,6 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
 
 
-
-
     /**
      * Diese Methode delegiert einen Methodenaufruf an den hinterlegten WebService.
      * @param methodName
@@ -800,6 +865,8 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
     private SoapObject executeSoapAction(String methodName, Object... args) throws SoapFault {
 
         Object result = null;
+        MarshalDouble md = new MarshalDouble();
+
 
 	    /* Create a org.ksoap2.serialization.SoapObject object to build a SOAP request. Specify the namespace of the SOAP object and method
 	     * name to be invoked in the SoapObject constructor.
@@ -817,12 +884,17 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 	     */
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 
+        md.register(envelope);
 	    /* Assign the SoapObject request object to the envelop as the outbound message for the SOAP method call. */
         envelope.setOutputSoapObject(request);
 
 	    /* Create a org.ksoap2.transport.HttpTransportSE object that represents a J2SE based HttpTransport layer. HttpTransportSE extends
 	     * the org.ksoap2.transport.Transport class, which encapsulates the serialization and deserialization of SOAP messages.
 	     */
+
+        // marshaling !
+
+
         HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
 
         try {
@@ -837,7 +909,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 	        /* Get the web service response using the getResponse method of the SoapSerializationEnvelope object.
 	         * The result has to be cast to SoapPrimitive, the class used to encapsulate primitive types, or to SoapObject.
 	         */
-            result = envelope.getResponse();
+            result = (SoapObject) envelope.getResponse();
 
             if (result instanceof SoapFault) {
                 throw (SoapFault) result;

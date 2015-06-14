@@ -81,6 +81,8 @@ public class LoginTask extends AsyncTask<String, Integer, UserLoginResponse>
                 vendorsTask.execute();
                 getPaymentsTask paymentsTask = new getPaymentsTask(context, myApp, nextActivity);
                 paymentsTask.execute();
+                getIncomeTask incomeTask = new getIncomeTask(context, myApp, nextActivity);
+                incomeTask.execute();
 
                 //Nächste Activity anzeigen
                 Intent intent = new Intent(context,MainActivity.class);

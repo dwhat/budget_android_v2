@@ -1,5 +1,6 @@
 package de.budget.BudgetService;
 
+import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetService.Response.*;
 import de.budget.BudgetService.Exception.*;
 
@@ -249,10 +250,10 @@ public interface BudgetOnlineService {
      * @param purchaseDate
      * @param paymentId
      * @param vendorId
-     * @param items   List with items to add to the basket
+     * @param items   List with itemTO Objects to add to the basket
      * @return
      */
-    public BasketResponse createOrUpdateBasket(int sessionId, int basketId, String name, String notice, double amount, Timestamp purchaseDate, int paymentId, int vendorId, List<ItemTO> items);
+    public BasketResponse createOrUpdateBasket(int sessionId, int basketId, String name, String notice, double amount, long purchaseDate, int paymentId, int vendorId, List<ItemTO> items);
 
     /**
      * Method to delete a basket
@@ -320,15 +321,11 @@ public interface BudgetOnlineService {
      * @param quantity
      * @param amount
      * @param notice
-     * @param period
-     * @param launchDate
-     * @param finishDate
      * @param categoryId
      * @return
      */
-    public IncomeResponse createOrUpdateIncome(int sessionId, int incomeId, String name, double  quantity, double amount, String notice, int period, Timestamp launchDate, Timestamp finishDate, int categoryId);
+    public IncomeResponse createOrUpdateIncome(int sessionId, int incomeId, String name, double  quantity, double amount, String notice, long receiptDate, int categoryId, BudgetAndroidApplication myApp) throws Exception;
 
-    //public int updateIncome(Customer income,int incomeID);
 
     /**
      * @author Marco
@@ -338,6 +335,15 @@ public interface BudgetOnlineService {
      * @return
      */
     public IncomeResponse getIncome(int sessionId, int itemId);
+
+    /**
+     * Method to get all incomes of a user
+     * @author Marco
+     * @date 09.06.2015
+     * @param sessionId
+     * @return
+     */
+    public IncomeListResponse getIncomes(int sessionId, BudgetAndroidApplication myApp) throws Exception;
 
     /**
      * Gibt die letzten Incomes als Liste zur�ck
@@ -380,11 +386,6 @@ public interface BudgetOnlineService {
 
 
 
-
-
-
-
-
 	/*#################      ITEM - SECTION     ##############*/
 
     /**
@@ -396,14 +397,11 @@ public interface BudgetOnlineService {
      * @param quantity
      * @param price
      * @param notice
-     * @param period
-     * @param launchDate
-     * @param finishDate
      * @param basketId
      * @param categoryId
      * @return
      */
-    public ItemResponse createOrUpdateItem(int sessionId, int itemId, String name, double  quantity, double price, String notice, int period, Timestamp launchDate, Timestamp finishDate, int basketId, int categoryId);
+    public ItemResponse createOrUpdateItem(int sessionId, int itemId, String name, double  quantity, double price, String notice, long receiptDate, int basketId, int categoryId);
 
     /**
      * @author Marco
@@ -444,15 +442,7 @@ public interface BudgetOnlineService {
     public ItemListResponse getItemsByLossCategory(int sessionId, int categoryId);
 
 
-
-
-
-
 	/*#################      XYZ - SECTION     ##############*/
-
-    //public Map<Integer,Integer> getChart(int customerID);
-
-    //public int getBalance(int customerID);
 
     /**
      * @author Marco
@@ -475,4 +465,3 @@ public interface BudgetOnlineService {
 
 
 }
-

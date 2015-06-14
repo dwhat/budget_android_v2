@@ -90,7 +90,6 @@ public class VendorActivity extends ActionBarActivity {
      * @date 09.06.2015
      */
     public void save(View v) {
-        //TODO Die eingengeben Werte an den Server schicken
         Toast.makeText(this, "Speichern", Toast.LENGTH_SHORT).show();
 
         EditText txtVendorName = (EditText) findViewById(R.id.vendor_name);

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -37,6 +38,7 @@ public class CategoryActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
 
+        BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
 
         Bundle bundle = getIntent().getExtras();
         // Prüfe ob ein Objekt übergeben worden ist
@@ -51,7 +53,6 @@ public class CategoryActivity extends ActionBarActivity {
 
             // @author Christopher
             int categoryPos = bundle.getInt("CATEGORY_POSITION");
-            BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
             List<CategoryTO> tmp = myApp.getCategories();
             CategoryTO category = tmp.get(categoryPos);
             txtCategoryName.setText(category.getName());
@@ -103,7 +104,6 @@ public class CategoryActivity extends ActionBarActivity {
         RadioGroup rgIncomeOrLoss =(RadioGroup)findViewById(R.id.category_type);
         RadioButton radioButton = (RadioButton) this.findViewById(rgIncomeOrLoss.getCheckedRadioButtonId());
         TextView txtCategoryId = (TextView) findViewById(R.id.label_category_id);
-        // TODO Spinner?!
 
         String categoryName = txtCategoryName.getText().toString();
         String incomeOrLoss = radioButton.getText().toString();
