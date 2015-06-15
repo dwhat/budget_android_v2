@@ -7,7 +7,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
-import de.budget.BudgetAndroid.Logout;
 import de.budget.BudgetAndroid.MainActivity;
 import de.budget.BudgetAndroid.Register;
 import de.budget.BudgetService.Response.UserLoginResponse;
@@ -68,11 +67,11 @@ public class RegisterTask extends AsyncTask<String, Integer, UserLoginResponse>
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
                 // Daten holen
-                getCategorysTask categorysTask = new getCategorysTask(context, myApp, nextActivity);
+                GetCategorysTask categorysTask = new GetCategorysTask(context, myApp, nextActivity);
                 categorysTask.execute();
-                getVendorsTask vendorsTask = new getVendorsTask(context, myApp, nextActivity);
+                GetVendorsTask vendorsTask = new GetVendorsTask(context, myApp, nextActivity);
                 vendorsTask.execute();
-                getPaymentsTask paymentsTask = new getPaymentsTask(context, myApp, nextActivity);
+                GetPaymentsTask paymentsTask = new GetPaymentsTask(context, myApp, nextActivity);
                 paymentsTask.execute();
 
                 //Nächste Activity anzeigen

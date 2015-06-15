@@ -12,7 +12,6 @@ import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.Login;
 import de.budget.BudgetAndroid.MainActivity;
 import de.budget.BudgetService.Response.UserLoginResponse;
-import de.budget.BudgetAndroid.AsyncTasks.*;
 
 /*
     * @Author Christopher
@@ -56,7 +55,6 @@ public class LoginTask extends AsyncTask<String, Integer, UserLoginResponse>
 
     protected void onProgessUpdate(Integer... values)
     {
-        //wird in diesem Beispiel nicht verwendet
     }
 
     protected void onPostExecute(UserLoginResponse result)
@@ -66,7 +64,6 @@ public class LoginTask extends AsyncTask<String, Integer, UserLoginResponse>
         {
             //erfolgreich eingeloggt
             if (result.getReturnCode() == 200){
-
                 BudgetAndroidApplication myApp = (BudgetAndroidApplication) activity.getApplication();
                 myApp.setSession(result.getSessionId());
                 Log.d("INFO", "Login erfolgreich, SessionId: " + myApp.getSession());
@@ -75,14 +72,8 @@ public class LoginTask extends AsyncTask<String, Integer, UserLoginResponse>
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
                 // Daten Holen
-                getCategorysTask categorysTask = new getCategorysTask(context, myApp, nextActivity);
-                categorysTask.execute();
-                getVendorsTask vendorsTask = new getVendorsTask(context, myApp, nextActivity);
-                vendorsTask.execute();
-                getPaymentsTask paymentsTask = new getPaymentsTask(context, myApp, nextActivity);
-                paymentsTask.execute();
-                getIncomeTask incomeTask = new getIncomeTask(context, myApp, nextActivity);
-                incomeTask.execute();
+                LoadInitialDataTask task = new LoadInitialDataTask(context, myApp, nextActivity);
+                task.execute();
 
                 //Nächste Activity anzeigen
                 Intent intent = new Intent(context,MainActivity.class);

@@ -16,23 +16,18 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import de.budget.BudgetAndroid.Annotations.Author;
-import de.budget.BudgetAndroid.AsyncTasks.createOrUpdateCategoryTask;
-import de.budget.BudgetAndroid.AsyncTasks.createOrUpdateIncomeTask;
+import de.budget.BudgetAndroid.AsyncTasks.CreateOrUpdateIncomeTask;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.MainActivity;
 import de.budget.BudgetService.dto.CategoryTO;
@@ -163,7 +158,7 @@ public class IncomeActivity extends ActionBarActivity {
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
             if(networkInfo != null && networkInfo.isConnected()){
                 BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
-                createOrUpdateIncomeTask task = new createOrUpdateIncomeTask(this,myApp, this);
+                CreateOrUpdateIncomeTask task = new CreateOrUpdateIncomeTask(this,myApp, this);
                 task.execute(incomeId, incomeName,  incomeQuantity, incomeAmount, incomeNotice, String.valueOf(receiptDate), incomeCategory);
             }
             else {
@@ -215,8 +210,8 @@ public class IncomeActivity extends ActionBarActivity {
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
-            String date= day+"-"+month+"-"+year;
+            SimpleDateFormat f = new SimpleDateFormat("dd/MM/yy");
+            String date= day+"/"+month+"/"+year;
             try{
             Date d = f.parse(date);
             receiptDate = d.getTime();

@@ -7,20 +7,20 @@ import android.widget.Toast;
 
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.MainActivity;
-import de.budget.BudgetService.Response.CategoryListResponse;
+import de.budget.BudgetService.Response.PaymentListResponse;
 import de.budget.BudgetService.Response.VendorListResponse;
 
 /*
     * @Author Christopher
-    * @Date 09.06.2015
+    * @Date 11.06.2015
     */
-public class getVendorsTask extends AsyncTask<String, Integer, VendorListResponse>
+public class GetPaymentsTask extends AsyncTask<String, Integer, PaymentListResponse>
 {
     private Context context;
     private static MainActivity activity;
     private static BudgetAndroidApplication myApp;
 
-    public getVendorsTask(Context context, BudgetAndroidApplication myApp, MainActivity pActivity)
+    public GetPaymentsTask(Context context, BudgetAndroidApplication myApp, MainActivity pActivity)
     {
         this.context = context;
         this.activity = pActivity;
@@ -29,15 +29,15 @@ public class getVendorsTask extends AsyncTask<String, Integer, VendorListRespons
 
 
     @Override
-    protected VendorListResponse doInBackground(String... params){
+    protected PaymentListResponse doInBackground(String... params){
         if(params.length != 0)
             return null;
 
         try {
-            VendorListResponse myVendors = myApp.getBudgetOnlineService().getVendors(myApp.getSession());
-            Integer rt =  myVendors.getReturnCode();
+            PaymentListResponse response = myApp.getBudgetOnlineService().getPayments(myApp.getSession());
+            Integer rt =  response.getReturnCode();
             Log.d("INFO", "Returncode: " + rt.toString());
-            return myVendors;
+            return response;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -49,7 +49,7 @@ public class getVendorsTask extends AsyncTask<String, Integer, VendorListRespons
         //wird in diesem Beispiel nicht verwendet
     }
 
-    protected void onPostExecute(VendorListResponse result)
+    protected void onPostExecute(PaymentListResponse result)
     {
         int duration = Toast.LENGTH_SHORT;
         if(result != null)
@@ -57,13 +57,13 @@ public class getVendorsTask extends AsyncTask<String, Integer, VendorListRespons
             //erfolgreich eingeloggt
             if (result.getReturnCode() == 200){
 
-                myApp.setVendors(result.getVendorList());
-                Log.d("INFO", "Händlerliste erfolgreich angelegt.");
+                myApp.setPayments(result.getPaymentList());
+                Log.d("INFO", "Zahlungsartenliste erfolgreich angelegt.");
             }
         }
         else
         {
-            Log.d("INFO", "Händler konnten nicht geladen werden.");
+            Log.d("INFO", "Zahlungsarten konnten nicht geladen werden.");
 
         }
     }

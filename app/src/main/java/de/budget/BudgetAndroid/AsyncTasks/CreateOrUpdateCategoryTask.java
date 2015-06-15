@@ -15,14 +15,14 @@ import de.budget.BudgetService.Response.CategoryResponse;
  * @Author Christopher
  * @date 10.06.2015
  */
-public class createOrUpdateCategoryTask extends AsyncTask<String, Boolean, CategoryResponse>
+public class CreateOrUpdateCategoryTask extends AsyncTask<String, Boolean, CategoryResponse>
 {
         private Context context;
         private static CategoryActivity activity;
         public static MainActivity nextActivity = new MainActivity();
         private static BudgetAndroidApplication myApp;
 
-        public createOrUpdateCategoryTask(Context context, BudgetAndroidApplication myApp, CategoryActivity pActivity)
+        public CreateOrUpdateCategoryTask(Context context, BudgetAndroidApplication myApp, CategoryActivity pActivity)
         {
             this.context = context;
             this.activity = pActivity;

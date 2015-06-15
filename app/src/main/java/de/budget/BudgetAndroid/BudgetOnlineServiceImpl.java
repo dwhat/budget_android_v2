@@ -2,9 +2,7 @@ package de.budget.BudgetAndroid;
 
 import android.util.Log;
 
-import de.budget.BudgetAndroid.Income.IncomeActivity;
 import de.budget.BudgetService.BudgetOnlineService;
-import de.budget.BudgetService.Exception.BudgetOnlineException;
 import de.budget.BudgetService.Exception.InvalidLoginException;
 import de.budget.BudgetService.Response.AmountResponse;
 import de.budget.BudgetService.Response.BasketListResponse;
@@ -32,7 +30,6 @@ import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 

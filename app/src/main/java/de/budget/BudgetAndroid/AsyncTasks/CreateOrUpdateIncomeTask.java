@@ -7,22 +7,24 @@ import android.util.Log;
 import android.widget.Toast;
 
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
+import de.budget.BudgetAndroid.Income.IncomeActivity;
 import de.budget.BudgetAndroid.MainActivity;
 import de.budget.BudgetAndroid.Vendors.VendorActivity;
+import de.budget.BudgetService.Response.IncomeResponse;
 import de.budget.BudgetService.Response.VendorResponse;
 
 /*
     * @Author Christopher
-    * @Date 09.06.2015
+    * @Date 14.06.2015
     */
-public class createOrUpdateVendorTask extends AsyncTask<String, Integer, VendorResponse>
+public class CreateOrUpdateIncomeTask extends AsyncTask<String, Integer, IncomeResponse>
 {
     private Context context;
-    private static VendorActivity activity;
+    private static IncomeActivity activity;
     public static MainActivity nextActivity = new MainActivity();
     private static BudgetAndroidApplication myApp;
 
-    public createOrUpdateVendorTask(Context context, BudgetAndroidApplication myApp, VendorActivity pActivity)
+    public CreateOrUpdateIncomeTask(Context context, BudgetAndroidApplication myApp, IncomeActivity pActivity)
     {
         this.context = context;
         this.activity = pActivity;
@@ -30,21 +32,22 @@ public class createOrUpdateVendorTask extends AsyncTask<String, Integer, VendorR
     }
 
     @Override
-    protected VendorResponse doInBackground(String... params){
-        if(params.length != 6)
+    protected IncomeResponse doInBackground(String... params){
+        if(params.length != 7)
             return null;
-        String vendorName = params[0];
-        String vendorStreet = params[1];
-        String vendorNr = params[2];
-        String vendorPlz = params[3];
-        String vendorCity = params[4];
-        String vendorId = params[5];
+        String incomeId = params[0];
+        String name = params[1];
+        String quantity = params[2];
+        String amount = params[3];
+        String notice = params[4];
+        String receiptDate = params[5];
+        String categoryId = params[6];
 
         try {
-            VendorResponse myVendor = myApp.getBudgetOnlineService().createOrUpdateVendor(myApp.getSession(), Integer.parseInt(vendorId), vendorName, "",  vendorStreet, vendorCity, Integer.parseInt(vendorPlz), Integer.parseInt(vendorNr) );
-            Integer rt =  myVendor.getReturnCode();
+            IncomeResponse myIncome = myApp.getBudgetOnlineService().createOrUpdateIncome(myApp.getSession(), Integer.parseInt(incomeId), name, Double.parseDouble(quantity),  Double.parseDouble(amount), notice, Long.parseLong(receiptDate), Integer.parseInt(categoryId),myApp);
+            Integer rt =  myIncome.getReturnCode();
             Log.d("INFO", "Returncode: " + rt.toString());
-            return myVendor;
+            return myIncome;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,7 +59,7 @@ public class createOrUpdateVendorTask extends AsyncTask<String, Integer, VendorR
         //wird in diesem Beispiel nicht verwendet
     }
 
-    protected void onPostExecute(VendorResponse result)
+    protected void onPostExecute(IncomeResponse result)
     {
         int duration = Toast.LENGTH_SHORT;
         if(result != null)
@@ -64,11 +67,11 @@ public class createOrUpdateVendorTask extends AsyncTask<String, Integer, VendorR
             //erfolgreich eingeloggt
             if (result.getReturnCode() == 200){
 
-                Log.d("INFO", "Händler erfolgreich angelegt.");
+                Log.d("INFO", "Einnahme erfolgreich angelegt.");
                 // Update der alten Liste
-                myApp.checkVendorsList(result.getVendorTo());
+                myApp.checkIncomeList(result.getIncomeTo());
                 //Toast anzeigen
-                CharSequence text = "Händler gespeichert!";
+                CharSequence text = "Einnahme gespeichert!";
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
                 //Nächste Activity anzeigen
@@ -79,7 +82,7 @@ public class createOrUpdateVendorTask extends AsyncTask<String, Integer, VendorR
         else
         {
             //Toast anzeigen
-            CharSequence text = "Händler konnte nicht gespeichert werden.";
+            CharSequence text = "Einnahme konnte nicht gespeichert werden.";
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         }

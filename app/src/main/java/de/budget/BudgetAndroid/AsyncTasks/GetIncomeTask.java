@@ -14,13 +14,13 @@ import de.budget.BudgetService.Response.VendorListResponse;
     * @Author Christopher
     * @Date 14.06.2015
     */
-public class getIncomeTask extends AsyncTask<String, Integer, IncomeListResponse>
+public class GetIncomeTask extends AsyncTask<String, Integer, IncomeListResponse>
 {
     private Context context;
     private static MainActivity activity;
     private static BudgetAndroidApplication myApp;
 
-    public getIncomeTask(Context context, BudgetAndroidApplication myApp, MainActivity pActivity)
+    public GetIncomeTask(Context context, BudgetAndroidApplication myApp, MainActivity pActivity)
     {
         this.context = context;
         this.activity = pActivity;

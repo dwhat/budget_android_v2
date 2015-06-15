@@ -13,6 +13,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
@@ -88,8 +90,10 @@ public class IncomeFragment extends Fragment {
         List<IncomeTO> test = myApp.getIncome();
         String[] income = new String[test.size()];
         Log.d("INFO", "Size of Incomearray: " + test.size());
+        SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yy");
         for (int i=0; i< test.size(); i++){
-            income[i] = test.get(i).getName();
+            String date = DATE_FORMAT.format(new Date(test.get(i).getReceiptDate()));
+            income[i] = date + " | " + test.get(i).getName();
         }
         // Starten des Array Adapters
         ArrayAdapter<String> ArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, income);

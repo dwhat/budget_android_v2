@@ -127,8 +127,21 @@
     <string name="paymentsBicGiro">BIC eintragen</string>
     <string name="paymentsNumberCredit">Kreditkartenummer eintragen</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Sync Activity -->
+    <string-array name="quotes">
+        <item>We\'re all in this together.</item>
+        <item>Be cool. But also be warm.</item>
+        <item>What good shall I do today?</item>
+        <item>You look nice today.</item>
+        <item>Remember to get up and stretch once in a while.</item>
+        <item>Allright world, time to take you on!</item>
+        <item>We like you.</item>
+        <item>Always get a plenty of sleep, if you can.</item>
+        <item>What a day! What can not be accomplished on such a day?</item>
+        <item>Your\'re here! The day just got better.</item>
+        <item>Sometimes you eat the bear and sometimes the bear, well, he eats you.</item>
+    </string-array>
+    <string name="title_activity_sync">Syncing...</string>
 
 
 </resources>

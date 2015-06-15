@@ -1,33 +1,23 @@
 package de.budget.BudgetAndroid.Vendors;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
 
-import de.budget.BudgetAndroid.Annotations.Author;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
-import de.budget.BudgetAndroid.MainActivity;
-import de.budget.BudgetService.Response.CategoryResponse;
-import de.budget.BudgetService.Response.VendorResponse;
-import de.budget.BudgetService.dto.CategoryTO;
 import de.budget.BudgetService.dto.VendorTO;
 import de.budget.R;
-import de.budget.BudgetAndroid.AsyncTasks.createOrUpdateVendorTask;
+import de.budget.BudgetAndroid.AsyncTasks.CreateOrUpdateVendorTask;
 
 public class VendorActivity extends ActionBarActivity {
 
@@ -113,7 +103,7 @@ public class VendorActivity extends ActionBarActivity {
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
             if(networkInfo != null && networkInfo.isConnected()){
                 BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
-                createOrUpdateVendorTask task = new createOrUpdateVendorTask(this, myApp,this);
+                CreateOrUpdateVendorTask task = new CreateOrUpdateVendorTask(this, myApp,this);
                 task.execute(vendorName, vendorStreet, vendorNr, vendorPlz, vendorCity , vendorId);
             }
             else {

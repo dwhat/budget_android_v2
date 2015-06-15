@@ -1,35 +1,25 @@
 package de.budget.BudgetAndroid.Categories;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import de.budget.BudgetAndroid.Annotations.Author;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
-import de.budget.BudgetAndroid.MainActivity;
-import de.budget.BudgetService.Response.CategoryResponse;
-import de.budget.BudgetService.Response.UserLoginResponse;
 import de.budget.BudgetService.dto.CategoryTO;
 import de.budget.R;
-import de.budget.BudgetAndroid.AsyncTasks.createOrUpdateCategoryTask;
+import de.budget.BudgetAndroid.AsyncTasks.CreateOrUpdateCategoryTask;
 
 public class CategoryActivity extends ActionBarActivity {
 
@@ -117,7 +107,7 @@ public class CategoryActivity extends ActionBarActivity {
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
             if(networkInfo != null && networkInfo.isConnected()){
                 BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
-                createOrUpdateCategoryTask task = new createOrUpdateCategoryTask(this,myApp, this);
+                CreateOrUpdateCategoryTask task = new CreateOrUpdateCategoryTask(this,myApp, this);
                 task.execute(incomeOrLoss, categoryName, categoryNotice, categoryColor, categoryId);
             }
             else {

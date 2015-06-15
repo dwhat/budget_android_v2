@@ -17,14 +17,14 @@ import de.budget.BudgetService.Response.VendorResponse;
     * @Author Christopher
     * @Date 11.06.2015
     */
-public class createOrUpdatePaymentTask extends AsyncTask<String, Integer, PaymentResponse>
+public class CreateOrUpdatePaymentTask extends AsyncTask<String, Integer, PaymentResponse>
 {
     private Context context;
     private static PreferencesActivity activity;
     public static MainActivity nextActivity = new MainActivity();
     private static BudgetAndroidApplication myApp;
 
-    public createOrUpdatePaymentTask(Context context, BudgetAndroidApplication myApp, PreferencesActivity pActivity)
+    public CreateOrUpdatePaymentTask(Context context, BudgetAndroidApplication myApp, PreferencesActivity pActivity)
     {
         this.context = context;
         this.activity = pActivity;

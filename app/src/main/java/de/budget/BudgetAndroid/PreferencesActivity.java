@@ -9,7 +9,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import de.budget.BudgetAndroid.AsyncTasks.createOrUpdatePaymentTask;
+import de.budget.BudgetAndroid.AsyncTasks.CreateOrUpdatePaymentTask;
 import de.budget.R;
 
 public class PreferencesActivity extends PreferenceActivity {
@@ -60,15 +60,15 @@ public class PreferencesActivity extends PreferenceActivity {
         if (networkInfo != null && networkInfo.isConnected()) {
             //Anlegen/Update Cash
             if(!paymentsCash){tmpActive = "false";}else{tmpActive= "true";};
-            createOrUpdatePaymentTask taskCash = new createOrUpdatePaymentTask(this, myApp, this);
+            CreateOrUpdatePaymentTask taskCash = new CreateOrUpdatePaymentTask(this, myApp, this);
             taskCash.execute("Cash", "0", "0", tmpActive, paymentsIdCash);
             // Anlegen/Update Giro
             if(!paymentsActiveGiro){tmpActive = "false";}else{tmpActive= "true";};
-            createOrUpdatePaymentTask taskGiro = new createOrUpdatePaymentTask(this, myApp, this);
+            CreateOrUpdatePaymentTask taskGiro = new CreateOrUpdatePaymentTask(this, myApp, this);
             taskGiro.execute("Giro", paymentsNumberGiro, paymentsBicGiro, tmpActive, paymentsIdGiro);
             // Anlegen/Update Credit
             if(!paymentsActiveCredit){tmpActive = "false";}else{tmpActive= "true";};
-            createOrUpdatePaymentTask taskCredit = new createOrUpdatePaymentTask(this, myApp, this);
+            CreateOrUpdatePaymentTask taskCredit = new CreateOrUpdatePaymentTask(this, myApp, this);
             taskCredit.execute("Credit", paymentsNumberCredit, "0", tmpActive, paymentsIdCredit);
         }
         Log.d("INFO", "Zahlungsarten werden geupdated");

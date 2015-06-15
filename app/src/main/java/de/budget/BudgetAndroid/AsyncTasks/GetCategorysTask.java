@@ -6,21 +6,21 @@ import android.util.Log;
 import android.widget.Toast;
 
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
+import de.budget.BudgetAndroid.Login;
 import de.budget.BudgetAndroid.MainActivity;
-import de.budget.BudgetService.Response.PaymentListResponse;
-import de.budget.BudgetService.Response.VendorListResponse;
+import de.budget.BudgetService.Response.CategoryListResponse;
 
 /*
     * @Author Christopher
-    * @Date 11.06.2015
+    * @Date 09.06.2015
     */
-public class getPaymentsTask extends AsyncTask<String, Integer, PaymentListResponse>
+public class GetCategorysTask extends AsyncTask<String, Integer, CategoryListResponse>
 {
     private Context context;
     private static MainActivity activity;
     private static BudgetAndroidApplication myApp;
 
-    public getPaymentsTask(Context context, BudgetAndroidApplication myApp, MainActivity pActivity)
+    public GetCategorysTask(Context context, BudgetAndroidApplication myApp, MainActivity pActivity)
     {
         this.context = context;
         this.activity = pActivity;
@@ -29,15 +29,15 @@ public class getPaymentsTask extends AsyncTask<String, Integer, PaymentListRespo
 
 
     @Override
-    protected PaymentListResponse doInBackground(String... params){
+    protected CategoryListResponse doInBackground(String... params){
         if(params.length != 0)
             return null;
 
         try {
-            PaymentListResponse response = myApp.getBudgetOnlineService().getPayments(myApp.getSession());
-            Integer rt =  response.getReturnCode();
+            CategoryListResponse myCategorys = myApp.getBudgetOnlineService().getCategorys(myApp.getSession());
+            Integer rt =  myCategorys.getReturnCode();
             Log.d("INFO", "Returncode: " + rt.toString());
-            return response;
+            return myCategorys;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -49,7 +49,7 @@ public class getPaymentsTask extends AsyncTask<String, Integer, PaymentListRespo
         //wird in diesem Beispiel nicht verwendet
     }
 
-    protected void onPostExecute(PaymentListResponse result)
+    protected void onPostExecute(CategoryListResponse result)
     {
         int duration = Toast.LENGTH_SHORT;
         if(result != null)
@@ -57,13 +57,13 @@ public class getPaymentsTask extends AsyncTask<String, Integer, PaymentListRespo
             //erfolgreich eingeloggt
             if (result.getReturnCode() == 200){
 
-                myApp.setPayments(result.getPaymentList());
-                Log.d("INFO", "Zahlungsartenliste erfolgreich angelegt.");
+                myApp.setCategories(result.getCategoryList());
+                Log.d("INFO", "KategorieListe erfolgreich angelegt.");
             }
         }
         else
         {
-            Log.d("INFO", "Zahlungsarten konnten nicht geladen werden.");
+            Log.d("INFO", "Kategorien konnten nicht geladen werden.");
 
         }
     }
