@@ -69,7 +69,7 @@ public class Login extends ActionBarActivity {
 
         EditText txtUsername = (EditText) findViewById(R.id.username);
         EditText txtPassword = (EditText) findViewById(R.id.password);
-        String username = txtUsername.getText().toString();
+        String username = txtUsername.getText().toString().toLowerCase();
         String password = txtPassword.getText().toString();
 
         if(!"".equals(username) && !"".equals(password))

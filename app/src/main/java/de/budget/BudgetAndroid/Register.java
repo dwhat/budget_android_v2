@@ -1,22 +1,25 @@
 package de.budget.BudgetAndroid;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
+
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import de.budget.BudgetService.Response.UserLoginResponse;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import de.budget.R;
 import de.budget.BudgetAndroid.AsyncTasks.RegisterTask;
 
 
+/*
+    * @Author Christopher
+    * @Date 09.06.2015
+    */
 public class Register extends ActionBarActivity {
 
     @Override
@@ -48,29 +51,63 @@ public class Register extends ActionBarActivity {
     }
 
     public void register(View view){
+        int duration = Toast.LENGTH_SHORT;
         EditText txtUsername = (EditText) findViewById(R.id.username);
         EditText txtPassword = (EditText) findViewById(R.id.password);
         EditText txtEmail = (EditText) findViewById(R.id.email);
-        String username = txtUsername.getText().toString();
+        String username = txtUsername.getText().toString().toLowerCase();
         String password = txtPassword.getText().toString();
         String email = txtEmail.getText().toString();
 
         if(!"".equals(username) && !"".equals(password) && !"".equals(email))
         {
-            BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
-            RegisterTask task = new RegisterTask(view.getContext(), myApp, this);
-            //Proxy asynchron aufrufen
-            task.execute(username, password, email);
+            if( password.length() > 7){
+                if(isEmailValid(email)){
+                    BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
+                    RegisterTask task = new RegisterTask(view.getContext(), myApp, this);
+                    //Proxy asynchron aufrufen
+                    task.execute(username, password, email);
+                }
+                else{
+                    CharSequence text = "Bitte gültige Email eingeben!";
+                    Toast toast = Toast.makeText(this, text, duration);
+                    toast.show();
+                }
+            }
+            else {
+                CharSequence text = "Bitte Passwort größer sieben Zeichen wählen!";
+                Toast toast = Toast.makeText(this, text, duration);
+                toast.show();
+            }
         }
         else
         {
             //Toast anzeigen
             CharSequence text = "Bitte alle Felder ausfüllen!";
-            int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(this, text, duration);
             toast.show();
         }
 
+    }
+
+    public boolean isEmailValid(String email)
+    {
+        String regExpn = "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
+                        +"((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                        +"[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
+                        +"([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                        +"[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+                        +"([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$";
+
+        CharSequence emailToCheck = email;
+
+        Pattern pattern = Pattern.compile(regExpn, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(emailToCheck);
+
+        if(matcher.matches())
+            return true;
+        else
+            return false;
     }
 
 
