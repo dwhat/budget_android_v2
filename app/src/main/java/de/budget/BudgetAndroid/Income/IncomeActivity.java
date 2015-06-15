@@ -43,7 +43,6 @@ public class IncomeActivity extends ActionBarActivity {
 
     private static long receiptDate;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,14 +60,16 @@ public class IncomeActivity extends ActionBarActivity {
 
         BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
         List<CategoryTO> categoryTOs = myApp.getCategories();
-        String[] categories = new String[categoryTOs.size()];
+        String[] categoryNames = new String[categoryTOs.size()];
+        int[] categoryIds = new int[categoryTOs.size()];
         Log.d("INFO", "Size of Categoryarray: "+categoryTOs.size());
         for (int i=0; i< categoryTOs.size(); i++){
-            categories[i] = categoryTOs.get(i).getName();
+            categoryNames[i] = categoryTOs.get(i).getName();
+            categoryIds[i] = categoryTOs.get(i).getId();
         }
         Spinner txtCategorySpinner = (Spinner) findViewById(R.id.income_category);
 
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories); //selected item will look like a spinner set from XML
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categoryNames); //selected item will look like a spinner set from XML
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         txtCategorySpinner.setAdapter(spinnerArrayAdapter);
 
@@ -94,6 +95,12 @@ public class IncomeActivity extends ActionBarActivity {
             txtIncomeAmount.setText(String.valueOf(income.getAmount()));
             txtIncomeQuantity.setText(String.valueOf(income.getQuantity()));
             txtIncomeId.setText(Integer.toString(income.getId()));
+
+            for(int i=0; i< categoryIds.length; i++) {
+                if(income.getCategory().getId() == categoryIds[i]) {
+                    txtCategorySpinner.setSelection(i);
+                }
+            }
 
         }
     }
