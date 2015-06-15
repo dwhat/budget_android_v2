@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -29,47 +32,32 @@ public class SyncActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sync);
+
+        ImageView img_animation = (ImageView) findViewById(R.id.budget_euro);
+
+        TranslateAnimation animation = new TranslateAnimation(30.0f, 30.0f, -50.0f, 620.0f);
+        animation.setDuration(875);
+        animation.setRepeatCount(10);
+        animation.setRepeatMode(1);
+        animation.setFillAfter(true);
+        img_animation.startAnimation(animation);
+        img_animation.setVisibility(View.VISIBLE);
+
+
         TextView quote = (TextView) findViewById(R.id.quote);
         String[] quotes = getResources().getStringArray(R.array.quotes);
         int idx = new Random().nextInt(quotes.length);
         String random = (quotes[idx]);
         quote.setText(random);
         BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
-        GetCategoriesTask categorysTask = new GetCategoriesTask(this, myApp);
-        categorysTask.execute();
+        GetCategoriesTask categoriesTask = new GetCategoriesTask(this, myApp);
+        categoriesTask.execute();
         GetVendorsTask vendorsTask = new GetVendorsTask(this, myApp);
         vendorsTask.execute();
         GetPaymentsTask paymentsTask = new GetPaymentsTask(this, myApp);
         paymentsTask.execute();
         GetIncomeTask incomeTask = new GetIncomeTask(this, myApp);
         incomeTask.execute();
-
-        ArrayList<AsyncTask> tasks = new ArrayList<>();
-        tasks.add(categorysTask);
-        tasks.add(vendorsTask);
-        tasks.add(paymentsTask);
-        tasks.add(incomeTask);
-        myApp.setRunningTasks(tasks);
-
-    }
-
-    @Override
-    protected void onStart(){
-        super.onStart();
-        BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
-        ArrayList<AsyncTask> result = myApp.getRunningTasks();
-/*
-        for(int i=0; i< result.size(); i++) {
-            while (result.get(i).getStatus() != AsyncTask.Status.FINISHED) {
-                if(result.get(i).getStatus() == AsyncTask.Status.FINISHED){
-                    myApp.increaseInitialDataCounter();
-                }
-            }
-        }*/
-        //Nächste Activity anzeigen
-        Intent intent = new Intent(this,MainActivity.class);
-        this.startActivity(intent);
-        Log.d("INFO", "Initiale Daten wurden erfolgreich geladen.");
     }
 
     @Override

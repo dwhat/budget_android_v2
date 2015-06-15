@@ -58,6 +58,7 @@ public class GetVendorsTask extends AsyncTask<String, Integer, VendorListRespons
             if (result.getReturnCode() == 200){
 
                 myApp.setVendors(result.getVendorList());
+                myApp.increaseInitialDataCounter();
                 Log.d("INFO", "Händlerliste erfolgreich angelegt.");
             }
         }

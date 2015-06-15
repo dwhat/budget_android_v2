@@ -59,6 +59,7 @@ public class GetPaymentsTask extends AsyncTask<String, Integer, PaymentListRespo
             if (result.getReturnCode() == 200){
 
                 myApp.setPayments(result.getPaymentList());
+                myApp.increaseInitialDataCounter();
                 Log.d("INFO", "Zahlungsartenliste erfolgreich angelegt.");
             }
         }

@@ -2,6 +2,7 @@ package de.budget.BudgetAndroid;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -28,7 +29,7 @@ public class BudgetAndroidApplication extends Application{
     private List<VendorTO> vendors;
     private List<PaymentTO> payments;
     private List<IncomeTO> income;
-    private ArrayList<AsyncTask> runningTasks;
+    private boolean firstStart = true;
     private int initialDataCounter = 0;
 
     public BudgetAndroidApplication() {
@@ -40,17 +41,21 @@ public class BudgetAndroidApplication extends Application{
     }
 
     public void increaseInitialDataCounter(){
-        this.initialDataCounter++;
+        if(firstStart) {
+            this.initialDataCounter++;
+            if (initialDataCounter == 4) {
+                firstStart = false;
+                Log.d("INFO", "Initiales Datenladen abgeschlossen.");
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                this.startActivity(intent);
+            }
+        }
     }
 
-    public void setRunningTasks(ArrayList<AsyncTask> list){
-        this.runningTasks = list;
+    public boolean getFirstStart(){
+        return this.firstStart;
     }
-
-    public ArrayList<AsyncTask> getRunningTasks(){
-        return this.runningTasks;
-    }
-
     // User Section
 
     public int getSession() {
@@ -173,5 +178,6 @@ public class BudgetAndroidApplication extends Application{
         this.sessionId = -99;
         this.budgetOnlineService = null;
         this.initialDataCounter = 0;
+        this.firstStart = true;
     }
 }

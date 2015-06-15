@@ -57,6 +57,7 @@ public class GetIncomeTask extends AsyncTask<String, Integer, IncomeListResponse
             if (result.getReturnCode() == 200){
 
                 myApp.setIncome(result.getIncomeList());
+                myApp.increaseInitialDataCounter();
                 Log.d("INFO", "Liste der Einnahmen erfolgreich angelegt.");
             }
         }

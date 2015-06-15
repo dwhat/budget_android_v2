@@ -58,6 +58,7 @@ public class GetCategoriesTask extends AsyncTask<String, Integer, CategoryListRe
             if (result.getReturnCode() == 200){
 
                 myApp.setCategories(result.getCategoryList());
+                myApp.increaseInitialDataCounter();
                 Log.d("INFO", "KategorieListe erfolgreich angelegt.");
             }
         }

@@ -54,9 +54,11 @@ public class Logout extends Fragment {
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if(networkInfo != null && networkInfo.isConnected()){
             BudgetAndroidApplication myApp = (BudgetAndroidApplication) getActivity().getApplication();
-            LogoutTask logoutTask = new LogoutTask(context, myApp, this);
-            int sessionId = myApp.getSession();
-            logoutTask.execute(sessionId);
+            if(!myApp.getFirstStart()) {
+                LogoutTask logoutTask = new LogoutTask(context, myApp, this);
+                int sessionId = myApp.getSession();
+                logoutTask.execute(sessionId);
+            }
         }
         else {
             CharSequence text = "Keine Netzwerkverbindung! :(";
