@@ -8,6 +8,9 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
@@ -39,8 +42,18 @@ public class LoginTask extends AsyncTask<String, Integer, UserLoginResponse>
         String username = params[0];
         String password = params[1];
         BudgetAndroidApplication myApp = (BudgetAndroidApplication) activity.getApplication();
+        String md5 = new String();
         try {
-            UserLoginResponse myUser = myApp.getBudgetOnlineService().login(username, password);
+            // PW MD5 Hash bilden
+            MessageDigest mdEnc = MessageDigest.getInstance("MD5");
+            mdEnc.update(password.getBytes(), 0, password.length());
+            md5 = new BigInteger(1, mdEnc.digest()).toString(16);
+        }
+        catch (NoSuchAlgorithmException e){
+            Log.d("Error", e.getMessage());
+        }
+        try {
+            UserLoginResponse myUser = myApp.getBudgetOnlineService().login(username, md5);
             Integer rt =  myUser.getReturnCode();
             Log.d("INFO", "Returncode: " + rt.toString());
             // Speichern der Benutzerdaten

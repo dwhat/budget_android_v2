@@ -3,12 +3,16 @@ package de.budget.BudgetAndroid;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,14 +63,25 @@ public class Register extends ActionBarActivity {
         String password = txtPassword.getText().toString();
         String email = txtEmail.getText().toString();
 
+
+
         if(!"".equals(username) && !"".equals(password) && !"".equals(email))
         {
             if( password.length() > 7){
                 if(isEmailValid(email)){
-                    BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
-                    RegisterTask task = new RegisterTask(view.getContext(), myApp, this);
-                    //Proxy asynchron aufrufen
-                    task.execute(username, password, email);
+                    try {
+                        // PW MD5 Hash bilden
+                        MessageDigest mdEnc = MessageDigest.getInstance("MD5");
+                        mdEnc.update(password.getBytes(), 0, password.length());
+                        String md5 = new BigInteger(1, mdEnc.digest()).toString(16);
+
+                        BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
+                        RegisterTask task = new RegisterTask(view.getContext(), myApp, this);
+                        task.execute(username, md5, email);
+                    }
+                    catch (NoSuchAlgorithmException e){
+                        Log.d("Error", e.getMessage());
+                    }
                 }
                 else{
                     CharSequence text = "Bitte gültige Email eingeben!";
