@@ -69,19 +69,9 @@ public class Register extends ActionBarActivity {
         {
             if( password.length() > 7){
                 if(isEmailValid(email)){
-                    try {
-                        // PW MD5 Hash bilden
-                        MessageDigest mdEnc = MessageDigest.getInstance("MD5");
-                        mdEnc.update(password.getBytes(), 0, password.length());
-                        String md5 = new BigInteger(1, mdEnc.digest()).toString(16);
-
-                        BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
-                        RegisterTask task = new RegisterTask(view.getContext(), myApp, this);
-                        task.execute(username, md5, email);
-                    }
-                    catch (NoSuchAlgorithmException e){
-                        Log.d("Error", e.getMessage());
-                    }
+                    BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
+                    RegisterTask task = new RegisterTask(view.getContext(), myApp, this);
+                    task.execute(username, password, email);
                 }
                 else{
                     CharSequence text = "Bitte gültige Email eingeben!";
