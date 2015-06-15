@@ -8,9 +8,12 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.Login;
 import de.budget.BudgetAndroid.MainActivity;
+import de.budget.BudgetAndroid.SyncActivity;
 import de.budget.BudgetService.Response.UserLoginResponse;
 
 /*
@@ -21,7 +24,7 @@ public class LoginTask extends AsyncTask<String, Integer, UserLoginResponse>
 {
     private Context context;
     private static Login activity;
-    public static MainActivity nextActivity = new MainActivity();
+    public static SyncActivity nextActivity = new SyncActivity();
 
     public LoginTask(Context context, Login pActivity)
     {
@@ -71,13 +74,9 @@ public class LoginTask extends AsyncTask<String, Integer, UserLoginResponse>
                 CharSequence text = "Login erfolgreich!";
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
-                // Daten Holen
-                LoadInitialDataTask task = new LoadInitialDataTask(context, myApp, nextActivity);
-                task.execute();
 
                 //Nächste Activity anzeigen
-                Intent intent = new Intent(context,MainActivity.class);
-                intent.putExtra(MainActivity.FRAGMENT_NAVIGATION,0);
+                Intent intent = new Intent(context,SyncActivity.class);
                 activity.startActivity(intent);
             }
         }
@@ -87,9 +86,6 @@ public class LoginTask extends AsyncTask<String, Integer, UserLoginResponse>
             CharSequence text = "Login fehlgeschlagen!";
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
-            // nur für entwicklung, muss wieder weg!
-            Intent intent = new Intent(context, MainActivity.class);
-            activity.startActivity(intent);
         }
     }
 }

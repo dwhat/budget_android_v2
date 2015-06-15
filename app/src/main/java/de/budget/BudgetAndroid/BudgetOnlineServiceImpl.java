@@ -26,7 +26,6 @@ import org.ksoap2.HeaderProperty;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
 import org.ksoap2.serialization.SoapObject;
-import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
@@ -141,7 +140,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
         SoapObject response = null;
         try {
             response = executeSoapAction(METHOD_NAME, sessionId);
-            Log.d(TAG, response.toString() + response.getPropertyCount());
+            //Log.d(TAG, response.toString() + response.getPropertyCount());
 
             tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
             if (tmp == 200) {
@@ -390,7 +389,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
         SoapObject response = null;
         try {
             response = executeSoapAction(METHOD_NAME, sessionId);
-            Log.d(TAG, response.toString() + response.getPropertyCount());
+            //Log.d(TAG, response.toString() + response.getPropertyCount());
 
             tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
             if (tmp == 200) {
@@ -630,7 +629,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                 income.setAmount(amount);
                 income.setNotice(notice);
                 income.setReceiptDate(receiptDate);
-                income.setCategory(myApp.getCategorie(categoryId));
+                income.setCategory(myApp.getCategory(categoryId));
                 result.setIncomeTo(income);
                 return result;
             }
@@ -668,7 +667,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
         SoapObject response = null;
         try {
             response = executeSoapAction(METHOD_NAME, sessionId);
-            Log.d(TAG, response.toString() + response.getPropertyCount());
+            //Log.d(TAG, response.toString() + response.getPropertyCount());
 
             tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
             if (tmp == 200) {
@@ -691,7 +690,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
                         IncomeTO tmp = new IncomeTO();
                         tmp.setName(name);
-                        tmp.setCategory(myApp.getCategorie(categoryId));
+                        tmp.setCategory(myApp.getCategory(categoryId));
                         tmp.setId(id);
                         tmp.setNotice(notice);
                         tmp.setAmount(amount);

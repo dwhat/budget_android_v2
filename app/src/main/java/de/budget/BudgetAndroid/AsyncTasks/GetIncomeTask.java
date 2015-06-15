@@ -1,12 +1,14 @@
 package de.budget.BudgetAndroid.AsyncTasks;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.MainActivity;
+import de.budget.BudgetAndroid.SyncActivity;
 import de.budget.BudgetService.Response.IncomeListResponse;
 import de.budget.BudgetService.Response.VendorListResponse;
 
@@ -17,13 +19,11 @@ import de.budget.BudgetService.Response.VendorListResponse;
 public class GetIncomeTask extends AsyncTask<String, Integer, IncomeListResponse>
 {
     private Context context;
-    private static MainActivity activity;
     private static BudgetAndroidApplication myApp;
 
-    public GetIncomeTask(Context context, BudgetAndroidApplication myApp, MainActivity pActivity)
+    public GetIncomeTask(Context context, BudgetAndroidApplication myApp)
     {
         this.context = context;
-        this.activity = pActivity;
         this.myApp = myApp;
     }
 
@@ -49,12 +49,11 @@ public class GetIncomeTask extends AsyncTask<String, Integer, IncomeListResponse
         //wird in diesem Beispiel nicht verwendet
     }
 
+    @Override
     protected void onPostExecute(IncomeListResponse result)
     {
-        int duration = Toast.LENGTH_SHORT;
         if(result != null)
         {
-            //erfolgreich eingeloggt
             if (result.getReturnCode() == 200){
 
                 myApp.setIncome(result.getIncomeList());

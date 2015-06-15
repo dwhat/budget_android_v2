@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.MainActivity;
+import de.budget.BudgetAndroid.SyncActivity;
 import de.budget.BudgetService.Response.PaymentListResponse;
 import de.budget.BudgetService.Response.VendorListResponse;
 
@@ -17,13 +18,12 @@ import de.budget.BudgetService.Response.VendorListResponse;
 public class GetPaymentsTask extends AsyncTask<String, Integer, PaymentListResponse>
 {
     private Context context;
-    private static MainActivity activity;
+    private static SyncActivity activity;
     private static BudgetAndroidApplication myApp;
 
-    public GetPaymentsTask(Context context, BudgetAndroidApplication myApp, MainActivity pActivity)
+    public GetPaymentsTask(Context context, BudgetAndroidApplication myApp)
     {
         this.context = context;
-        this.activity = pActivity;
         this.myApp = myApp;
     }
 
@@ -49,6 +49,7 @@ public class GetPaymentsTask extends AsyncTask<String, Integer, PaymentListRespo
         //wird in diesem Beispiel nicht verwendet
     }
 
+    @Override
     protected void onPostExecute(PaymentListResponse result)
     {
         int duration = Toast.LENGTH_SHORT;

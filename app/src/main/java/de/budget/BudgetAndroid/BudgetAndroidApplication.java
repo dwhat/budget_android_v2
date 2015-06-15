@@ -3,6 +3,8 @@ package de.budget.BudgetAndroid;
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.os.AsyncTask;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,8 @@ public class BudgetAndroidApplication extends Application{
     private List<VendorTO> vendors;
     private List<PaymentTO> payments;
     private List<IncomeTO> income;
+    private ArrayList<AsyncTask> runningTasks;
+    private int initialDataCounter = 0;
 
     public BudgetAndroidApplication() {
         this.budgetOnlineService = new BudgetOnlineServiceImpl();
@@ -33,6 +37,18 @@ public class BudgetAndroidApplication extends Application{
 
     public BudgetOnlineService getBudgetOnlineService() {
         return this.budgetOnlineService;
+    }
+
+    public void increaseInitialDataCounter(){
+        this.initialDataCounter++;
+    }
+
+    public void setRunningTasks(ArrayList<AsyncTask> list){
+        this.runningTasks = list;
+    }
+
+    public ArrayList<AsyncTask> getRunningTasks(){
+        return this.runningTasks;
     }
 
     // User Section
@@ -55,9 +71,9 @@ public class BudgetAndroidApplication extends Application{
         return this.categories;
     }
 
-    public CategoryTO getCategorie(int categoryId){
+    public CategoryTO getCategory(int categoryId){
         CategoryTO result = null;
-        for(int i=0; i<categories.size();i++){
+        for(int i=0; i< categories.size();i++){
             if(categories.get(i).getId() == categoryId) {
                 result =  categories.get(i);
             }
@@ -156,5 +172,6 @@ public class BudgetAndroidApplication extends Application{
         this.payments = null;
         this.sessionId = -99;
         this.budgetOnlineService = null;
+        this.initialDataCounter = 0;
     }
 }

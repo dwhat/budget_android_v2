@@ -24,5 +24,6 @@
         android:layout_below="@+id/budget_logo"
         android:layout_centerHorizontal="true"
         android:textColor="@color/abc_primary_text_disable_only_material_dark"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:textAlignment="center"/>
 </RelativeLayout>

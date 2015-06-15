@@ -9,6 +9,7 @@ import android.widget.Toast;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.MainActivity;
 import de.budget.BudgetAndroid.Register;
+import de.budget.BudgetAndroid.SyncActivity;
 import de.budget.BudgetService.Response.UserLoginResponse;
 
 /*
@@ -20,7 +21,7 @@ public class RegisterTask extends AsyncTask<String, Integer, UserLoginResponse>
     private Context context;
     private static Register activity;
     private static BudgetAndroidApplication myApp;
-    public static MainActivity nextActivity = new MainActivity();
+    public static SyncActivity nextActivity = new SyncActivity();
 
 
     public RegisterTask(Context context, BudgetAndroidApplication myApp, Register pActivity)
@@ -67,16 +68,10 @@ public class RegisterTask extends AsyncTask<String, Integer, UserLoginResponse>
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
                 // Daten holen
-                GetCategorysTask categorysTask = new GetCategorysTask(context, myApp, nextActivity);
-                categorysTask.execute();
-                GetVendorsTask vendorsTask = new GetVendorsTask(context, myApp, nextActivity);
-                vendorsTask.execute();
-                GetPaymentsTask paymentsTask = new GetPaymentsTask(context, myApp, nextActivity);
-                paymentsTask.execute();
+
 
                 //Nächste Activity anzeigen
-                Intent intent = new Intent(context, MainActivity.class);
-                intent.putExtra(MainActivity.FRAGMENT_NAVIGATION,0);
+                Intent intent = new Intent(context,SyncActivity.class);
                 activity.startActivity(intent);
             }
             else if(result.getReturnCode() == 409){

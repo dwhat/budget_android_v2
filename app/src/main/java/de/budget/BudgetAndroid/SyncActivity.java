@@ -1,15 +1,28 @@
 package de.budget.BudgetAndroid;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import de.budget.BudgetAndroid.AsyncTasks.GetCategoriesTask;
+import de.budget.BudgetAndroid.AsyncTasks.GetIncomeTask;
+import de.budget.BudgetAndroid.AsyncTasks.GetPaymentsTask;
+import de.budget.BudgetAndroid.AsyncTasks.GetVendorsTask;
 import de.budget.R;
 
+/**
+ * @author christopher
+ * @date 15.06,2015
+ */
 public class SyncActivity extends ActionBarActivity {
 
     @Override
@@ -21,6 +34,42 @@ public class SyncActivity extends ActionBarActivity {
         int idx = new Random().nextInt(quotes.length);
         String random = (quotes[idx]);
         quote.setText(random);
+        BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
+        GetCategoriesTask categorysTask = new GetCategoriesTask(this, myApp);
+        categorysTask.execute();
+        GetVendorsTask vendorsTask = new GetVendorsTask(this, myApp);
+        vendorsTask.execute();
+        GetPaymentsTask paymentsTask = new GetPaymentsTask(this, myApp);
+        paymentsTask.execute();
+        GetIncomeTask incomeTask = new GetIncomeTask(this, myApp);
+        incomeTask.execute();
+
+        ArrayList<AsyncTask> tasks = new ArrayList<>();
+        tasks.add(categorysTask);
+        tasks.add(vendorsTask);
+        tasks.add(paymentsTask);
+        tasks.add(incomeTask);
+        myApp.setRunningTasks(tasks);
+
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
+        ArrayList<AsyncTask> result = myApp.getRunningTasks();
+/*
+        for(int i=0; i< result.size(); i++) {
+            while (result.get(i).getStatus() != AsyncTask.Status.FINISHED) {
+                if(result.get(i).getStatus() == AsyncTask.Status.FINISHED){
+                    myApp.increaseInitialDataCounter();
+                }
+            }
+        }*/
+        //Nächste Activity anzeigen
+        Intent intent = new Intent(this,MainActivity.class);
+        this.startActivity(intent);
+        Log.d("INFO", "Initiale Daten wurden erfolgreich geladen.");
     }
 
     @Override
