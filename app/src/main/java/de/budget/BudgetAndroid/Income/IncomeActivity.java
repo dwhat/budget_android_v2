@@ -42,6 +42,8 @@ import de.budget.R;
 public class IncomeActivity extends ActionBarActivity {
 
     private static long receiptDate;
+    private String[] categoryNames;
+    private int[] categoryIds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +62,8 @@ public class IncomeActivity extends ActionBarActivity {
 
         BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
         List<CategoryTO> categoryTOs = myApp.getCategories();
-        String[] categoryNames = new String[categoryTOs.size()];
-        int[] categoryIds = new int[categoryTOs.size()];
+        categoryNames = new String[categoryTOs.size()];
+        categoryIds = new int[categoryTOs.size()];
         Log.d("INFO", "Size of Categoryarray: "+categoryTOs.size());
         for (int i=0; i< categoryTOs.size(); i++){
             categoryNames[i] = categoryTOs.get(i).getName();
@@ -148,8 +150,13 @@ public class IncomeActivity extends ActionBarActivity {
         String incomeQuantity = txtIncomeQuantity.getText().toString();
         Log.d("INFO", incomeQuantity);
         String incomeId = txtIncomeId.getText().toString();
-        String incomeCategory = "0";
-
+        String incomeCategoryString = txtIncomeCategory.getSelectedItem().toString();
+        String incomeCategory = new String();
+        for(int i=0; i<categoryNames.length; i++) {
+            if (categoryNames[i].equals(incomeCategoryString)) {
+                incomeCategory = String.valueOf(categoryIds[i]);
+            }
+        }
         if(!"".equals(incomeName) && !"".equals(incomeAmount) && !"".equals(incomeQuantity))
         {
             ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

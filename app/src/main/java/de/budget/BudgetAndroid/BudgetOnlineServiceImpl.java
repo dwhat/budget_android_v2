@@ -45,8 +45,8 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     private static final String NAMESPACE = "http://onlinebudget.budget.de/";
 
-    private static final String URL = "http://10.0.2.2:8080/budget/BudgetOnlineServiceBean";
-    //private static final String URL = "http://85.214.64.59:8080/budget/BudgetOnlineServiceBean";
+    //private static final String URL = "http://10.0.2.2:8080/budget/BudgetOnlineServiceBean";
+    private static final String URL = "http://85.214.64.59:8080/budget/BudgetOnlineServiceBean";
 
     private static final String TAG = BudgetOnlineServiceImpl.class.getName();
 
@@ -865,7 +865,6 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
     private SoapObject executeSoapAction(String methodName, Object... args) throws SoapFault {
 
         Object result = null;
-        MarshalDouble md = new MarshalDouble();
 
 
 	    /* Create a org.ksoap2.serialization.SoapObject object to build a SOAP request. Specify the namespace of the SOAP object and method
@@ -884,7 +883,10 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 	     */
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 
-        md.register(envelope);
+
+        envelope.implicitTypes = true;
+        envelope.encodingStyle = SoapSerializationEnvelope.XSD;
+
 	    /* Assign the SoapObject request object to the envelop as the outbound message for the SOAP method call. */
         envelope.setOutputSoapObject(request);
 
@@ -893,7 +895,8 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 	     */
 
         // marshaling !
-
+        MarshalDouble md = new MarshalDouble();
+        md.register(envelope);
 
         HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
 
