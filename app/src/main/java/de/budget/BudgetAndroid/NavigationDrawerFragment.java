@@ -118,7 +118,6 @@ public class NavigationDrawerFragment extends Fragment {
                 return v;
             }
         });
-        //---- ENDE NEUE ----
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
     }

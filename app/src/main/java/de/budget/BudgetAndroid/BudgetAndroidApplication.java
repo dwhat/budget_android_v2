@@ -180,4 +180,14 @@ public class BudgetAndroidApplication extends Application{
         this.initialDataCounter = 0;
         this.firstStart = true;
     }
+
+    public void reset() {
+        super.onTerminate();
+        this.categories = null;
+        this.vendors = null;
+        this.payments = null;
+        this.sessionId = -99;
+        this.initialDataCounter = 0;
+        this.firstStart = true;
+    }
 }

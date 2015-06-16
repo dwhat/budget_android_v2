@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.Login;
-import de.budget.BudgetAndroid.Logout;
+import de.budget.BudgetAndroid.MainActivity;
 import de.budget.BudgetService.Response.ReturnCodeResponse;
 
 /*
@@ -18,10 +18,10 @@ import de.budget.BudgetService.Response.ReturnCodeResponse;
 public class LogoutTask extends AsyncTask<Integer, Integer, ReturnCodeResponse>
 {
     private Context context;
-    private static Logout activity;
+    private static MainActivity activity;
     private static BudgetAndroidApplication myApp;
 
-    public LogoutTask(Context context, BudgetAndroidApplication myApp, Logout pActivity)
+    public LogoutTask(Context context, BudgetAndroidApplication myApp, MainActivity pActivity)
     {
         this.context = context;
         this.activity = pActivity;
@@ -57,8 +57,8 @@ public class LogoutTask extends AsyncTask<Integer, Integer, ReturnCodeResponse>
             //erfolgreich eingeloggt
             if (result.getReturnCode() == 200){
 
-                myApp.setSession(0);
-                Intent intent = new Intent(activity.getActivity().getBaseContext(), Login.class);
+                myApp.reset();
+                Intent intent = new Intent(activity.getBaseContext(), Login.class);
                 activity.startActivity(intent);
             }
         }

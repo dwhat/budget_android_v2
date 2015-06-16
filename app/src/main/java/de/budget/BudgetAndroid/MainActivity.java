@@ -1,7 +1,10 @@
 package de.budget.BudgetAndroid;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
@@ -21,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import de.budget.BudgetAndroid.Annotations.Author;
+import de.budget.BudgetAndroid.AsyncTasks.LogoutTask;
 import de.budget.BudgetAndroid.Categories.CategoryFragment;
 import de.budget.BudgetAndroid.Categories.CategoryActivity;
 import de.budget.BudgetAndroid.Income.IncomeFragment;
@@ -34,7 +38,7 @@ import de.budget.R;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, CategoryFragment.OnFragmentInteractionListener, VendorsFragment.OnFragmentInteractionListener,
-                    IncomeFragment.OnFragmentInteractionListener, Logout.OnFragmentInteractionListener, LossFragment.OnFragmentInteractionListener,
+                    IncomeFragment.OnFragmentInteractionListener, LossFragment.OnFragmentInteractionListener,
                     DashboardFragment.OnFragmentInteractionListener{
 
     /**
@@ -94,16 +98,37 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
 
-        // Speichere den Satatus des ausgewählten Items
-        savedNavigationPosition = position;
+        if(position==5) {
+            ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+            if(networkInfo != null && networkInfo.isConnected()){
+                BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
+                if(!myApp.getFirstStart()) {
+                    LogoutTask logoutTask = new LogoutTask(this, myApp, this);
+                    int sessionId = myApp.getSession();
+                    logoutTask.execute(sessionId);
+                }
+            }
+            else {
+                CharSequence text = "Keine Netzwerkverbindung! :(";
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(this, text, duration);
+                toast.show();
+            }
 
-        // update the main content by replacing fragments
-        Fragment fragment = getFragmentByPosition(position);
+        }
+        else{
+            // Speichere den Satatus des ausgewählten Items
+            savedNavigationPosition = position;
 
-        if (fragment != null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.container, fragment).addToBackStack("fragback").commit();
+            // update the main content by replacing fragments
+            Fragment fragment = getFragmentByPosition(position);
 
+            if (fragment != null) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.container, fragment).addToBackStack("fragback").commit();
+
+            }
         }
     }
 
@@ -177,9 +202,6 @@ public class MainActivity extends ActionBarActivity
     }
     @Override
     public void onIncomeMainFragmentInteraction(Uri uri){
-    }
-    @Override
-    public void onLogoutFragmentInteraction(Uri uri){
     }
     @Override
     public void onLossMainFragmentInteraction(Uri uri){
@@ -289,9 +311,6 @@ public class MainActivity extends ActionBarActivity
                 break;
             case 4:
                 fragment = new VendorsFragment();
-                break;
-            case 5:
-                fragment = new Logout();
                 break;
             default:
                 fragment = new DashboardFragment();
