@@ -6,8 +6,6 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -25,9 +23,15 @@ import android.widget.Toast;
 
 import de.budget.BudgetAndroid.Annotations.Author;
 import de.budget.BudgetAndroid.AsyncTasks.LogoutTask;
+import de.budget.BudgetAndroid.Categories.CategoryAnalysisFragment;
 import de.budget.BudgetAndroid.Categories.CategoryFragment;
+import de.budget.BudgetAndroid.Categories.CategoryListFragment;
 import de.budget.BudgetAndroid.Categories.CategoryActivity;
+import de.budget.BudgetAndroid.Dashboard.DashboardFragment;
+import de.budget.BudgetAndroid.Dashboard.DashboardIncomeFragment;
+import de.budget.BudgetAndroid.Income.IncomeAnalysisFragment;
 import de.budget.BudgetAndroid.Income.IncomeFragment;
+import de.budget.BudgetAndroid.Income.IncomeListFragment;
 import de.budget.BudgetAndroid.Income.IncomeActivity;
 import de.budget.BudgetAndroid.Loss.LossActivity;
 import de.budget.BudgetAndroid.Loss.LossFragment;
@@ -37,9 +41,10 @@ import de.budget.R;
 
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, CategoryFragment.OnFragmentInteractionListener, VendorsFragment.OnFragmentInteractionListener,
-                    IncomeFragment.OnFragmentInteractionListener, LossFragment.OnFragmentInteractionListener,
-                    DashboardFragment.OnFragmentInteractionListener{
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, CategoryListFragment.OnFragmentInteractionListener, VendorsFragment.OnFragmentInteractionListener,
+                    IncomeListFragment.OnFragmentInteractionListener, LossFragment.OnFragmentInteractionListener, CategoryFragment.OnFragmentInteractionListener,
+                    DashboardFragment.OnFragmentInteractionListener, DashboardIncomeFragment.OnFragmentInteractionListener, CategoryAnalysisFragment.OnFragmentInteractionListener,
+                    IncomeFragment.OnFragmentInteractionListener, IncomeAnalysisFragment.OnFragmentInteractionListener{
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -209,6 +214,22 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onDashboardMainFragmentInteraction(Uri uri){
     }
+    @Override
+    public void onDashboardIncomeFragmentInteraction(Uri uri){
+    }
+    @Override
+    public void onCategoryFragmentInteraction(Uri uri){
+    }
+    @Override
+    public void onCategoryAnalysisFragmentInteraction(Uri uri){
+    }
+    @Override
+    public void onIncomeFragmentInteraction(Uri uri){
+    }
+    @Override
+    public void onIncomeAnalysisFragmentInteraction(Uri uri){
+    }
+
 
     public void onSectionAttached(int number) {
         String[] stringArray = getResources().getStringArray(R.array.section_titles);
