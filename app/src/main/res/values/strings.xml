@@ -68,8 +68,8 @@
     <string name="loss_value">Wert</string>
     <string name="loss_date">Datum</string>
     <string name="article_name">Artikel Name</string>
-    <string name="article_amount">Anzahl</string>
-    <string name="article_value">Wert</string>
+    <string name="article_amount">1 x </string>
+    <string name="article_value">5 €</string>
 
     <!-- Income Activity -->
     <string name="title_activity_income">Einnahme</string>

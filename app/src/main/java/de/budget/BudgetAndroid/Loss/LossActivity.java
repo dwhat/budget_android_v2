@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -26,12 +28,13 @@ import de.budget.R;
 
 public class LossActivity extends ActionBarActivity {
 
-    ListView listView;
-    EditText editTextItemName;
-    EditText editTextItemAmount;
-    EditText editTextItemValue;
-    Spinner spinnerCategory;
+    private ListView listView;
+    private EditText editTextItemName;
+    private EditText editTextItemAmount;
+    private EditText editTextItemValue;
+    private Spinner spinnerCategory;
 
+    private ItemArrayAdapter itemArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +42,32 @@ public class LossActivity extends ActionBarActivity {
         setContentView(R.layout.activity_loss);
 
 
-        //editTextItemName = (EditText) findViewById(R.id.item_name);
+        editTextItemName = (EditText) findViewById(R.id.item_name);
+        editTextItemAmount = (EditText) findViewById(R.id.item_amount);
+        editTextItemValue = (EditText) findViewById(R.id.item_value);
+
+        listView = (ListView) findViewById(R.id.listView_item);
+
+        itemArrayAdapter =  new ItemArrayAdapter(this, R.layout.item_listview, mock());
+
+        listView.setAdapter(itemArrayAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                HashMap item = (HashMap) listView.getItemAtPosition(position);
+
+                editTextItemName.setText((String) item.get(Item.NAME));
+                editTextItemAmount.setText((String) item.get(Item.AMOUNT));
+                editTextItemValue.setText((String) item.get(Item.VALUE));
+
+            }
+
+        });
+
+
+
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -64,54 +92,6 @@ public class LossActivity extends ActionBarActivity {
             editTextNotice.setText(lossNotice);
         }
     }
-/*
-    @Override
-    public View onCreateView(String name, Context context, AttributeSet attrs) {
-        View rootView = super.onCreateView(name, context, attrs);
-
-        // Author Mark
-        // Createing Mock Objects
-        // TODO: Holen der Vendors vom Server
-        ArrayList<HashMap<String, String>> array = new ArrayList ();
-
-        HashMap<String, String> firstItem = new HashMap();
-        firstItem.put(Item.NAME,"Erstes Item");
-        firstItem.put(Item.CATEGORY, "Haushalt");
-        firstItem.put(Item.NOTICE, "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam");
-        firstItem.put(Item.AMOUNT, "2x");
-        firstItem.put(Item.VALUE, "0.50€");
-        firstItem.put(Item.TOTAL, "1.00€");
-
-        array.add(firstItem);
-
-        // Starten des Array Adapters
-        ItemArrayAdapter ArrayAdapter = new ItemArrayAdapter (this, R.layout.item_listview, array);
-        // Listview ermitteln
-        listView = (ListView) findViewById(R.id.listView_item);
-
-        // ListView setzten mit entsprehcenden Objekten aus dem Adapter
-        listView.setAdapter(ArrayAdapter);
-
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                HashMap  item = (HashMap) listView.getItemAtPosition(position);
-
-                editTextItemName.setText((String) item.get(Item.NAME));
-                editTextItemAmount.setText((String) item.get(Item.AMOUNT));
-                editTextItemValue.setText((String) item.get(Item.VALUE));
-            }
-
-        });
-
-
-        return rootView;
-
-
-    }*/
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -156,4 +136,57 @@ public class LossActivity extends ActionBarActivity {
         LossDialog lossDialog = new LossDialog();
         lossDialog.show(fm, "activity_loss_dialog");
     }
+
+    /*
+     *
+     */
+    @Author(name="Mark")
+    public void add(View v){
+
+        String name = editTextItemName.getText().toString();
+        String amount = editTextItemAmount.getText().toString();
+        String value = editTextItemValue.getText().toString();
+
+        HashMap<String, String> item = new HashMap();
+        item.put(Item.NAME, name);
+        item.put(Item.AMOUNT, amount);
+        item.put(Item.VALUE, value);
+
+        BigDecimal sum = round( (Float.parseFloat( amount ) * Float.parseFloat( value )) , 2);
+
+        Log.d(this.getClass().toString(),
+                "ADD= " +
+                        Item.NAME + ": " + item.get(Item.NAME) + ", " +
+                        Item.AMOUNT + ": " + item.get(Item.AMOUNT) + ", " +
+                        Item.VALUE + ": " + item.get(Item.VALUE)
+        );
+
+        item.put(Item.TOTAL, sum.toString());
+
+        itemArrayAdapter.add(item);
+    }
+
+    @Author(name="Mark")
+    public static BigDecimal round(float d, int decimalPlace) {
+        BigDecimal bd = new BigDecimal(Float.toString(d));
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        return bd;
+    }
+
+    @Author(name="Mark")
+    private ArrayList<HashMap<String, String>> mock() {
+
+        ArrayList <HashMap<String, String>> array = new ArrayList ();
+
+        HashMap<String, String> firstItem = new HashMap();
+        firstItem.put(Item.NAME,"Erstes Item");
+        firstItem.put(Item.VALUE, "1.00");
+        firstItem.put(Item.AMOUNT, "2");
+        firstItem.put(Item.TOTAL, "3.00");
+
+        array.add(firstItem);
+
+        return array;
+    }
+
 }

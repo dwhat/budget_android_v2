@@ -17,7 +17,7 @@ import de.budget.R;
  * Created by mark on 09/06/15.
  */
 @Author(name="Mark")
-public class ItemArrayAdapter extends ArrayAdapter<HashMap <String, String>> {
+public class ItemArrayAdapter extends ArrayAdapter<HashMap<String, String>> {
 
     private final Context context;
     private final ArrayList<HashMap <String, String>> values;
@@ -38,17 +38,15 @@ public class ItemArrayAdapter extends ArrayAdapter<HashMap <String, String>> {
 
         TextView itemName       = (TextView) rowView.findViewById(R.id.item_name);
         TextView itemCategory   = (TextView) rowView.findViewById(R.id.item_category);
-        TextView itemNotice     = (TextView) rowView.findViewById(R.id.item_notice);
-        TextView itemAmount     = (TextView) rowView.findViewById(R.id.item_amount);
-        TextView itemValue      = (TextView) rowView.findViewById(R.id.item_value);
+        //TextView itemAmount     = (TextView) rowView.findViewById(R.id.item_amount);
+        //TextView itemValue      = (TextView) rowView.findViewById(R.id.item_value);
         TextView itemTotal      = (TextView) rowView.findViewById(R.id.item_total);
 
         itemName        .setText(values.get(position).get(Item.NAME));
         itemCategory    .setText(values.get(position).get(Item.CATEGORY));
-        itemNotice      .setText(values.get(position).get(Item.NOTICE));
-        itemAmount      .setText(values.get(position).get(Item.AMOUNT));
-        itemValue       .setText(values.get(position).get(Item.VALUE));
-        itemTotal       .setText(values.get(position).get(Item.TOTAL));
+        //itemAmount      .setText(values.get(position).get(Item.AMOUNT));
+        //itemValue       .setText(values.get(position).get(Item.VALUE));
+        itemTotal       .setText(values.get(position).get(Item.TOTAL) + " €");
 
         return rowView;
     }
