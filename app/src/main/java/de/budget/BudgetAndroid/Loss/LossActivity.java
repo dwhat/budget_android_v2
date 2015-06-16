@@ -39,7 +39,7 @@ public class LossActivity extends ActionBarActivity {
         setContentView(R.layout.activity_loss);
 
 
-        editTextItemName = (EditText) findViewById(R.id.item_name);
+        //editTextItemName = (EditText) findViewById(R.id.item_name);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -64,7 +64,7 @@ public class LossActivity extends ActionBarActivity {
             editTextNotice.setText(lossNotice);
         }
     }
-
+/*
     @Override
     public View onCreateView(String name, Context context, AttributeSet attrs) {
         View rootView = super.onCreateView(name, context, attrs);
@@ -110,7 +110,7 @@ public class LossActivity extends ActionBarActivity {
         return rootView;
 
 
-    }
+    }*/
 
 
     @Override

@@ -68,71 +68,78 @@
 
 
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/ColorPrimary"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/linearLayout">
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="100px"
+            android:background="@color/ColorPrimary"
+            android:id="@+id/linearLayout"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentEnd="true">
 
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/item_name"
-            android:gravity="bottom"
-            android:layout_gravity="bottom"
-            android:hint="@string/article_name"
-            android:singleLine="true"
-            android:layout_weight="0.45"/>
+            <EditText
+                android:layout_width="400px"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_name"
+                android:hint="@string/article_name"
+                android:singleLine="true"
+                android:layout_weight="0.45"
 
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:ems="10"
-            android:id="@+id/item_amount"
-            android:gravity="bottom"
-            android:layout_gravity="bottom"
-            android:singleLine="true"
-            android:hint="@string/article_amount"
-            android:layout_weight="0.1"/>
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
 
-        <Spinner
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/item_category"
-            android:spinnerMode="dropdown"
-            android:gravity="bottom"
-            android:layout_gravity="bottom"
-            android:layout_weight="0.1"/>
+            <EditText
+                android:layout_width="75px"
+                android:layout_height="fill_parent"
+                android:inputType="numberDecimal"
+                android:ems="10"
+                android:id="@+id/item_amount"
+                android:singleLine="true"
+                android:hint="@string/article_amount"
+                android:layout_weight="0.1"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="false"
+                android:layout_toRightOf="@+id/item_name"
+                android:layout_alignParentTop="true"
+                android:layout_alignWithParentIfMissing="true"/>
 
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:ems="10"
-            android:id="@+id/item_value"
-            android:gravity="bottom"
-            android:layout_gravity="bottom"
-            android:hint="@string/article_value"
-            android:singleLine="true"
-            android:imeOptions="actionDone"
-            android:layout_weight="0.1"/>
+            <Spinner
+                android:layout_width="100px"
+                android:layout_height="fill_parent"
+                android:id="@+id/item_category"
+                android:spinnerMode="dropdown"
+                android:layout_weight="0.1"
+                android:layout_toRightOf="@+id/item_amount"/>
 
-        <ImageButton
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageButton2"
-            android:gravity="bottom"
-            android:layout_gravity="bottom|right"
-            android:layout_weight="0.1"
-            android:src="@drawable/ic_done_w"
-            android:background="@color/ColorPrimaryDark"
-             />
+            <EditText
+                android:layout_width="100px"
+                android:layout_height="fill_parent"
+                android:inputType="numberDecimal"
+                android:ems="10"
+                android:id="@+id/item_value"
+                android:hint="@string/article_value"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
+                android:layout_weight="0.1"
+                android:layout_toRightOf="@+id/item_category"/>
+
+            <ImageButton
+                android:layout_width="100px"
+                android:layout_height="fill_parent"
+                android:id="@+id/imageButton2"
+                android:gravity="bottom"
+                android:layout_weight="0.1"
+                android:src="@drawable/ic_done_w"
+                android:background="@color/ColorPrimaryDark"
+
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@+id/item_amount" />
 
 
-    </LinearLayout>
+        </RelativeLayout>
+
 
 </RelativeLayout>

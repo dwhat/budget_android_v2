@@ -129,7 +129,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 	/*#################      VENDOR - SECTION     ##############*/
 
     /**
-     * @author Marco
+     * @author Christopher
      * @date 19.05.2015
      * @param sessionId
      * @return VendorListResponse Object
@@ -180,7 +180,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     /**
      * Method to get a Vendor with the SessionId and the vendorId
-     * @author Marco
+     * @author Christopher
      * @date 18.05.2015
      * @param sessionId
      * @param vendorId
@@ -233,7 +233,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     /**
      * Method to delete a vendor
-     * @author Marco
+     * @author Christopher
      * @date 26.05.2015
      * @param sessionId
      * @param vendorId
@@ -250,7 +250,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 	/*#################      PAYMENT - SECTION     ##############*/
 
     /**
-     * @author Marco
+     * @author Christopher
      * @date 19.05.2015
      * @param sessionId
      * @return PaymentListResponse Object
@@ -298,7 +298,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     /**
      * Method to get a payment with the SessionId and the paymentId
-     * @author Marco
+     * @author Christopher
      * @date 18.05.2015
      * @param sessionId
      * @param paymentId
@@ -310,7 +310,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     /**
      * Method to delete a payment
-     * @author Marco
+     * @author Christopher
      * @param sessionId
      * @param paymentId
      * @return ReturnCodeResponse Object
@@ -322,7 +322,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     /**
      * method to create or update a payment
-     * @author Marco
+     * @author Christopher
      * @author Moritz
      * @param sessionId
      * @param paymentId
@@ -368,7 +368,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 	/*#################      CATEGORY - SECTION     ##############*/
 
     /**
-     * @author Marco
+     * @author Christopher
      * @param sessionId
      * @param categoryId
      * @return
@@ -474,7 +474,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
     }
 
     /**
-     * @author Marco
+     * @author Christopher
      * @date 26.05.2015
      * @param sessionId
      * @param categoryId
@@ -492,7 +492,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     /**
      * Gives a Response Object with all Baskets in a list
-     * @author Marco
+     * @author Christopher
      * @date 19.05.2015
      * @param sessionId
      * @return BasketListResponse Object
@@ -502,7 +502,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
     }
 
     /**
-     * @author Marco
+     * @author Christopher
      * @date 18.05.2015
      * @param sessionId
      * @param basketID
@@ -514,7 +514,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     /**
      * Method to create a basket
-     * @author Marco
+     * @author Christopher
      * @date 26.05.2015
      * @param sessionId
      * @param basketId
@@ -533,7 +533,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     /**
      * Method to delete a basket
-     * @author marco
+     * @author Christopher
      * @date 26.05.2015
      * @param sessionId
      * @param basketID
@@ -545,7 +545,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     /**
      * Gibt die letzten Baskets als Liste zur�ck
-     * @author Marco
+     * @author Christopher
      * @date 29.05.2015
      * @param sessionId
      * @param numberOfBaskets Anzahl der letzten auszugebenen Baskets
@@ -556,7 +556,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
     }
 
     /**
-     * @author Marco
+     * @author Christopher
      * @date 29.05.2015
      * @param sessionId
      * @param vendorId
@@ -568,7 +568,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     /**
      * gets all baskets of the actual month
-     * @author Marco
+     * @author Christopher
      * @param sessionId
      * @return
      */
@@ -579,7 +579,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     /**
      * gets all baskets of a specific payment
-     * @author Marco
+     * @author Christopher
      * @date 29.05.2015
      * @param sessionId
      * @param paymentId
@@ -599,8 +599,8 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 	/*#################      INCOME - SECTION     ##############*/
 
     /**
-     * @author Marco
-     * @date 26.05.2015
+     * @author Christopher
+     * @date 14.06.2015
      * @param sessionId
      * @param incomeId    only necessary for update
      * @param name
@@ -643,7 +643,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
 
     /**
-     * @author Marco
+     * @author Christopher
      * @date 26.05.2015
      * @param sessionId
      * @param itemId
@@ -655,7 +655,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     /**
      * Method to get all incomes of a user
-     * @author Marco
+     * @author Christopher
      * @date 09.06.2015
      * @param sessionId
      * @return
@@ -714,7 +714,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     /**
      * Gibt die letzten Incomes als Liste zur�ck
-     * @author Marco
+     * @author Christopher
      * @date 29.05.2015
      * @param sessionId
      * @param numberOfIncome
@@ -726,7 +726,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     /**
      * gets all Incomes of a specific category for incomes
-     * @author Marco
+     * @author Christopher
      * @date 29.05.2015
      * @param sessionId
      * @param categoryId
@@ -739,7 +739,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     /**
      * gets all income of the actual month
-     * @author Marco
+     * @author Christopher
      * @param sessionId
      * @return
      */
@@ -749,7 +749,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
 
     /**
-     * @author Marco
+     * @author Christopher
      * @date 26.05.2015
      * @param sessionId
      * @param itemID
@@ -764,7 +764,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 	/*#################      ITEM - SECTION     ##############*/
 
     /**
-     * @author Marco
+     * @author Christopher
      * @date 26.05.2015
      * @param sessionId
      * @param itemId
@@ -781,7 +781,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
     }
 
     /**
-     * @author Marco
+     * @author Christopher
      * @date 26.05.2015
      * @param sessionId
      * @param lossId
@@ -792,7 +792,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
     }
 
     /**
-     * @author Marco
+     * @author Christopher
      * @date 26.05.2015
      * @param sessionId
      * @param itemId
@@ -803,7 +803,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
     }
 
     /**
-     * @author Marco
+     * @author Christopher
      * @date 26.05.2015
      * @param sessionId
      * @param basketId
@@ -816,7 +816,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     /**
      * gets all Items of a specific category for losses
-     * @author Marco
+     * @author Christopher
      * @date 29.05.2015
      * @param sessionId
      * @param categoryId
@@ -830,7 +830,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 	/*#################      XYZ - SECTION     ##############*/
 
     /**
-     * @author Marco
+     * @author Christopher
      * @date 26.05.2015
      * @param sessionId
      * @param daysOfPeriod
@@ -841,7 +841,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
     }
 
     /**
-     * @author Marco
+     * @author Christopher
      * @date 26.05.2015
      * @param sessionId
      * @param daysOfPeriod
