@@ -1,4 +1,4 @@
-package de.budget.BudgetAndroid.Categories;
+package de.budget.BudgetAndroid.Dashboard;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -9,43 +9,61 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import de.budget.BudgetAndroid.Dashboard.DashboardIncomeFragment;
 import de.budget.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link CategoryFragment.OnFragmentInteractionListener} interface
+ * {@link DashboardFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link CategoryFragment#newInstance} factory method to
+ * Use the {@link DashboardFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CategoryFragment extends Fragment{
+public class DashboardFragment extends Fragment{
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
     private FragmentTabHost mTabHost;
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     * @return A new instance of fragment CategoryFragment
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment DashboardFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CategoryFragment newInstance() {
-        CategoryFragment fragment = new CategoryFragment();
+    public static DashboardFragment newInstance(String param1, String param2) {
+        DashboardFragment fragment = new DashboardFragment();
         Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public CategoryFragment() {
+    public DashboardFragment() {
         // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
     }
 
     @Override
@@ -54,16 +72,18 @@ public class CategoryFragment extends Fragment{
         // Inflate the layout for this fragment
         //return inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-        View rootView = inflater.inflate(R.layout.fragment_category,container, false);
+        View rootView = inflater.inflate(R.layout.fragment_dashboard,container, false);
 
 
         mTabHost = (FragmentTabHost)rootView.findViewById(android.R.id.tabhost);
         mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
 
-        mTabHost.addTab(mTabHost.newTabSpec("Übersicht").setIndicator("Übersicht"),
-                CategoryListFragment.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("Analyse").setIndicator("Analyse"),
-                CategoryAnalysisFragment.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec("Home").setIndicator("Home"),
+                DashboardIncomeFragment.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec("Einnahmen").setIndicator("Einnahmen"),
+                DashboardIncomeFragment.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec("Ausgaben").setIndicator("Ausgaben"),
+                DashboardIncomeFragment.class, null);
 
         return rootView;
     }
@@ -71,7 +91,7 @@ public class CategoryFragment extends Fragment{
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onCategoryFragmentInteraction(uri);
+            mListener.onDashboardMainFragmentInteraction(uri);
         }
     }
 
@@ -103,7 +123,7 @@ public class CategoryFragment extends Fragment{
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        public void onCategoryFragmentInteraction(Uri uri);
+        public void onDashboardMainFragmentInteraction(Uri uri);
     }
 
 
