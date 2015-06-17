@@ -159,8 +159,8 @@ public class LossActivity extends ActionBarActivity {
         if (name.isEmpty()) Toast.makeText(this, "Bitte Item Namen eingeben!", Toast.LENGTH_SHORT).show();
         else {
 
-            validateInput(amount);
-            validateInput(value);
+            amount = validateInput(amount);
+            value = validateInput(value);
 
             item.put(Item.NAME, name);
             item.put(Item.AMOUNT, amount);
@@ -206,8 +206,8 @@ public class LossActivity extends ActionBarActivity {
     }
 
     private String validateInput (String value) {
-        if(Double.parseDouble(value) <= 0) {
-            Toast.makeText(this, "Input geändert von " + value + " auf 1", Toast.LENGTH_SHORT).show();
+        if(value.isEmpty() || Double.parseDouble(value) <= 0) {
+            Toast.makeText(this, "Input geändert auf 1", Toast.LENGTH_SHORT).show();
             value = "1";
 
         }

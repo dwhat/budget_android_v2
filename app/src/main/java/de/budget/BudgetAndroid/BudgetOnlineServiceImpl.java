@@ -556,7 +556,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                         UserTO user;
                         VendorTO vendor;
                         PaymentTO payment;
-                        List<ItemTO> items;
+                        // List<ItemTO> items = ListObject.getPrimitivePropertySafelyAsString(Basket.ITEMS);
 
                         // myApp.getPayments();
 
