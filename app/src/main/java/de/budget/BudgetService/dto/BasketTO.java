@@ -294,5 +294,8 @@ public class BasketTO implements Serializable{
 		this.items = items;
 	}
 
-	
+	/**
+	 * @param item add to the items
+	 */
+	public void setItem(ItemTO item) { this.items.add(item); }
 }

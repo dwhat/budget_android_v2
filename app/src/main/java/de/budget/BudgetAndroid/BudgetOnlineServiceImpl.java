@@ -611,37 +611,10 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                         SoapObject items = (SoapObject) ListObject.getProperty(BasketTOConstants.ITEMS);
                         Log.d("INFO", "basketList Items gefunden : " + items);
 
-
-                        /* for(int j = 1; i < items.getPropertyCount(); j++ ) {
-                            Log.d("INFO", "Anzahl Items im Basket: " + items.getPropertyCount());
-
-
-                            // int itemID = Integer.parseInt(ListItemObject.getAttributeSafelyAsString(ItemTOConstant.ID).toString());
-                             //Log.d("INFO", "basketList item gefunden : " + ListItemObject);
-//                              int itemId = Integer.parseInt(ListItemObject.getPrimitivePropertySafelyAsString(ItemTOConstant.ID));
-//                            String itemName = ListItemObject.getPrimitivePropertySafelyAsString(ItemTOConstant.NAME);
-//                            double  itemQuantity = Double.parseDouble(ListItemObject.getPrimitivePropertySafelyAsString(ItemTOConstant.QUANTITY));
-//                            double itemPrice = Double.parseDouble(ListItemObject.getPrimitivePropertySafelyAsString(ItemTOConstant.PRICE));
-//                            String itemNotice = ListItemObject.getPrimitivePropertySafelyAsString(ItemTOConstant.NOTICE);
-//                            int itemPeriod = Integer.parseInt(ListItemObject.getPrimitivePropertySafelyAsString(ItemTOConstant.PERIOD));
-//                            long itemCreateDate = Long.parseLong(ListItemObject.getPrimitivePropertySafelyAsString(ItemTOConstant.CREATE_DATE));
-//                            long itemLaunchDate = Long.parseLong(ListItemObject.getPrimitivePropertySafelyAsString(ItemTOConstant.LAUNCH_DATE));
-//                            long itemFinishDate = Long.parseLong(ListItemObject.getPrimitivePropertySafelyAsString(ItemTOConstant.FINISH_DATE));
-//                            long itemLastChanged = Long.parseLong(ListItemObject.getPrimitivePropertySafelyAsString(ItemTOConstant.LAST_CHANGED));
-
-//                            int categoryId = Integer.parseInt(ListItemObject.getPrimitivePropertySafelyAsString(ItemTOConstant.CATEGORY));
-//                            CategoryTO itemCategory = myApp.getCategory(categoryId);
-
-//                            ItemTO item = new ItemTO(itemId, itemName, itemQuantity, itemPrice, itemNotice, itemPeriod, itemCreateDate, itemLaunchDate, itemFinishDate, itemLastChanged, null, itemCategory);
-//                            itemsTO.add(item);
-                        } */
-
-
-
                         // myApp.getPayments();
 
                         // int id, String notice, double amount, Timestamp createDate, Timestamp purchaseDate, Timestamp lastChanged, UserTO user, VendorTO vendor, PaymentTO payment, List<ItemTO> items
-                        BasketTO basket = new BasketTO(id, name, notice, amount, createDate, purchaseDate, lastChanged, null, null, null, null);
+                        BasketTO basket = new BasketTO(id, name, notice, amount, createDate, purchaseDate, lastChanged, null, vendorTO, paymentTO, null);
 
 //                        basket.setId(id);
 //                        basket.setNotice(notice);
@@ -998,8 +971,93 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @param basketId
      * @return
      */
-    public ItemListResponse getItemsByBasket(int sessionId, int basketId){
-        return null;
+    public ItemListResponse getItemsByBasket(int sessionId, int basketId,  BudgetAndroidApplication myApp) throws Exception{
+
+        ItemListResponse result = new ItemListResponse();
+        String METHOD_NAME = ItemTOConstant.GET_ITEMS_BY_BASKET;
+        SoapObject response = null;
+
+        try {
+
+            // Get Response from SOAP Object specified Method Name
+            response = executeSoapAction(METHOD_NAME, sessionId);
+
+
+            Log.d(TAG, ItemTOConstant.GET_ITEMS_BY_BASKET + ": " + response.toString() +
+                    "/n Count: " + response.getPropertyCount());
+
+
+            // Get Return Code from SOAP Object
+            returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+
+
+            if (returnCode == 200) {
+
+                // Create new List for Basket Obejcts
+                ArrayList<ItemTO> itemList = new ArrayList<>();
+
+                // Set Returncode for successs
+                result.setReturnCode(returnCode);
+
+                // Response has Propertys
+                if (response.getPropertyCount() > 1) {
+
+
+                    for (int i = 1; i < response.getPropertyCount(); i++) {
+
+                        // Iterate throu SoapObject response by Property ID
+                        SoapObject ListObject = (SoapObject) response.getProperty(i);
+
+
+                        SoapObject basket= (SoapObject) ListObject.getProperty(ItemTOConstant.BASKET);
+                        int basketIdResponse = Integer.parseInt(basket.getPrimitivePropertyAsString("id"));
+                        Log.d("INFO", "basketIdResponse " + basketIdResponse + " gefunden : " + ListObject.toString() +
+                                " Länge: " + ListObject.getPropertyCount());
+
+
+                        if (basketIdResponse == basketId) {
+                            Log.d("INFO", "itemList zu basketId " + basketId + " gefunden : " + ListObject.toString() +
+                                    " Länge: " + ListObject.getPropertyCount());
+
+
+                            int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.ID));
+                            String name = ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.NAME);
+                            double quantity = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.QUANTITY));
+                            double price = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.PRICE));
+                            String notice = ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.NOTICE);
+                            int period = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.PERIOD));
+                            long createDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.CREATE_DATE));
+                            long launchDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.LAUNCH_DATE));
+                            long finishDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.FINISH_DATE));
+                            long lastChanged = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.LAST_CHANGED));
+
+                            SoapObject category = (SoapObject) ListObject.getProperty(ItemTOConstant.CATEGORY);
+                            int categoryId = Integer.parseInt(category.getPrimitivePropertyAsString("id"));
+
+                            CategoryTO categoryTO = myApp.getCategory(categoryId);
+
+                            BasketTO basketTO = myApp.getBasketById(basketId);
+
+                            // 	public ItemTO(int id, String name, double quantity, double price, String notice, int period, long createDate, long launchDate, long finishDate, long lastChanged, BasketTO basket, CategoryTO category) {
+                            ItemTO item = new ItemTO(id, name, quantity, price, notice, period, createDate, launchDate, finishDate, lastChanged, basketTO, categoryTO);
+
+                            itemList.add(item);
+
+                        }
+
+                    }
+                }
+
+                result.setItemList(itemList);
+
+                return result;
+            }
+            else {
+                throw new Exception("Create/Update item was not successful!");
+            }
+        } catch (SoapFault e) {
+            throw new Exception(e.getMessage());
+        }
     }
 
 
