@@ -495,6 +495,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
 	/*#################      BASKET - SECTION     ##############*/
 
+
     /**
      * Gives a Response Object with all Baskets in a list
      * @author Mark
@@ -503,7 +504,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @return BasketListResponse Object
      */
     @Author(name="Mark")
-    public BasketListResponse getBaskets(int sessionId) throws Exception{
+    public BasketListResponse getBaskets(int sessionId, BudgetAndroidApplication myApp) throws Exception{
 
         BasketListResponse result = new BasketListResponse();
         String METHOD_NAME = Basket.GET_BASKETS;
@@ -544,18 +545,23 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                                 " Länge: " + ListObject.getPropertyCount());
 
                         int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString(Basket.ID));
+                        String name = ListObject.getPrimitivePropertySafelyAsString(Basket.NAME);
                         String notice = ListObject.getPrimitivePropertySafelyAsString(Basket.NOTICE);
                         double amount = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString(Basket.AMOUNT));
                         long createDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(Basket.CREATE_DATE));
                         long purchaseDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(Basket.PURCHASE_DATE));
                         long lastChanged = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(Basket.LAST_CHANGED));
+
+
                         UserTO user;
                         VendorTO vendor;
                         PaymentTO payment;
                         List<ItemTO> items;
 
+                        // myApp.getPayments();
+
                         // int id, String notice, double amount, Timestamp createDate, Timestamp purchaseDate, Timestamp lastChanged, UserTO user, VendorTO vendor, PaymentTO payment, List<ItemTO> items
-                        BasketTO basket = new BasketTO(id, notice, amount, createDate, purchaseDate, lastChanged, null, null, null, null);
+                        BasketTO basket = new BasketTO(id, name, notice, amount, createDate, purchaseDate, lastChanged, null, null, null, null);
 
 //                        basket.setId(id);
 //                        basket.setNotice(notice);

@@ -8,6 +8,7 @@ public class Basket {
     public static final String GET_BASKETS = "getBaskets";
 
     public static final String ID = "id";
+    public static final String NAME ="name";
     public static final String NOTICE = "notice";
     public static final String AMOUNT = "amount";
     public static final String CREATE_DATE = "createDate";

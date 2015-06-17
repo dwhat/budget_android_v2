@@ -227,7 +227,7 @@ public interface BudgetOnlineService {
      * @param sessionId
      * @return BasketListResponse Object
      */
-    public BasketListResponse getBaskets(int sessionId) throws Exception;
+    public BasketListResponse getBaskets(int sessionId, BudgetAndroidApplication myApp) throws Exception;
 
     /**
      * @author Marco

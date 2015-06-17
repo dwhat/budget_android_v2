@@ -115,14 +115,7 @@ public class LossFragment extends Fragment {
 
                 // Bundle anlegen
                 Bundle bundle = new Bundle ();
-                int itemPosition        = position;
-                HashMap  item           = (HashMap) listView.getItemAtPosition(position);
-
-                bundle.putString(Loss.NAME,     (String) item.get(Loss.NAME));
-                bundle.putString(Loss.DATE,     (String) item.get(Loss.DATE));
-                bundle.putString(Loss.NOTICE,   (String) item.get(Loss.NOTICE));
-                bundle.putString(Loss.TOTAL,    (String) item.get(Loss.TOTAL));
-
+                bundle.putInt("POSITION", position);
                 intent.putExtras(bundle);
 
                 startActivity(intent);

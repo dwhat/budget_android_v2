@@ -45,12 +45,11 @@ public class LossArrayAdapter extends ArrayAdapter<BasketTO> {
         TextView    lossDate       = (TextView) rowView.findViewById(R.id.loss_date);
         TextView    lossNotice     = (TextView) rowView.findViewById(R.id.loss_notice);
         TextView    lossTotal      = (TextView) rowView.findViewById(R.id.loss_total);
-                    // TODO Refactor Listview Loss Name nicht existend
 
-                    lossName        .setText("Loss Name gibt es nicht");
+                    lossName        .setText(values.get(position).getName());
                     lossDate        .setText(DATE_FORMAT.format(values.get(position).getPurchaseDate()));
                     lossNotice      .setText(values.get(position).getNotice());
-                    lossTotal       .setText(String.valueOf(values.get(position).getAmount()));
+                    lossTotal       .setText(String.valueOf(values.get(position).getAmount()) + " €");
 
         return rowView;
     }

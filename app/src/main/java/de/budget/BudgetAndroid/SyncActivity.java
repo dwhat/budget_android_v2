@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.Random;
 
+import de.budget.BudgetAndroid.AsyncTasks.GetBasketTask;
 import de.budget.BudgetAndroid.AsyncTasks.GetCategoriesTask;
 import de.budget.BudgetAndroid.AsyncTasks.GetIncomeTask;
 import de.budget.BudgetAndroid.AsyncTasks.GetPaymentsTask;
@@ -53,6 +54,8 @@ public class SyncActivity extends ActionBarActivity {
         paymentsTask.execute();
         GetIncomeTask incomeTask = new GetIncomeTask(this, myApp);
         incomeTask.execute();
+        GetBasketTask basketTask = new GetBasketTask(this, myApp);
+        basketTask.execute();
     }
 
     @Override

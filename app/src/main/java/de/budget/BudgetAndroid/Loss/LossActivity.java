@@ -20,10 +20,14 @@ import android.widget.Toast;
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import de.budget.BudgetAndroid.Annotations.Author;
+import de.budget.BudgetAndroid.BudgetAndroidApplication;
+import de.budget.BudgetService.dto.BasketTO;
 import de.budget.R;
 
 public class LossActivity extends ActionBarActivity {
@@ -35,6 +39,8 @@ public class LossActivity extends ActionBarActivity {
     private Spinner spinnerCategory;
 
     private ItemArrayAdapter itemArrayAdapter;
+
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,24 +78,25 @@ public class LossActivity extends ActionBarActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
 
-            String lossName     = bundle.getString(Loss.NAME);
-            String lossDate     = bundle.getString(Loss.DATE);
-            String lossTotal    = bundle.getString(Loss.TOTAL);
-            String lossNotice   = bundle.getString(Loss.NOTICE);
+            int pos = bundle.getInt("POSITION");
 
-            Log.d(this.getClass().toString(), lossName);
+            BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
 
-            EditText editTextName   = (EditText) findViewById(R.id.loss_name);
+            List<BasketTO> baskets = myApp.getBasket();
+
+            BasketTO basket = baskets.get(pos);
+
+            Log.d(this.getClass().toString(), "Show Basket: " + basket.toString());
+
+            EditText editTextName = (EditText) findViewById(R.id.loss_name);
             EditText editTextDate   = (EditText) findViewById(R.id.loss_date);
             EditText editTextTotal  = (EditText) findViewById(R.id.loss_value);
             EditText editTextNotice = (EditText) findViewById(R.id.loss_notice);
 
-            Log.d(this.getClass().toString(), "Lade: " + editTextName.toString());
-
-            editTextName.setText(lossName);
-            editTextDate.setText(lossDate);
-            editTextTotal.setText(lossTotal);
-            editTextNotice.setText(lossNotice);
+            editTextName.setText(basket.getName());
+            editTextDate.setText(dateFormat.format(basket.getPurchaseDate()));
+            editTextTotal.setText(String.valueOf(basket.getAmount()));
+            editTextNotice.setText(basket.getNotice());
         }
     }
 

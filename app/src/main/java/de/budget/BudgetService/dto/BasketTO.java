@@ -16,6 +16,7 @@ public class BasketTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private int id;
+	private String name;
 	private String notice;
 	private double amount;
 	private long createDate;
@@ -69,6 +70,7 @@ public class BasketTO implements Serializable{
 	 * @author Mark
 	 * @date 17.06.2015
 	 * @param id
+	 * @param name
 	 * @param notice
 	 * @param amount
 	 * @param createDate
@@ -79,9 +81,10 @@ public class BasketTO implements Serializable{
 	 * @param payment
 	 * @param items
 	 */
-	public BasketTO(int id, String notice, double amount, long createDate, long purchaseDate, long lastChanged, UserTO user, VendorTO vendor, PaymentTO payment, List<ItemTO> items) {
+	public BasketTO(int id, String name, String notice, double amount, long createDate, long purchaseDate, long lastChanged, UserTO user, VendorTO vendor, PaymentTO payment, List<ItemTO> items) {
 		super();
 		this.id = id;
+		this.name = name;
 		this.notice = notice;
 		this.amount = amount;
 		this.createDate = createDate;
@@ -107,6 +110,21 @@ public class BasketTO implements Serializable{
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return this.name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
 
 	/**
 	 * @return the notice
