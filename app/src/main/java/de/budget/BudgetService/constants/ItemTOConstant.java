@@ -6,7 +6,7 @@ package de.budget.BudgetService.constants;
 public class ItemTOConstant {
 
 
-    public static final String GET_ITEMS = "getItems";
+    public static final String GET_ITEMS_BY_BASKET = "getItemsByBasket";
 
     public static final String ID = "id";
     public static final String NAME ="name";

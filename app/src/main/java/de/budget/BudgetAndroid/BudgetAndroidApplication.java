@@ -12,6 +12,7 @@ import de.budget.BudgetService.Response.CategoryListResponse;
 import de.budget.BudgetService.dto.BasketTO;
 import de.budget.BudgetService.dto.CategoryTO;
 import de.budget.BudgetService.dto.IncomeTO;
+import de.budget.BudgetService.dto.ItemTO;
 import de.budget.BudgetService.dto.ObjectTO;
 import de.budget.BudgetService.dto.PaymentTO;
 import de.budget.BudgetService.dto.VendorTO;
@@ -42,7 +43,7 @@ public class BudgetAndroidApplication extends Application{
     public void increaseInitialDataCounter(){
         if(firstStart) {
             this.initialDataCounter++;
-            if (initialDataCounter == 5) {
+            if (initialDataCounter == 6) {
                 firstStart = false;
                 Log.d("INFO", "Initiales Datenladen abgeschlossen.");
                 Intent intent = new Intent(this, MainActivity.class);
@@ -177,6 +178,15 @@ public class BudgetAndroidApplication extends Application{
         return this.basket;
     }
 
+    public BasketTO getBasketById(int id){
+        ListIterator <BasketTO> li =  this.basket.listIterator();
+        while(li.hasNext()) {
+            BasketTO o = li.next();
+            if (o.getId() == id) return o;
+        }
+        return null;
+    }
+
 
     public void checkBasketList(BasketTO newBasket){
         boolean found = false;
@@ -218,6 +228,24 @@ public class BudgetAndroidApplication extends Application{
             }
         }
         return result;
+    }
+
+
+    // Items Section
+    public void setItems(List< ItemTO> list){
+        ListIterator <ItemTO> li = list.listIterator();
+        while (li.hasNext()) {
+
+            ItemTO item = li.next();
+            int basketIdofItem = item.getBasket().getId();
+            BasketTO basket = getBasketById(basketIdofItem);
+            basket.setItem(item);
+        }
+    }
+
+    public List<ItemTO> getItemsByBasket(int basketId){
+        BasketTO basket = getBasketById(basketId);
+        return basket.getItems();
     }
 
     @Override
