@@ -12,5 +12,6 @@
             android:layout_gravity="center"
             android:choiceMode="singleChoice"
             android:scrollbars="vertical" />
+
     </LinearLayout>
 </FrameLayout>
