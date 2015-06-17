@@ -1,17 +1,12 @@
 package de.budget.BudgetAndroid;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.os.AsyncTask;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import de.budget.BudgetAndroid.Vendors.VendorsFragment;
 import de.budget.BudgetService.BudgetOnlineService;
 import de.budget.BudgetService.Response.CategoryListResponse;
 import de.budget.BudgetService.dto.BasketTO;

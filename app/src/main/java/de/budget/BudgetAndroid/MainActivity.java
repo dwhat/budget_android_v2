@@ -36,15 +36,17 @@ import de.budget.BudgetAndroid.Income.IncomeActivity;
 import de.budget.BudgetAndroid.Loss.LossActivity;
 import de.budget.BudgetAndroid.Loss.LossFragment;
 import de.budget.BudgetAndroid.Vendors.VendorActivity;
-import de.budget.BudgetAndroid.Vendors.VendorsFragment;
+import de.budget.BudgetAndroid.Vendors.VendorAnalysisFragment;
+import de.budget.BudgetAndroid.Vendors.VendorFragment;
+import de.budget.BudgetAndroid.Vendors.VendorListFragment;
 import de.budget.R;
 
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, CategoryListFragment.OnFragmentInteractionListener, VendorsFragment.OnFragmentInteractionListener,
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, CategoryListFragment.OnFragmentInteractionListener, VendorListFragment.OnFragmentInteractionListener,
                     IncomeListFragment.OnFragmentInteractionListener, LossFragment.OnFragmentInteractionListener, CategoryFragment.OnFragmentInteractionListener,
                     DashboardFragment.OnFragmentInteractionListener, DashboardIncomeFragment.OnFragmentInteractionListener, CategoryAnalysisFragment.OnFragmentInteractionListener,
-                    IncomeFragment.OnFragmentInteractionListener, IncomeAnalysisFragment.OnFragmentInteractionListener{
+                    IncomeFragment.OnFragmentInteractionListener, IncomeAnalysisFragment.OnFragmentInteractionListener, VendorFragment.OnFragmentInteractionListener, VendorAnalysisFragment.OnFragmentInteractionListener{
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -229,6 +231,13 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onIncomeAnalysisFragmentInteraction(Uri uri){
     }
+    @Override
+    public void onVendorFragmentInteraction(Uri uri){
+    }
+    @Override
+    public void onVendorAnalysisFragmentInteraction(Uri uri){
+    }
+
 
 
     public void onSectionAttached(int number) {
@@ -331,7 +340,7 @@ public class MainActivity extends ActionBarActivity
                 fragment = new CategoryFragment();
                 break;
             case 4:
-                fragment = new VendorsFragment();
+                fragment = new VendorFragment();
                 break;
             default:
                 fragment = new DashboardFragment();
