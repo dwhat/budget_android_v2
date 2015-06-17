@@ -1,6 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="de.budget.BudgetAndroid.Vendors.VendorsFragment">
+    android:layout_height="match_parent" tools:context="de.budget.BudgetAndroid.Vendors.VendorListFragment">
 
     <!-- FAB -->
     <ImageButton
@@ -35,16 +35,25 @@
                 style="@style/Headline"
                 android:layout_width="match_parent" />
         </LinearLayout>
+        <android.support.v4.app.FragmentTabHost
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@android:id/tabhost"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
 
-        <!-- Items -->
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/listView_vendor"
-            android:layout_gravity="center"
-            android:choiceMode="singleChoice"
-            android:scrollbars="vertical"/>
-
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"/>
+            </LinearLayout>
+        </android.support.v4.app.FragmentTabHost>
     </LinearLayout>
-
 </FrameLayout>

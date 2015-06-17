@@ -16,26 +16,19 @@ import android.widget.ListView;
 import java.util.List;
 
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
-import de.budget.BudgetService.dto.CategoryTO;
 import de.budget.BudgetService.dto.VendorTO;
 import de.budget.R;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link VendorsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link VendorsFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * @Author Christopher
+ * @date 17.06.2015
  */
-public class VendorsFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
+public class VendorListFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -51,9 +44,8 @@ public class VendorsFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment VendorsFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static VendorsFragment newInstance(String param1, String param2) {
-        VendorsFragment fragment = new VendorsFragment();
+    public static VendorListFragment newInstance(String param1, String param2) {
+        VendorListFragment fragment = new VendorListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,7 +53,7 @@ public class VendorsFragment extends Fragment {
         return fragment;
     }
 
-    public VendorsFragment() {
+    public VendorListFragment() {
         // Required empty public constructor
     }
 
@@ -82,7 +74,7 @@ public class VendorsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_vendors, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_vendor_list, container, false);
 
         // @Author Christopher
         // 09.06.2015
@@ -130,7 +122,6 @@ public class VendorsFragment extends Fragment {
         return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onVendorsMainFragmentInteraction(uri);
@@ -166,7 +157,6 @@ public class VendorsFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         public void onVendorsMainFragmentInteraction(Uri uri);
     }
 
