@@ -559,23 +559,12 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                         SoapObject payment = (SoapObject) ListObject.getProperty(BasketTOConstants.PAYMENT);
                         int paymentId = Integer.parseInt(payment.getPrimitivePropertyAsString("id"));
 
-                        Log.d("INFO", "basketList Payment gefunden : " + paymentId);
-
                         SoapObject vendor = (SoapObject) ListObject.getProperty(BasketTOConstants.VENDOR);
                         int vendorId = Integer.parseInt(payment.getPrimitivePropertyAsString("id"));
 
-                        Log.d("INFO", "basketList Vendor gefunden : " + vendorId);
-
-                        UserTO user;
                         VendorTO vendorTO = myApp.getVendorById(vendorId);
                         PaymentTO paymentTO = myApp.getPaymentById(paymentId);
 
-                        List<ItemTO> itemsTO = null;
-
-                        SoapObject items = (SoapObject) ListObject.getProperty(BasketTOConstants.ITEMS);
-                        Log.d("INFO", "basketList Items gefunden : " + items);
-
-                        // myApp.getPayments();
 
                         // int id, String notice, double amount, Timestamp createDate, Timestamp purchaseDate, Timestamp lastChanged, UserTO user, VendorTO vendor, PaymentTO payment, List<ItemTO> items
                         BasketTO basket = new BasketTO(id, name, notice, amount, createDate, purchaseDate, lastChanged, null, vendorTO, paymentTO, null);
@@ -923,10 +912,11 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
         String METHOD_NAME = ItemTOConstant.GET_ITEMS_BY_BASKET;
         SoapObject response = null;
 
+
         try {
 
             // Get Response from SOAP Object specified Method Name
-            response = executeSoapAction(METHOD_NAME, sessionId);
+            response = executeSoapAction(METHOD_NAME, sessionId, basketId);
 
 
             Log.d(TAG, ItemTOConstant.GET_ITEMS_BY_BASKET + ": " + response.toString() +
@@ -954,42 +944,31 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                         // Iterate throu SoapObject response by Property ID
                         SoapObject ListObject = (SoapObject) response.getProperty(i);
 
-
-                        SoapObject basket= (SoapObject) ListObject.getProperty(ItemTOConstant.BASKET);
-                        int basketIdResponse = Integer.parseInt(basket.getPrimitivePropertyAsString("id"));
-                        Log.d("INFO", "basketIdResponse " + basketIdResponse + " gefunden : " + ListObject.toString() +
+                        Log.d("INFO", "itemList zu basketId " + basketId + " gefunden : " + ListObject.toString() +
                                 " Länge: " + ListObject.getPropertyCount());
 
 
-                        if (basketIdResponse == basketId) {
-                            Log.d("INFO", "itemList zu basketId " + basketId + " gefunden : " + ListObject.toString() +
-                                    " Länge: " + ListObject.getPropertyCount());
+                        int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.ID));
+                        String name = ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.NAME);
+                        double quantity = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.QUANTITY));
+                        double price = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.PRICE));
+                        String notice = ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.NOTICE);
+                        // int period = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.PERIOD));
+                        long createDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.CREATE_DATE));
+                        long lastChanged = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.LAST_CHANGED));
+
+                        int categoryId = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.CATEGORY));
+
+                        CategoryTO categoryTO = myApp.getCategory(categoryId);
+
+                        BasketTO basketTO = myApp.getBasketById(basketId);
+
+                        // 	public ItemTO(int id, String name, double quantity, double price, String notice, int period, long createDate, long launchDate, long finishDate, long lastChanged, BasketTO basket, CategoryTO category) {
+                        ItemTO item = new ItemTO(id, name, quantity, price, notice, 0, createDate, 0, 0, lastChanged, basketTO, categoryTO);
+
+                        itemList.add(item);
 
 
-                            int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.ID));
-                            String name = ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.NAME);
-                            double quantity = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.QUANTITY));
-                            double price = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.PRICE));
-                            String notice = ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.NOTICE);
-                            int period = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.PERIOD));
-                            long createDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.CREATE_DATE));
-                            long launchDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.LAUNCH_DATE));
-                            long finishDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.FINISH_DATE));
-                            long lastChanged = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.LAST_CHANGED));
-
-                            SoapObject category = (SoapObject) ListObject.getProperty(ItemTOConstant.CATEGORY);
-                            int categoryId = Integer.parseInt(category.getPrimitivePropertyAsString("id"));
-
-                            CategoryTO categoryTO = myApp.getCategory(categoryId);
-
-                            BasketTO basketTO = myApp.getBasketById(basketId);
-
-                            // 	public ItemTO(int id, String name, double quantity, double price, String notice, int period, long createDate, long launchDate, long finishDate, long lastChanged, BasketTO basket, CategoryTO category) {
-                            ItemTO item = new ItemTO(id, name, quantity, price, notice, period, createDate, launchDate, finishDate, lastChanged, basketTO, categoryTO);
-
-                            itemList.add(item);
-
-                        }
 
                     }
                 }

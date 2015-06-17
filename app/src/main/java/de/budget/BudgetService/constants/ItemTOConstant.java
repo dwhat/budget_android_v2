@@ -18,6 +18,6 @@ public class ItemTOConstant {
     public static final String LAUNCH_DATE = "launchDate";
     public static final String FINISH_DATE = "finishDate";
     public static final String LAST_CHANGED = "lastChanged";
-    public static final String BASKET = "basket";
-    public static final String CATEGORY = "category";
+    public static final String BASKET = "basketId";
+    public static final String CATEGORY = "categoryId";
 }

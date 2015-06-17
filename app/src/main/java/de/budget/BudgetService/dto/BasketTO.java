@@ -3,6 +3,7 @@ package de.budget.BudgetService.dto;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -297,5 +298,10 @@ public class BasketTO implements Serializable{
 	/**
 	 * @param item add to the items
 	 */
-	public void setItem(ItemTO item) { this.items.add(item); }
+	public void setItem(ItemTO item) {
+		if (this.items == null) {
+			this.items = new ArrayList<>();
+		}
+		this.items.add(item);
+	}
 }

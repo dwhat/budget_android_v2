@@ -18,14 +18,13 @@ public class GetItemsTask extends AsyncTask<String, Integer, ItemListResponse> {
 
         private Context context;
         private static BudgetAndroidApplication myApp;
-        private List<BasketTO> baskets;
+        private int basketId;
 
-        public GetItemsTask(Context context, BudgetAndroidApplication myApp)
+        public GetItemsTask(Context context, BudgetAndroidApplication myApp, int basketId)
         {
             this.context = context;
             this.myApp = myApp;
-
-            baskets = myApp.getBasket();
+            this.basketId = basketId;
 
         }
 
@@ -36,13 +35,13 @@ public class GetItemsTask extends AsyncTask<String, Integer, ItemListResponse> {
                 return null;
 
             try {
-                for(BasketTO basket : baskets){
-                    ItemListResponse item = myApp.getBudgetOnlineService().getItemsByBasket(myApp.getSession(), basket.getId(), myApp);
+
+                    ItemListResponse item = myApp.getBudgetOnlineService().getItemsByBasket(myApp.getSession(), basketId, myApp);
 
                     Integer returnCode =  item.getReturnCode();
                     Log.d("INFO", "Returncode: " + returnCode.toString());
                     return item;
-                }
+
 
             } catch (Exception e) {
                 e.printStackTrace();

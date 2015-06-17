@@ -5,8 +5,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
+import de.budget.BudgetAndroid.SyncActivity;
 import de.budget.BudgetService.Response.BasketListResponse;
 import de.budget.BudgetService.Response.IncomeListResponse;
+import de.budget.BudgetService.dto.BasketTO;
 
 /**
  * Created by mark on 17/06/15.
@@ -53,6 +55,15 @@ public class GetBasketTask extends AsyncTask<String, Integer, BasketListResponse
                 if (result.getReturnCode() == 200){
 
                     myApp.setBasket(result.getBasketList());
+
+                    for(BasketTO basket : myApp.getBasket()) {
+                        GetItemsTask itemsTask = new GetItemsTask(myApp.getApplicationContext(), myApp, basket.getId());
+                        Log.d("INFO", "Asynctask items für basket " + basket.getId() +" gestartet.");
+                        itemsTask.execute();
+                    }
+
+
+
                     myApp.increaseInitialDataCounter();
                     Log.d("INFO", "Liste der Ausgaben erfolgreich angelegt.");
                 }

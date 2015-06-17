@@ -28,6 +28,7 @@ import java.util.List;
 import de.budget.BudgetAndroid.Annotations.Author;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetService.dto.BasketTO;
+import de.budget.BudgetService.dto.ItemTO;
 import de.budget.R;
 
 public class LossActivity extends ActionBarActivity {
@@ -51,28 +52,7 @@ public class LossActivity extends ActionBarActivity {
         editTextItemName = (EditText) findViewById(R.id.item_name);
         editTextItemAmount = (EditText) findViewById(R.id.item_amount);
         editTextItemValue = (EditText) findViewById(R.id.item_value);
-
         listView = (ListView) findViewById(R.id.listView_item);
-
-        itemArrayAdapter =  new ItemArrayAdapter(this, R.layout.item_listview, mock());
-
-        listView.setAdapter(itemArrayAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                HashMap item = (HashMap) listView.getItemAtPosition(position);
-
-                editTextItemName.setText((String) item.get(Item.NAME));
-                editTextItemAmount.setText((String) item.get(Item.AMOUNT));
-                editTextItemValue.setText((String) item.get(Item.VALUE));
-
-            }
-
-        });
-
-
 
 
         Bundle bundle = getIntent().getExtras();
@@ -97,7 +77,35 @@ public class LossActivity extends ActionBarActivity {
             editTextDate.setText(dateFormat.format(basket.getPurchaseDate()));
             editTextTotal.setText(String.valueOf(basket.getAmount()));
             editTextNotice.setText(basket.getNotice());
+
+            itemArrayAdapter =  new ItemArrayAdapter(this, R.layout.item_listview, basket.getItems());
         }
+
+
+
+
+        listView.setAdapter(itemArrayAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                ItemTO item = (ItemTO) listView.getItemAtPosition(position);
+
+
+
+
+                editTextItemName.setText((String) item.getName());
+                editTextItemAmount.setText(String.valueOf(item.getQuantity()));
+                editTextItemValue.setText(String.valueOf(item.getPrice()));
+
+                itemArrayAdapter.remove(item);
+                itemArrayAdapter.notifyDataSetChanged();
+
+            }
+
+        });
     }
 
     @Override
@@ -154,7 +162,8 @@ public class LossActivity extends ActionBarActivity {
         String amount = editTextItemAmount.getText().toString();
         String value = editTextItemValue.getText().toString();
 
-        HashMap<String, String> item = new HashMap();
+        ItemTO item = new ItemTO();
+
 
         if (name.isEmpty()) Toast.makeText(this, "Bitte Item Namen eingeben!", Toast.LENGTH_SHORT).show();
         else {
@@ -162,20 +171,18 @@ public class LossActivity extends ActionBarActivity {
             amount = validateInput(amount);
             value = validateInput(value);
 
-            item.put(Item.NAME, name);
-            item.put(Item.AMOUNT, amount);
-            item.put(Item.VALUE, value);
+            item.setName(name);
+            item.setPrice(Double.parseDouble(value));
+            item.setQuantity(Double.parseDouble(amount));
 
             BigDecimal sum = round( (Float.parseFloat( amount ) * Float.parseFloat( value )) , 2);
 
             Log.d(this.getClass().toString(),
                     "ADD= " +
-                            Item.NAME + ": " + item.get(Item.NAME) + ", " +
-                            Item.AMOUNT + ": " + item.get(Item.AMOUNT) + ", " +
-                            Item.VALUE + ": " + item.get(Item.VALUE)
+                            Item.NAME + ": " + name + ", " +
+                            Item.AMOUNT + ": " + amount + ", " +
+                            Item.VALUE + ": " + value
             );
-
-            item.put(Item.TOTAL, sum.toString());
 
             itemArrayAdapter.add(item);
         }

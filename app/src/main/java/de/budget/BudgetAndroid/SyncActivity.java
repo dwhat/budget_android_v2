@@ -57,8 +57,7 @@ public class SyncActivity extends ActionBarActivity {
         basketTask.execute();
         GetIncomeTask incomeTask = new GetIncomeTask(this, myApp);
         incomeTask.execute();
-        GetItemsTask itemsTask = new GetItemsTask(this, myApp);
-        itemsTask.execute();
+
     }
 
     @Override
