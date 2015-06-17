@@ -155,22 +155,31 @@ public class LossActivity extends ActionBarActivity {
         String value = editTextItemValue.getText().toString();
 
         HashMap<String, String> item = new HashMap();
-        item.put(Item.NAME, name);
-        item.put(Item.AMOUNT, amount);
-        item.put(Item.VALUE, value);
 
-        BigDecimal sum = round( (Float.parseFloat( amount ) * Float.parseFloat( value )) , 2);
+        if (name.isEmpty()) Toast.makeText(this, "Bitte Item Namen eingeben!", Toast.LENGTH_SHORT).show();
+        else {
 
-        Log.d(this.getClass().toString(),
-                "ADD= " +
-                        Item.NAME + ": " + item.get(Item.NAME) + ", " +
-                        Item.AMOUNT + ": " + item.get(Item.AMOUNT) + ", " +
-                        Item.VALUE + ": " + item.get(Item.VALUE)
-        );
+            validateInput(amount);
+            validateInput(value);
 
-        item.put(Item.TOTAL, sum.toString());
+            item.put(Item.NAME, name);
+            item.put(Item.AMOUNT, amount);
+            item.put(Item.VALUE, value);
 
-        itemArrayAdapter.add(item);
+            BigDecimal sum = round( (Float.parseFloat( amount ) * Float.parseFloat( value )) , 2);
+
+            Log.d(this.getClass().toString(),
+                    "ADD= " +
+                            Item.NAME + ": " + item.get(Item.NAME) + ", " +
+                            Item.AMOUNT + ": " + item.get(Item.AMOUNT) + ", " +
+                            Item.VALUE + ": " + item.get(Item.VALUE)
+            );
+
+            item.put(Item.TOTAL, sum.toString());
+
+            itemArrayAdapter.add(item);
+        }
+
     }
 
     @Author(name="Mark")
@@ -194,6 +203,15 @@ public class LossActivity extends ActionBarActivity {
         array.add(firstItem);
 
         return array;
+    }
+
+    private String validateInput (String value) {
+        if(Double.parseDouble(value) <= 0) {
+            Toast.makeText(this, "Input geändert von " + value + " auf 1", Toast.LENGTH_SHORT).show();
+            value = "1";
+
+        }
+        return value;
     }
 
 }
