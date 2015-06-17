@@ -13,6 +13,7 @@ import java.util.List;
 import de.budget.BudgetAndroid.Vendors.VendorsFragment;
 import de.budget.BudgetService.BudgetOnlineService;
 import de.budget.BudgetService.Response.CategoryListResponse;
+import de.budget.BudgetService.dto.BasketTO;
 import de.budget.BudgetService.dto.CategoryTO;
 import de.budget.BudgetService.dto.IncomeTO;
 import de.budget.BudgetService.dto.PaymentTO;
@@ -29,6 +30,7 @@ public class BudgetAndroidApplication extends Application{
     private List<VendorTO> vendors;
     private List<PaymentTO> payments;
     private List<IncomeTO> income;
+    private List<BasketTO> basket;
     private boolean firstStart = true;
     private int initialDataCounter = 0;
 
@@ -147,6 +149,31 @@ public class BudgetAndroidApplication extends Application{
         }
         if(!found){
             income.add(newIncome);
+        }
+    }
+
+    // Basket Section
+
+    public void setBasket(List<BasketTO> list){
+        this.basket = list;
+    }
+
+    public List<BasketTO> getBasket(){
+        return this.basket;
+    }
+
+
+    public void checkBasketList(BasketTO newBasket){
+        boolean found = false;
+        for(int i=0; i<basket.size();i++){
+            if(basket.get(i).getId() == newBasket.getId()) {
+                basket.remove(i);
+                basket.add(newBasket);
+                found = true;
+            }
+        }
+        if(!found){
+            basket.add(newBasket);
         }
     }
 

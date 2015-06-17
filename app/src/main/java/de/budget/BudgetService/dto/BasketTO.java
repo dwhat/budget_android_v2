@@ -18,9 +18,12 @@ public class BasketTO implements Serializable{
 	private int id;
 	private String notice;
 	private double amount;
-	private Timestamp createDate;
-	private Timestamp purchaseDate;
-	private Timestamp lastChanged;
+	private long createDate;
+	private long purchaseDate;
+	private long lastChanged;
+//	private Timestamp createDate;
+//	private Timestamp purchaseDate;
+//	private Timestamp lastChanged;
 	private UserTO user;
 	private VendorTO vendor;
 	private PaymentTO payment;
@@ -34,9 +37,37 @@ public class BasketTO implements Serializable{
 		
 	}
 	
+//	/**
+//	 * @author Marco
+//	 * @date 19.05.2015
+//	 * @param id
+//	 * @param notice
+//	 * @param amount
+//	 * @param createDate
+//	 * @param purchaseDate
+//	 * @param lastChanged
+//	 * @param user
+//	 * @param vendor
+//	 * @param payment
+//	 * @param items
+//	 */
+//	public BasketTO(int id, String notice, double amount, Timestamp createDate, Timestamp purchaseDate, Timestamp lastChanged, UserTO user, VendorTO vendor, PaymentTO payment, List<ItemTO> items) {
+//		super();
+//		this.id = id;
+//		this.notice = notice;
+//		this.amount = amount;
+//		this.createDate = createDate;
+//		this.purchaseDate =purchaseDate;
+//		this.lastChanged = lastChanged;
+//		this.user = user;
+//		this.vendor = vendor;
+//		this.payment = payment;
+//		this.items = items;
+//	}
+
 	/**
-	 * @author Marco
-	 * @date 19.05.2015
+	 * @author Mark
+	 * @date 17.06.2015
 	 * @param id
 	 * @param notice
 	 * @param amount
@@ -48,7 +79,7 @@ public class BasketTO implements Serializable{
 	 * @param payment
 	 * @param items
 	 */
-	public BasketTO(int id, String notice, double amount, Timestamp createDate, Timestamp purchaseDate, Timestamp lastChanged, UserTO user, VendorTO vendor, PaymentTO payment, List<ItemTO> items) {
+	public BasketTO(int id, String notice, double amount, long createDate, long purchaseDate, long lastChanged, UserTO user, VendorTO vendor, PaymentTO payment, List<ItemTO> items) {
 		super();
 		this.id = id;
 		this.notice = notice;
@@ -61,6 +92,7 @@ public class BasketTO implements Serializable{
 		this.payment = payment;
 		this.items = items;
 	}
+
 
 	/**
 	 * @return the id
@@ -104,45 +136,87 @@ public class BasketTO implements Serializable{
 		this.amount = amount;
 	}
 
+//	/**
+//	 * @return the createDate
+//	 */
+//	public Timestamp getCreateDate() {
+//		return createDate;
+//	}
+//
+//	/**
+//	 * @param createDate the createDate to set
+//	 */
+//	public void setCreateDate(Timestamp createDate) {
+//		this.createDate = createDate;
+//	}
+//
+//	/**
+//	 * @return the purchaseDate
+//	 */
+//	public Timestamp getPurchaseDate() {
+//		return purchaseDate;
+//	}
+//
+//	/**
+//	 * @param purchaseDate the purchaseDate to set
+//	 */
+//	public void setPurchaseDate(Timestamp purchaseDate) {
+//		this.purchaseDate = purchaseDate;
+//	}
+//
+//	/**
+//	 * @return the lastChanged
+//	 */
+//	public Timestamp getLastChanged() {
+//		return lastChanged;
+//	}
+//
+//	/**
+//	 * @param lastChanged the lastChanged to set
+//	 */
+//	public void setLastChanged(Timestamp lastChanged) {
+//		this.lastChanged = lastChanged;
+//	}
+
 	/**
 	 * @return the createDate
 	 */
-	public Timestamp getCreateDate() {
+	public long getCreateDate() {
 		return createDate;
 	}
 
 	/**
 	 * @param createDate the createDate to set
 	 */
-	public void setCreateDate(Timestamp createDate) {
+	public void setCreateDate(long createDate) {
 		this.createDate = createDate;
 	}
 
 	/**
 	 * @return the purchaseDate
 	 */
-	public Timestamp getPurchaseDate() {
+	public long getPurchaseDate() {
 		return purchaseDate;
 	}
 
 	/**
 	 * @param purchaseDate the purchaseDate to set
 	 */
-	public void setPurchaseDate(Timestamp purchaseDate) {
+	public void setPurchaseDate(long purchaseDate) {
 		this.purchaseDate = purchaseDate;
 	}
 
 	/**
 	 * @return the lastChanged
 	 */
-	public Timestamp getLastChanged() {
+	public long getLastChanged() {
 		return lastChanged;
 	}
 
 	/**
 	 * @param lastChanged the lastChanged to set
 	 */
-	public void setLastChanged(Timestamp lastChanged) {
+	public void setLastChanged(long lastChanged) {
 		this.lastChanged = lastChanged;
 	}
 

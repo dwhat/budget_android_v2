@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
+import de.budget.BudgetAndroid.BudgetAndroidApplication;
+import de.budget.BudgetService.dto.BasketTO;
+import de.budget.BudgetService.dto.IncomeTO;
 import de.budget.R;
 
 
@@ -81,21 +88,17 @@ public class LossFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_loss, container, false);
 
-        // Author Mark
-        // Createing Mock Objects
-        // TODO: Holen der Vendors vom Server
-        ArrayList <HashMap<String, String>> array = new ArrayList ();
 
-        HashMap<String, String> firstItem = new HashMap();
-        firstItem.put(Loss.NAME,"Erstes Item");
-        firstItem.put(Loss.DATE, "30.06.1992");
-        firstItem.put(Loss.NOTICE, "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam");
-        firstItem.put(Loss.TOTAL, "1.00€");
 
-        array.add(firstItem);
+
+        BudgetAndroidApplication myApp = (BudgetAndroidApplication) getActivity().getApplication();
+        List<BasketTO> baskets = myApp.getBasket();
+
+
 
         // Starten des Array Adapters
-        LossArrayAdapter ArrayAdapter = new LossArrayAdapter (getActivity(), R.layout.loss_listview, array);
+       LossArrayAdapter ArrayAdapter = new LossArrayAdapter (getActivity(), R.layout.loss_listview, baskets);
+
         // Listview ermitteln
         listView = (ListView)rootView.findViewById(R.id.listView_loss);
 
@@ -166,6 +169,23 @@ public class LossFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onLossMainFragmentInteraction(Uri uri);
+    }
+
+    private ArrayList<HashMap<String, String>> mock(){
+        // Author Mark
+        // Createing Mock Objects
+        // TODO: Holen der Vendors vom Server
+        ArrayList <HashMap<String, String>> array = new ArrayList ();
+
+        HashMap<String, String> firstItem = new HashMap();
+        firstItem.put(Loss.NAME,"Erstes Item");
+        firstItem.put(Loss.DATE, "30.06.1992");
+        firstItem.put(Loss.NOTICE, "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam");
+        firstItem.put(Loss.TOTAL, "1.00€");
+
+        array.add(firstItem);
+
+        return array;
     }
 
 }

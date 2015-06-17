@@ -227,7 +227,7 @@ public interface BudgetOnlineService {
      * @param sessionId
      * @return BasketListResponse Object
      */
-    public BasketListResponse getBaskets(int sessionId);
+    public BasketListResponse getBaskets(int sessionId) throws Exception;
 
     /**
      * @author Marco

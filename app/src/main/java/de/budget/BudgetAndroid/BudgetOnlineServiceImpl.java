@@ -2,6 +2,7 @@ package de.budget.BudgetAndroid;
 
 import android.util.Log;
 
+import de.budget.BudgetAndroid.Annotations.Author;
 import de.budget.BudgetService.BudgetOnlineService;
 import de.budget.BudgetService.Exception.InvalidLoginException;
 import de.budget.BudgetService.Response.AmountResponse;
@@ -20,6 +21,7 @@ import de.budget.BudgetService.Response.UserLoginResponse;
 import de.budget.BudgetService.Response.UserResponse;
 import de.budget.BudgetService.Response.VendorListResponse;
 import de.budget.BudgetService.Response.VendorResponse;
+import de.budget.BudgetService.constants.Basket;
 import de.budget.BudgetService.dto.*;
 
 import org.ksoap2.HeaderProperty;
@@ -47,6 +49,8 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
     private static final String TAG = BudgetOnlineServiceImpl.class.getName();
 
     private int tmp, rt;
+
+    private int returnCode;
 
     @Override
     public UserLoginResponse setUser(String username, String password, String email) throws  Exception{
@@ -140,7 +144,8 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
         SoapObject response = null;
         try {
             response = executeSoapAction(METHOD_NAME, sessionId);
-            //Log.d(TAG, response.toString() + response.getPropertyCount());
+
+            Log.d(TAG, response.toString() + response.getPropertyCount());
 
             tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
             if (tmp == 200) {
@@ -492,13 +497,93 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     /**
      * Gives a Response Object with all Baskets in a list
-     * @author Christopher
-     * @date 19.05.2015
+     * @author Mark
+     * @date 17.06.2015
      * @param sessionId
      * @return BasketListResponse Object
      */
-    public BasketListResponse getBaskets(int sessionId){
-        return null;
+    @Author(name="Mark")
+    public BasketListResponse getBaskets(int sessionId) throws Exception{
+
+        BasketListResponse result = new BasketListResponse();
+        String METHOD_NAME = Basket.GET_BASKETS;
+        SoapObject response = null;
+
+        try {
+
+            // Get Response from SOAP Object specified Method Name
+            response = executeSoapAction(METHOD_NAME, sessionId);
+
+
+            Log.d(TAG, "getBaskets: " + response.toString() +
+                    "/n Count: " + response.getPropertyCount());
+
+
+            // Get Return Code from SOAP Object
+            returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+
+
+            if (returnCode == 200) {
+
+                // Create new List for Basket Obejcts
+                ArrayList<BasketTO> basketList = new ArrayList<>();
+
+                // Set Returncode for successs
+                result.setReturnCode(returnCode);
+
+                // Response has Propertys
+                if (response.getPropertyCount() > 1) {
+
+
+                    for (int i = 1; i < response.getPropertyCount(); i++) {
+
+                        // Iterate throu SoapObject response by Property ID
+                        SoapObject ListObject = (SoapObject) response.getProperty(i);
+
+                        Log.d("INFO", "basketList gefunden : " + ListObject.toString() +
+                                " Länge: " + ListObject.getPropertyCount());
+
+                        int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString(Basket.ID));
+                        String notice = ListObject.getPrimitivePropertySafelyAsString(Basket.NOTICE);
+                        double amount = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString(Basket.AMOUNT));
+                        long createDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(Basket.CREATE_DATE));
+                        long purchaseDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(Basket.PURCHASE_DATE));
+                        long lastChanged = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(Basket.LAST_CHANGED));
+                        UserTO user;
+                        VendorTO vendor;
+                        PaymentTO payment;
+                        List<ItemTO> items;
+
+                        // int id, String notice, double amount, Timestamp createDate, Timestamp purchaseDate, Timestamp lastChanged, UserTO user, VendorTO vendor, PaymentTO payment, List<ItemTO> items
+                        BasketTO basket = new BasketTO(id, notice, amount, createDate, purchaseDate, lastChanged, null, null, null, null);
+
+//                        basket.setId(id);
+//                        basket.setNotice(notice);
+//                        basket.setAmount(amount);
+//                        basket.setCreateDate(createDate);
+//                        basket.setPurchaseDate(purchaseDate);
+//                        basket.setLastChanged(lastChanged);
+//                        basket.setUser(null);
+//                        basket.setVendor(null);
+//                        basket.setPayment(null);
+//                        basket.setItems(null);
+
+                        basketList.add(basket);
+
+                    }
+                }
+
+                result.setBasketList(basketList);
+
+                return result;
+            }
+            else {
+                throw new Exception("Create/Update category was not successful!");
+            }
+        } catch (SoapFault e) {
+            throw new Exception(e.getMessage());
+        }
+
     }
 
     /**
