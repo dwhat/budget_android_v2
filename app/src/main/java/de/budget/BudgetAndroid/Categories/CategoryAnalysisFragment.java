@@ -1,7 +1,6 @@
 package de.budget.BudgetAndroid.Categories;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,13 +8,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import de.budget.BudgetAndroid.BudgetAndroidApplication;
+import de.budget.BudgetAndroid.ChartMethods;
+
+import com.github.mikephil.charting.charts.PieChart;
+
+import java.util.ArrayList;
 import java.util.List;
 
-import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetService.dto.CategoryTO;
 import de.budget.R;
 
@@ -29,32 +31,18 @@ import de.budget.R;
  * create an instance of this fragment.
  */
 public class CategoryAnalysisFragment extends Fragment {
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
-    private ListView listView;
+    private BudgetAndroidApplication myApp;
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment CategoryFragment.
      */
-    public static CategoryAnalysisFragment newInstance(String param1, String param2) {
+    public static CategoryAnalysisFragment newInstance() {
         CategoryAnalysisFragment fragment = new CategoryAnalysisFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -65,10 +53,7 @@ public class CategoryAnalysisFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        myApp = (BudgetAndroidApplication) getActivity().getApplication();
     }
 
     @Override
@@ -76,8 +61,21 @@ public class CategoryAnalysisFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.fragment_category_analysis, container, false);
+        List<CategoryTO> categories = myApp.getCategories();
+        int incomeCount =0, lossCount = 0;
+        for (int i=0; i< categories.size(); i++){
+            if(categories.get(i).isIncome()){
+                incomeCount++;
+            }
+            else {
+                lossCount++;
+            }
+        }
 
-
+        PieChart chart = (PieChart) rootView.findViewById(R.id.chart_category);
+        chart = ChartMethods.configureChart(chart, String.valueOf(categories.size())+ "\n Kategorien");
+        chart = ChartMethods.setData(chart, "Einnahmen", "Ausgaben", incomeCount, lossCount);
+        chart.animateXY(1500, 1500);
 
         return rootView;
     }
