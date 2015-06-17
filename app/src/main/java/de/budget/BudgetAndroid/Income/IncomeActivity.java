@@ -28,6 +28,7 @@ import java.util.List;
 
 import de.budget.BudgetAndroid.Annotations.Author;
 import de.budget.BudgetAndroid.AsyncTasks.CreateOrUpdateIncomeTask;
+import de.budget.BudgetAndroid.AsyncTasks.DeleteIncomeTask;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.MainActivity;
 import de.budget.BudgetService.dto.CategoryTO;
@@ -36,9 +37,11 @@ import de.budget.R;
 
 public class IncomeActivity extends ActionBarActivity {
 
+    private boolean newIncome = true;
     private static long receiptDate;
     private String[] categoryNames;
     private int[] categoryIds;
+    private BudgetAndroidApplication myApp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +58,7 @@ public class IncomeActivity extends ActionBarActivity {
             Log.d("ERROR", e.getMessage());
         }
 
-        BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
+        myApp = (BudgetAndroidApplication) getApplication();
         List<CategoryTO> categoryTOs = myApp.getCategories();
         categoryNames = new String[categoryTOs.size()];
         categoryIds = new int[categoryTOs.size()];
@@ -72,14 +75,13 @@ public class IncomeActivity extends ActionBarActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-
+            newIncome = false;
             // Schreibe Objekt in das Layout
             EditText txtIncomeName = (EditText) findViewById(R.id.income_name);
             EditText txtIncomeNotice = (EditText) findViewById(R.id.income_notice);
             TextView txtIncomeId = (TextView) findViewById(R.id.label_income_id);
             EditText txtIncomeAmount = (EditText) findViewById(R.id.income_amount);
             EditText txtIncomeQuantity = (EditText) findViewById(R.id.income_quantity);
-            Spinner txtIncomeCategory = (Spinner) findViewById(R.id.income_category);
             //TODO
            // DatePicker txtReceiptDate = (DatePicker) findViewById(R.id.income_receiptDate);
 
@@ -106,6 +108,9 @@ public class IncomeActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_income_new, menu);
+        if(newIncome) {
+            menu.findItem(R.id.action_delete).setVisible(false);
+        }
         return true;
     }
 
@@ -119,6 +124,10 @@ public class IncomeActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save) {
             save(null);
+            return true;
+        }
+        else if (id == R.id.action_delete) {
+            delete(null);
             return true;
         }
 
@@ -157,7 +166,6 @@ public class IncomeActivity extends ActionBarActivity {
             ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
             if(networkInfo != null && networkInfo.isConnected()){
-                BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
                 CreateOrUpdateIncomeTask task = new CreateOrUpdateIncomeTask(this,myApp, this);
                 task.execute(incomeId, incomeName,  incomeQuantity, incomeAmount, incomeNotice, String.valueOf(receiptDate), incomeCategory);
             }
@@ -176,6 +184,29 @@ public class IncomeActivity extends ActionBarActivity {
             Toast toast = Toast.makeText(this, text, duration);
             toast.show();
         }
+
+    }
+
+    /*
+     * @Author Christopher
+     * @Date 17.06.2015
+     * Methode zum Löschen des Objekts
+     */
+    public void delete(View v) {
+        Toast.makeText(this, "Löschen", Toast.LENGTH_SHORT).show();
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+            if(networkInfo != null && networkInfo.isConnected()){
+                TextView txtIncomeId = (TextView) findViewById(R.id.label_income_id);
+                DeleteIncomeTask task = new DeleteIncomeTask(this, myApp, this);
+                task.execute(Integer.parseInt(txtIncomeId.getText().toString()));
+            }
+            else {
+                CharSequence text = "Keine Netzwerkverbindung! :(";
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(this, text, duration);
+                toast.show();
+            }
 
     }
 

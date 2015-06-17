@@ -16,6 +16,9 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import de.budget.BudgetAndroid.AsyncTasks.CreateOrUpdateIncomeTask;
+import de.budget.BudgetAndroid.AsyncTasks.DeleteCategoryTask;
+import de.budget.BudgetAndroid.AsyncTasks.DeleteVendorTask;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetService.dto.CategoryTO;
 import de.budget.R;
@@ -23,17 +26,19 @@ import de.budget.BudgetAndroid.AsyncTasks.CreateOrUpdateCategoryTask;
 
 public class CategoryActivity extends ActionBarActivity {
 
+    private BudgetAndroidApplication myApp;
+    private boolean newCategory = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
 
-        BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
+        myApp = (BudgetAndroidApplication) getApplication();
 
         Bundle bundle = getIntent().getExtras();
         // Prüfe ob ein Objekt übergeben worden ist
         if (bundle != null) {
-
+            newCategory = false;
             // Schreibe Objekt in das Layout
             EditText txtCategoryName = (EditText) findViewById(R.id.category_name);
             EditText txtCategoryNotice = (EditText) findViewById(R.id.category_notice);
@@ -62,6 +67,9 @@ public class CategoryActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_category_new, menu);
+        if(newCategory) {
+            menu.findItem(R.id.action_delete).setVisible(false);
+        }
         return true;
     }
 
@@ -75,6 +83,10 @@ public class CategoryActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save) {
             save(null);
+            return true;
+        }
+        else if (id == R.id.action_delete) {
+            delete(null);
             return true;
         }
 
@@ -106,7 +118,6 @@ public class CategoryActivity extends ActionBarActivity {
             ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
             if(networkInfo != null && networkInfo.isConnected()){
-                BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
                 CreateOrUpdateCategoryTask task = new CreateOrUpdateCategoryTask(this,myApp, this);
                 task.execute(incomeOrLoss, categoryName, categoryNotice, categoryColor, categoryId);
             }
@@ -121,6 +132,29 @@ public class CategoryActivity extends ActionBarActivity {
         {
             //Toast anzeigen
             CharSequence text = "Bitte alle Felder ausfüllen!";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(this, text, duration);
+            toast.show();
+        }
+
+    }
+
+    /*
+     * @Author Christopher
+     * @Date 17.06.2015
+    * Methode zum Löschen des Objekts
+     */
+    public void delete(View v) {
+        Toast.makeText(this, "Löschen", Toast.LENGTH_SHORT).show();
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if(networkInfo != null && networkInfo.isConnected()){
+            TextView txtCategoryId = (TextView) findViewById(R.id.label_category_id);
+            DeleteCategoryTask task = new DeleteCategoryTask(this, myApp, this);
+            task.execute(Integer.parseInt(txtCategoryId.getText().toString()));
+        }
+        else {
+            CharSequence text = "Keine Netzwerkverbindung! :(";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(this, text, duration);
             toast.show();

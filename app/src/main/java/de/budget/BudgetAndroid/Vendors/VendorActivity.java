@@ -14,6 +14,9 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import de.budget.BudgetAndroid.AsyncTasks.CreateOrUpdateIncomeTask;
+import de.budget.BudgetAndroid.AsyncTasks.DeleteIncomeTask;
+import de.budget.BudgetAndroid.AsyncTasks.DeleteVendorTask;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetService.dto.VendorTO;
 import de.budget.R;
@@ -21,14 +24,19 @@ import de.budget.BudgetAndroid.AsyncTasks.CreateOrUpdateVendorTask;
 
 public class VendorActivity extends ActionBarActivity {
 
+    private boolean newVendor = true;
+    private BudgetAndroidApplication myApp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vendor);
 
+        myApp = (BudgetAndroidApplication) getApplication();
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-
+            newVendor = false;
             // @author Christopher
             // @date 10.06.2015
             EditText txtVendorName = (EditText) findViewById(R.id.vendor_name);
@@ -39,7 +47,7 @@ public class VendorActivity extends ActionBarActivity {
             TextView txtVendorId = (TextView) findViewById(R.id.label_vendor_id);
 
             int vendorPos = bundle.getInt("VENDOR_POSITION");
-            BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
+            myApp = (BudgetAndroidApplication) getApplication();
             List<VendorTO> tmp = myApp.getVendors();
             VendorTO vendor = tmp.get(vendorPos);
             txtVendorName.setText(vendor.getName());
@@ -56,6 +64,9 @@ public class VendorActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_vendor_new, menu);
+        if(newVendor) {
+            menu.findItem(R.id.action_delete).setVisible(false);
+        }
         return true;
     }
 
@@ -69,6 +80,10 @@ public class VendorActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save) {
             save(null);
+            return true;
+        }
+        else if (id == R.id.action_delete) {
+            delete(null);
             return true;
         }
 
@@ -102,7 +117,6 @@ public class VendorActivity extends ActionBarActivity {
             ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
             if(networkInfo != null && networkInfo.isConnected()){
-                BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
                 CreateOrUpdateVendorTask task = new CreateOrUpdateVendorTask(this, myApp,this);
                 task.execute(vendorName, vendorStreet, vendorNr, vendorPlz, vendorCity , vendorId);
             }
@@ -117,6 +131,29 @@ public class VendorActivity extends ActionBarActivity {
         {
             //Toast anzeigen
             CharSequence text = "Bitte alle Felder ausfüllen!";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(this, text, duration);
+            toast.show();
+        }
+
+    }
+
+    /*
+     * @Author Christopher
+     * @Date 17.06.2015
+     * Methode zum Löschen des Objekts
+     */
+    public void delete(View v) {
+        Toast.makeText(this, "Löschen", Toast.LENGTH_SHORT).show();
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if(networkInfo != null && networkInfo.isConnected()){
+            TextView txtVendorId = (TextView) findViewById(R.id.label_vendor_id);
+            DeleteVendorTask task = new DeleteVendorTask(this, myApp, this);
+            task.execute(Integer.parseInt(txtVendorId.getText().toString()));
+        }
+        else {
+            CharSequence text = "Keine Netzwerkverbindung! :(";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(this, text, duration);
             toast.show();

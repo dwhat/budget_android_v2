@@ -101,6 +101,14 @@ public class BudgetAndroidApplication extends Application{
         }
     }
 
+    public void deleteCategory(int categoryId){
+        for(int i=0; i<categories.size();i++){
+            if(categories.get(i).getId() == categoryId) {
+                categories.remove(i);
+            }
+        }
+    }
+
     // Vendors Section
 
     public void setVendors(List<VendorTO> list){
@@ -143,6 +151,14 @@ public class BudgetAndroidApplication extends Application{
         }
     }
 
+    public void deleteVendor(int vendorId){
+        for(int i=0; i<vendors.size();i++){
+            if(vendors.get(i).getId() == vendorId) {
+                vendors.remove(i);
+            }
+        }
+    }
+
     // Income Section
 
     public void setIncome(List<IncomeTO> list){
@@ -165,6 +181,14 @@ public class BudgetAndroidApplication extends Application{
         }
         if(!found){
             income.add(newIncome);
+        }
+    }
+
+    public void deleteIncome(int IncomeId){
+        for(int i=0; i<income.size();i++){
+            if(income.get(i).getId() == IncomeId) {
+                income.remove(i);
+            }
         }
     }
 

@@ -48,6 +48,7 @@ public class ItemArrayAdapter extends ArrayAdapter<ItemTO> {
         double quantity = values.get(position).getQuantity();
         BigDecimal total = round(value * quantity, 2);
 
+        // TODO Categories
         itemName        .setText(values.get(position).getName());
 //        itemCategory    .setText(values.get(position).getCategory().getName());
 //        itemAmount      .setText(String.valueOf(quantity));
