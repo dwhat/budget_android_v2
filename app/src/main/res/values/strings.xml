@@ -106,6 +106,8 @@
     <string name="action_sync">Synchronisieren</string>
     <string name="action_settings">Settings</string>
     <string name="action_save">Speichern</string>
+    <string name="action_delete">Löschen</string>
+
 
     <!-- Sonstiges -->
     <string name="hello_world">Hello world!</string>

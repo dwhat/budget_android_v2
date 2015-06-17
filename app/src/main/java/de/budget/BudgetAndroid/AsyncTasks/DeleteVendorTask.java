@@ -9,42 +9,38 @@ import android.widget.Toast;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.MainActivity;
 import de.budget.BudgetAndroid.Vendors.VendorActivity;
-import de.budget.BudgetService.Response.VendorResponse;
+import de.budget.BudgetService.Response.ReturnCodeResponse;
 
 /*
     * @Author Christopher
-    * @Date 09.06.2015
+    * @Date 16.06.2015
     */
-public class CreateOrUpdateVendorTask extends AsyncTask<String, Integer, VendorResponse>
+public class DeleteVendorTask extends AsyncTask<Integer, Integer, ReturnCodeResponse>
 {
-    private Context context;
+    private static BudgetAndroidApplication myApp;
     private static VendorActivity activity;
     public static MainActivity nextActivity = new MainActivity();
-    private static BudgetAndroidApplication myApp;
+    private Integer id;
+    private Context context;
 
-    public CreateOrUpdateVendorTask(Context context, BudgetAndroidApplication myApp, VendorActivity pActivity)
+    public DeleteVendorTask(Context context, BudgetAndroidApplication myApp, VendorActivity pActivity)
     {
         this.context = context;
         this.activity = pActivity;
         this.myApp = myApp;
     }
 
-    @Override
-    protected VendorResponse doInBackground(String... params){
-        if(params.length != 6)
-            return null;
-        String vendorName = params[0];
-        String vendorStreet = params[1];
-        String vendorNr = params[2];
-        String vendorPlz = params[3];
-        String vendorCity = params[4];
-        String vendorId = params[5];
 
+    @Override
+    protected ReturnCodeResponse doInBackground(Integer... params){
+        if(params.length != 1)
+            return null;
+        id = params[0];
         try {
-            VendorResponse myVendor = myApp.getBudgetOnlineService().createOrUpdateVendor(myApp.getSession(), Integer.parseInt(vendorId), vendorName, "",  vendorStreet, vendorCity, Integer.parseInt(vendorPlz), Integer.parseInt(vendorNr) );
-            Integer rt =  myVendor.getReturnCode();
+            ReturnCodeResponse myResponse = myApp.getBudgetOnlineService().deleteVendor(myApp.getSession(), id);
+            Integer rt =  myResponse.getReturnCode();
             Log.d("INFO", "Returncode: " + rt.toString());
-            return myVendor;
+            return myResponse;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,19 +52,18 @@ public class CreateOrUpdateVendorTask extends AsyncTask<String, Integer, VendorR
         //wird in diesem Beispiel nicht verwendet
     }
 
-    protected void onPostExecute(VendorResponse result)
+    @Override
+    protected void onPostExecute(ReturnCodeResponse result)
     {
         int duration = Toast.LENGTH_SHORT;
         if(result != null)
         {
-            //erfolgreich eingeloggt
             if (result.getReturnCode() == 200){
 
-                Log.d("INFO", "Händler erfolgreich angelegt.");
-                // Update der alten Liste
-                myApp.checkVendorsList(result.getVendorTo());
+                myApp.deleteVendor(id);
+                Log.d("INFO", "Händler erfolgreich gelöscht.");
                 //Toast anzeigen
-                CharSequence text = "Händler gespeichert!";
+                CharSequence text = "Händler gelöscht!";
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
                 //Nächste Activity anzeigen
@@ -76,15 +71,15 @@ public class CreateOrUpdateVendorTask extends AsyncTask<String, Integer, VendorR
                 activity.startActivity(intent);
             }
             else if (result.getReturnCode() == 407){
-                CharSequence text = "Bitte zuerst Einnahmen/Ausgaben des Händlers löschen!";
+                CharSequence text = "Bitte zuerst Einnahmen/Ausgaben der Kategorie löschen!";
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
             }
         }
         else
         {
-            //Toast anzeigen
-            CharSequence text = "Händler konnte nicht gespeichert werden.";
+            Log.d("INFO", "Händler konnte nicht gelöscht werden.");
+            CharSequence text = "Händler konnte nicht gelöscht werden!";
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         }

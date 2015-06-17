@@ -120,7 +120,7 @@ public interface BudgetOnlineService {
      * @param vendorId
      * @return
      */
-    public ReturnCodeResponse deleteVendor(int sessionId, int vendorId);
+    public ReturnCodeResponse deleteVendor(int sessionId, int vendorId) throws Exception;
 
 
 
@@ -212,7 +212,7 @@ public interface BudgetOnlineService {
      * @param categoryId
      * @return
      */
-    public ReturnCodeResponse deleteCategory(int sessionId, int categoryId);
+    public ReturnCodeResponse deleteCategory(int sessionId, int categoryId) throws Exception;
 
 
 
@@ -382,7 +382,7 @@ public interface BudgetOnlineService {
      * @param itemID
      * @return
      */
-    public ReturnCodeResponse deleteIncome(int sessionId, int itemID);
+    public ReturnCodeResponse deleteIncome(int sessionId, int itemID) throws Exception;
 
 
 

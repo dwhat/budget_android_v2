@@ -243,13 +243,31 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
     /**
      * Method to delete a vendor
      * @author Christopher
-     * @date 26.05.2015
+     * @date 16.06.2015
      * @param sessionId
      * @param vendorId
      * @return
      */
-    public ReturnCodeResponse deleteVendor(int sessionId, int vendorId){
-        return null;
+    public ReturnCodeResponse deleteVendor(int sessionId, int vendorId) throws Exception{
+        ReturnCodeResponse result = new ReturnCodeResponse();
+        String METHOD_NAME = "deleteVendor";
+        SoapObject response = null;
+        try {
+            response = executeSoapAction(METHOD_NAME, sessionId, vendorId);
+            //Log.d(TAG, response.toString() + response.getPropertyCount());
+
+            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            if (tmp == 200) {
+                result.setReturnCode(tmp);
+                return result;
+            }
+            else {
+                throw new Exception("Delete Vendor was not successful!");
+            }
+        } catch (SoapFault e) {
+            throw new Exception(e.getMessage());
+        }
+
     }
 
 
@@ -484,13 +502,31 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     /**
      * @author Christopher
-     * @date 26.05.2015
+     * @date 16.06.2015
      * @param sessionId
      * @param categoryId
      * @return
      */
-    public ReturnCodeResponse deleteCategory(int sessionId, int categoryId){
-        return null;
+    public ReturnCodeResponse deleteCategory(int sessionId, int categoryId) throws Exception{
+        ReturnCodeResponse result = new ReturnCodeResponse();
+        String METHOD_NAME = "deleteCategory";
+        SoapObject response = null;
+        try {
+            response = executeSoapAction(METHOD_NAME, sessionId, categoryId);
+            //Log.d(TAG, response.toString() + response.getPropertyCount());
+
+            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            if (tmp == 200) {
+                result.setReturnCode(tmp);
+                return result;
+            }
+            else {
+                throw new Exception("Delete Category was not successful!");
+            }
+        } catch (SoapFault e) {
+            throw new Exception(e.getMessage());
+        }
+
     }
 
 
@@ -885,13 +921,31 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     /**
      * @author Christopher
-     * @date 26.05.2015
+     * @date 16.06.2015
      * @param sessionId
-     * @param itemID
+     * @param incomeId
      * @return
      */
-    public ReturnCodeResponse deleteIncome(int sessionId, int itemID){
-        return null;
+    public ReturnCodeResponse deleteIncome(int sessionId, int incomeId) throws Exception{
+        ReturnCodeResponse result = new ReturnCodeResponse();
+        String METHOD_NAME = "deleteIncome";
+        SoapObject response = null;
+        try {
+            response = executeSoapAction(METHOD_NAME, sessionId, incomeId);
+            //Log.d(TAG, response.toString() + response.getPropertyCount());
+
+            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            if (tmp == 200) {
+                result.setReturnCode(tmp);
+                return result;
+            }
+            else {
+                throw new Exception("Delete Income was not successful!");
+            }
+        } catch (SoapFault e) {
+            throw new Exception(e.getMessage());
+        }
+
     }
 
 
