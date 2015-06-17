@@ -23,15 +23,22 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import de.budget.BudgetAndroid.Annotations.Author;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
+import de.budget.BudgetAndroid.Categories.CategorySpinnerAdapter;
 import de.budget.BudgetService.dto.BasketTO;
+import de.budget.BudgetService.dto.CategoryTO;
 import de.budget.BudgetService.dto.ItemTO;
 import de.budget.R;
 
 public class LossActivity extends ActionBarActivity {
+
+    private BudgetAndroidApplication myApp;
+    private List <CategoryTO> categories;
+    private List<BasketTO> baskets;
 
     private ListView listView;
     private EditText editTextItemName;
@@ -39,6 +46,7 @@ public class LossActivity extends ActionBarActivity {
     private EditText editTextItemValue;
     private Spinner spinnerCategory;
 
+    private CategorySpinnerAdapter spinnerArrayAdapter;
     private ItemArrayAdapter itemArrayAdapter;
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
@@ -48,60 +56,57 @@ public class LossActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loss);
 
+        myApp       = (BudgetAndroidApplication) getApplication();
+        categories  = myApp.getCategories();
+        baskets = myApp.getBasket();
 
-        editTextItemName = (EditText) findViewById(R.id.item_name);
-        editTextItemAmount = (EditText) findViewById(R.id.item_amount);
-        editTextItemValue = (EditText) findViewById(R.id.item_value);
-        listView = (ListView) findViewById(R.id.listView_item);
+        editTextItemName    = (EditText) findViewById(R.id.item_name);
+        editTextItemAmount  = (EditText) findViewById(R.id.item_amount);
+        editTextItemValue   = (EditText) findViewById(R.id.item_value);
+        spinnerCategory     = (Spinner) findViewById(R.id.item_category);
+        listView            = (ListView) findViewById(R.id.listView_item);
 
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
 
             int pos = bundle.getInt("POSITION");
-
-            BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
-
-            List<BasketTO> baskets = myApp.getBasket();
-
             BasketTO basket = baskets.get(pos);
 
             Log.d(this.getClass().toString(), "Show Basket: " + basket.toString());
 
-            EditText editTextName = (EditText) findViewById(R.id.loss_name);
-            EditText editTextDate   = (EditText) findViewById(R.id.loss_date);
-            EditText editTextTotal  = (EditText) findViewById(R.id.loss_value);
-            EditText editTextNotice = (EditText) findViewById(R.id.loss_notice);
+            EditText    editTextName   = (EditText) findViewById(R.id.loss_name);
+            EditText    editTextDate   = (EditText) findViewById(R.id.loss_date);
+            EditText    editTextTotal  = (EditText) findViewById(R.id.loss_value);
+            EditText    editTextNotice = (EditText) findViewById(R.id.loss_notice);
 
-            editTextName.setText(basket.getName());
-            editTextDate.setText(dateFormat.format(basket.getPurchaseDate()));
-            editTextTotal.setText(String.valueOf(basket.getAmount()));
-            editTextNotice.setText(basket.getNotice());
+                        editTextName    .setText(basket.getName());
+                        editTextDate    .setText(dateFormat.format(basket.getPurchaseDate()));
+                        editTextTotal   .setText(String.valueOf(basket.getAmount()));
+                        editTextNotice  .setText(basket.getNotice());
 
             itemArrayAdapter =  new ItemArrayAdapter(this, R.layout.item_listview, basket.getItems());
+        } else {
+            itemArrayAdapter =  new ItemArrayAdapter(this, R.layout.item_listview, null);
         }
 
-
-
+        spinnerArrayAdapter = new CategorySpinnerAdapter(this, R.layout.spinner_category, categories);
+        spinnerCategory.setAdapter(spinnerArrayAdapter);
 
         listView.setAdapter(itemArrayAdapter);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                ItemTO item = (ItemTO) listView.getItemAtPosition(position);
+            ItemTO item = (ItemTO) listView.getItemAtPosition(position);
 
+            editTextItemName    .setText((String) item.getName());
+            editTextItemAmount  .setText(String.valueOf(item.getQuantity()));
+            editTextItemValue   .setText(String.valueOf(item.getPrice()));
 
-
-
-                editTextItemName.setText((String) item.getName());
-                editTextItemAmount.setText(String.valueOf(item.getQuantity()));
-                editTextItemValue.setText(String.valueOf(item.getPrice()));
-
-                itemArrayAdapter.remove(item);
-                itemArrayAdapter.notifyDataSetChanged();
+            itemArrayAdapter.remove(item);
+            itemArrayAdapter.notifyDataSetChanged();
 
             }
 
@@ -139,7 +144,6 @@ public class LossActivity extends ActionBarActivity {
         showDialog();
         //TODO Die eingengeben Werte an den Server schicken
         Toast.makeText(this, "Speichern", Toast.LENGTH_SHORT).show();
-
     }
 
     /*
@@ -158,12 +162,12 @@ public class LossActivity extends ActionBarActivity {
     @Author(name="Mark")
     public void add(View v){
 
-        String name = editTextItemName.getText().toString();
-        String amount = editTextItemAmount.getText().toString();
-        String value = editTextItemValue.getText().toString();
+        String name     = editTextItemName.getText().toString();
+        String amount   = editTextItemAmount.getText().toString();
+        String value    = editTextItemValue.getText().toString();
+        CategoryTO category = (CategoryTO) spinnerCategory.getSelectedItem();
 
-        ItemTO item = new ItemTO();
-
+        ItemTO item     = new ItemTO();
 
         if (name.isEmpty()) Toast.makeText(this, "Bitte Item Namen eingeben!", Toast.LENGTH_SHORT).show();
         else {
@@ -174,6 +178,7 @@ public class LossActivity extends ActionBarActivity {
             item.setName(name);
             item.setPrice(Double.parseDouble(value));
             item.setQuantity(Double.parseDouble(amount));
+            item.setCategory(myApp.getCategory(category.getId()));
 
             BigDecimal sum = round( (Float.parseFloat( amount ) * Float.parseFloat( value )) , 2);
 
@@ -216,7 +221,6 @@ public class LossActivity extends ActionBarActivity {
         if(value.isEmpty() || Double.parseDouble(value) <= 0) {
             Toast.makeText(this, "Input geändert auf 1", Toast.LENGTH_SHORT).show();
             value = "1";
-
         }
         return value;
     }
