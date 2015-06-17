@@ -3,6 +3,7 @@ package de.budget.BudgetAndroid;
 import android.util.Log;
 
 import de.budget.BudgetAndroid.Annotations.Author;
+import de.budget.BudgetAndroid.Loss.Item;
 import de.budget.BudgetService.BudgetOnlineService;
 import de.budget.BudgetService.Exception.InvalidLoginException;
 import de.budget.BudgetService.Response.AmountResponse;
@@ -21,17 +22,20 @@ import de.budget.BudgetService.Response.UserLoginResponse;
 import de.budget.BudgetService.Response.UserResponse;
 import de.budget.BudgetService.Response.VendorListResponse;
 import de.budget.BudgetService.Response.VendorResponse;
-import de.budget.BudgetService.constants.Basket;
+import de.budget.BudgetService.constants.BasketTOConstants;
+import de.budget.BudgetService.constants.ItemTOConstant;
 import de.budget.BudgetService.dto.*;
 
 import org.ksoap2.HeaderProperty;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
 import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -507,7 +511,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
     public BasketListResponse getBaskets(int sessionId, BudgetAndroidApplication myApp) throws Exception{
 
         BasketListResponse result = new BasketListResponse();
-        String METHOD_NAME = Basket.GET_BASKETS;
+        String METHOD_NAME = BasketTOConstants.GET_BASKETS;
         SoapObject response = null;
 
         try {
@@ -544,19 +548,59 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                         Log.d("INFO", "basketList gefunden : " + ListObject.toString() +
                                 " Länge: " + ListObject.getPropertyCount());
 
-                        int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString(Basket.ID));
-                        String name = ListObject.getPrimitivePropertySafelyAsString(Basket.NAME);
-                        String notice = ListObject.getPrimitivePropertySafelyAsString(Basket.NOTICE);
-                        double amount = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString(Basket.AMOUNT));
-                        long createDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(Basket.CREATE_DATE));
-                        long purchaseDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(Basket.PURCHASE_DATE));
-                        long lastChanged = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(Basket.LAST_CHANGED));
+                        int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString(BasketTOConstants.ID));
+                        String name = ListObject.getPrimitivePropertySafelyAsString(BasketTOConstants.NAME);
+                        String notice = ListObject.getPrimitivePropertySafelyAsString(BasketTOConstants.NOTICE);
+                        double amount = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString(BasketTOConstants.AMOUNT));
+                        long createDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(BasketTOConstants.CREATE_DATE));
+                        long purchaseDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(BasketTOConstants.PURCHASE_DATE));
+                        long lastChanged = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(BasketTOConstants.LAST_CHANGED));
 
+                        SoapObject payment = (SoapObject) ListObject.getProperty(BasketTOConstants.PAYMENT);
+                        int paymentId = Integer.parseInt(payment.getPrimitivePropertyAsString("id"));
+
+                        Log.d("INFO", "basketList Payment gefunden : " + paymentId);
+
+                        SoapObject vendor = (SoapObject) ListObject.getProperty(BasketTOConstants.VENDOR);
+                        int vendorId = Integer.parseInt(payment.getPrimitivePropertyAsString("id"));
+
+                        Log.d("INFO", "basketList Vendor gefunden : " + vendorId);
 
                         UserTO user;
-                        VendorTO vendor;
-                        PaymentTO payment;
-                        // List<ItemTO> items = ListObject.getPrimitivePropertySafelyAsString(Basket.ITEMS);
+                        VendorTO vendorTO = myApp.getVendorById(vendorId);
+                        PaymentTO paymentTO = myApp.getPaymentById(paymentId);
+
+                        List<ItemTO> itemsTO = null;
+
+                        SoapObject items = (SoapObject) ListObject.getProperty(BasketTOConstants.ITEMS);
+                        Log.d("INFO", "basketList Items gefunden : " + items);
+
+
+                        /* for(int j = 1; i < items.getPropertyCount(); j++ ) {
+                            Log.d("INFO", "Anzahl Items im Basket: " + items.getPropertyCount());
+
+
+                            // int itemID = Integer.parseInt(ListItemObject.getAttributeSafelyAsString(ItemTOConstant.ID).toString());
+                             //Log.d("INFO", "basketList item gefunden : " + ListItemObject);
+//                              int itemId = Integer.parseInt(ListItemObject.getPrimitivePropertySafelyAsString(ItemTOConstant.ID));
+//                            String itemName = ListItemObject.getPrimitivePropertySafelyAsString(ItemTOConstant.NAME);
+//                            double  itemQuantity = Double.parseDouble(ListItemObject.getPrimitivePropertySafelyAsString(ItemTOConstant.QUANTITY));
+//                            double itemPrice = Double.parseDouble(ListItemObject.getPrimitivePropertySafelyAsString(ItemTOConstant.PRICE));
+//                            String itemNotice = ListItemObject.getPrimitivePropertySafelyAsString(ItemTOConstant.NOTICE);
+//                            int itemPeriod = Integer.parseInt(ListItemObject.getPrimitivePropertySafelyAsString(ItemTOConstant.PERIOD));
+//                            long itemCreateDate = Long.parseLong(ListItemObject.getPrimitivePropertySafelyAsString(ItemTOConstant.CREATE_DATE));
+//                            long itemLaunchDate = Long.parseLong(ListItemObject.getPrimitivePropertySafelyAsString(ItemTOConstant.LAUNCH_DATE));
+//                            long itemFinishDate = Long.parseLong(ListItemObject.getPrimitivePropertySafelyAsString(ItemTOConstant.FINISH_DATE));
+//                            long itemLastChanged = Long.parseLong(ListItemObject.getPrimitivePropertySafelyAsString(ItemTOConstant.LAST_CHANGED));
+
+//                            int categoryId = Integer.parseInt(ListItemObject.getPrimitivePropertySafelyAsString(ItemTOConstant.CATEGORY));
+//                            CategoryTO itemCategory = myApp.getCategory(categoryId);
+
+//                            ItemTO item = new ItemTO(itemId, itemName, itemQuantity, itemPrice, itemNotice, itemPeriod, itemCreateDate, itemLaunchDate, itemFinishDate, itemLastChanged, null, itemCategory);
+//                            itemsTO.add(item);
+                        } */
+
+
 
                         // myApp.getPayments();
 
@@ -977,6 +1021,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 	    /* Assign the SoapObject request object to the envelop as the outbound message for the SOAP method call. */
         envelope.setOutputSoapObject(request);
 
+
 	    /* Create a org.ksoap2.transport.HttpTransportSE object that represents a J2SE based HttpTransport layer. HttpTransportSE extends
 	     * the org.ksoap2.transport.Transport class, which encapsulates the serialization and deserialization of SOAP messages.
 	     */
@@ -1000,6 +1045,8 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 	         * The result has to be cast to SoapPrimitive, the class used to encapsulate primitive types, or to SoapObject.
 	         */
             result = (SoapObject) envelope.getResponse();
+
+            Log.d("Result", result.toString());
 
             if (result instanceof SoapFault) {
                 throw (SoapFault) result;

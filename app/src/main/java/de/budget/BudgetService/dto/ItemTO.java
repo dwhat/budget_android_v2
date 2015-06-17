@@ -17,11 +17,15 @@ public class ItemTO implements Serializable {
 	private double quantity;	
 	private double price;	
 	private String notice;		
-	private int period;	
-	private Timestamp createDate;	
-	private Timestamp launchDate;	
-	private Timestamp finishDate;
-	private Timestamp lastChanged;
+	private int period;
+	private long createDate;
+	private long launchDate;
+	private long finishDate;
+	private long lastChanged;
+//	private Timestamp createDate;
+//	private Timestamp launchDate;
+//	private Timestamp finishDate;
+//	private Timestamp lastChanged;
 	private BasketTO basket;
 	private CategoryTO category;
 
@@ -34,6 +38,37 @@ public class ItemTO implements Serializable {
 		
 	}
 	
+//	/**
+//	 * @author Marco
+//	 * @date 19.05.2015
+//	 * @param id
+//	 * @param name
+//	 * @param quantity
+//	 * @param price
+//	 * @param notice
+//	 * @param period
+//	 * @param createDate
+//	 * @param launchDate
+//	 * @param finishDate
+//	 * @param lastChanged
+//	 * @param basket
+//	 * @param category
+//	 */
+//	public ItemTO(int id, String name, double quantity, double price, String notice, int period, Timestamp createDate, Timestamp launchDate, Timestamp finishDate, Timestamp lastChanged, BasketTO basket, CategoryTO category) {
+//		this.id = id;
+//		this.name = name;
+//		this.quantity = quantity;
+//		this.price = price;
+//		this.notice = notice;
+//		this.period = period;
+//		this.createDate = createDate;
+//		this.finishDate = finishDate;
+//		this.launchDate = launchDate;
+//		this.lastChanged = lastChanged;
+//		this.category = category;
+//		this.basket = basket;
+//	}
+
 	/**
 	 * @author Marco
 	 * @date 19.05.2015
@@ -50,7 +85,7 @@ public class ItemTO implements Serializable {
 	 * @param basket
 	 * @param category
 	 */
-	public ItemTO(int id, String name, double quantity, double price, String notice, int period, Timestamp createDate, Timestamp launchDate, Timestamp finishDate, Timestamp lastChanged, BasketTO basket, CategoryTO category) {
+	public ItemTO(int id, String name, double quantity, double price, String notice, int period, long createDate, long launchDate, long finishDate, long lastChanged, BasketTO basket, CategoryTO category) {
 		this.id = id;
 		this.name = name;
 		this.quantity = quantity;
@@ -174,12 +209,84 @@ public class ItemTO implements Serializable {
 		this.period = period;
 	}
 
+//	/**
+//	 * @author Marco
+//	 * @date 19.05.2015
+//	 * @return the createDate
+//	 */
+//	public Timestamp getCreateDate() {
+//		return createDate;
+//	}
+//
+//	/**
+//	 * @author Marco
+//	 * @date 19.05.2015
+//	 * @param createDate the createDate to set
+//	 */
+//	public void setCreateDate(Timestamp createDate) {
+//		this.createDate = createDate;
+//	}
+//
+//	/**
+//	 * @author Marco
+//	 * @date 19.05.2015
+//	 * @return the launchDate
+//	 */
+//	public Timestamp getLaunchDate() {
+//		return launchDate;
+//	}
+//
+//	/**
+//	 * @author Marco
+//	 * @date 19.05.2015
+//	 * @param launchDate the launchDate to set
+//	 */
+//	public void setLaunchDate(Timestamp launchDate) {
+//		this.launchDate = launchDate;
+//	}
+//
+//	/**
+//	 * @author Marco
+//	 * @date 19.05.2015
+//	 * @return the finishDate
+//	 */
+//	public Timestamp getFinishDate() {
+//		return finishDate;
+//	}
+//
+//	/**
+//	 * @author Marco
+//	 * @date 19.05.2015
+//	 * @param finishDate the finishDate to set
+//	 */
+//	public void setFinishDate(Timestamp finishDate) {
+//		this.finishDate = finishDate;
+//	}
+//
+//	/**
+//	 * @author Marco
+//	 * @date 19.05.2015
+//	 * @return the lastChanged
+//	 */
+//	public Timestamp getLastChanged() {
+//		return lastChanged;
+//	}
+//
+//	/**
+//	 * @author Marco
+//	 * @date 19.05.2015
+//	 * @param lastChanged the lastChanged to set
+//	 */
+//	public void setLastChanged(Timestamp lastChanged) {
+//		this.lastChanged = lastChanged;
+//	}
+
 	/**
 	 * @author Marco
 	 * @date 19.05.2015
 	 * @return the createDate
 	 */
-	public Timestamp getCreateDate() {
+	public long getCreateDate() {
 		return createDate;
 	}
 
@@ -188,7 +295,7 @@ public class ItemTO implements Serializable {
 	 * @date 19.05.2015
 	 * @param createDate the createDate to set
 	 */
-	public void setCreateDate(Timestamp createDate) {
+	public void setCreateDate(long createDate) {
 		this.createDate = createDate;
 	}
 
@@ -197,7 +304,7 @@ public class ItemTO implements Serializable {
 	 * @date 19.05.2015
 	 * @return the launchDate
 	 */
-	public Timestamp getLaunchDate() {
+	public long getLaunchDate() {
 		return launchDate;
 	}
 
@@ -206,7 +313,7 @@ public class ItemTO implements Serializable {
 	 * @date 19.05.2015
 	 * @param launchDate the launchDate to set
 	 */
-	public void setLaunchDate(Timestamp launchDate) {
+	public void setLaunchDate(long launchDate) {
 		this.launchDate = launchDate;
 	}
 
@@ -215,7 +322,7 @@ public class ItemTO implements Serializable {
 	 * @date 19.05.2015
 	 * @return the finishDate
 	 */
-	public Timestamp getFinishDate() {
+	public long getFinishDate() {
 		return finishDate;
 	}
 
@@ -224,7 +331,7 @@ public class ItemTO implements Serializable {
 	 * @date 19.05.2015
 	 * @param finishDate the finishDate to set
 	 */
-	public void setFinishDate(Timestamp finishDate) {
+	public void setFinishDate(long finishDate) {
 		this.finishDate = finishDate;
 	}
 
@@ -233,7 +340,7 @@ public class ItemTO implements Serializable {
 	 * @date 19.05.2015
 	 * @return the lastChanged
 	 */
-	public Timestamp getLastChanged() {
+	public long getLastChanged() {
 		return lastChanged;
 	}
 
@@ -242,9 +349,10 @@ public class ItemTO implements Serializable {
 	 * @date 19.05.2015
 	 * @param lastChanged the lastChanged to set
 	 */
-	public void setLastChanged(Timestamp lastChanged) {
+	public void setLastChanged(long lastChanged) {
 		this.lastChanged = lastChanged;
 	}
+
 
 	/**
 	 * @author Marco

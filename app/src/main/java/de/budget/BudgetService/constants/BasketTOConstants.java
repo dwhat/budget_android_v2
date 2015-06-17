@@ -3,7 +3,7 @@ package de.budget.BudgetService.constants;
 /**
  * Created by mark on 17/06/15.
  */
-public class Basket {
+public class BasketTOConstants {
 
     public static final String GET_BASKETS = "getBaskets";
 

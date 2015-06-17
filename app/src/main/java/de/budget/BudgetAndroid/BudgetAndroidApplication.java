@@ -9,6 +9,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import de.budget.BudgetAndroid.Vendors.VendorsFragment;
 import de.budget.BudgetService.BudgetOnlineService;
@@ -16,6 +17,7 @@ import de.budget.BudgetService.Response.CategoryListResponse;
 import de.budget.BudgetService.dto.BasketTO;
 import de.budget.BudgetService.dto.CategoryTO;
 import de.budget.BudgetService.dto.IncomeTO;
+import de.budget.BudgetService.dto.ObjectTO;
 import de.budget.BudgetService.dto.PaymentTO;
 import de.budget.BudgetService.dto.VendorTO;
 
@@ -113,6 +115,24 @@ public class BudgetAndroidApplication extends Application{
         return this.vendors;
     }
 
+    public VendorTO getVendorById(int id) {
+        ListIterator <VendorTO> li = vendors.listIterator();
+        while (li.hasNext()) {
+            VendorTO vendor = li.next();
+            if (vendor.getId() == id) return vendor;
+        }
+        return null;
+    }
+
+    public ObjectTO getObjectTObyId (int id, List<ObjectTO> list) {
+        ListIterator <ObjectTO> li =  list.listIterator();
+        while(li.hasNext()) {
+            ObjectTO o = li.next();
+            if (o.getId() == id) return o;
+        }
+        return null;
+    }
+
     public void checkVendorsList(VendorTO newVendor){
         boolean found = false;
         for(int i=0; i<vendors.size();i++){
@@ -184,6 +204,15 @@ public class BudgetAndroidApplication extends Application{
 
     public List<PaymentTO> getPayments(){
         return this.payments;
+    }
+
+    public PaymentTO getPaymentById(int id) {
+        ListIterator <PaymentTO> li = payments.listIterator();
+        while (li.hasNext()) {
+            PaymentTO payment = li.next();
+            if (payment.getId() == id) return payment;
+        }
+        return null;
     }
 
     public PaymentTO getPaymentByName(String name){
