@@ -38,7 +38,6 @@ public class LossActivity extends ActionBarActivity {
 
     private BudgetAndroidApplication myApp;
     private List <CategoryTO> categories;
-    private List<BasketTO> baskets;
 
     private ListView listView;
     private EditText editTextItemName;
@@ -58,7 +57,6 @@ public class LossActivity extends ActionBarActivity {
 
         myApp       = (BudgetAndroidApplication) getApplication();
         categories  = myApp.getCategories();
-        baskets = myApp.getBasket();
 
         editTextItemName    = (EditText) findViewById(R.id.item_name);
         editTextItemAmount  = (EditText) findViewById(R.id.item_amount);
@@ -71,7 +69,7 @@ public class LossActivity extends ActionBarActivity {
         if (bundle != null) {
 
             int pos = bundle.getInt("POSITION");
-            BasketTO basket = baskets.get(pos);
+            BasketTO basket = myApp.getBasket().get(pos);
 
             Log.d(this.getClass().toString(), "Show Basket: " + basket.toString());
 
@@ -89,6 +87,8 @@ public class LossActivity extends ActionBarActivity {
         } else {
             itemArrayAdapter =  new ItemArrayAdapter(this, R.layout.item_listview, null);
         }
+
+        // ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, myApp.getCategoriesName());
 
         spinnerArrayAdapter = new CategorySpinnerAdapter(this, R.layout.spinner_category, categories);
         spinnerCategory.setAdapter(spinnerArrayAdapter);

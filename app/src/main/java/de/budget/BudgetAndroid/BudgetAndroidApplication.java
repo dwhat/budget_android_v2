@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Intent;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -93,6 +95,20 @@ public class BudgetAndroidApplication extends Application{
 
     public List<CategoryTO> getCategories(){
         return this.categories;
+    }
+
+    public List<String> getCategoriesName() {
+
+        Iterator i = categories.iterator();
+
+        ArrayList<String> categoriesName = new ArrayList<>();
+
+        while(i.hasNext()) {
+            CategoryTO category = (CategoryTO) i.next();
+            categoriesName.add(category.getName());
+        }
+
+        return categoriesName;
     }
 
     public CategoryTO getCategory(int categoryId){

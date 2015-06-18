@@ -47,13 +47,13 @@ public class CategorySpinnerAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view =  inflater.inflate(R.layout.spinner_category, parent, false);
+        convertView =  inflater.inflate(R.layout.spinner_category, parent, false);
 
-        TextView categoryName       = (TextView) view.findViewById(R.id.category_name);
-        TextView    categoryNotice     = (TextView) view.findViewById(R.id.category_notice);
+        TextView categoryName       = (TextView) convertView.findViewById(R.id.category_name);
+        TextView    categoryNotice     = (TextView) convertView.findViewById(R.id.category_notice);
 
         categoryName        .setText(getItem(position).getName());
         categoryNotice      .setText(getItem(position).getNotice());
-        return null;
+        return convertView;
     }
 }
