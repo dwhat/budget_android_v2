@@ -9,12 +9,12 @@ import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
 import java.util.Random;
 
 import de.budget.BudgetAndroid.AsyncTasks.GetBasketTask;
 import de.budget.BudgetAndroid.AsyncTasks.GetCategoriesTask;
 import de.budget.BudgetAndroid.AsyncTasks.GetIncomeTask;
-import de.budget.BudgetAndroid.AsyncTasks.GetItemsTask;
 import de.budget.BudgetAndroid.AsyncTasks.GetPaymentsTask;
 import de.budget.BudgetAndroid.AsyncTasks.GetVendorsTask;
 import de.budget.R;
@@ -29,7 +29,12 @@ public class SyncActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sync);
+        BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
+        BigDecimal loss = new BigDecimal(0);
 
+
+
+        // Animation des Schweins
         ImageView img_animation = (ImageView) findViewById(R.id.budget_euro);
 
         TranslateAnimation animation = new TranslateAnimation(30.0f, 30.0f, -50.0f, 620.0f);
@@ -40,13 +45,13 @@ public class SyncActivity extends ActionBarActivity {
         img_animation.startAnimation(animation);
         img_animation.setVisibility(View.VISIBLE);
 
+        // Ausführung der Tasks zum laden der initialen Daten
 
         TextView quote = (TextView) findViewById(R.id.quote);
         String[] quotes = getResources().getStringArray(R.array.quotes);
         int idx = new Random().nextInt(quotes.length);
         String random = (quotes[idx]);
         quote.setText(random);
-        BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
         GetCategoriesTask categoriesTask = new GetCategoriesTask(this, myApp);
         categoriesTask.execute();
         GetVendorsTask vendorsTask = new GetVendorsTask(this, myApp);
@@ -57,6 +62,12 @@ public class SyncActivity extends ActionBarActivity {
         basketTask.execute();
         GetIncomeTask incomeTask = new GetIncomeTask(this, myApp);
         incomeTask.execute();
+
+
+        // manuelle Berechnung der ersten Dashboard Seite
+        for (int i= 0; i < myApp.getBasket().size(); i++){
+            loss = loss.add(BigDecimal.valueOf(myApp.getBasket().get(i).getAmount()));
+        }
 
     }
 

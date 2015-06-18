@@ -4,10 +4,26 @@
     tools:context="de.budget.BudgetAndroid.Dashboard.DashboardHomeFragment">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:orientation="vertical" >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/period"
+            android:id="@+id/text_period"/>
+
+        <SeekBar
+            android:id="@+id/bar_period"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progress="20"
+            android:secondaryProgress="20"
+            android:max="365"/>
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/chart_home"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="fill_parent" />
     </LinearLayout>
 </FrameLayout>

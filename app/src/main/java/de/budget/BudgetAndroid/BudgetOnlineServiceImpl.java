@@ -1062,8 +1062,29 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @param daysOfPeriod
      * @return
      */
-    public AmountResponse getLossByPeriod(int sessionId, int daysOfPeriod){
-        return null;
+    public AmountResponse getLossByPeriod(int sessionId, int daysOfPeriod) throws Exception{
+        AmountResponse result = new AmountResponse();
+        String METHOD_NAME = "getLossByPeriod";
+        SoapObject response = null;
+        try {
+            response = executeSoapAction(METHOD_NAME, sessionId, daysOfPeriod);
+            //Log.d(TAG, response.toString() + response.getPropertyCount());
+
+            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            if (tmp == 200) {
+                result.setReturnCode(tmp);
+                if (response.getPropertyCount() > 1) {
+                    Double amount = Double.parseDouble(response.getPrimitivePropertySafelyAsString("value"));
+                    result.setValue(amount);
+                }
+                return result;
+            }
+            else {
+                throw new Exception("Get loss was not successful!");
+            }
+        } catch (SoapFault e) {
+            throw new Exception(e.getMessage());
+        }
     }
 
     /**
@@ -1079,7 +1100,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
         SoapObject response = null;
         try {
             response = executeSoapAction(METHOD_NAME, sessionId, daysOfPeriod);
-            Log.d(TAG, response.toString() + response.getPropertyCount());
+            //Log.d(TAG, response.toString() + response.getPropertyCount());
 
             tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
             if (tmp == 200) {
@@ -1091,7 +1112,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                 return result;
             }
             else {
-                throw new Exception("Get Income was not successful!");
+                throw new Exception("Get income was not successful!");
             }
         } catch (SoapFault e) {
             throw new Exception(e.getMessage());

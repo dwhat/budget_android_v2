@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.math.BigDecimal;
+
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.MainActivity;
 import de.budget.BudgetAndroid.SyncActivity;
@@ -59,6 +61,13 @@ public class GetIncomeTask extends AsyncTask<String, Integer, IncomeListResponse
                 myApp.setIncome(result.getIncomeList());
                 myApp.increaseInitialDataCounter();
                 Log.d("INFO", "Liste der Einnahmen erfolgreich angelegt.");
+
+                // Berechnung der ersten Seite im Dashboard
+                BigDecimal income = new BigDecimal(0);
+                for (int i= 0; i < myApp.getIncome().size(); i++){
+                    income = income.add(BigDecimal.valueOf(myApp.getIncome().get(i).getAmount()));
+                }
+                myApp.setIncomeLastPeriod(income.doubleValue());
             }
         }
         else

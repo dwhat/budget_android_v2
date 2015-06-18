@@ -1,9 +1,6 @@
 package de.budget.BudgetAndroid.Dashboard;
 
 import android.app.Activity;
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,10 +8,7 @@ import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import de.budget.BudgetAndroid.AsyncTasks.GetIncomeByPeriodTask;
-import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.R;
 
 

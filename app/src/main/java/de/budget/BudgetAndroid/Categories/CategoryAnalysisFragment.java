@@ -73,8 +73,9 @@ public class CategoryAnalysisFragment extends Fragment {
         }
 
         PieChart chart = (PieChart) rootView.findViewById(R.id.chart_category);
-        chart = ChartMethods.configureChart(chart, String.valueOf(categories.size())+ "\n Kategorien");
-        chart = ChartMethods.setData(chart, "Einnahmen", "Ausgaben", incomeCount, lossCount);
+        chart = ChartMethods.setChartFundamentals(chart, String.valueOf(categories.size()) + "\n Kategorien");
+        chart.setUsePercentValues(true);
+        chart = ChartMethods.setDataPercent(chart, "Einnahmen", "Ausgaben", incomeCount, lossCount);
         chart.animateXY(1500, 1500);
 
         return rootView;
