@@ -57,17 +57,6 @@ public class GetBasketTask extends AsyncTask<String, Integer, BasketListResponse
                     Log.d("INFO", "Liste der Ausgaben erfolgreich angelegt.");
                     myApp.increaseInitialDataCounter();
 
-                    for(BasketTO basket : myApp.getBasket()) {
-                        if (basket.getItems() == null) {
-                            basket.setOccupied(true);
-                            GetItemsTask itemsTask = new GetItemsTask(myApp.getApplicationContext(), myApp, basket);
-                            itemsTask.execute();
-                        }
-                    }
-                    Log.d("INFO", "Liste der Items erfolgreich angelegt.");
-
-
-
                 }
             }
             else
@@ -76,5 +65,23 @@ public class GetBasketTask extends AsyncTask<String, Integer, BasketListResponse
 
             }
         }
+
+    private void getItemsByBasketTask () {
+        for(BasketTO basket : myApp.getBasket()) {
+            if (basket.getItems() == null) {
+                if (!basket.isOccupied()){
+                    basket.setOccupied(true);
+                    GetItemsTask itemsTask = new GetItemsTask(myApp.getApplicationContext(), myApp, basket, new OnTaskCompleted() {
+                        @Override
+                        public void onTaskCompleted(Object o) {
+                        }
+                    });
+                    itemsTask.execute();
+                }
+            }
+        }
+        Log.d("INFO", "Liste der Items erfolgreich angelegt.");
+    }
+
 
 }

@@ -16,15 +16,18 @@ import de.budget.BudgetService.dto.BasketTO;
  */
 public class GetItemsTask extends AsyncTask<String, Integer, ItemListResponse> {
 
+        private OnTaskCompleted listener = null;
+
         private Context context;
         private static BudgetAndroidApplication myApp;
         private BasketTO basket;
 
-        public GetItemsTask(Context context, BudgetAndroidApplication myApp, BasketTO basket)
+        public GetItemsTask(Context context, BudgetAndroidApplication myApp, BasketTO basket, OnTaskCompleted listener)
         {
             this.context = context;
             this.myApp = myApp;
             this.basket = basket;
+            this.listener = listener;
 
         }
 
@@ -65,13 +68,14 @@ public class GetItemsTask extends AsyncTask<String, Integer, ItemListResponse> {
 
                     basket.setOccupied(false);
 
-                    myApp.increaseInitialDataCounter();
-
+                    listener.onTaskCompleted(true);
                 }
             }
             else
             {
                 Log.d("INFO", "Items konnten nicht geladen werden.");
+
+                listener.onTaskCompleted(false);
 
             }
         }

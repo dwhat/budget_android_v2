@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
@@ -24,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import de.budget.BudgetAndroid.AsyncTasks.GetItemsTask;
+import de.budget.BudgetAndroid.AsyncTasks.OnTaskCompleted;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetService.dto.BasketTO;
 import de.budget.BudgetService.dto.IncomeTO;
@@ -38,40 +42,29 @@ import de.budget.R;
  * Use the {@link LossFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LossFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class LossFragment extends Fragment implements OnTaskCompleted {
 
     private LossArrayAdapter arrayAdapter;
 
     private OnFragmentInteractionListener mListener;
 
     private List<BasketTO> baskets;
+
     private ListView listView;
+    private RelativeLayout loadingPanel;
 
     private BudgetAndroidApplication myApp;
+
+    private Intent intent;  // From onCreateView to access in onTaskCompleted
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LossFragment.
+
      */
-    // TODO: Rename and change types and number of parameters
-    public static LossFragment newInstance(String param1, String param2) {
+
+    public static LossFragment newInstance() {
         LossFragment fragment = new LossFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -82,10 +75,7 @@ public class LossFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
@@ -99,14 +89,16 @@ public class LossFragment extends Fragment {
 
         arrayAdapter = new LossArrayAdapter (getActivity(), R.layout.loss_listview, baskets);
 
-        listView = (ListView)rootView.findViewById(R.id.listView_loss);
+        loadingPanel = (RelativeLayout) rootView.findViewById(R.id.loadingPanel);
+        listView = (ListView) rootView.findViewById(R.id.listView_loss);
+
         listView.setAdapter(arrayAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
 
                 // Neuen Intent erzeugen der beim Klick auf die Vendor Show verweißt
-                Intent intent = new Intent(getActivity(), LossActivity.class);
+                intent = new Intent(getActivity(), LossActivity.class);
 
                 // Bundle anlegen
                 Bundle bundle = new Bundle ();
@@ -117,15 +109,32 @@ public class LossFragment extends Fragment {
 
                 if (basket.getItems() == null) {
 
+                    loadingPanel.setVisibility(View.VISIBLE);
+
                     basket.setOccupied(true);
-                    GetItemsTask itemsTask = new GetItemsTask(myApp.getApplicationContext(), myApp, basket);
+                    GetItemsTask itemsTask = new GetItemsTask(myApp.getApplicationContext(), myApp, basket, new OnTaskCompleted() {
+                        @Override
+                        public void onTaskCompleted(Object o) {
+                            boolean success = (boolean) o;
+                            if (success) {
+                                loadingPanel.findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+                                startActivity(intent);
+                            } else {
+                                loadingPanel.findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+                                Toast.makeText(myApp, "Fehler! Items konnten nicht geladen werden!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                    });
+
                     itemsTask.execute();
 
-                    itemsTask.
+                } else {
+                    startActivity(intent);
                 }
 
 
-                startActivity(intent);
+
             }
         });
 
@@ -154,6 +163,16 @@ public class LossFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onTaskCompleted(Object o) {
+        boolean success = (boolean) o;
+        if (success) {
+            startActivity(intent);
+        } else {
+            Toast.makeText(myApp, "Fehler! Items konnten nicht geladen werden!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**

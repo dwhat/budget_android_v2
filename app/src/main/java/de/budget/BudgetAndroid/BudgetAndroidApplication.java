@@ -47,7 +47,7 @@ public class BudgetAndroidApplication extends Application{
     public void increaseInitialDataCounter(){
         if(firstStart) {
             this.initialDataCounter++;
-            if (initialDataCounter == 6) {
+            if (initialDataCounter == 5) {
                 firstStart = false;
                 Log.d("INFO", "Initiales Datenladen abgeschlossen.");
                 Intent intent = new Intent(this, MainActivity.class);

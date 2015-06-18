@@ -66,6 +66,7 @@ public class LossActivity extends ActionBarActivity {
 
 
         Bundle bundle = getIntent().getExtras();
+
         if (bundle != null) {
 
             int pos = bundle.getInt("POSITION");
