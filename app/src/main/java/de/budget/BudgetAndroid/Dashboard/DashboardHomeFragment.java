@@ -7,54 +7,32 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import de.budget.BudgetAndroid.AsyncTasks.GetIncomeByPeriodTask;
-import de.budget.BudgetAndroid.BudgetAndroidApplication;
-import de.budget.R;
+import com.github.mikephil.charting.charts.PieChart;
 
+import java.util.List;
+
+import de.budget.BudgetAndroid.AsyncTasks.GetIncomeByPeriodTask;
+import de.budget.BudgetAndroid.AsyncTasks.LoginTask;
+import de.budget.BudgetAndroid.BudgetAndroidApplication;
+import de.budget.BudgetAndroid.ChartMethods;
+import de.budget.BudgetService.dto.CategoryTO;
+import de.budget.R;
 
 /**
  * @Author Christopher
- * @date 17.06.2015
+ * @date 18.06.2015
  */
-public class DashboardFragment extends Fragment{
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private FragmentTabHost mTabHost;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class DashboardHomeFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private BudgetAndroidApplication myApp;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DashboardFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DashboardFragment newInstance(String param1, String param2) {
-        DashboardFragment fragment = new DashboardFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public DashboardFragment() {
+    public DashboardHomeFragment() {
         // Required empty public constructor
     }
 
@@ -62,26 +40,35 @@ public class DashboardFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        BudgetAndroidApplication myApp = (BudgetAndroidApplication) getActivity().getApplication();
+        ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if(networkInfo != null && networkInfo.isConnected()){
+            GetIncomeByPeriodTask task = new GetIncomeByPeriodTask(myApp);
+            task.execute(String.valueOf(myApp.getSession()), String.valueOf(30));
+        }
+        else {
+            CharSequence text = "Keine Netzwerkverbindung! :(";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(getActivity().getBaseContext(), text, duration);
+            toast.show();
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_dashboard, container, false);
+        View rootView =  inflater.inflate(R.layout.fragment_dashboard_home, container, false);
+        PieChart chart = (PieChart) rootView.findViewById(R.id.chart_home);
 
-        View rootView = inflater.inflate(R.layout.fragment_dashboard,container, false);
+        double income = 0.0;
+        double loss = 0.0;
 
-
-        mTabHost = (FragmentTabHost)rootView.findViewById(android.R.id.tabhost);
-        mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
-
-        mTabHost.addTab(mTabHost.newTabSpec("Home").setIndicator("Home"),
-                DashboardHomeFragment.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("Einnahmen").setIndicator("Einnahmen"),
-                DashboardIncomeFragment.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("Ausgaben").setIndicator("Ausgaben"),
-                DashboardIncomeFragment.class, null);
+        Double delta = income - loss;
+        chart = ChartMethods.configureChart(chart, String.valueOf(delta));
+        chart = ChartMethods.setData(chart, "Einnahmen", "Ausgaben", (int) Math.round(income), (int) Math.round(loss));
+        chart.animateXY(1500, 1500);
 
         return rootView;
     }
@@ -89,7 +76,7 @@ public class DashboardFragment extends Fragment{
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onDashboardMainFragmentInteraction(uri);
+            mListener.onDashboardHomeFragmentInteraction(uri);
         }
     }
 
@@ -121,11 +108,7 @@ public class DashboardFragment extends Fragment{
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        public void onDashboardMainFragmentInteraction(Uri uri);
+        public void onDashboardHomeFragmentInteraction(Uri uri);
     }
 
-
-    public void clickFAB (View v ){
-
-    }
 }

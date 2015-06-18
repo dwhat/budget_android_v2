@@ -22,9 +22,8 @@ public class VendorFragment extends Fragment{
     private OnFragmentInteractionListener mListener;
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     * @return A new instance of fragment CategoryFragment
+     * @Author Christopher
+     * @date 17.06.2015
      */
     public static VendorFragment newInstance() {
         VendorFragment fragment = new VendorFragment();

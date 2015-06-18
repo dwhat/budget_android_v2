@@ -28,6 +28,7 @@ import de.budget.BudgetAndroid.Categories.CategoryFragment;
 import de.budget.BudgetAndroid.Categories.CategoryListFragment;
 import de.budget.BudgetAndroid.Categories.CategoryActivity;
 import de.budget.BudgetAndroid.Dashboard.DashboardFragment;
+import de.budget.BudgetAndroid.Dashboard.DashboardHomeFragment;
 import de.budget.BudgetAndroid.Dashboard.DashboardIncomeFragment;
 import de.budget.BudgetAndroid.Income.IncomeAnalysisFragment;
 import de.budget.BudgetAndroid.Income.IncomeFragment;
@@ -45,8 +46,10 @@ import de.budget.R;
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, CategoryListFragment.OnFragmentInteractionListener, VendorListFragment.OnFragmentInteractionListener,
                     IncomeListFragment.OnFragmentInteractionListener, LossFragment.OnFragmentInteractionListener, CategoryFragment.OnFragmentInteractionListener,
-                    DashboardFragment.OnFragmentInteractionListener, DashboardIncomeFragment.OnFragmentInteractionListener, CategoryAnalysisFragment.OnFragmentInteractionListener,
-                    IncomeFragment.OnFragmentInteractionListener, IncomeAnalysisFragment.OnFragmentInteractionListener, VendorFragment.OnFragmentInteractionListener, VendorAnalysisFragment.OnFragmentInteractionListener{
+                    DashboardFragment.OnFragmentInteractionListener, DashboardIncomeFragment.OnFragmentInteractionListener, DashboardHomeFragment.OnFragmentInteractionListener,
+                    CategoryAnalysisFragment.OnFragmentInteractionListener,
+                    IncomeFragment.OnFragmentInteractionListener, IncomeAnalysisFragment.OnFragmentInteractionListener,
+                    VendorFragment.OnFragmentInteractionListener, VendorAnalysisFragment.OnFragmentInteractionListener{
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -237,7 +240,9 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onVendorAnalysisFragmentInteraction(Uri uri){
     }
-
+    @Override
+    public void onDashboardHomeFragmentInteraction(Uri uri){
+    }
 
 
     public void onSectionAttached(int number) {

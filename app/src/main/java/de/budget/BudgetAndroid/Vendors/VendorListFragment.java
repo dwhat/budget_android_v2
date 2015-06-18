@@ -37,12 +37,8 @@ public class VendorListFragment extends Fragment {
     private ListView listView;
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment VendorsFragment.
+     * @Author Christopher
+     * @date 17.06.2015
      */
     public static VendorListFragment newInstance(String param1, String param2) {
         VendorListFragment fragment = new VendorListFragment();

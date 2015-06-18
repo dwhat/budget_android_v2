@@ -11,10 +11,8 @@ import android.view.ViewGroup;
 import de.budget.R;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link DashboardIncomeFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
+ * @Author Christopher
+ * @date 17.06.2015
  */
 public class DashboardIncomeFragment extends Fragment {
 

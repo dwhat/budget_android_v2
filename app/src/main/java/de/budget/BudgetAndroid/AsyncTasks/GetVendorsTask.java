@@ -35,7 +35,7 @@ public class GetVendorsTask extends AsyncTask<String, Integer, VendorListRespons
         try {
             VendorListResponse myVendors = myApp.getBudgetOnlineService().getVendors(myApp.getSession());
             Integer rt =  myVendors.getReturnCode();
-            Log.d("INFO", "Returncode: " + rt.toString());
+            //Log.d("INFO", "Returncode: " + rt.toString());
             return myVendors;
         } catch (Exception e) {
             e.printStackTrace();

@@ -36,7 +36,7 @@ public class GetCategoriesTask extends AsyncTask<String, Integer, CategoryListRe
         try {
             CategoryListResponse myCategorys = myApp.getBudgetOnlineService().getCategorys(myApp.getSession());
             Integer rt =  myCategorys.getReturnCode();
-            Log.d("INFO", "Returncode: " + rt.toString());
+            //Log.d("INFO", "Returncode: " + rt.toString());
             return myCategorys;
         } catch (Exception e) {
             e.printStackTrace();
@@ -52,7 +52,6 @@ public class GetCategoriesTask extends AsyncTask<String, Integer, CategoryListRe
     @Override
     protected void onPostExecute(CategoryListResponse result)
     {
-        Log.d("INFO", "mist");
         if(result != null)
         {
             if (result.getReturnCode() == 200){

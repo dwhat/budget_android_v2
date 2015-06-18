@@ -5,15 +5,30 @@ import android.graphics.Color;
 import com.github.mikephil.charting.charts.*;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.*;
+import com.github.mikephil.charting.utils.PercentFormatter;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import de.budget.BudgetService.dto.ObjectTO;
+import de.budget.BudgetService.dto.VendorTO;
 import de.budget.R;
 
 /**
- * Created by christopher on 17.06.15.
+ * @author christopher
+ * @date 18.06.2015
  */
 public final class ChartMethods {
+
+    public static HorizontalBarChart configureChart(HorizontalBarChart chart, String centerText) {
+
+        return chart;
+    }
+
+    public static HorizontalBarChart setData(HorizontalBarChart chart, String xDesc, String yDesc, int xData, int yData) {
+
+        return chart;
+    }
 
     public static PieChart configureChart(PieChart chart, String centerText) {
         chart.setHoleRadius(50f);
@@ -23,7 +38,7 @@ public final class ChartMethods {
         chart.setDrawHoleEnabled(false);
         chart.setRotationAngle(0);
         chart.setRotationEnabled(true);
-        chart.setUsePercentValues(false);
+        chart.setUsePercentValues(true);
         chart.setCenterText(centerText);
         chart.setDrawHoleEnabled(true);
         chart.setPadding(50, 50, 50, 50);
@@ -47,13 +62,41 @@ public final class ChartMethods {
         PieDataSet set1 = new PieDataSet(yVals1, "");
         set1.setSliceSpace(0f);
         ArrayList<Integer> colors = new ArrayList<Integer>();
-        colors.add(Color.rgb(135,206,250));
+        colors.add(Color.rgb(135, 206, 250));
         colors.add(Color.rgb(0, 191, 255));
         set1.setColors(colors);
         PieData data = new PieData(xVals, set1);
+        data.setValueTextSize(15f);
+        data.setValueFormatter(new PercentFormatter());
         chart.setData(data);
         chart.highlightValues(null);
         chart.invalidate();
         return chart;
+    }
+
+    public static HorizontalBarChart setDataOfHorizontalBarChart(HorizontalBarChart chart, List<ObjectTO> values) {
+
+        ArrayList<String> xVals = new ArrayList<String>();
+        for (int i = 0; i < values.size(); i++) {
+            //xVals.add(values.get(i).getName());
+        }
+
+        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+
+        for (int i = 0; i < values.size(); i++) {
+            //yVals1.add(new BarEntry(val, i));
+        }
+
+        BarDataSet set1 = new BarDataSet(yVals1, "DataSet");
+        set1.setBarSpacePercent(35f);
+
+        ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
+        dataSets.add(set1);
+
+        BarData data = new BarData(xVals, dataSets);
+        data.setValueTextSize(10f);
+
+        chart.setData(data);
+        return  chart;
     }
 }

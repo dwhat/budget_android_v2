@@ -31,6 +31,8 @@ public class BudgetAndroidApplication extends Application{
     private List<BasketTO> basket;
     private boolean firstStart = true;
     private int initialDataCounter = 0;
+    private double incomeLastPeriod = 0.0;
+    private double lossLastPeriod = 0.0;
 
     public BudgetAndroidApplication() {
         this.budgetOnlineService = new BudgetOnlineServiceImpl();
@@ -53,9 +55,26 @@ public class BudgetAndroidApplication extends Application{
         }
     }
 
+    public double getIncomeLastPeriod() {
+        return this.incomeLastPeriod;
+    }
+
+    public void setIncomeLastPeriod(double income) {
+        this.incomeLastPeriod = income;
+    }
+
+    public double getLossLastPeriod() {
+        return this.lossLastPeriod;
+    }
+
+    public void setLossLastPeriod(double loss) {
+        this.lossLastPeriod = loss;
+    }
+
     public boolean getFirstStart(){
         return this.firstStart;
     }
+
     // User Section
 
     public int getSession() {

@@ -36,7 +36,7 @@ public class GetPaymentsTask extends AsyncTask<String, Integer, PaymentListRespo
         try {
             PaymentListResponse response = myApp.getBudgetOnlineService().getPayments(myApp.getSession());
             Integer rt =  response.getReturnCode();
-            Log.d("INFO", "Returncode: " + rt.toString());
+            //Log.d("INFO", "Returncode: " + rt.toString());
             return response;
         } catch (Exception e) {
             e.printStackTrace();

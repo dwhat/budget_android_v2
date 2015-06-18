@@ -55,7 +55,7 @@ public class LoginTask extends AsyncTask<String, Integer, UserLoginResponse>
         try {
             UserLoginResponse myUser = myApp.getBudgetOnlineService().login(username, md5);
             Integer rt =  myUser.getReturnCode();
-            Log.d("INFO", "Returncode: " + rt.toString());
+            //Log.d("INFO", "Returncode: " + rt.toString());
             // Speichern der Benutzerdaten
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity.getBaseContext());
             SharedPreferences.Editor editor = prefs.edit();

@@ -451,7 +451,7 @@ public interface BudgetOnlineService {
      * @param daysOfPeriod
      * @return
      */
-    public AmountResponse getLossByPeriod(int sessionId, int daysOfPeriod);
+    public AmountResponse getLossByPeriod(int sessionId, int daysOfPeriod) throws Exception;
 
     /**
      * @author Marco
@@ -460,7 +460,7 @@ public interface BudgetOnlineService {
      * @param daysOfPeriod
      * @return
      */
-    public AmountResponse getIncomeByPeriod(int sessionId, int daysOfPeriod);
+    public AmountResponse getIncomeByPeriod(int sessionId, int daysOfPeriod) throws Exception;
 
 
 
