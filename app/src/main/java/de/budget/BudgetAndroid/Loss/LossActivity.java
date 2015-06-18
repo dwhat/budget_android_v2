@@ -2,6 +2,8 @@ package de.budget.BudgetAndroid.Loss;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -15,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayInputStream;
@@ -27,6 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import de.budget.BudgetAndroid.Annotations.Author;
+import de.budget.BudgetAndroid.AsyncTasks.CreateOrUpdateIncomeTask;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.Categories.CategorySpinnerAdapter;
 import de.budget.BudgetService.dto.BasketTO;
@@ -38,6 +42,12 @@ public class LossActivity extends ActionBarActivity {
 
     private BudgetAndroidApplication myApp;
     private List <CategoryTO> categories;
+    private BasketTO basket;
+
+    private EditText editTextName;
+    private EditText editTextDate;
+    private EditText editTextTotal;
+    private EditText editTextNotice;
 
     private ListView listView;
     private EditText editTextItemName;
@@ -70,23 +80,26 @@ public class LossActivity extends ActionBarActivity {
         if (bundle != null) {
 
             int pos = bundle.getInt("POSITION");
-            BasketTO basket = myApp.getBasket().get(pos);
+            basket = myApp.getBasket().get(pos);
 
             Log.d(this.getClass().toString(), "Show Basket: " + basket.toString());
 
-            EditText    editTextName   = (EditText) findViewById(R.id.loss_name);
-            EditText    editTextDate   = (EditText) findViewById(R.id.loss_date);
-            EditText    editTextTotal  = (EditText) findViewById(R.id.loss_value);
-            EditText    editTextNotice = (EditText) findViewById(R.id.loss_notice);
+            editTextName   = (EditText) findViewById(R.id.loss_name);
+            editTextDate   = (EditText) findViewById(R.id.loss_date);
+            editTextTotal  = (EditText) findViewById(R.id.loss_value);
+            editTextNotice = (EditText) findViewById(R.id.loss_notice);
 
-                        editTextName    .setText(basket.getName());
-                        editTextDate    .setText(dateFormat.format(basket.getPurchaseDate()));
-                        editTextTotal   .setText(String.valueOf(basket.getAmount()));
-                        editTextNotice  .setText(basket.getNotice());
+            editTextName    .setText(basket.getName());
+            editTextDate    .setText(dateFormat.format(basket.getPurchaseDate()));
+            editTextTotal   .setText(String.valueOf(basket.getAmount()));
+            editTextNotice  .setText(basket.getNotice());
 
             itemArrayAdapter =  new ItemArrayAdapter(this, R.layout.item_listview, basket.getItems());
+
         } else {
+
             itemArrayAdapter =  new ItemArrayAdapter(this, R.layout.item_listview, null);
+
         }
 
         // ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, myApp.getCategoriesName());
@@ -142,9 +155,55 @@ public class LossActivity extends ActionBarActivity {
      */
     @Author(name="Mark")
     public void save(View v) {
+
         showDialog();
+
         //TODO Die eingengeben Werte an den Server schicken
+
         Toast.makeText(this, "Speichern", Toast.LENGTH_SHORT).show();
+
+        int basketId = 0;
+
+        if (basket != null) {
+            basketId = basket.getId();
+            Log.d("Update", basketId + " " + basket.getName());
+        }
+
+
+        String basketName   = editTextName.getText().toString();
+        String basketDate   = editTextDate.getText().toString();
+        String basketTotal  = editTextTotal.getText().toString();
+        String basketNotice = editTextNotice.getText().toString();
+
+
+
+        Log.d("INFO", basketTotal);
+
+
+        if(!"".equals(basketName) && !"".equals(basketDate) && !"".equals(basketTotal) && !"".equals(basketNotice))
+        {
+            ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+            if(networkInfo != null && networkInfo.isConnected()){
+                CreateOrUpdateBasketTask task = new CreateOrUpdateBasketTask(this,myApp, this);
+                task.execute(basketId, basketName,  basketDate, basketTotal, basketNotice);
+            }
+            else {
+                CharSequence text = "Keine Netzwerkverbindung! :(";
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(this, text, duration);
+                toast.show();
+            }
+        }
+        else
+        {
+            //Toast anzeigen
+            CharSequence text = "Bitte alle Felder ausfüllen!";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(this, text, duration);
+            toast.show();
+        }
     }
 
     /*

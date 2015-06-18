@@ -3,6 +3,7 @@ package de.budget.BudgetAndroid;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -17,12 +18,19 @@ import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.util.Iterator;
+import java.util.List;
+
 import de.budget.BudgetAndroid.Annotations.Author;
+import de.budget.BudgetAndroid.AsyncTasks.GetItemsTask;
 import de.budget.BudgetAndroid.AsyncTasks.LogoutTask;
+import de.budget.BudgetAndroid.AsyncTasks.OnTaskCompleted;
 import de.budget.BudgetAndroid.Categories.CategoryAnalysisFragment;
 import de.budget.BudgetAndroid.Categories.CategoryFragment;
 import de.budget.BudgetAndroid.Categories.CategoryListFragment;
@@ -40,6 +48,7 @@ import de.budget.BudgetAndroid.Vendors.VendorActivity;
 import de.budget.BudgetAndroid.Vendors.VendorAnalysisFragment;
 import de.budget.BudgetAndroid.Vendors.VendorFragment;
 import de.budget.BudgetAndroid.Vendors.VendorListFragment;
+import de.budget.BudgetService.dto.BasketTO;
 import de.budget.R;
 
 
@@ -76,12 +85,17 @@ public class MainActivity extends ActionBarActivity
     // Preference File Bezeichnung
     private static final String PREFERENCE_NAVIGATION_STATE_FILE = "PREFERENCE_NAVIGATION_STATE";
 
+    private BudgetAndroidApplication myApp;
 
+    private Menu menu;
+    private MenuItem syncIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        myApp = (BudgetAndroidApplication) getApplication();
 
         // Get the Navigation Fragment
         mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -112,7 +126,7 @@ public class MainActivity extends ActionBarActivity
             ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
             if(networkInfo != null && networkInfo.isConnected()){
-                BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
+
                 if(!myApp.getFirstStart()) {
                     LogoutTask logoutTask = new LogoutTask(this, myApp, this);
                     int sessionId = myApp.getSession();
@@ -152,6 +166,9 @@ public class MainActivity extends ActionBarActivity
             restoreActionBar();
             return true;
         }
+
+        this.menu = menu;
+        syncIcon = menu.getItem(R.id.action_sync);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -162,14 +179,23 @@ public class MainActivity extends ActionBarActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        RotateAnimation rotation = new RotateAnimation(30, 90, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        rotation.setRepeatCount(Animation.INFINITE);
+
         // Wähle welches Bedienelement geklickt wurde
         switch (id) {
             case R.id.action_sync:
+
+                if (syncIcon == null) {
+                    ImageButton ib = (ImageButton) menu.getItem(R.id.action_sync);;
+                    ib.setAnimation(rotation);
+                } else {
+                    syncIcon.getActionView().startAnimation(rotation);
+                }
                 synchronizeApplication();
                 return true;
 
             case R.id.action_loss:
-
                 changeActivity(LossActivity.class);
                 return true;
             // @author Christopher
@@ -362,7 +388,27 @@ public class MainActivity extends ActionBarActivity
      */
     @Author(name = "Mark")
     private void synchronizeApplication() {
+
         Toast.makeText(MainActivity.this, "Synchronisierung des Systems", Toast.LENGTH_SHORT).show();
+
+        Iterator<BasketTO> baskets = myApp.getBasket().iterator();
+        while(baskets.hasNext()) {
+            BasketTO basket = baskets.next();
+            if (basket.getItems() == null && !basket.isOccupied()){
+                GetItemsTask itemsTask = new GetItemsTask(myApp.getApplicationContext(), myApp, basket, new OnTaskCompleted() {
+                    @Override
+                    public void onTaskCompleted(Object o) {
+
+                        // syncIcon.getActionView().clearAnimation();
+                    }
+                });
+                basket.setOccupied(true);
+                itemsTask.execute();
+            }
+        }
+
+        Toast.makeText(MainActivity.this, "Synchronisierung abgeschlossen", Toast.LENGTH_SHORT).show();
+
     }
 
     /*
