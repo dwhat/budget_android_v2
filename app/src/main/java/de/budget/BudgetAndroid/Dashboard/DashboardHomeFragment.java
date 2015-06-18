@@ -32,6 +32,8 @@ public class DashboardHomeFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private BudgetAndroidApplication myApp;
 
+    private double income, loss, delta;
+
     public DashboardHomeFragment() {
         // Required empty public constructor
     }
@@ -53,6 +55,9 @@ public class DashboardHomeFragment extends Fragment {
             Toast toast = Toast.makeText(getActivity().getBaseContext(), text, duration);
             toast.show();
         }
+        income = myApp.getIncomeLastPeriod();
+        loss = myApp.getLossLastPeriod();
+        delta = income-loss;
     }
 
     @Override
@@ -62,10 +67,6 @@ public class DashboardHomeFragment extends Fragment {
         View rootView =  inflater.inflate(R.layout.fragment_dashboard_home, container, false);
         PieChart chart = (PieChart) rootView.findViewById(R.id.chart_home);
 
-        double income = 0.0;
-        double loss = 0.0;
-
-        Double delta = income - loss;
         chart = ChartMethods.configureChart(chart, String.valueOf(delta));
         chart = ChartMethods.setData(chart, "Einnahmen", "Ausgaben", (int) Math.round(income), (int) Math.round(loss));
         chart.animateXY(1500, 1500);
