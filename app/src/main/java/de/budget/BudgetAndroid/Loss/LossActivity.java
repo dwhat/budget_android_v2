@@ -30,33 +30,42 @@ import java.util.Iterator;
 import java.util.List;
 
 import de.budget.BudgetAndroid.Annotations.Author;
+import de.budget.BudgetAndroid.AsyncTasks.CreateOrUpdateBasketTask;
 import de.budget.BudgetAndroid.AsyncTasks.CreateOrUpdateIncomeTask;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.Categories.CategorySpinnerAdapter;
 import de.budget.BudgetService.dto.BasketTO;
 import de.budget.BudgetService.dto.CategoryTO;
 import de.budget.BudgetService.dto.ItemTO;
+import de.budget.BudgetService.dto.PaymentTO;
+import de.budget.BudgetService.dto.VendorTO;
 import de.budget.R;
 
 public class LossActivity extends ActionBarActivity {
 
-    private BudgetAndroidApplication myApp;
-    private List <CategoryTO> categories;
-    private BasketTO basket;
+    private BudgetAndroidApplication    myApp;
+    private List <CategoryTO>           categories;
+    private List <VendorTO>             vendors;
+    private List <PaymentTO>            payments;
+    private BasketTO                    basket;
 
-    private EditText editTextName;
-    private EditText editTextDate;
-    private EditText editTextTotal;
-    private EditText editTextNotice;
+    private EditText    editTextName;
+    private EditText    editTextDate;
+    private EditText    editTextTotal;
+    private EditText    editTextNotice;
+    private Spinner     spinnerPayment;
+    private Spinner     spinnerVendor;
 
-    private ListView listView;
-    private EditText editTextItemName;
-    private EditText editTextItemAmount;
-    private EditText editTextItemValue;
-    private Spinner spinnerCategory;
+    private ListView    listView;
+    private EditText    editTextItemName;
+    private EditText    editTextItemAmount;
+    private EditText    editTextItemValue;
+    private Spinner     spinnerCategory;
 
-    private CategorySpinnerAdapter spinnerArrayAdapter;
-    private ItemArrayAdapter itemArrayAdapter;
+    private CategorySpinnerAdapter  spinnerCategoryArrayAdapter;
+    private VendorSpinnerAdapter    spinnerVendorArrayAdapter;
+    private PaymentSpinnerAdapter   spinnerPaymentArrayAdapter;
+    private ItemArrayAdapter        itemArrayAdapter;
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
 
@@ -67,6 +76,8 @@ public class LossActivity extends ActionBarActivity {
 
         myApp       = (BudgetAndroidApplication) getApplication();
         categories  = myApp.getCategories();
+        vendors     = myApp.getVendors();
+        payments    = myApp.getPayments();
 
         editTextItemName    = (EditText) findViewById(R.id.item_name);
         editTextItemAmount  = (EditText) findViewById(R.id.item_amount);
@@ -88,24 +99,33 @@ public class LossActivity extends ActionBarActivity {
             editTextDate   = (EditText) findViewById(R.id.loss_date);
             editTextTotal  = (EditText) findViewById(R.id.loss_value);
             editTextNotice = (EditText) findViewById(R.id.loss_notice);
+            spinnerVendor  = (Spinner) findViewById(R.id.loss_vendor);
+            spinnerPayment = (Spinner) findViewById(R.id.loss_payment);
 
             editTextName    .setText(basket.getName());
             editTextDate    .setText(dateFormat.format(basket.getPurchaseDate()));
             editTextTotal   .setText(String.valueOf(basket.getAmount()));
             editTextNotice  .setText(basket.getNotice());
+            spinnerVendor   .setSelection(myApp.findVendorPositionById(basket.getVendor().getId()));
+            spinnerPayment  .setSelection(myApp.findPaymentPositionById(basket.getPayment().getId()));
 
-            itemArrayAdapter =  new ItemArrayAdapter(this, R.layout.item_listview, basket.getItems());
+            itemArrayAdapter = new ItemArrayAdapter(this, R.layout.item_listview, basket.getItems());
 
         } else {
 
-            itemArrayAdapter =  new ItemArrayAdapter(this, R.layout.item_listview, null);
+            itemArrayAdapter = new ItemArrayAdapter(this, R.layout.item_listview, null);
 
         }
 
         // ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, myApp.getCategoriesName());
 
-        spinnerArrayAdapter = new CategorySpinnerAdapter(this, R.layout.spinner_category, categories);
-        spinnerCategory.setAdapter(spinnerArrayAdapter);
+        spinnerCategoryArrayAdapter = new CategorySpinnerAdapter(this, R.layout.spinner_category, categories);
+        spinnerVendorArrayAdapter = new VendorArrayAdapter(this, R.layout.spinner_vendor, vendors);
+        spinnerPaymentArrayAdapter = new PaymentArrayAdapter(this, R.layout.spinner_payment, payments);
+
+        spinnerCategory.setAdapter(spinnerCategoryArrayAdapter);
+        spinnerVendor.setAdapter(spinnerVendorArrayAdapter);
+        spinnerPayment.setAdapter(spinnerPaymentArrayAdapter);
 
         listView.setAdapter(itemArrayAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -129,24 +149,17 @@ public class LossActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_loss_new, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_save) {
             save(null);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -169,25 +182,26 @@ public class LossActivity extends ActionBarActivity {
             Log.d("Update", basketId + " " + basket.getName());
         }
 
+        String          basketName      =                       editTextName.getText().toString();
+        Long            basketDate      = Long.parseLong(       editTextDate.getText().toString());
+        Double          basketTotal     = Double.parseDouble(   editTextTotal.getText().toString());
+        String          basketNotice    =                       editTextNotice.getText().toString();
+        VendorTO        basketVendor    = (VendorTO)            spinnerVendor.getSelectedItem();
+        PaymentTO       basketPayment   = (PaymentTO)           spinnerPayment.getSelectedItem();
+        List<ItemTO>    basketItems     =                       itemArrayAdapter.getValues();
 
-        String basketName   = editTextName.getText().toString();
-        String basketDate   = editTextDate.getText().toString();
-        String basketTotal  = editTextTotal.getText().toString();
-        String basketNotice = editTextNotice.getText().toString();
+        Log.d("INFO", String.valueOf(basketTotal));
 
 
-
-        Log.d("INFO", basketTotal);
-
-
-        if(!"".equals(basketName) && !"".equals(basketDate) && !"".equals(basketTotal) && !"".equals(basketNotice))
+        if(!"".equals(basketName) && !"".equals(basketDate) && !"".equals(basketTotal) && !"".equals(basketNotice) && !"".equals(basketVendor) && !"".equals(basketPayment) && basketItems!=null)
         {
             ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
             if(networkInfo != null && networkInfo.isConnected()){
                 CreateOrUpdateBasketTask task = new CreateOrUpdateBasketTask(this,myApp, this);
-                task.execute(basketId, basketName,  basketDate, basketTotal, basketNotice);
+                // BasketResponse createOrUpdateBasket(int sessionId, int basketId, String name, String notice, double amount, long purchaseDate, int paymentId, int vendorId, List<ItemTO> items);
+                task.execute(basketId, basketName, basketNotice, basketTotal, basketDate, basketPayment.getId(), basketVendor.getId(), basketItems);
             }
             else {
                 CharSequence text = "Keine Netzwerkverbindung! :(";

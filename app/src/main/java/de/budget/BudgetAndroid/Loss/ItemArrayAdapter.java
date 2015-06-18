@@ -64,4 +64,8 @@ public class ItemArrayAdapter extends ArrayAdapter<ItemTO> {
         bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
         return bd;
     }
+
+    public List<ItemTO> getValues () {
+        return this.values;
+    }
 }
