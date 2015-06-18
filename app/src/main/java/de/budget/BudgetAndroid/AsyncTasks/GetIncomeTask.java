@@ -58,7 +58,7 @@ public class GetIncomeTask extends AsyncTask<String, Integer, IncomeListResponse
 
                 myApp.setIncome(result.getIncomeList());
                 myApp.increaseInitialDataCounter();
-                Log.d("INFO", "Liste der Einnahmen erfolgreich angelegt.");
+
             }
         }
         else

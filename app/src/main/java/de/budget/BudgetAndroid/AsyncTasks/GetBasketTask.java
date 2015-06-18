@@ -34,7 +34,6 @@ public class GetBasketTask extends AsyncTask<String, Integer, BasketListResponse
 
                 BasketListResponse basket = myApp.getBudgetOnlineService().getBaskets(myApp.getSession(), myApp);
                 Integer returnCode =  basket.getReturnCode();
-                Log.d("INFO", "Returncode: " + returnCode.toString());
                 return basket;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -58,11 +57,8 @@ public class GetBasketTask extends AsyncTask<String, Integer, BasketListResponse
 
                     for(BasketTO basket : myApp.getBasket()) {
                         GetItemsTask itemsTask = new GetItemsTask(myApp.getApplicationContext(), myApp, basket.getId());
-                        Log.d("INFO", "Asynctask items für basket " + basket.getId() +" gestartet.");
                         itemsTask.execute();
                     }
-
-
 
                     myApp.increaseInitialDataCounter();
                     Log.d("INFO", "Liste der Ausgaben erfolgreich angelegt.");
