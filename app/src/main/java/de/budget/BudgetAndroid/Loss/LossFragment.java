@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import de.budget.BudgetAndroid.AsyncTasks.GetItemsTask;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetService.dto.BasketTO;
 import de.budget.BudgetService.dto.IncomeTO;
@@ -53,6 +54,8 @@ public class LossFragment extends Fragment {
 
     private List<BasketTO> baskets;
     private ListView listView;
+
+    private BudgetAndroidApplication myApp;
 
     /**
      * Use this factory method to create a new instance of
@@ -91,9 +94,8 @@ public class LossFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_loss, container, false);
 
-        BudgetAndroidApplication myApp = (BudgetAndroidApplication) getActivity().getApplication();
+        myApp = (BudgetAndroidApplication) getActivity().getApplication();
         baskets = myApp.getBasket();
-
 
         arrayAdapter = new LossArrayAdapter (getActivity(), R.layout.loss_listview, baskets);
 
@@ -110,6 +112,18 @@ public class LossFragment extends Fragment {
                 Bundle bundle = new Bundle ();
                 bundle.putInt("POSITION", position);
                 intent.putExtras(bundle);
+
+                BasketTO basket = (BasketTO) listView.getItemAtPosition(position);
+
+                if (basket.getItems() == null) {
+
+                    basket.setOccupied(true);
+                    GetItemsTask itemsTask = new GetItemsTask(myApp.getApplicationContext(), myApp, basket);
+                    itemsTask.execute();
+
+                    itemsTask.
+                }
+
 
                 startActivity(intent);
             }

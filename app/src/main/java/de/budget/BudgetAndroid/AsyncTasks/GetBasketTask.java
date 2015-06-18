@@ -54,14 +54,20 @@ public class GetBasketTask extends AsyncTask<String, Integer, BasketListResponse
                 if (result.getReturnCode() == 200){
 
                     myApp.setBasket(result.getBasketList());
+                    Log.d("INFO", "Liste der Ausgaben erfolgreich angelegt.");
+                    myApp.increaseInitialDataCounter();
 
                     for(BasketTO basket : myApp.getBasket()) {
-                        GetItemsTask itemsTask = new GetItemsTask(myApp.getApplicationContext(), myApp, basket.getId());
-                        itemsTask.execute();
+                        if (basket.getItems() == null) {
+                            basket.setOccupied(true);
+                            GetItemsTask itemsTask = new GetItemsTask(myApp.getApplicationContext(), myApp, basket);
+                            itemsTask.execute();
+                        }
                     }
+                    Log.d("INFO", "Liste der Items erfolgreich angelegt.");
 
-                    myApp.increaseInitialDataCounter();
-                    Log.d("INFO", "Liste der Ausgaben erfolgreich angelegt.");
+
+
                 }
             }
             else
