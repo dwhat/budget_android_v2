@@ -30,7 +30,6 @@ public class SyncActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sync);
         BudgetAndroidApplication myApp = (BudgetAndroidApplication) getApplication();
-        BigDecimal loss = new BigDecimal(0);
 
 
 
@@ -62,12 +61,6 @@ public class SyncActivity extends ActionBarActivity {
         basketTask.execute();
         GetIncomeTask incomeTask = new GetIncomeTask(this, myApp);
         incomeTask.execute();
-
-
-        // manuelle Berechnung der ersten Dashboard Seite
-        for (int i= 0; i < myApp.getBasket().size(); i++){
-            loss = loss.add(BigDecimal.valueOf(myApp.getBasket().get(i).getAmount()));
-        }
 
     }
 

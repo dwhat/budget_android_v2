@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import java.math.BigDecimal;
+
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.SyncActivity;
 import de.budget.BudgetService.Response.BasketListResponse;
@@ -56,6 +58,11 @@ public class GetBasketTask extends AsyncTask<String, Integer, BasketListResponse
                     myApp.setBasket(result.getBasketList());
                     Log.d("INFO", "Liste der Ausgaben erfolgreich angelegt.");
                     myApp.increaseInitialDataCounter();
+                    BigDecimal loss = new BigDecimal(0);
+                    for (int i= 0; i < myApp.getBasket().size(); i++){
+                        loss = loss.add(BigDecimal.valueOf(myApp.getBasket().get(i).getAmount()));
+                    }
+                    myApp.setLossLastPeriod(loss.doubleValue());
 
                 }
             }

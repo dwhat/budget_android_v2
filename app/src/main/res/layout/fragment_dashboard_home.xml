@@ -18,8 +18,8 @@
             android:id="@+id/bar_period"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:progress="20"
-            android:secondaryProgress="20"
+            android:progress="365"
+            android:secondaryProgress="365"
             android:max="365"/>
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/chart_home"

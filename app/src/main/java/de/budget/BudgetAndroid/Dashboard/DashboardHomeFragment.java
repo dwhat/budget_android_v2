@@ -2,6 +2,7 @@ package de.budget.BudgetAndroid.Dashboard;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -67,7 +68,7 @@ public class DashboardHomeFragment extends Fragment {
         refreshChart(true);
 
         period.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            int progressChanged = 30;
+            int progressChanged = 365;
 
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progressChanged = progress;
@@ -145,6 +146,13 @@ public class DashboardHomeFragment extends Fragment {
             DecimalFormat df = new DecimalFormat(".00");
             chart = ChartMethods.setChartFundamentals(chart, "Differenz \n" + df.format(delta) + "€");
             chart = ChartMethods.setDataNormal(chart, "Einnahmen", "Ausgaben", income.round(new MathContext(3, RoundingMode.HALF_UP)).intValueExact(), loss.round(new MathContext(3, RoundingMode.HALF_UP)).intValueExact());
+            int res = delta.compareTo(new BigDecimal(0));
+            if( res == 0 )
+                chart.setHoleColor(Color.rgb(255,255,255));
+            else if( res == 1 )
+                chart.setHoleColor(Color.rgb(0,250,154));
+            else if( res == -1 )
+                chart.setHoleColor(Color.rgb(255,0,0));
             chart.animateXY(1500, 1500);
             lossFinished = false;
             incomeFinished = false;

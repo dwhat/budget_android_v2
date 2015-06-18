@@ -58,7 +58,7 @@
     <string name="login">Login</string>
 
     <!-- Dashboard Activity -->
-    <string name="period">Einnahmen/Ausgaben der letzten 30 Tage"</string>
+    <string name="period">Einnahmen/Ausgaben der letzten 365 Tage"</string>
 
     <!-- Register Activity -->
     <string name="title_activity_register">Register</string>
