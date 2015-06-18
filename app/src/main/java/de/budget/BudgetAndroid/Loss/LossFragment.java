@@ -47,8 +47,11 @@ public class LossFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private LossArrayAdapter arrayAdapter;
+
     private OnFragmentInteractionListener mListener;
 
+    private List<BasketTO> baskets;
     private ListView listView;
 
     /**
@@ -88,24 +91,14 @@ public class LossFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_loss, container, false);
 
-
-
-
         BudgetAndroidApplication myApp = (BudgetAndroidApplication) getActivity().getApplication();
-        List<BasketTO> baskets = myApp.getBasket();
+        baskets = myApp.getBasket();
 
 
+        arrayAdapter = new LossArrayAdapter (getActivity(), R.layout.loss_listview, baskets);
 
-        // Starten des Array Adapters
-       LossArrayAdapter ArrayAdapter = new LossArrayAdapter (getActivity(), R.layout.loss_listview, baskets);
-
-        // Listview ermitteln
         listView = (ListView)rootView.findViewById(R.id.listView_loss);
-
-        // ListView setzten mit entsprehcenden Objekten aus dem Adapter
-        listView.setAdapter(ArrayAdapter);
-
-        // OnClick Listener für Interaktion
+        listView.setAdapter(arrayAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,int position, long id) {

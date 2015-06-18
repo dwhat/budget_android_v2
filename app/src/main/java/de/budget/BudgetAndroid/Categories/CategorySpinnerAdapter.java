@@ -50,7 +50,7 @@ public class CategorySpinnerAdapter extends BaseAdapter {
         convertView =  inflater.inflate(R.layout.spinner_category, parent, false);
 
         TextView categoryName       = (TextView) convertView.findViewById(R.id.category_name);
-        TextView    categoryNotice     = (TextView) convertView.findViewById(R.id.category_notice);
+        TextView categoryNotice     = (TextView) convertView.findViewById(R.id.category_notice);
 
         categoryName        .setText(getItem(position).getName());
         categoryNotice      .setText(getItem(position).getNotice());
