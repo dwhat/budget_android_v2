@@ -14,6 +14,8 @@ import java.util.List;
 public class BasketTO implements Serializable{
 
 
+	private boolean occupied;
+
 	private static final long serialVersionUID = 1L;
 	
 	private int id;
@@ -36,7 +38,7 @@ public class BasketTO implements Serializable{
 	 * @author Marco
 	 */
 	public BasketTO() {
-		
+		this.occupied = false;
 	}
 	
 //	/**
@@ -97,6 +99,14 @@ public class BasketTO implements Serializable{
 		this.items = items;
 	}
 
+
+	public boolean isOccupied() {
+		return this.occupied;
+	}
+
+	public void setOccupied(boolean occupied) {
+		this.occupied = occupied;
+	}
 
 	/**
 	 * @return the id

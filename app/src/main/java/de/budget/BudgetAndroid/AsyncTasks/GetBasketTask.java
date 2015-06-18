@@ -34,7 +34,6 @@ public class GetBasketTask extends AsyncTask<String, Integer, BasketListResponse
 
                 BasketListResponse basket = myApp.getBudgetOnlineService().getBaskets(myApp.getSession(), myApp);
                 Integer returnCode =  basket.getReturnCode();
-                Log.d("INFO", "Returncode: " + returnCode.toString());
                 return basket;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -55,17 +54,9 @@ public class GetBasketTask extends AsyncTask<String, Integer, BasketListResponse
                 if (result.getReturnCode() == 200){
 
                     myApp.setBasket(result.getBasketList());
-
-                    for(BasketTO basket : myApp.getBasket()) {
-                        GetItemsTask itemsTask = new GetItemsTask(myApp.getApplicationContext(), myApp, basket.getId());
-                        Log.d("INFO", "Asynctask items für basket " + basket.getId() +" gestartet.");
-                        itemsTask.execute();
-                    }
-
-
-
-                    myApp.increaseInitialDataCounter();
                     Log.d("INFO", "Liste der Ausgaben erfolgreich angelegt.");
+                    myApp.increaseInitialDataCounter();
+
                 }
             }
             else
@@ -74,5 +65,23 @@ public class GetBasketTask extends AsyncTask<String, Integer, BasketListResponse
 
             }
         }
+
+    private void getItemsByBasketTask () {
+        for(BasketTO basket : myApp.getBasket()) {
+            if (basket.getItems() == null) {
+                if (!basket.isOccupied()){
+                    basket.setOccupied(true);
+                    GetItemsTask itemsTask = new GetItemsTask(myApp.getApplicationContext(), myApp, basket, new OnTaskCompleted() {
+                        @Override
+                        public void onTaskCompleted(Object o) {
+                        }
+                    });
+                    itemsTask.execute();
+                }
+            }
+        }
+        Log.d("INFO", "Liste der Items erfolgreich angelegt.");
+    }
+
 
 }

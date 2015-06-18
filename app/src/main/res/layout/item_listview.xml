@@ -40,10 +40,10 @@
         android:layout_alignParentTop="true"
         android:layout_alignWithParentIfMissing="true"
         android:layout_toRightOf="@id/item_name"
-        android:gravity="center_vertical"
         android:text="Kategorie"
         android:textSize="16sp"
         android:paddingLeft="16dp"
-        android:textColor="@color/ColorPrimaryDark" />
+        android:textColor="@color/ColorPrimaryDark"
+        android:gravity="right" />
 
 </RelativeLayout>

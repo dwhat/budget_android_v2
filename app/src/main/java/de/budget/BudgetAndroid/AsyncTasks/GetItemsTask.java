@@ -16,15 +16,18 @@ import de.budget.BudgetService.dto.BasketTO;
  */
 public class GetItemsTask extends AsyncTask<String, Integer, ItemListResponse> {
 
+        private OnTaskCompleted listener = null;
+
         private Context context;
         private static BudgetAndroidApplication myApp;
-        private int basketId;
+        private BasketTO basket;
 
-        public GetItemsTask(Context context, BudgetAndroidApplication myApp, int basketId)
+        public GetItemsTask(Context context, BudgetAndroidApplication myApp, BasketTO basket, OnTaskCompleted listener)
         {
             this.context = context;
             this.myApp = myApp;
-            this.basketId = basketId;
+            this.basket = basket;
+            this.listener = listener;
 
         }
 
@@ -36,10 +39,10 @@ public class GetItemsTask extends AsyncTask<String, Integer, ItemListResponse> {
 
             try {
 
-                    ItemListResponse item = myApp.getBudgetOnlineService().getItemsByBasket(myApp.getSession(), basketId, myApp);
+                    ItemListResponse item = myApp.getBudgetOnlineService().getItemsByBasket(myApp.getSession(), basket.getId(), myApp);
 
                     Integer returnCode =  item.getReturnCode();
-                    Log.d("INFO", "Returncode: " + returnCode.toString());
+
                     return item;
 
 
@@ -62,13 +65,17 @@ public class GetItemsTask extends AsyncTask<String, Integer, ItemListResponse> {
                 if (result.getReturnCode() == 200){
 
                     myApp.setItems(result.getItemList());
-                    myApp.increaseInitialDataCounter();
-                    Log.d("INFO", "Liste der Items erfolgreich angelegt.");
+
+                    basket.setOccupied(false);
+
+                    listener.onTaskCompleted(true);
                 }
             }
             else
             {
                 Log.d("INFO", "Items konnten nicht geladen werden.");
+
+                listener.onTaskCompleted(false);
 
             }
         }

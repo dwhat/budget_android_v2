@@ -38,7 +38,7 @@ public class GetIncomeTask extends AsyncTask<String, Integer, IncomeListResponse
         try {
             IncomeListResponse myIncome = myApp.getBudgetOnlineService().getIncomes(myApp.getSession(), myApp);
             Integer rt =  myIncome.getReturnCode();
-            //Log.d("INFO", "Returncode: " + rt.toString());
+
             return myIncome;
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,6 +68,7 @@ public class GetIncomeTask extends AsyncTask<String, Integer, IncomeListResponse
                     income = income.add(BigDecimal.valueOf(myApp.getIncome().get(i).getAmount()));
                 }
                 myApp.setIncomeLastPeriod(income.doubleValue());
+
             }
         }
         else
