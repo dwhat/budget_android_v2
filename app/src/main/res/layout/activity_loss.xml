@@ -140,7 +140,7 @@
                     android:id="@+id/loss_vendor"
                     android:layout_weight="1"
                     android:layout_gravity="bottom|right"
-                    android:layout_marginLeft="16dp" />
+                    android:layout_marginLeft="6dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -168,9 +168,10 @@
                     android:inputType="date"
                     android:ems="10"
                     android:id="@+id/loss_payment"
+                    android:ellipsize="end"
                     android:layout_weight="1"
                     android:layout_gravity="bottom|right"
-                    android:layout_marginLeft="16dp" />
+                    android:layout_marginLeft="6dp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -268,6 +269,7 @@
             android:layout_height="50dp"
             android:id="@+id/item_category"
             android:spinnerMode="dialog"
+            android:ellipsize="end"
             android:layout_weight="0.1"
             android:layout_toLeftOf="@+id/item_save"
             android:layout_alignParentBottom="true" />
