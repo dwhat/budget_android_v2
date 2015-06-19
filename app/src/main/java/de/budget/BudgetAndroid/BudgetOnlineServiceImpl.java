@@ -180,8 +180,13 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                 result.setVendorList(vendorList);
                 return result;
             }
+            else if(tmp == 404){
+                result.setReturnCode(tmp);
+                result.setVendorList(new ArrayList<VendorTO>());
+                return result;
+            }
             else {
-                throw new Exception("Create/Update category was not successful!");
+                throw new Exception("getVendors was not successful!");
             }
         } catch (SoapFault e) {
             throw new Exception(e.getMessage());
@@ -316,8 +321,13 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                 result.setPaymentList(paymentList);
                 return result;
             }
+            else if(tmp == 404){
+                result.setReturnCode(tmp);
+                result.setPaymentList(new ArrayList<PaymentTO>());
+                return result;
+            }
             else {
-                throw new Exception("Create/Update category was not successful!");
+                throw new Exception("getPayments was not successful!");
             }
         } catch (SoapFault e) {
             throw new Exception(e.getMessage());
@@ -451,8 +461,13 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                 result.setCategoryList(categoryList);
                 return result;
             }
+            else if(tmp == 404){
+                result.setReturnCode(tmp);
+                result.setCategoryList(new ArrayList<CategoryTO>());
+                return result;
+            }
             else {
-                throw new Exception("Create/Update category was not successful!");
+                throw new Exception("getCategorys was not successful!");
             }
         } catch (SoapFault e) {
             throw new Exception(e.getMessage());
@@ -643,6 +658,11 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
                 result.setBasketList(basketList);
 
+                return result;
+            }
+            else if(tmp == 404){
+                result.setReturnCode(tmp);
+                result.setBasketList(new ArrayList<BasketTO>());
                 return result;
             }
             else {
@@ -854,6 +874,11 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                     }
                 }
                 result.setIncomeList(incomeList);
+                return result;
+            }
+            else if(tmp == 404){
+                result.setReturnCode(tmp);
+                result.setIncomeList(new ArrayList<IncomeTO>());
                 return result;
             }
             else {

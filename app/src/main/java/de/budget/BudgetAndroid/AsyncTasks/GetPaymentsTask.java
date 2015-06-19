@@ -58,7 +58,7 @@ public class GetPaymentsTask extends AsyncTask<String, Integer, PaymentListRespo
         if(result != null)
         {
             //erfolgreich eingeloggt
-            if (result.getReturnCode() == 200){
+            if (result.getReturnCode() == 200 || result.getReturnCode() == 404 ){
 
                 myApp.setPayments(result.getPaymentList());
                 myApp.increaseInitialDataCounter();

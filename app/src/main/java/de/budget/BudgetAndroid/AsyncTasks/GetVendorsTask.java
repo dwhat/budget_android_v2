@@ -57,7 +57,7 @@ public class GetVendorsTask extends AsyncTask<String, Integer, VendorListRespons
         if(result != null)
         {
             //erfolgreich eingeloggt
-            if (result.getReturnCode() == 200){
+            if (result.getReturnCode() == 200 || result.getReturnCode() == 404 ){
 
                 myApp.setVendors(result.getVendorList());
                 myApp.increaseInitialDataCounter();
