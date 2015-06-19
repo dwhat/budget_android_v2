@@ -328,4 +328,5 @@ public class BudgetAndroidApplication extends Application{
         this.initialDataCounter = 0;
         this.firstStart = true;
     }
+
 }

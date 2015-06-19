@@ -34,6 +34,8 @@ import de.budget.BudgetAndroid.AsyncTasks.CreateOrUpdateBasketTask;
 import de.budget.BudgetAndroid.AsyncTasks.CreateOrUpdateIncomeTask;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.Categories.CategorySpinnerAdapter;
+import de.budget.BudgetAndroid.PaymentSpinnerAdapter;
+import de.budget.BudgetAndroid.Vendors.VendorSpinnerAdapter;
 import de.budget.BudgetService.dto.BasketTO;
 import de.budget.BudgetService.dto.CategoryTO;
 import de.budget.BudgetService.dto.ItemTO;
@@ -63,7 +65,7 @@ public class LossActivity extends ActionBarActivity {
     private Spinner     spinnerCategory;
 
     private CategorySpinnerAdapter  spinnerCategoryArrayAdapter;
-    private VendorSpinnerAdapter    spinnerVendorArrayAdapter;
+    private VendorSpinnerAdapter spinnerVendorArrayAdapter;
     private PaymentSpinnerAdapter   spinnerPaymentArrayAdapter;
     private ItemArrayAdapter        itemArrayAdapter;
 
@@ -106,8 +108,8 @@ public class LossActivity extends ActionBarActivity {
             editTextDate    .setText(dateFormat.format(basket.getPurchaseDate()));
             editTextTotal   .setText(String.valueOf(basket.getAmount()));
             editTextNotice  .setText(basket.getNotice());
-            spinnerVendor   .setSelection(myApp.findVendorPositionById(basket.getVendor().getId()));
-            spinnerPayment  .setSelection(myApp.findPaymentPositionById(basket.getPayment().getId()));
+            spinnerVendor   .setSelection(myApp.getVendors().indexOf(basket.getVendor()));
+            spinnerPayment  .setSelection(myApp.getPayments().indexOf(basket.getPayment()));
 
             itemArrayAdapter = new ItemArrayAdapter(this, R.layout.item_listview, basket.getItems());
 
@@ -120,8 +122,8 @@ public class LossActivity extends ActionBarActivity {
         // ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, myApp.getCategoriesName());
 
         spinnerCategoryArrayAdapter = new CategorySpinnerAdapter(this, R.layout.spinner_category, categories);
-        spinnerVendorArrayAdapter = new VendorArrayAdapter(this, R.layout.spinner_vendor, vendors);
-        spinnerPaymentArrayAdapter = new PaymentArrayAdapter(this, R.layout.spinner_payment, payments);
+        spinnerVendorArrayAdapter = new VendorSpinnerAdapter(this, R.layout.spinner_vendor, vendors);
+        spinnerPaymentArrayAdapter = new PaymentSpinnerAdapter(this, R.layout.spinner_payment, payments);
 
         spinnerCategory.setAdapter(spinnerCategoryArrayAdapter);
         spinnerVendor.setAdapter(spinnerVendorArrayAdapter);
