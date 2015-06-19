@@ -42,14 +42,13 @@ public class CreateOrUpdateItemTask extends AsyncTask<Object, Integer, ItemRespo
             int category     = (int)    params[6];
             int basket       = (int)    params[7];
 
-            Log.d("INFO", receiptDate + " : " + name + " " + quantity + " x " + price + "€ " + notice + " " + category + " " + basket);
-
+           //  Log.d("INFO", receiptDate + " : " + name + " " + quantity + " x " + price + "€ " + notice + " " + category + " " + basket);
 
             try {
                 ItemResponse item = myApp.getBudgetOnlineService().createOrUpdateItem(myApp.getSession(), id, name, quantity, price, notice, receiptDate, basket, category);
-                Log.d("INFO", item.toString());
+                // Log.d("INFO", item.toString());
                 Integer rt =  item.getReturnCode();
-                Log.d("INFO", "Returncode: " + rt.toString());
+                // Log.d("INFO", "Returncode: " + rt.toString());
                 return item;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -59,20 +58,17 @@ public class CreateOrUpdateItemTask extends AsyncTask<Object, Integer, ItemRespo
 
         protected void onProgessUpdate(Integer... values)
         {
-            //wird in diesem Beispiel nicht verwendet
         }
 
         protected void onPostExecute(ItemResponse result)
         {
             if(result != null)
             {
-                //erfolgreich eingeloggt
                 if (result.getReturnCode() == 200){
 
-                    Log.d("Info", result.getItemTo().toString());
+                    // Log.d("Info", result.getItemTo().toString());
 
                     ItemTO item = result.getItemTo();
-                    // set references
                     myApp.getBasketById(item.getBasket()).setItem(item);
 
                 }

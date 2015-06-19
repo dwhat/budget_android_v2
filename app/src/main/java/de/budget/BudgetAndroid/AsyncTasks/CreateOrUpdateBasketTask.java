@@ -81,13 +81,16 @@ public class CreateOrUpdateBasketTask extends AsyncTask<Object, Integer, BasketR
                 if (result.getReturnCode() == 200){
 
                     Log.d("INFO", "Ausgabe erfolgreich angelegt.");
+
                     BasketTO basket = result.getBasketTo();
+
                     // Update der alten Liste
                     myApp.checkBasketList(basket);
 
                     for(ItemTO item : items) {
                         CreateOrUpdateItemTask task = new CreateOrUpdateItemTask(context ,myApp);
-                        task.execute(0, item.getName(), item.getQuantity(), item.getPrice(), item.getNotice(), item.getReceiptDate(), item.getCategory(), basket.getId());
+                        if (item.getId()==0) task.execute(0, item.getName(), item.getQuantity(), item.getPrice(), item.getNotice(), item.getReceiptDate(), item.getCategory(), basket.getId());
+                        else task.execute(item.getId(), item.getName(), item.getQuantity(), item.getPrice(), item.getNotice(), item.getReceiptDate(), item.getCategory(), basket.getId());
                     }
 
                     Toast.makeText(context, "Ausgabe gespeichert", Toast.LENGTH_SHORT).show();

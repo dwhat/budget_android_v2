@@ -39,7 +39,7 @@ public class BasketResponse extends ReturnCodeResponse {
 
 	@Override
 	public String toString(){
-		return basketTo.getPurchaseDate() + " : " +basketTo.getName() + ", " + basketTo.getAmount() + "€ from ";
+		return basketTo.getId() + ". " + basketTo.getPurchaseDate() + " : " +basketTo.getName() + ", " + basketTo.getAmount() + "€ from ";
 	}
 	
 	

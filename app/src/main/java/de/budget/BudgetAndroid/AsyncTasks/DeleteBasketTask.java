@@ -18,8 +18,8 @@ public class DeleteBasketTask extends AsyncTask<Integer, Integer, ReturnCodeResp
 
     private static BudgetAndroidApplication myApp;
     public static MainActivity nextActivity = new MainActivity();
-    private Integer id;
     private Context context;
+    private int id;
 
     public DeleteBasketTask(Context context, BudgetAndroidApplication myApp)
     {
@@ -33,10 +33,10 @@ public class DeleteBasketTask extends AsyncTask<Integer, Integer, ReturnCodeResp
         if(params.length != 1)
             return null;
         id = params[0];
+
         try {
             ReturnCodeResponse myResponse = myApp.getBudgetOnlineService().deleteBasket(myApp.getSession(), id);
             Integer rt =  myResponse.getReturnCode();
-            Log.d("INFO", "Returncode: " + rt.toString());
             return myResponse;
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,9 +58,9 @@ public class DeleteBasketTask extends AsyncTask<Integer, Integer, ReturnCodeResp
             if (result.getReturnCode() == 200){
 
                 myApp.deleteBasket(id);
-                Log.d("INFO", "Kategorie erfolgreich gelöscht.");
+
                 //Toast anzeigen
-                CharSequence text = "Kategorie gelöscht!";
+                CharSequence text = "Ausgabe gelöscht!";
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
                 //Nächste Activity anzeigen
@@ -70,8 +70,8 @@ public class DeleteBasketTask extends AsyncTask<Integer, Integer, ReturnCodeResp
         }
         else
         {
-            Log.d("INFO", "Kategorie konnte nicht gelöscht werden.");
-            CharSequence text = "Kategorie konnte nicht gelöscht werden!";
+            Log.d("INFO", "Ausgabe konnte nicht gelöscht werden.");
+            CharSequence text = "Ausgabe konnte nicht gelöscht werden!";
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         }

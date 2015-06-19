@@ -37,7 +37,7 @@ public class ItemResponse extends ReturnCodeResponse{
 
 	@Override
 	public String toString() {
-		return itemTo.getBasket() + ": " + itemTo.getName() + " " + itemTo.getQuantity() + " x " + itemTo.getPrice() + " " + itemTo.getCategory();
+		return itemTo.getBasket() + "_" +  itemTo.getId() + " : " + itemTo.getName() + " " + itemTo.getQuantity() + " x " + itemTo.getPrice() + " " + itemTo.getCategory();
 	}
 
 }

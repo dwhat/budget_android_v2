@@ -36,16 +36,10 @@ public class GetItemsTask extends AsyncTask<String, Integer, ItemListResponse> {
         protected ItemListResponse doInBackground(String... params){
             if(params.length != 0)
                 return null;
-
             try {
-
-                    ItemListResponse item = myApp.getBudgetOnlineService().getItemsByBasket(myApp.getSession(), basket.getId(), myApp);
-
-                    Integer returnCode =  item.getReturnCode();
-
-                    return item;
-
-
+                ItemListResponse item = myApp.getBudgetOnlineService().getItemsByBasket(myApp.getSession(), basket.getId(), myApp);
+                Integer returnCode =  item.getReturnCode();
+                return item;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -54,29 +48,21 @@ public class GetItemsTask extends AsyncTask<String, Integer, ItemListResponse> {
 
         protected void onProgessUpdate(Integer... values)
         {
-            //wird in diesem Beispiel nicht verwendet
+
         }
 
         @Override
         protected void onPostExecute(ItemListResponse result)
         {
-            if(result != null)
-            {
+            if(result != null) {
                 if (result.getReturnCode() == 200){
-
                     myApp.setItems(result.getItemList());
-
                     basket.setOccupied(false);
-
                     listener.onTaskCompleted(true);
                 }
-            }
-            else
-            {
+            } else {
                 Log.d("INFO", "Items konnten nicht geladen werden.");
-
                 listener.onTaskCompleted(false);
-
             }
         }
 
