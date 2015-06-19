@@ -155,7 +155,7 @@ public class DashboardHomeFragment extends Fragment {
             if( res == 0 )
                 chart.setHoleColor(Color.rgb(255,255,255));
             else if( res == 1 )
-                chart.setHoleColor(Color.rgb(0,250,154));
+                chart.setHoleColor(Color.rgb(0,150,136));
             else if( res == -1 )
                 chart.setHoleColor(Color.rgb(240,128,128));
             chart.animateXY(1500, 1500);

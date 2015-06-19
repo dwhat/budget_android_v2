@@ -37,6 +37,7 @@ import de.budget.BudgetAndroid.Categories.CategoryListFragment;
 import de.budget.BudgetAndroid.Categories.CategoryActivity;
 import de.budget.BudgetAndroid.Dashboard.DashboardFragment;
 import de.budget.BudgetAndroid.Dashboard.DashboardHomeFragment;
+import de.budget.BudgetAndroid.Dashboard.DashboardIncomeAndLossAnalysisFragment;
 import de.budget.BudgetAndroid.Dashboard.DashboardIncomeFragment;
 import de.budget.BudgetAndroid.Income.IncomeAnalysisFragment;
 import de.budget.BudgetAndroid.Income.IncomeFragment;
@@ -56,7 +57,7 @@ public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, CategoryListFragment.OnFragmentInteractionListener, VendorListFragment.OnFragmentInteractionListener,
                     IncomeListFragment.OnFragmentInteractionListener, LossFragment.OnFragmentInteractionListener, CategoryFragment.OnFragmentInteractionListener,
                     DashboardFragment.OnFragmentInteractionListener, DashboardIncomeFragment.OnFragmentInteractionListener, DashboardHomeFragment.OnFragmentInteractionListener,
-                    CategoryAnalysisFragment.OnFragmentInteractionListener,
+                    CategoryAnalysisFragment.OnFragmentInteractionListener, DashboardIncomeAndLossAnalysisFragment.OnFragmentInteractionListener,
                     IncomeFragment.OnFragmentInteractionListener, IncomeAnalysisFragment.OnFragmentInteractionListener,
                     VendorFragment.OnFragmentInteractionListener, VendorAnalysisFragment.OnFragmentInteractionListener{
 
@@ -260,6 +261,11 @@ public class MainActivity extends ActionBarActivity
     }
     @Override
     public void onDashboardHomeFragmentInteraction(Uri uri){
+    }
+
+    @Override
+    public void onDashboardIncomeAndLossAnalysisFragmentInteraction(Uri uri){
+
     }
 
 

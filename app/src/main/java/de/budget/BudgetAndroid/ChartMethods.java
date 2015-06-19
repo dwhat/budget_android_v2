@@ -133,9 +133,52 @@ public final class ChartMethods {
 
         BarDataSet set1 = new BarDataSet(yVals1, yDesc);
         set1.setBarSpacePercent(35f);
+        set1.setColor(Color.rgb(0, 150, 136));
 
         ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
         dataSets.add(set1);
+
+        BarData data = new BarData(xVals, dataSets);
+        data.setValueTextSize(10f);
+
+        chart.setData(data);
+        return  chart;
+    }
+
+    public static HorizontalBarChart setDataOfHorizontalBarChart(HorizontalBarChart chart, List<AmountTO> income, List<AmountTO> loss, String incomeDesc, String lossDesc) {
+
+        // Income Verpacken
+
+        ArrayList<String> xVals = new ArrayList<String>();
+        for (int i = 0; i < income.size(); i++) {
+            xVals.add(income.get(i).getName());
+        }
+
+        ArrayList<BarEntry> yVals1Income = new ArrayList<BarEntry>();
+
+        for (int i = 0; i < income.size(); i++) {
+            yVals1Income.add(new BarEntry((float) income.get(i).getValue(), i));
+        }
+
+        BarDataSet set1 = new BarDataSet(yVals1Income, incomeDesc);
+        set1.setBarSpacePercent(35f);
+        set1.setColor(Color.rgb(0,150,136));
+
+        // Loss verpacken
+
+        ArrayList<BarEntry> yValsLoss = new ArrayList<BarEntry>();
+
+        for (int i = 0; i < loss.size(); i++) {
+            yValsLoss.add(new BarEntry((float) loss.get(i).getValue(), i));
+        }
+
+        BarDataSet set2 = new BarDataSet(yValsLoss, lossDesc);
+        set2.setBarSpacePercent(35f);
+        set2.setColor(Color.rgb(240,128,128));
+
+        ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
+        dataSets.add(set1);
+        dataSets.add(set2);
 
         BarData data = new BarData(xVals, dataSets);
         data.setValueTextSize(10f);
