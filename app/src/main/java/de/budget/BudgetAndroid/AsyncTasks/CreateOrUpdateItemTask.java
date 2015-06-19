@@ -46,7 +46,7 @@ public class CreateOrUpdateItemTask extends AsyncTask<Object, Integer, ItemRespo
 
 
             try {
-                ItemResponse item = myApp.getBudgetOnlineService().createOrUpdateItem(myApp.getSession(), id, name, quantity, price, notice, receiptDate, category, basket);
+                ItemResponse item = myApp.getBudgetOnlineService().createOrUpdateItem(myApp.getSession(), id, name, quantity, price, notice, receiptDate, basket, category);
                 Log.d("INFO", item.toString());
                 Integer rt =  item.getReturnCode();
                 Log.d("INFO", "Returncode: " + rt.toString());

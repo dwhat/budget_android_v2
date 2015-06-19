@@ -91,7 +91,8 @@ public class VendorAnalysisFragment extends Fragment implements OnTaskCompleted 
             GetBasketsAmountForVendorsTask task = new GetBasketsAmountForVendorsTask(getActivity().getBaseContext(), myApp, new OnTaskCompleted() {
                 @Override
                 public void onTaskCompleted(Object o) {
-                    if(o == true){
+                    boolean success = (boolean) o;
+                    if(success == true){
                         loadingPanel.setVisibility(View.GONE);
                         chart.setVisibility(View.VISIBLE);
                         refreshChart(chart);
