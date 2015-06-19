@@ -89,9 +89,18 @@ public class IncomeAnalysisFragment extends Fragment {
             GetIncomeAmountForCategoriesTask task = new GetIncomeAmountForCategoriesTask(getActivity().getBaseContext(), myApp, new OnTaskCompleted() {
                 @Override
                 public void onTaskCompleted(Object o) {
-                    loadingPanel.setVisibility(View.GONE);
-                    chart.setVisibility(View.VISIBLE);
-                    refreshChart(chart);
+                    if(o == true){
+                        loadingPanel.setVisibility(View.GONE);
+                        chart.setVisibility(View.VISIBLE);
+                        refreshChart(chart);
+                    }
+                    else{
+                        loadingPanel.setVisibility(View.GONE);
+                        CharSequence text = "Bitte zuerst Ausgabe anlegen";
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(getActivity().getBaseContext(), text, duration);
+                        toast.show();
+                    }
                 }
             });
             task.execute();

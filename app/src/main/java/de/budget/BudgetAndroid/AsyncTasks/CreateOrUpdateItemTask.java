@@ -10,6 +10,7 @@ import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.MainActivity;
 import de.budget.BudgetService.Response.BasketResponse;
 import de.budget.BudgetService.Response.ItemResponse;
+import de.budget.BudgetService.dto.ItemTO;
 
 /**
  * Created by mark on 19/06/15.
@@ -67,7 +68,13 @@ public class CreateOrUpdateItemTask extends AsyncTask<Object, Integer, ItemRespo
             {
                 //erfolgreich eingeloggt
                 if (result.getReturnCode() == 200){
+
                     Log.d("Info", result.getItemTo().toString());
+
+                    ItemTO item = result.getItemTo();
+                    // set references
+                    myApp.getBasketById(item.getBasket()).setItem(item);
+
                 }
             }
             else

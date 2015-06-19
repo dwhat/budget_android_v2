@@ -1250,7 +1250,8 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                 return result;
             }
             else {
-                throw new Exception("Get loss was not successful!");
+                Log.d("INFO", "Keine Ausgaben vorhanden");
+                return null;
             }
         } catch (SoapFault e) {
             throw new Exception(e.getMessage());
@@ -1282,7 +1283,8 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                 return result;
             }
             else {
-                throw new Exception("Get income was not successful!");
+                Log.d("INFO", "Keine Einnahmen vorhanden");
+                return null;
             }
         } catch (SoapFault e) {
             throw new Exception(e.getMessage());
@@ -1326,7 +1328,8 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                 return result;
             }
             else {
-                throw new Exception("geItemsAmountForCategories was not successful!");
+                Log.d("INFO", "Keine Ausgaben vorhanden");
+                return null;
             }
         } catch (SoapFault e) {
             throw new Exception(e.getMessage());
@@ -1371,7 +1374,8 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                 return result;
             }
             else {
-                throw new Exception("getIncomeAmountForCategories was not successful!");
+                Log.d("INFO", "Keine Einnahmen vorhanden");
+                return null;
             }
         } catch (SoapFault e) {
             throw new Exception(e.getMessage());
@@ -1417,7 +1421,8 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                 return result;
             }
             else {
-                throw new Exception("getBasketsAmountForVendors was not successful!");
+                Log.d("INFO", "Keine Ausgaben vorhanden");
+                return null;
             }
         } catch (SoapFault e) {
             throw new Exception(e.getMessage());

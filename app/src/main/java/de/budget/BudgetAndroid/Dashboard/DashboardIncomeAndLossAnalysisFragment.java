@@ -19,6 +19,7 @@ import java.util.List;
 
 import de.budget.BudgetAndroid.AsyncTasks.GetBasketsAmountForVendorsTask;
 import de.budget.BudgetAndroid.AsyncTasks.GetIncomeAmountForCategoriesTask;
+import de.budget.BudgetAndroid.AsyncTasks.GetItemsAmountForCategoriesTask;
 import de.budget.BudgetAndroid.AsyncTasks.OnTaskCompleted;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.ChartMethods;
@@ -87,17 +88,36 @@ public class DashboardIncomeAndLossAnalysisFragment extends Fragment {
             GetIncomeAmountForCategoriesTask taskIncome = new GetIncomeAmountForCategoriesTask(getActivity().getBaseContext(), myApp, new OnTaskCompleted() {
                 @Override
                 public void onTaskCompleted(Object o) {
-                    refreshIncome = true;
-                    refreshChart(chart);
+                    if(o == true){
+                        loadingPanel.setVisibility(View.GONE);
+                        refreshIncome = true;
+                        refreshChart(chart);
+                    }
+                    else{
+                        loadingPanel.setVisibility(View.GONE);
+                        CharSequence text = "Bitte zuerst Einnahmen anlegen";
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(getActivity().getBaseContext(), text, duration);
+                        toast.show();
+                    }
                 }
             });
             taskIncome.execute();
-            GetBasketsAmountForVendorsTask taskLoss = new GetBasketsAmountForVendorsTask(getActivity().getBaseContext(), myApp, new OnTaskCompleted() {
+            GetItemsAmountForCategoriesTask taskLoss = new GetItemsAmountForCategoriesTask(getActivity().getBaseContext(), myApp, new OnTaskCompleted() {
                 @Override
                 public void onTaskCompleted(Object o) {
-                    loadingPanel.setVisibility(View.GONE);
-                    refreshLoss = true;
-                    refreshChart(chart);
+                    if(o == true){
+                        loadingPanel.setVisibility(View.GONE);
+                        refreshLoss = true;
+                        refreshChart(chart);
+                    }
+                    else{
+                        loadingPanel.setVisibility(View.GONE);
+                        CharSequence text = "Bitte zuerst Ausgaben anlegen";
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(getActivity().getBaseContext(), text, duration);
+                        toast.show();
+                    }
                 }
             });
             taskLoss.execute();

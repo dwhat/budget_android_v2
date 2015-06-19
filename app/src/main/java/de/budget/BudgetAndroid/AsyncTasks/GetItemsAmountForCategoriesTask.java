@@ -32,7 +32,7 @@ public class GetItemsAmountForCategoriesTask extends AsyncTask<String, Integer, 
 
         try {
             AmountListResponse repsonse = myApp.getBudgetOnlineService().getItemsAmountForCategories(myApp.getSession());
-            Integer rt =  repsonse.getReturnCode();
+            //Integer rt =  repsonse.getReturnCode();
             //Log.d("INFO", "Returncode: " + rt.toString());
             return repsonse;
         } catch (Exception e) {
@@ -56,6 +56,9 @@ public class GetItemsAmountForCategoriesTask extends AsyncTask<String, Integer, 
                 myApp.setItemsCategoriesAmount(result.getAmountList());
                 listener.onTaskCompleted(true);
                 Log.d("INFO", "Diagrammdaten erfolgreich geladen.");
+            }
+            else if(result.getReturnCode() == 404) {
+                listener.onTaskCompleted(false);
             }
         }
         else

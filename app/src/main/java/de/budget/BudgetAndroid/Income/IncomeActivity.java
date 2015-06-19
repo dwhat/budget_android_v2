@@ -101,7 +101,7 @@ public class IncomeActivity extends ActionBarActivity {
             labelIncomeDate.setText(f.format(savedRecipeDate));
 
             txtCategorySpinner.setSelection(myApp.getCategories().indexOf(income.getCategory()));
-        }
+        } else labelIncomeDate.setText(incomeReceiptDate);
     }
 
     @Override
