@@ -158,17 +158,16 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Only show items in the action bar relevant to this screen
+        // if the drawer is not showing. Otherwise, let the drawer
+        // decide what to show in the action bar.
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.main, menu);
             restoreActionBar();
             return true;
         }
 
-        this.menu = menu;
-        syncIcon = menu.getItem(R.id.action_sync);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -185,13 +184,6 @@ public class MainActivity extends ActionBarActivity
         // Wähle welches Bedienelement geklickt wurde
         switch (id) {
             case R.id.action_sync:
-
-                if (syncIcon == null) {
-                    ImageButton ib = (ImageButton) menu.getItem(R.id.action_sync);;
-                    ib.setAnimation(rotation);
-                } else {
-                    syncIcon.getActionView().startAnimation(rotation);
-                }
                 synchronizeApplication();
                 return true;
 

@@ -1,37 +1,29 @@
 package de.budget.BudgetAndroid.Loss;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.ByteArrayInputStream;
-import java.io.ObjectInputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import de.budget.BudgetAndroid.Annotations.Author;
 import de.budget.BudgetAndroid.AsyncTasks.CreateOrUpdateBasketTask;
-import de.budget.BudgetAndroid.AsyncTasks.CreateOrUpdateIncomeTask;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.Categories.CategorySpinnerAdapter;
 import de.budget.BudgetAndroid.PaymentSpinnerAdapter;
@@ -111,11 +103,11 @@ public class LossActivity extends ActionBarActivity {
             spinnerVendor   .setSelection(myApp.getVendors().indexOf(basket.getVendor()));
             spinnerPayment  .setSelection(myApp.getPayments().indexOf(basket.getPayment()));
 
-            itemArrayAdapter = new ItemArrayAdapter(this, R.layout.item_listview, basket.getItems());
+            itemArrayAdapter = new ItemArrayAdapter(this, R.layout.listview_item, basket.getItems());
 
         } else {
 
-            itemArrayAdapter = new ItemArrayAdapter(this, R.layout.item_listview, null);
+            itemArrayAdapter = new ItemArrayAdapter(this, R.layout.listview_item, null);
 
         }
 

@@ -8,8 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import de.budget.BudgetAndroid.Annotations.Author;
@@ -28,7 +26,7 @@ public class LossArrayAdapter extends ArrayAdapter<BasketTO> {
 
     public LossArrayAdapter(Context context, int resource, List<BasketTO> values) {
 
-        super(context, R.layout.loss_listview, values);
+        super(context, R.layout.listview_loss, values);
 
         this.context    = context;
         this.values     = values;
@@ -37,7 +35,7 @@ public class LossArrayAdapter extends ArrayAdapter<BasketTO> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.loss_listview, parent, false);
+        View rowView = inflater.inflate(R.layout.listview_loss, parent, false);
 
         SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yy");
 

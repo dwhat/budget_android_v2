@@ -5,24 +5,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,7 +21,6 @@ import de.budget.BudgetAndroid.AsyncTasks.GetItemsTask;
 import de.budget.BudgetAndroid.AsyncTasks.OnTaskCompleted;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetService.dto.BasketTO;
-import de.budget.BudgetService.dto.IncomeTO;
 import de.budget.R;
 
 
@@ -87,7 +77,7 @@ public class LossFragment extends Fragment implements OnTaskCompleted {
         myApp = (BudgetAndroidApplication) getActivity().getApplication();
         baskets = myApp.getBasket();
 
-        arrayAdapter = new LossArrayAdapter (getActivity(), R.layout.loss_listview, baskets);
+        arrayAdapter = new LossArrayAdapter (getActivity(), R.layout.listview_loss, baskets);
 
         loadingPanel = (RelativeLayout) rootView.findViewById(R.id.loadingPanel);
         listView = (ListView) rootView.findViewById(R.id.listView_loss);
@@ -169,8 +159,10 @@ public class LossFragment extends Fragment implements OnTaskCompleted {
     public void onTaskCompleted(Object o) {
         boolean success = (boolean) o;
         if (success) {
+            loadingPanel.findViewById(R.id.loadingPanel).setVisibility(View.GONE);
             startActivity(intent);
         } else {
+            loadingPanel.findViewById(R.id.loadingPanel).setVisibility(View.GONE);
             Toast.makeText(myApp, "Fehler! Items konnten nicht geladen werden!", Toast.LENGTH_SHORT).show();
         }
     }

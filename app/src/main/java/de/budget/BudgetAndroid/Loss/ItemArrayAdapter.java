@@ -8,8 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import de.budget.BudgetAndroid.Annotations.Author;
@@ -27,7 +25,7 @@ public class ItemArrayAdapter extends ArrayAdapter<ItemTO> {
 
     public ItemArrayAdapter(Context context, int resource, List<ItemTO> values) {
 
-        super(context, R.layout.item_listview, values);
+        super(context, R.layout.listview_item, values);
 
         this.context    = context;
         this.values     = values;
@@ -36,7 +34,7 @@ public class ItemArrayAdapter extends ArrayAdapter<ItemTO> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.item_listview, parent, false);
+        View rowView = inflater.inflate(R.layout.listview_item, parent, false);
 
         TextView itemName       = (TextView) rowView.findViewById(R.id.item_name);
         TextView itemCategory   = (TextView) rowView.findViewById(R.id.item_category);
