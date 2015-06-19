@@ -317,6 +317,8 @@ public class BudgetAndroidApplication extends Application{
         return basket.getItems();
     }
 
+
+
     public void setItemsCategoriesAmount(List<AmountTO> list){
         this.itemsCategoriesAmount = list;
     }

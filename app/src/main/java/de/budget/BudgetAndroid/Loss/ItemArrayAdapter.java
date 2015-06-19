@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import de.budget.BudgetAndroid.Annotations.Author;
+import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetService.dto.ItemTO;
 import de.budget.R;
 
@@ -19,15 +20,16 @@ import de.budget.R;
  */
 @Author(name="Mark")
 public class ItemArrayAdapter extends ArrayAdapter<ItemTO> {
-
+    private final BudgetAndroidApplication myApp;
     private final Context context;
     private final List<ItemTO> values;
 
-    public ItemArrayAdapter(Context context, int resource, List<ItemTO> values) {
+    public ItemArrayAdapter(Context context, BudgetAndroidApplication myApp, int resource, List<ItemTO> values) {
 
         super(context, R.layout.listview_item, values);
 
         this.context    = context;
+        this.myApp = myApp;
         this.values     = values;
     }
 
@@ -48,7 +50,7 @@ public class ItemArrayAdapter extends ArrayAdapter<ItemTO> {
 
         // TODO Categories
         itemName        .setText(values.get(position).getName());
-//        itemCategory    .setText(values.get(position).getCategory().getName());
+        itemCategory    .setText(myApp.getCategory(values.get(position).getCategory()).getName());
 //        itemAmount      .setText(String.valueOf(quantity));
 //        itemValue       .setText(String.valueOf(value));
         itemTotal       .setText( total + " €");

@@ -15,6 +15,7 @@ import de.budget.BudgetAndroid.Income.IncomeActivity;
 import de.budget.BudgetAndroid.Loss.LossActivity;
 import de.budget.BudgetAndroid.MainActivity;
 import de.budget.BudgetService.Response.BasketResponse;
+import de.budget.BudgetService.dto.BasketTO;
 import de.budget.BudgetService.dto.ItemTO;
 
 /**
@@ -23,14 +24,14 @@ import de.budget.BudgetService.dto.ItemTO;
 public class CreateOrUpdateBasketTask extends AsyncTask<Object, Integer, BasketResponse> {
 
     private Context context;
-    private static LossActivity activity;
     public static MainActivity nextActivity = new MainActivity();
     private static BudgetAndroidApplication myApp;
 
-    public CreateOrUpdateBasketTask(Context context, BudgetAndroidApplication myApp, LossActivity activity)
+    private List<ItemTO> items;
+
+    public CreateOrUpdateBasketTask(Context context, BudgetAndroidApplication myApp)
     {
         this.context = context;
-        this.activity = activity;
         this.myApp = myApp;
     }
 
@@ -40,21 +41,22 @@ public class CreateOrUpdateBasketTask extends AsyncTask<Object, Integer, BasketR
         int length = params.length;
         if(length != 8) return null;
 
-        int basketId        = (int)         params[0];
-        String name         = (String)      params[1];
-        String notice       = (String)      params[2];
-        Double amount       = (Double)      params[3];
-        Long date           = (Long)        params[4];
-        int paymentId       = (int)         params[5];
-        int vendorId        = (int)         params[6];
-        List<ItemTO> items  = (List<ItemTO>)params[7];
+        int basketId        = (int)             params[0];
+        String name         = (String)          params[1];
+        String notice       = (String)          params[2];
+        Double amount       = (Double)          params[3];
+        Long date           = (Long)            params[4];
+        int paymentId       = (int)             params[5];
+        int vendorId        = (int)             params[6];
+        this.items          = (List<ItemTO>)    params[7];
+
 
         Log.d("INFO", date + " : " + basketId + ". " + name + " " + notice + " " + amount + "€ " + paymentId + " " + vendorId);
 
 
         try {
-            //     public BasketResponse createOrUpdateBasket(int sessionId, int basketId, String name, String notice, double amount, long purchaseDate, int paymentId, int vendorId, List<ItemTO> items);
-            BasketResponse basket = myApp.getBudgetOnlineService().createOrUpdateBasket(myApp.getSession(), basketId, name, notice, amount, date, paymentId, vendorId, items, myApp);
+            //     public BasketResponse createOrUpdateBasket(int sessionId, int basketId, String name, String notice, double amount, long purchaseDate, int paymentId, int vendorId);
+            BasketResponse basket = myApp.getBudgetOnlineService().createOrUpdateBasket(myApp.getSession(), basketId, name, notice, amount, date, paymentId, vendorId, myApp);
             Log.d("INFO", basket.toString());
             Integer rt =  basket.getReturnCode();
             Log.d("INFO", "Returncode: " + rt.toString());
@@ -79,15 +81,20 @@ public class CreateOrUpdateBasketTask extends AsyncTask<Object, Integer, BasketR
                 if (result.getReturnCode() == 200){
 
                     Log.d("INFO", "Ausgabe erfolgreich angelegt.");
-
+                    BasketTO basket = result.getBasketTo();
                     // Update der alten Liste
-                    myApp.checkBasketList(result.getBasketTo());
+                    myApp.checkBasketList(basket);
+
+                    for(ItemTO item : items) {
+                        CreateOrUpdateItemTask task = new CreateOrUpdateItemTask(context ,myApp);
+                        task.execute(0, item.getName(), item.getQuantity(), item.getPrice(), item.getNotice(), item.getReceiptDate(), item.getCategory(), basket.getId());
+                    }
 
                     Toast.makeText(context, "Ausgabe gespeichert", Toast.LENGTH_SHORT).show();
 
                     //Nächste Activity anzeigen
                     Intent intent = new Intent(context, MainActivity.class);
-                    activity.startActivity(intent);
+                    context.startActivity(intent);
                 }
             }
             else

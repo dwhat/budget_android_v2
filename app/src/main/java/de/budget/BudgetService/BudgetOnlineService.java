@@ -256,8 +256,8 @@ public interface BudgetOnlineService {
 
     /**
      * Method to create a basket
-     * @author Marco
-     * @date 26.05.2015
+     * @author Mark
+     * @date 19.06.2015
      * @param sessionId
      * @param basketId
      * @param name
@@ -267,9 +267,27 @@ public interface BudgetOnlineService {
      * @param paymentId
      * @param vendorId
      * @param items   List with itemTO Objects to add to the basket
+     * @param myApp
      * @return
      */
     public BasketResponse createOrUpdateBasket(int sessionId, int basketId, String name, String notice, double amount, long purchaseDate, int paymentId, int vendorId, List<ItemTO> items, BudgetAndroidApplication myApp) throws Exception;
+
+    /**
+     * Method to create a basket
+     * @author Mark
+     * @date 19.06.2015
+     * @param sessionId
+     * @param basketId
+     * @param name
+     * @param notice
+     * @param amount
+     * @param purchaseDate
+     * @param paymentId
+     * @param vendorId
+     * @param myApp
+     * @return
+     */
+    public BasketResponse createOrUpdateBasket(int sessionId, int basketId, String name, String notice, double amount, long purchaseDate, int paymentId, int vendorId, BudgetAndroidApplication myApp) throws Exception;
 
     /**
      * Method to delete a basket
@@ -340,7 +358,7 @@ public interface BudgetOnlineService {
      * @param categoryId
      * @return
      */
-    public IncomeResponse createOrUpdateIncome(int sessionId, int incomeId, String name, double  quantity, double amount, String notice, long receiptDate, int categoryId, BudgetAndroidApplication myApp) throws Exception;
+    public IncomeResponse createOrUpdateIncome(int sessionId, int incomeId, String name, double quantity, double amount, String notice, long receiptDate, int categoryId, BudgetAndroidApplication myApp) throws Exception;
 
 
     /**
@@ -427,7 +445,7 @@ public interface BudgetOnlineService {
      * @param categoryId
      * @return
      */
-    public ItemResponse createOrUpdateItem(int sessionId, int itemId, String name, double  quantity, double price, String notice, long receiptDate, int basketId, int categoryId);
+    public ItemResponse createOrUpdateItem(int sessionId, int itemId, String name, double  quantity, double price, String notice, long receiptDate, int basketId, int categoryId) throws Exception;
 
     /**
      * @author Marco

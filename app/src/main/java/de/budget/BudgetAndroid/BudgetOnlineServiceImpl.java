@@ -3,7 +3,6 @@ package de.budget.BudgetAndroid;
 import android.util.Log;
 
 import de.budget.BudgetAndroid.Annotations.Author;
-import de.budget.BudgetAndroid.Loss.Item;
 import de.budget.BudgetService.BudgetOnlineService;
 import de.budget.BudgetService.Exception.InvalidLoginException;
 import de.budget.BudgetService.Response.AmountListResponse;
@@ -24,21 +23,18 @@ import de.budget.BudgetService.Response.UserResponse;
 import de.budget.BudgetService.Response.VendorListResponse;
 import de.budget.BudgetService.Response.VendorResponse;
 import de.budget.BudgetService.constants.BasketTOConstants;
-import de.budget.BudgetService.constants.ItemTOConstant;
 import de.budget.BudgetService.dto.*;
 
 import org.ksoap2.HeaderProperty;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
 import org.ksoap2.serialization.SoapObject;
-import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -601,6 +597,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
             returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
 
 
+            Log.d("INO", String.valueOf(returnCode));
             if (returnCode == 200) {
 
                 // Create new List for Basket Obejcts
@@ -662,13 +659,13 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
                 return result;
             }
-            else if(tmp == 404){
-                result.setReturnCode(tmp);
+            else if(returnCode == 404){
+                result.setReturnCode(returnCode);
                 result.setBasketList(new ArrayList<BasketTO>());
                 return result;
             }
             else {
-                throw new Exception("Create/Update category was not successful!");
+                throw new Exception("Get Basket was not successful!");
             }
         } catch (SoapFault e) {
             throw new Exception(e.getMessage());
@@ -699,7 +696,59 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @param purchaseDate
      * @param paymentId
      * @param vendorId
-     * @param items   List with itemTO Objects to add to the basket
+     * @param myApp
+     * @return
+     */
+    public BasketResponse createOrUpdateBasket(int sessionId, int basketId, String name, String notice, double amount, long purchaseDate, int paymentId, int vendorId, BudgetAndroidApplication myApp) throws Exception{
+
+        BasketResponse result = new BasketResponse();
+
+        String METHOD_NAME = "createOrUpdateBasket";
+
+        SoapObject response = null;
+
+        try {
+
+            response = executeSoapAction(METHOD_NAME, sessionId, basketId, name, notice, amount, purchaseDate, paymentId, vendorId);
+
+            Log.d(TAG, response.toString());
+
+            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+
+            SoapObject test= (SoapObject) response.getProperty(1);
+
+            int id = Integer.parseInt(test.getPrimitivePropertySafelyAsString("id"));
+
+            if (tmp == 200) {
+                result.setReturnCode(tmp);
+                Calendar c = new GregorianCalendar();
+                Long createDate = c.getTimeInMillis();
+                Long lastChanged = c.getTimeInMillis();
+                BasketTO basket = new BasketTO(id, name, notice, amount, createDate, purchaseDate, lastChanged, null, myApp.getVendorById(vendorId), myApp.getPaymentById(paymentId));
+                result.setBasketTo(basket);
+                return result;
+            }
+            else {
+                throw new Exception("Create/Update category was not successful!");
+            }
+        } catch (SoapFault e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    /**
+     * Method to create a basket
+     * @author Christopher
+     * @date 26.05.2015
+     * @param sessionId
+     * @param basketId
+     * @param name
+     * @param notice
+     * @param amount
+     * @param purchaseDate
+     * @param paymentId
+     * @param vendorId
+     * @param myApp
      * @return
      */
     public BasketResponse createOrUpdateBasket(int sessionId, int basketId, String name, String notice, double amount, long purchaseDate, int paymentId, int vendorId, List<ItemTO> items, BudgetAndroidApplication myApp) throws Exception{
@@ -711,8 +760,8 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
         SoapObject response = null;
 
         try {
-            response = executeSoapAction(METHOD_NAME, sessionId, basketId, name, notice, amount, purchaseDate, paymentId, vendorId, items);
 
+            response = executeSoapAction(METHOD_NAME, sessionId, basketId, name, notice, amount, purchaseDate, paymentId, vendorId, items);
             Log.d(TAG, response.toString());
 
             tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
@@ -736,6 +785,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
             throw new Exception(e.getMessage());
         }
     }
+
 
     /**
      * Method to delete a basket
@@ -1033,8 +1083,32 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @param categoryId
      * @return
      */
-    public ItemResponse createOrUpdateItem(int sessionId, int itemId, String name, double  quantity, double price, String notice, long receiptDate, int basketId, int categoryId){
-        return null;
+    public ItemResponse createOrUpdateItem(int sessionId, int itemId, String name, double  quantity, double price, String notice, long receiptDate, int basketId, int categoryId) throws Exception{
+        ItemResponse result = new ItemResponse();;
+        String METHOD_NAME = "createOrUpdateItem";
+        SoapObject response = null;
+        try {
+            response = executeSoapAction(METHOD_NAME, sessionId, itemId, name,  quantity, price, notice, receiptDate, basketId, categoryId);
+
+            Log.d(TAG, response.toString());
+
+            returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+
+            SoapObject test= (SoapObject) response.getProperty(1);
+
+            int id = Integer.parseInt(test.getPrimitivePropertySafelyAsString("id"));
+            if (returnCode == 200) {
+                result.setReturnCode(returnCode);
+                ItemTO item = new ItemTO(name, quantity, price, notice, receiptDate, basketId, categoryId);
+                result.setItemTo(item);
+                return result;
+            }
+            else {
+                throw new Exception("Create/Update Income was not successful!");
+            }
+        } catch (SoapFault e) {
+            throw new Exception(e.getMessage());
+        }
     }
 
     /**
@@ -1069,7 +1143,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
     public ItemListResponse getItemsByBasket(int sessionId, int basketId,  BudgetAndroidApplication myApp) throws Exception{
 
         ItemListResponse result = new ItemListResponse();
-        String METHOD_NAME = ItemTOConstant.GET_ITEMS_BY_BASKET;
+        String METHOD_NAME = ItemTO.GET_ITEMS_BY_BASKET;
         SoapObject response = null;
 
 
@@ -1101,31 +1175,20 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
                     for (int i = 1; i < response.getPropertyCount(); i++) {
 
-                        // Iterate throu SoapObject response by Property ID
                         SoapObject ListObject = (SoapObject) response.getProperty(i);
 
-                        //Log.d("INFO", "itemList zu basketId " + basketId + " gefunden : " + ListObject.toString() +
-                        //        " Länge: " + ListObject.getPropertyCount());
+                        int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString(ItemTO.ID));
+                        String name = ListObject.getPrimitivePropertySafelyAsString(ItemTO.NAME);
+                        double quantity = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString(ItemTO.QUANTITY));
+                        double price = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString(ItemTO.PRICE));
+                        String notice = ListObject.getPrimitivePropertySafelyAsString(ItemTO.NOTICE);
+                        long receiptDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(ItemTO.RECEIPTDATE));
+                        int categoryId = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString(ItemTO.CATEGORY));
 
 
-                        int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.ID));
-                        String name = ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.NAME);
-                        double quantity = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.QUANTITY));
-                        double price = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.PRICE));
-                        String notice = ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.NOTICE);
-                        // int period = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.PERIOD));
-                        long createDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.CREATE_DATE));
-                        long lastChanged = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.LAST_CHANGED));
-
-                        int categoryId = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.CATEGORY));
-
-
-                        // 	public ItemTO(int id, String name, double quantity, double price, String notice, int period, long createDate, long launchDate, long finishDate, long lastChanged, BasketTO basket, CategoryTO category) {
-                        ItemTO item = new ItemTO(id, name, quantity, price, notice, 0, createDate, 0, 0, lastChanged, basketId, categoryId);
+                        ItemTO item = new ItemTO(id, name, quantity, price, notice, receiptDate, basketId, categoryId);
 
                         itemList.add(item);
-
-
 
                     }
                 }

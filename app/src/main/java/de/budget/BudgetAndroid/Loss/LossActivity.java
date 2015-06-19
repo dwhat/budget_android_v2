@@ -113,11 +113,11 @@ public class LossActivity extends ActionBarActivity {
             spinnerVendor   .setSelection(myApp.getVendors().indexOf(basket.getVendor()));
             spinnerPayment  .setSelection(myApp.getPayments().indexOf(basket.getPayment()));
 
-            itemArrayAdapter = new ItemArrayAdapter(this, R.layout.listview_item, basket.getItems());
+            itemArrayAdapter = new ItemArrayAdapter(this, myApp, R.layout.listview_item, basket.getItems());
 
         } else {
             List<ItemTO> items = new ArrayList<>();
-            itemArrayAdapter = new ItemArrayAdapter(this, R.layout.listview_item, items);
+            itemArrayAdapter = new ItemArrayAdapter(this, myApp, R.layout.listview_item, items);
             editTextDate.setText(dateFormat.format(date));
         }
 
@@ -152,7 +152,7 @@ public class LossActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_loss, menu);
-        if(basket!=null) {
+        if(basket==null) {
             menu.findItem(R.id.action_delete).setVisible(false);
         }
         return true;
@@ -192,22 +192,22 @@ public class LossActivity extends ActionBarActivity {
         Long            purchaseDate=                       date.getTime();
         VendorTO        vendor      = (VendorTO)            spinnerVendor.getSelectedItem();
         PaymentTO       payment     = (PaymentTO)           spinnerPayment.getSelectedItem();
-        List<ItemTO>    items       =                       itemArrayAdapter.getValues();
+       // List<ItemTO>    items       =                       itemArrayAdapter.getValues();
 
-        Double itemSum = getItemSum(items);
-        if(itemSum < amount) Toast.makeText(this, "Gesamtsumme stimmt nicht!", Toast.LENGTH_SHORT).show();
+       // Double itemSum = getItemSum(items);
+        // if(itemSum < amount) Toast.makeText(this, "Gesamtsumme stimmt nicht!", Toast.LENGTH_SHORT).show();
 
-        Log.d("INFO", "Gesamt eingegeben: " + amount + " Gesamt berechnet " + itemSum);
+        // Log.d("INFO", "Gesamt eingegeben: " + amount + " Gesamt berechnet " + itemSum);
 
 
-        if(!"".equals(name) && !"".equals(notice) && !"".equals(amount) && !"".equals(purchaseDate) && vendor!=null && payment!=null)
+        if(!"".equals(name) && !"".equals(amount) && !"".equals(purchaseDate) && vendor!=null && payment!=null)
         {
             ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
             if(networkInfo != null && networkInfo.isConnected()){
-                CreateOrUpdateBasketTask task = new CreateOrUpdateBasketTask(this,myApp, this);
-                task.execute(basketId,  name, notice, amount, purchaseDate, payment.getId(), vendor.getId(), items);
+                CreateOrUpdateBasketTask task = new CreateOrUpdateBasketTask(this,myApp);
+                task.execute(basketId,  name, notice, amount, purchaseDate, payment.getId(), vendor.getId());
             }
             else {
                 Toast.makeText(this, "Keine Netzwerkverbindung! :(!", Toast.LENGTH_SHORT).show();

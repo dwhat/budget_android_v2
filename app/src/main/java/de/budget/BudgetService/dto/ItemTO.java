@@ -16,12 +16,8 @@ public class ItemTO implements Serializable {
 	private String name;	
 	private double quantity;	
 	private double price;	
-	private String notice;		
-	private int period;
-	private long createDate;
-	private long launchDate;
-	private long finishDate;
-	private long lastChanged;
+	private String notice;
+	private long receiptDate;
 //	private Timestamp createDate;
 //	private Timestamp launchDate;
 //	private Timestamp finishDate;
@@ -29,6 +25,19 @@ public class ItemTO implements Serializable {
 	private int basket;
 	private int category;
 
+
+    public static final String GET_ITEMS_BY_BASKET = "getItemsByBasket";
+
+    public static final String ID = "id";
+    public static final String NAME ="name";
+    public static final String QUANTITY = "quantity";
+    public static final String PRICE = "price";
+    public static final String NOTICE = "notice";
+    public static final String RECEIPTDATE = "receiptDate";
+    public static final String BASKET = "basketId";
+    public static final String CATEGORY = "categoryId";
+
+	/**
 	/**
 	 * Deafault Constructor
 	 * @author Marco
@@ -77,25 +86,37 @@ public class ItemTO implements Serializable {
 	 * @param quantity
 	 * @param price
 	 * @param notice
-	 * @param period
-	 * @param createDate
-	 * @param launchDate
-	 * @param finishDate
-	 * @param lastChanged
 	 * @param basket
 	 * @param category
 	 */
-	public ItemTO(int id, String name, double quantity, double price, String notice, int period, long createDate, long launchDate, long finishDate, long lastChanged, int basket, int category) {
+	public ItemTO(int id, String name, double quantity, double price, String notice, long receiptDate, int basket, int category) {
 		this.id = id;
 		this.name = name;
 		this.quantity = quantity;
 		this.price = price;
 		this.notice = notice;
-		this.period = period;
-		this.createDate = createDate;
-		this.finishDate = finishDate;
-		this.launchDate = launchDate;
-		this.lastChanged = lastChanged;
+		this.receiptDate = receiptDate;
+		this.category = category;
+		this.basket = basket;
+	}
+
+	/**
+	 * @author Mark
+	 * @date 19.06.2015
+	 * @param name
+	 * @param quantity
+	 * @param price
+	 * @param notice
+	 * @param basket
+	 * @param category
+	 */
+
+	public ItemTO(String name, double quantity, double price, String notice, long receiptDate, int basket, int category) {
+		this.name = name;
+		this.quantity = quantity;
+		this.price = price;
+		this.notice = notice;
+		this.receiptDate = receiptDate;
 		this.category = category;
 		this.basket = basket;
 	}
@@ -190,24 +211,24 @@ public class ItemTO implements Serializable {
 		this.notice = notice;
 	}
 
-
-	/**
-	 * @author Marco
-	 * @date 19.05.2015
-	 * @return the period
-	 */
-	public int getPeriod() {
-		return period;
-	}
-
-	/**
-	 * @author Marco
-	 * @date 19.05.2015
-	 * @param period the period to set
-	 */
-	public void setPeriod(int period) {
-		this.period = period;
-	}
+//
+//	/**
+//	 * @author Marco
+//	 * @date 19.05.2015
+//	 * @return the period
+//	 */
+//	public int getPeriod() {
+//		return period;
+//	}
+//
+//	/**
+//	 * @author Marco
+//	 * @date 19.05.2015
+//	 * @param period the period to set
+//	 */
+//	public void setPeriod(int period) {
+//		this.period = period;
+//	}
 
 //	/**
 //	 * @author Marco
@@ -280,79 +301,87 @@ public class ItemTO implements Serializable {
 //	public void setLastChanged(Timestamp lastChanged) {
 //		this.lastChanged = lastChanged;
 //	}
+//
+//	/**
+//	 * @author Marco
+//	 * @date 19.05.2015
+//	 * @return the createDate
+//	 */
+//	public long getCreateDate() {
+//		return createDate;
+//	}
+//
+//	/**
+//	 * @author Marco
+//	 * @date 19.05.2015
+//	 * @param createDate the createDate to set
+//	 */
+//	public void setCreateDate(long createDate) {
+//		this.createDate = createDate;
+//	}
+//
+//	/**
+//	 * @author Marco
+//	 * @date 19.05.2015
+//	 * @return the launchDate
+//	 */
+//	public long getLaunchDate() {
+//		return launchDate;
+//	}
+//
+//	/**
+//	 * @author Marco
+//	 * @date 19.05.2015
+//	 * @param launchDate the launchDate to set
+//	 */
+//	public void setLaunchDate(long launchDate) {
+//		this.launchDate = launchDate;
+//	}
+//
+//	/**
+//	 * @author Marco
+//	 * @date 19.05.2015
+//	 * @return the finishDate
+//	 */
+//	public long getFinishDate() {
+//		return finishDate;
+//	}
+//
+//	/**
+//	 * @author Marco
+//	 * @date 19.05.2015
+//	 * @param finishDate the finishDate to set
+//	 */
+//	public void setFinishDate(long finishDate) {
+//		this.finishDate = finishDate;
+//	}
+//
+//	/**
+//	 * @author Marco
+//	 * @date 19.05.2015
+//	 * @return the lastChanged
+//	 */
+//	public long getLastChanged() {
+//		return lastChanged;
+//	}
+//
+//	/**
+//	 * @author Marco
+//	 * @date 19.05.2015
+//	 * @param lastChanged the lastChanged to set
+//	 */
+//	public void setLastChanged(long lastChanged) {
+//		this.lastChanged = lastChanged;
+//	}
 
-	/**
-	 * @author Marco
-	 * @date 19.05.2015
-	 * @return the createDate
-	 */
-	public long getCreateDate() {
-		return createDate;
+
+	public long getReceiptDate() {
+		return this.receiptDate;
 	}
 
-	/**
-	 * @author Marco
-	 * @date 19.05.2015
-	 * @param createDate the createDate to set
-	 */
-	public void setCreateDate(long createDate) {
-		this.createDate = createDate;
+	public void setReceiptDate(long receiptDate) {
+		this.receiptDate = receiptDate;
 	}
-
-	/**
-	 * @author Marco
-	 * @date 19.05.2015
-	 * @return the launchDate
-	 */
-	public long getLaunchDate() {
-		return launchDate;
-	}
-
-	/**
-	 * @author Marco
-	 * @date 19.05.2015
-	 * @param launchDate the launchDate to set
-	 */
-	public void setLaunchDate(long launchDate) {
-		this.launchDate = launchDate;
-	}
-
-	/**
-	 * @author Marco
-	 * @date 19.05.2015
-	 * @return the finishDate
-	 */
-	public long getFinishDate() {
-		return finishDate;
-	}
-
-	/**
-	 * @author Marco
-	 * @date 19.05.2015
-	 * @param finishDate the finishDate to set
-	 */
-	public void setFinishDate(long finishDate) {
-		this.finishDate = finishDate;
-	}
-
-	/**
-	 * @author Marco
-	 * @date 19.05.2015
-	 * @return the lastChanged
-	 */
-	public long getLastChanged() {
-		return lastChanged;
-	}
-
-	/**
-	 * @author Marco
-	 * @date 19.05.2015
-	 * @param lastChanged the lastChanged to set
-	 */
-	public void setLastChanged(long lastChanged) {
-		this.lastChanged = lastChanged;
-	}
-
 
 	/**
 	 * @author Marco

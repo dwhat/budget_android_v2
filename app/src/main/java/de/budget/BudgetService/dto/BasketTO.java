@@ -99,6 +99,34 @@ public class BasketTO implements Serializable{
 		this.items = items;
 	}
 
+	/**
+	 * @author Mark
+	 * @date 17.06.2015
+	 * @param id
+	 * @param name
+	 * @param notice
+	 * @param amount
+	 * @param createDate
+	 * @param purchaseDate
+	 * @param lastChanged
+	 * @param user
+	 * @param vendor
+	 * @param payment
+	 */
+	public BasketTO(int id, String name, String notice, double amount, long createDate, long purchaseDate, long lastChanged, UserTO user, VendorTO vendor, PaymentTO payment) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.notice = notice;
+		this.amount = amount;
+		this.createDate = createDate;
+		this.purchaseDate =purchaseDate;
+		this.lastChanged = lastChanged;
+		this.user = user;
+		this.vendor = vendor;
+		this.payment = payment;
+	}
+
 
 	public boolean isOccupied() {
 		return this.occupied;
