@@ -306,10 +306,8 @@ public class BudgetAndroidApplication extends Application{
     public void setItems(List< ItemTO> list){
         ListIterator <ItemTO> li = list.listIterator();
         while (li.hasNext()) {
-
             ItemTO item = li.next();
-            int basketIdofItem = item.getBasket().getId();
-            BasketTO basket = getBasketById(basketIdofItem);
+            BasketTO basket = getBasketById(item.getBasket());
             basket.setItem(item);
         }
     }

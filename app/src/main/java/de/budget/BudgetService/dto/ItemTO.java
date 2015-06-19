@@ -26,8 +26,8 @@ public class ItemTO implements Serializable {
 //	private Timestamp launchDate;
 //	private Timestamp finishDate;
 //	private Timestamp lastChanged;
-	private BasketTO basket;
-	private CategoryTO category;
+	private int basket;
+	private int category;
 
 	/**
 	 * Deafault Constructor
@@ -85,7 +85,7 @@ public class ItemTO implements Serializable {
 	 * @param basket
 	 * @param category
 	 */
-	public ItemTO(int id, String name, double quantity, double price, String notice, int period, long createDate, long launchDate, long finishDate, long lastChanged, BasketTO basket, CategoryTO category) {
+	public ItemTO(int id, String name, double quantity, double price, String notice, int period, long createDate, long launchDate, long finishDate, long lastChanged, int basket, int category) {
 		this.id = id;
 		this.name = name;
 		this.quantity = quantity;
@@ -359,7 +359,7 @@ public class ItemTO implements Serializable {
 	 * @date 19.05.2015
 	 * @return the basket
 	 */
-	public BasketTO getBasket() {
+	public int getBasket() {
 		return basket;
 	}
 
@@ -368,7 +368,7 @@ public class ItemTO implements Serializable {
 	 * @date 19.05.2015
 	 * @param basket the basket to set
 	 */
-	public void setBasket(BasketTO basket) {
+	public void setBasket(int basket) {
 		this.basket = basket;
 	}
 
@@ -377,7 +377,7 @@ public class ItemTO implements Serializable {
 	 * @date 19.05.2015
 	 * @return the category
 	 */
-	public CategoryTO getCategory() {
+	public int getCategory() {
 		return category;
 	}
 
@@ -386,7 +386,7 @@ public class ItemTO implements Serializable {
 	 * @date 19.05.2015
 	 * @param category the category to set
 	 */
-	public void setCategory(CategoryTO category) {
+	public void setCategory(int category) {
 		this.category = category;
 	}
 }

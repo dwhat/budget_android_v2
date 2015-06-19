@@ -1119,12 +1119,9 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
                         int categoryId = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString(ItemTOConstant.CATEGORY));
 
-                        CategoryTO categoryTO = myApp.getCategory(categoryId);
-
-                        BasketTO basketTO = myApp.getBasketById(basketId);
 
                         // 	public ItemTO(int id, String name, double quantity, double price, String notice, int period, long createDate, long launchDate, long finishDate, long lastChanged, BasketTO basket, CategoryTO category) {
-                        ItemTO item = new ItemTO(id, name, quantity, price, notice, 0, createDate, 0, 0, lastChanged, basketTO, categoryTO);
+                        ItemTO item = new ItemTO(id, name, quantity, price, notice, 0, createDate, 0, 0, lastChanged, basketId, categoryId);
 
                         itemList.add(item);
 

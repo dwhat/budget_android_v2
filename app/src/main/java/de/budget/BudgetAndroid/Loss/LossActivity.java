@@ -55,7 +55,7 @@ public class LossActivity extends ActionBarActivity {
     private static Date                 date;
 
     private EditText    editTextName;
-    private static EditText    editTextDate;
+    private static EditText editTextDate;
     private EditText    editTextTotal;
     private EditText    editTextNotice;
     private Spinner     spinnerPayment;
@@ -116,8 +116,8 @@ public class LossActivity extends ActionBarActivity {
             itemArrayAdapter = new ItemArrayAdapter(this, R.layout.listview_item, basket.getItems());
 
         } else {
-
-            itemArrayAdapter = new ItemArrayAdapter(this, R.layout.listview_item, null);
+            List<ItemTO> items = new ArrayList<>();
+            itemArrayAdapter = new ItemArrayAdapter(this, R.layout.listview_item, items);
             editTextDate.setText(dateFormat.format(date));
         }
 
@@ -200,7 +200,7 @@ public class LossActivity extends ActionBarActivity {
         Log.d("INFO", "Gesamt eingegeben: " + amount + " Gesamt berechnet " + itemSum);
 
 
-        if(!"".equals(name) && !"".equals(notice) && !"".equals(amount) && !"".equals(purchaseDate) && vendor!=null && payment!=null  && items!=null)
+        if(!"".equals(name) && !"".equals(notice) && !"".equals(amount) && !"".equals(purchaseDate) && vendor!=null && payment!=null)
         {
             ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -261,7 +261,7 @@ public class LossActivity extends ActionBarActivity {
             item.setName(name);
             item.setPrice(Double.parseDouble(value));
             item.setQuantity(Double.parseDouble(amount));
-            item.setCategory(myApp.getCategory(category.getId()));
+            item.setCategory(category.getId());
 
             BigDecimal sum = round( (Float.parseFloat( amount ) * Float.parseFloat( value )) , 2);
 
@@ -345,9 +345,8 @@ public class LossActivity extends ActionBarActivity {
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            Calendar c = new GregorianCalendar(year, month, day);
-            date = c.getTime();
-            editTextDate.setText(dateFormat.format(c));
+            date = new Date(year, month, day);
+            editTextDate.setText(dateFormat.format(date));
         }
     }
 
