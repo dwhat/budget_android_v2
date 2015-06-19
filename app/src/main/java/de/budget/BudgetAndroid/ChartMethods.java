@@ -11,6 +11,7 @@ import com.github.mikephil.charting.utils.PercentFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.budget.BudgetService.dto.AmountTO;
 import de.budget.BudgetService.dto.ObjectTO;
 import de.budget.BudgetService.dto.VendorTO;
 import de.budget.R;
@@ -58,7 +59,7 @@ public final class ChartMethods {
         set1.setColors(colors);
         PieData data = new PieData(xVals, set1);
         data.setValueTextSize(15f);
-        data.setValueFormatter(new DefaultValueFormatter(2));
+        data.setValueFormatter(new EuroValueFormatter());
         chart.setData(data);
         chart.highlightValues(null);
         chart.invalidate();
@@ -87,17 +88,17 @@ public final class ChartMethods {
         return chart;
     }
 
-    public static HorizontalBarChart setDataOfHorizontalBarChart(HorizontalBarChart chart, List<ObjectTO> values) {
+    public static HorizontalBarChart setDataOfHorizontalBarChart(HorizontalBarChart chart, List<AmountTO> values) {
 
         ArrayList<String> xVals = new ArrayList<String>();
         for (int i = 0; i < values.size(); i++) {
-            //xVals.add(values.get(i).getName());
+            xVals.add(values.get(i).getName());
         }
 
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
 
         for (int i = 0; i < values.size(); i++) {
-            //yVals1.add(new BarEntry(val, i));
+            yVals1.add(new BarEntry((float) values.get(i).getValue(), i));
         }
 
         BarDataSet set1 = new BarDataSet(yVals1, "DataSet");

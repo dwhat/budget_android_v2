@@ -58,7 +58,7 @@
     <string name="login">Login</string>
 
     <!-- Dashboard Activity -->
-    <string name="period">Einnahmen/Ausgaben der letzten 365 Tage"</string>
+    <string name="period">Einnahmen/Ausgaben der letzten 365 Tage</string>
 
     <!-- Register Activity -->
     <string name="title_activity_register">Register</string>
@@ -142,9 +142,9 @@
         <item>Allright world, time to take you on!</item>
         <item>We like you.</item>
         <item>Always get a plenty of sleep, if you can.</item>
-        <item>What a day! What can not be accomplished on such a day?</item>
         <item>Your\'re here! The day just got better.</item>
-        <item>Sometimes you eat the bear and sometimes the bear, well, he eats you.</item>
+        <item>Sometimes you eat the bear and sometimes\n the bear, well, he eats you.</item>
+        <item>Doesn\’t expecting the unexpected\nmake the unexpected expected?</item>
     </string-array>
     <string name="title_activity_sync">Syncing...</string>
 

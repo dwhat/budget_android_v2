@@ -11,6 +11,7 @@ import java.util.ListIterator;
 
 import de.budget.BudgetService.BudgetOnlineService;
 import de.budget.BudgetService.Response.CategoryListResponse;
+import de.budget.BudgetService.dto.AmountTO;
 import de.budget.BudgetService.dto.BasketTO;
 import de.budget.BudgetService.dto.CategoryTO;
 import de.budget.BudgetService.dto.IncomeTO;
@@ -31,6 +32,9 @@ public class BudgetAndroidApplication extends Application{
     private List<PaymentTO> payments;
     private List<IncomeTO> income;
     private List<BasketTO> basket;
+    private List<AmountTO> itemsCategoriesAmount;
+    private List<AmountTO> incomeCategoriesAmount;
+    private List<AmountTO> vendorsAmount;
     private boolean firstStart = true;
     private int initialDataCounter = 0;
     private double incomeLastPeriod = 0.0;
@@ -306,6 +310,31 @@ public class BudgetAndroidApplication extends Application{
         BasketTO basket = getBasketById(basketId);
         return basket.getItems();
     }
+
+    public void setItemsCategoriesAmount(List<AmountTO> list){
+        this.itemsCategoriesAmount = list;
+    }
+
+    public List<AmountTO> getItemsCategoriesAmount(){
+        return this.itemsCategoriesAmount;
+    }
+
+    public List<AmountTO> getVendorsAmount() {
+        return vendorsAmount;
+    }
+
+    public void setVendorsAmount(List<AmountTO> vendorsAmount) {
+        this.vendorsAmount = vendorsAmount;
+    }
+
+    public List<AmountTO> getIncomeCategoriesAmount() {
+        return incomeCategoriesAmount;
+    }
+
+    public void setIncomeCategoriesAmount(List<AmountTO> incomeCategoriesAmount) {
+        this.incomeCategoriesAmount = incomeCategoriesAmount;
+    }
+
 
     @Override
     public void onTerminate() {

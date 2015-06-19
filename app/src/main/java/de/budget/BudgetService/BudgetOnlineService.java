@@ -214,7 +214,23 @@ public interface BudgetOnlineService {
      */
     public ReturnCodeResponse deleteCategory(int sessionId, int categoryId) throws Exception;
 
+    /**
+     * Method to get all Categories of a use where income is true
+     * @author Marco
+     * @date 09.06.2015
+     * @param sessionId
+     * @return
+     */
+    public CategoryListResponse getCategorysOfIncome(int sessionId);
 
+    /**
+     * Method to get all Categories of a use where income is false
+     * @author Marco
+     * @date 09.06.2015
+     * @param sessionId
+     * @return
+     */
+    public CategoryListResponse getCategorysOfLoss(int sessionId);
 
 
 
@@ -367,6 +383,16 @@ public interface BudgetOnlineService {
 
 
     /**
+     * Method to get the Amount of all income, which are assigned to a special category
+     * @author Marco
+     * @date 18.06.2015
+     * @param sessionId
+     * @param categoryId
+     * @return
+     */
+    public AmountResponse getIncomeAmountByCategory(int sessionId, int categoryId);
+
+    /**
      * gets all income of the actual month
      * @author Marco
      * @param sessionId
@@ -441,6 +467,14 @@ public interface BudgetOnlineService {
      */
     public ItemListResponse getItemsByLossCategory(int sessionId, int categoryId);
 
+    /**
+     * Method to get the amount of all items, which are assigned to a special category
+     * @author Marco
+     * @param sessionId
+     * @param categoryId
+     * @return
+     */
+    public AmountResponse getItemsAmountByLossCategory(int sessionId, int categoryId) throws Exception;
 
 	/*#################      XYZ - SECTION     ##############*/
 
@@ -462,6 +496,28 @@ public interface BudgetOnlineService {
      */
     public AmountResponse getIncomeByPeriod(int sessionId, int daysOfPeriod) throws Exception;
 
+    /**
+     * @author Marco
+     * @date 19.05.2015
+     * @param sessionId
+     * @return
+     */
+    public AmountListResponse getItemsAmountForCategories(int sessionId) throws Exception;
 
+    /**
+     * @author Marco
+     * @date 19.05.2015
+     * @param sessionId
+     * @return
+     */
+    public AmountListResponse getIncomeAmountForCategories(int sessionId) throws Exception;
+
+    /**
+     * @author Christopher
+     * @date 19.05.2015
+     * @param sessionId
+     * @return
+     */
+    public AmountListResponse getBasketsAmountForVendors(int sessionId) throws Exception;
 
 }

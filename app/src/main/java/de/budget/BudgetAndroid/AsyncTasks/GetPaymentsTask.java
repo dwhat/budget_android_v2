@@ -17,14 +17,16 @@ import de.budget.BudgetService.Response.VendorListResponse;
     */
 public class GetPaymentsTask extends AsyncTask<String, Integer, PaymentListResponse>
 {
+    private OnTaskCompleted listener = null;
     private Context context;
     private static SyncActivity activity;
     private static BudgetAndroidApplication myApp;
 
-    public GetPaymentsTask(Context context, BudgetAndroidApplication myApp)
+    public GetPaymentsTask(Context context, BudgetAndroidApplication myApp, OnTaskCompleted listener)
     {
         this.context = context;
         this.myApp = myApp;
+        this.listener = listener;
     }
 
 
@@ -61,11 +63,13 @@ public class GetPaymentsTask extends AsyncTask<String, Integer, PaymentListRespo
                 myApp.setPayments(result.getPaymentList());
                 myApp.increaseInitialDataCounter();
                 Log.d("INFO", "Zahlungsartenliste erfolgreich angelegt.");
+                listener.onTaskCompleted(true);
             }
         }
         else
         {
             Log.d("INFO", "Zahlungsarten konnten nicht geladen werden.");
+            listener.onTaskCompleted(false);
 
         }
     }

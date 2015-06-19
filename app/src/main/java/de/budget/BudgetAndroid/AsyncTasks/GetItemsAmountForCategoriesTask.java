@@ -1,28 +1,23 @@
 package de.budget.BudgetAndroid.AsyncTasks;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
-import de.budget.BudgetAndroid.Login;
-import de.budget.BudgetAndroid.MainActivity;
-import de.budget.BudgetAndroid.SyncActivity;
-import de.budget.BudgetService.Response.CategoryListResponse;
+import de.budget.BudgetService.Response.AmountListResponse;
 
 /*
     * @Author Christopher
-    * @Date 09.06.2015
+    * @Date 19.06.2015
     */
-public class GetCategoriesTask extends AsyncTask<String, Integer, CategoryListResponse>
+public class GetItemsAmountForCategoriesTask extends AsyncTask<String, Integer, AmountListResponse>
 {
     private OnTaskCompleted listener = null;
     private Context context;
     private static BudgetAndroidApplication myApp;
 
-    public GetCategoriesTask(Context context, BudgetAndroidApplication myApp, OnTaskCompleted listener)
+    public GetItemsAmountForCategoriesTask(Context context, BudgetAndroidApplication myApp, OnTaskCompleted listener)
     {
         this.context = context;
         this.myApp = myApp;
@@ -31,15 +26,15 @@ public class GetCategoriesTask extends AsyncTask<String, Integer, CategoryListRe
 
 
     @Override
-    protected CategoryListResponse doInBackground(String... params){
+    protected AmountListResponse doInBackground(String... params){
         if(params.length != 0)
             return null;
 
         try {
-            CategoryListResponse myCategorys = myApp.getBudgetOnlineService().getCategorys(myApp.getSession());
-            Integer rt =  myCategorys.getReturnCode();
+            AmountListResponse repsonse = myApp.getBudgetOnlineService().getItemsAmountForCategories(myApp.getSession());
+            Integer rt =  repsonse.getReturnCode();
             //Log.d("INFO", "Returncode: " + rt.toString());
-            return myCategorys;
+            return repsonse;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,21 +47,20 @@ public class GetCategoriesTask extends AsyncTask<String, Integer, CategoryListRe
     }
 
     @Override
-    protected void onPostExecute(CategoryListResponse result)
+    protected void onPostExecute(AmountListResponse result)
     {
         if(result != null)
         {
             if (result.getReturnCode() == 200){
 
-                myApp.setCategories(result.getCategoryList());
-                myApp.increaseInitialDataCounter();
+                myApp.setItemsCategoriesAmount(result.getAmountList());
                 listener.onTaskCompleted(true);
-                Log.d("INFO", "KategorieListe erfolgreich angelegt.");
+                Log.d("INFO", "Diagrammdaten erfolgreich geladen.");
             }
         }
         else
         {
-            Log.d("INFO", "Kategorien konnten nicht geladen werden.");
+            Log.d("INFO", "Diagrammdaten konnten nicht geladen.");
             listener.onTaskCompleted(false);
         }
     }

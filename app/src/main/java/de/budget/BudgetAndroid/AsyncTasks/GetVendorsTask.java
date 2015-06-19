@@ -17,13 +17,15 @@ import de.budget.BudgetService.Response.VendorListResponse;
     */
 public class GetVendorsTask extends AsyncTask<String, Integer, VendorListResponse>
 {
+    private OnTaskCompleted listener = null;
     private Context context;
     private static BudgetAndroidApplication myApp;
 
-    public GetVendorsTask(Context context, BudgetAndroidApplication myApp)
+    public GetVendorsTask(Context context, BudgetAndroidApplication myApp, OnTaskCompleted listener)
     {
         this.context = context;
         this.myApp = myApp;
+        this.listener = listener;
     }
 
 
@@ -60,11 +62,13 @@ public class GetVendorsTask extends AsyncTask<String, Integer, VendorListRespons
                 myApp.setVendors(result.getVendorList());
                 myApp.increaseInitialDataCounter();
                 Log.d("INFO", "Händlerliste erfolgreich angelegt.");
+                listener.onTaskCompleted(true);
             }
         }
         else
         {
             Log.d("INFO", "Händler konnten nicht geladen werden.");
+            listener.onTaskCompleted(false);
 
         }
     }
