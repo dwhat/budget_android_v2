@@ -77,7 +77,7 @@ public class IncomeActivity extends ActionBarActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-
+            newIncome = false;
 
             // Schreibe Objekt in das Layout
             EditText txtIncomeName = (EditText) findViewById(R.id.income_name);
@@ -107,7 +107,7 @@ public class IncomeActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_income_new, menu);
+        getMenuInflater().inflate(R.menu.menu_income, menu);
         if(newIncome) {
             menu.findItem(R.id.action_delete).setVisible(false);
         }

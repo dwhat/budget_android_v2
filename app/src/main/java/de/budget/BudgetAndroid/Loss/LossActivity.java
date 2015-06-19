@@ -6,7 +6,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -22,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,6 +32,8 @@ import java.util.List;
 
 import de.budget.BudgetAndroid.Annotations.Author;
 import de.budget.BudgetAndroid.AsyncTasks.CreateOrUpdateBasketTask;
+import de.budget.BudgetAndroid.AsyncTasks.DeleteBasketTask;
+import de.budget.BudgetAndroid.AsyncTasks.DeleteIncomeTask;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.Categories.CategorySpinnerAdapter;
 import de.budget.BudgetAndroid.PaymentSpinnerAdapter;
@@ -151,7 +151,10 @@ public class LossActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_loss_new, menu);
+        getMenuInflater().inflate(R.menu.menu_loss, menu);
+        if(basket!=null) {
+            menu.findItem(R.id.action_delete).setVisible(false);
+        }
         return true;
     }
 
@@ -160,6 +163,9 @@ public class LossActivity extends ActionBarActivity {
         int id = item.getItemId();
         if (id == R.id.action_save) {
             save(null);
+            return true;
+        }else if (id == R.id.action_delete) {
+            delete(null);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -212,6 +218,27 @@ public class LossActivity extends ActionBarActivity {
             Toast.makeText(this, "Bitte alle Felder ausfüllen!", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Author(name="Mark")
+    public void delete (View v) {
+
+        Toast.makeText(this, "Löschen", Toast.LENGTH_SHORT).show();
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        if(networkInfo != null && networkInfo.isConnected()){
+            DeleteBasketTask task = new DeleteBasketTask(this, myApp);
+            task.execute(this.basket.getId());
+        }
+        else {
+            CharSequence text = "Keine Netzwerkverbindung! :(";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(this, text, duration);
+            toast.show();
+        }
+
+
+    };
 
     /*
      *

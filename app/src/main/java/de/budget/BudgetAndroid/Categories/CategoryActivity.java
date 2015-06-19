@@ -16,9 +16,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import de.budget.BudgetAndroid.AsyncTasks.CreateOrUpdateIncomeTask;
 import de.budget.BudgetAndroid.AsyncTasks.DeleteCategoryTask;
-import de.budget.BudgetAndroid.AsyncTasks.DeleteVendorTask;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetService.dto.CategoryTO;
 import de.budget.R;
@@ -66,7 +64,7 @@ public class CategoryActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_category_new, menu);
+        getMenuInflater().inflate(R.menu.menu_category, menu);
         if(newCategory) {
             menu.findItem(R.id.action_delete).setVisible(false);
         }

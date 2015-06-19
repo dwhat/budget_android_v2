@@ -265,6 +265,14 @@ public class BudgetAndroidApplication extends Application{
         }
     }
 
+    public void deleteBasket(int basketId){
+        for(int i=0; i<basket.size();i++){
+            if(basket.get(i).getId() == basketId) {
+                basket.remove(i);
+            }
+        }
+    }
+
     // Payment Section
     public void setPayments(List<PaymentTO> list){
         this.payments = list;
