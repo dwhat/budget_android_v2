@@ -36,6 +36,11 @@ public class BasketResponse extends ReturnCodeResponse {
 	public void setBasketTo(BasketTO basketTo) {
 		this.basketTo = basketTo;
 	}
+
+	@Override
+	public String toString(){
+		return basketTo.getCreateDate() + " : " +basketTo.getName() + ", " + basketTo.getAmount() + "€ from " + basketTo.getItems().size() + " items";
+	}
 	
 	
 

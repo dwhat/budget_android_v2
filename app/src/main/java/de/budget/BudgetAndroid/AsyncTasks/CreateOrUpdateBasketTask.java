@@ -40,24 +40,22 @@ public class CreateOrUpdateBasketTask extends AsyncTask<Object, Integer, BasketR
         int length = params.length;
         if(length != 8) return null;
 
-        int basketId        = (int)     params[0];
-        String name         = (String)  params[1];
-        String notice       = (String)  params[2];
-        Double amount       = (Double)  params[3];
-        Long purchaseDate   = (Long)    params[5];
-        int paymentId       = (int)     params[6];
-        int vendorId        = (int)     params[7];
+        int basketId        = (int)         params[0];
+        String name         = (String)      params[1];
+        String notice       = (String)      params[2];
+        Double amount       = (Double)      params[3];
+        Long date           = (Long)        params[4];
+        int paymentId       = (int)         params[5];
+        int vendorId        = (int)         params[6];
+        List<ItemTO> items  = (List<ItemTO>)params[7];
 
-        List<ItemTO> items = new ArrayList<>();
-        for (int i = 8; i < length; i++ ) {
-            items.add((ItemTO) params[i]);
-        }
+        Log.d("INFO", date + " : " + basketId + ". " + name + " " + notice + " " + amount + "€ " + paymentId + " " + vendorId);
 
 
         try {
-
             //     public BasketResponse createOrUpdateBasket(int sessionId, int basketId, String name, String notice, double amount, long purchaseDate, int paymentId, int vendorId, List<ItemTO> items);
-            BasketResponse basket = myApp.getBudgetOnlineService().createOrUpdateBasket(myApp.getSession(), basketId, name, notice, amount, purchaseDate, paymentId, vendorId, items);
+            BasketResponse basket = myApp.getBudgetOnlineService().createOrUpdateBasket(myApp.getSession(), basketId, name, notice, amount, date, paymentId, vendorId, items, myApp);
+            Log.d("INFO", basket.toString());
             Integer rt =  basket.getReturnCode();
             Log.d("INFO", "Returncode: " + rt.toString());
             return basket;
@@ -85,10 +83,7 @@ public class CreateOrUpdateBasketTask extends AsyncTask<Object, Integer, BasketR
                     // Update der alten Liste
                     myApp.checkBasketList(result.getBasketTo());
 
-                    //Toast anzeigen
-                    CharSequence text = "Ausgabe gespeichert!";
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
+                    Toast.makeText(context, "Ausgabe gespeichert", Toast.LENGTH_SHORT).show();
 
                     //Nächste Activity anzeigen
                     Intent intent = new Intent(context, MainActivity.class);
@@ -97,10 +92,7 @@ public class CreateOrUpdateBasketTask extends AsyncTask<Object, Integer, BasketR
             }
             else
             {
-                //Toast anzeigen
-                CharSequence text = "Ausgabe konnte nicht gespeichert werden.";
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+                Toast.makeText(context, "Ausgabe konnte nicht gespeichert werden.", Toast.LENGTH_SHORT).show();
             }
         }
 

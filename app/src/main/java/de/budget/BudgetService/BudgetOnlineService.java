@@ -269,7 +269,7 @@ public interface BudgetOnlineService {
      * @param items   List with itemTO Objects to add to the basket
      * @return
      */
-    public BasketResponse createOrUpdateBasket(int sessionId, int basketId, String name, String notice, double amount, long purchaseDate, int paymentId, int vendorId, List<ItemTO> items);
+    public BasketResponse createOrUpdateBasket(int sessionId, int basketId, String name, String notice, double amount, long purchaseDate, int paymentId, int vendorId, List<ItemTO> items, BudgetAndroidApplication myApp) throws Exception;
 
     /**
      * Method to delete a basket
@@ -279,7 +279,7 @@ public interface BudgetOnlineService {
      * @param basketID
      * @return
      */
-    public ReturnCodeResponse deleteBasket(int sessionId, int basketID);
+    public ReturnCodeResponse deleteBasket(int sessionId, int basketID) throws Exception;
 
     /**
      * Gibt die letzten Baskets als Liste zur�ck

@@ -31,18 +31,13 @@ import de.budget.R;
  * create an instance of this fragment.
  */
 public class IncomeListFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
     private ListView listView;
+    private List<IncomeTO> incomes;
+    private IncomeArrayAdapter arrayAdapter;
+    private BudgetAndroidApplication myApp;
 
     /**
      * Use this factory method to create a new instance of
@@ -55,10 +50,6 @@ public class IncomeListFragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static IncomeListFragment newInstance(String param1, String param2) {
         IncomeListFragment fragment = new IncomeListFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -69,10 +60,6 @@ public class IncomeListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -81,27 +68,17 @@ public class IncomeListFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.fragment_income_list, container, false);
 
+        myApp = (BudgetAndroidApplication) getActivity().getApplication();
 
-        // @Author Christopher
-        // 14.06.2015
-        // Abholen der Income
-        BudgetAndroidApplication myApp = (BudgetAndroidApplication) getActivity().getApplication();
-        List<IncomeTO> test = myApp.getIncome();
-        String[] income = new String[test.size()];
-        Log.d("INFO", "Size of Incomearray: " + test.size());
-        SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yy");
-        for (int i=0; i< test.size(); i++){
-            String date = DATE_FORMAT.format(new Date(test.get(i).getReceiptDate()));
-            income[i] = date + " | " + test.get(i).getName();
-        }
-        // Starten des Array Adapters
-        ArrayAdapter<String> ArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, income);
+        incomes = myApp.getIncome();
+
+        arrayAdapter = new IncomeArrayAdapter(getActivity(), R.layout.listview_income, incomes);
 
         // Listview ermitteln
         listView = (ListView)rootView.findViewById(R.id.listView_income);
 
         // ListView setzten mit entsprehcenden Objekten aus dem Adapter
-        listView.setAdapter(ArrayAdapter);
+        listView.setAdapter(arrayAdapter);
 
         // OnClick Listener für Interaktion
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -112,12 +89,11 @@ public class IncomeListFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), IncomeActivity.class);
 
                 // Bundle anlegen
-                Bundle bundle = new Bundle ();
-                int itemPosition     = position;
-                String  itemValue    = (String) listView.getItemAtPosition(position);
+                Bundle bundle       = new Bundle ();
+                int itemPosition    = position;
 
                 // Setzte im Bundle das Objekt
-                bundle.putInt("INCOME_POSITION", position);
+                bundle.putInt("POSITION", position);
 
                 // Übergebe das Objekt an den Intent
                 intent.putExtras(bundle);

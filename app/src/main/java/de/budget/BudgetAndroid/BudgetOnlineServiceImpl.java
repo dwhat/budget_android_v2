@@ -36,6 +36,8 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -700,8 +702,39 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @param items   List with itemTO Objects to add to the basket
      * @return
      */
-    public BasketResponse createOrUpdateBasket(int sessionId, int basketId, String name, String notice, double amount, long purchaseDate, int paymentId, int vendorId, List<ItemTO> items){
-        return null;
+    public BasketResponse createOrUpdateBasket(int sessionId, int basketId, String name, String notice, double amount, long purchaseDate, int paymentId, int vendorId, List<ItemTO> items, BudgetAndroidApplication myApp) throws Exception{
+
+        BasketResponse result = new BasketResponse();
+
+        String METHOD_NAME = "createOrUpdateBasket";
+
+        SoapObject response = null;
+
+        try {
+            response = executeSoapAction(METHOD_NAME, sessionId, basketId, name, notice, amount, purchaseDate, paymentId, vendorId, items);
+
+            Log.d(TAG, response.toString());
+
+            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+
+            SoapObject test= (SoapObject) response.getProperty(1);
+
+            int id = Integer.parseInt(test.getPrimitivePropertySafelyAsString("id"));
+
+            if (tmp == 200) {
+                result.setReturnCode(tmp);
+                Calendar c = new GregorianCalendar();
+                Long createDate = c.getTimeInMillis();
+                Long lastChanged = c.getTimeInMillis();
+                BasketTO basket = new BasketTO(id, name, notice, amount, createDate, purchaseDate, lastChanged, null, myApp.getVendorById(vendorId), myApp.getPaymentById(paymentId), items);
+                return result;
+            }
+            else {
+                throw new Exception("Create/Update category was not successful!");
+            }
+        } catch (SoapFault e) {
+            throw new Exception(e.getMessage());
+        }
     }
 
     /**
@@ -712,8 +745,26 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @param basketID
      * @return
      */
-    public ReturnCodeResponse deleteBasket(int sessionId, int basketID){
-        return null;
+    public ReturnCodeResponse deleteBasket(int sessionId, int basketID) throws Exception{
+        ReturnCodeResponse result = new ReturnCodeResponse();
+        String METHOD_NAME = "deleteBasket";
+        SoapObject response = null;
+        try {
+            response = executeSoapAction(METHOD_NAME, sessionId, basketID);
+            //Log.d(TAG, response.toString() + response.getPropertyCount());
+
+            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            if (tmp == 200) {
+                result.setReturnCode(tmp);
+                return result;
+            }
+            else {
+                throw new Exception("Delete Basket was not successful!");
+            }
+        } catch (SoapFault e) {
+            throw new Exception(e.getMessage());
+        }
+
     }
 
     /**

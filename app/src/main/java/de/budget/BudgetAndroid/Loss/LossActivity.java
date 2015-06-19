@@ -1,8 +1,11 @@
 package de.budget.BudgetAndroid.Loss;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -11,15 +14,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import de.budget.BudgetAndroid.Annotations.Author;
@@ -42,9 +52,10 @@ public class LossActivity extends ActionBarActivity {
     private List <VendorTO>             vendors;
     private List <PaymentTO>            payments;
     private BasketTO                    basket;
+    private static Date                 date;
 
     private EditText    editTextName;
-    private EditText    editTextDate;
+    private static EditText    editTextDate;
     private EditText    editTextTotal;
     private EditText    editTextNotice;
     private Spinner     spinnerPayment;
@@ -61,17 +72,26 @@ public class LossActivity extends ActionBarActivity {
     private PaymentSpinnerAdapter   spinnerPaymentArrayAdapter;
     private ItemArrayAdapter        itemArrayAdapter;
 
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loss);
 
+
         myApp       = (BudgetAndroidApplication) getApplication();
         categories  = myApp.getCategories();
         vendors     = myApp.getVendors();
         payments    = myApp.getPayments();
+        date        = new Date();
+
+        editTextName   = (EditText) findViewById(R.id.loss_name);
+        editTextDate   = (EditText) findViewById(R.id.loss_date);
+        editTextTotal  = (EditText) findViewById(R.id.loss_value);
+        editTextNotice = (EditText) findViewById(R.id.loss_notice);
+        spinnerVendor  = (Spinner) findViewById(R.id.loss_vendor);
+        spinnerPayment = (Spinner) findViewById(R.id.loss_payment);
 
         editTextItemName    = (EditText) findViewById(R.id.item_name);
         editTextItemAmount  = (EditText) findViewById(R.id.item_amount);
@@ -79,22 +99,12 @@ public class LossActivity extends ActionBarActivity {
         spinnerCategory     = (Spinner) findViewById(R.id.item_category);
         listView            = (ListView) findViewById(R.id.listView_item);
 
-
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
 
             int pos = bundle.getInt("POSITION");
             basket = myApp.getBasket().get(pos);
-
-            Log.d(this.getClass().toString(), "Show Basket: " + basket.toString());
-
-            editTextName   = (EditText) findViewById(R.id.loss_name);
-            editTextDate   = (EditText) findViewById(R.id.loss_date);
-            editTextTotal  = (EditText) findViewById(R.id.loss_value);
-            editTextNotice = (EditText) findViewById(R.id.loss_notice);
-            spinnerVendor  = (Spinner) findViewById(R.id.loss_vendor);
-            spinnerPayment = (Spinner) findViewById(R.id.loss_payment);
 
             editTextName    .setText(basket.getName());
             editTextDate    .setText(dateFormat.format(basket.getPurchaseDate()));
@@ -108,10 +118,8 @@ public class LossActivity extends ActionBarActivity {
         } else {
 
             itemArrayAdapter = new ItemArrayAdapter(this, R.layout.listview_item, null);
-
+            editTextDate.setText(dateFormat.format(date));
         }
-
-        // ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, myApp.getCategoriesName());
 
         spinnerCategoryArrayAdapter = new CategorySpinnerAdapter(this, R.layout.spinner_category, categories);
         spinnerVendorArrayAdapter = new VendorSpinnerAdapter(this, R.layout.spinner_vendor, vendors);
@@ -163,10 +171,6 @@ public class LossActivity extends ActionBarActivity {
     @Author(name="Mark")
     public void save(View v) {
 
-        showDialog();
-
-        //TODO Die eingengeben Werte an den Server schicken
-
         Toast.makeText(this, "Speichern", Toast.LENGTH_SHORT).show();
 
         int basketId = 0;
@@ -176,52 +180,37 @@ public class LossActivity extends ActionBarActivity {
             Log.d("Update", basketId + " " + basket.getName());
         }
 
-        String          basketName      =                       editTextName.getText().toString();
-        Long            basketDate      = Long.parseLong(       editTextDate.getText().toString());
-        Double          basketTotal     = Double.parseDouble(   editTextTotal.getText().toString());
-        String          basketNotice    =                       editTextNotice.getText().toString();
-        VendorTO        basketVendor    = (VendorTO)            spinnerVendor.getSelectedItem();
-        PaymentTO       basketPayment   = (PaymentTO)           spinnerPayment.getSelectedItem();
-        List<ItemTO>    basketItems     =                       itemArrayAdapter.getValues();
+        String          name        =                       editTextName.getText().toString();
+        String          notice      =                       editTextNotice.getText().toString();
+        Double          amount      = Double.parseDouble(   editTextTotal.getText().toString());
+        Long            purchaseDate=                       date.getTime();
+        VendorTO        vendor      = (VendorTO)            spinnerVendor.getSelectedItem();
+        PaymentTO       payment     = (PaymentTO)           spinnerPayment.getSelectedItem();
+        List<ItemTO>    items       =                       itemArrayAdapter.getValues();
 
-        Log.d("INFO", String.valueOf(basketTotal));
+        Double itemSum = getItemSum(items);
+        if(itemSum < amount) Toast.makeText(this, "Gesamtsumme stimmt nicht!", Toast.LENGTH_SHORT).show();
+
+        Log.d("INFO", "Gesamt eingegeben: " + amount + " Gesamt berechnet " + itemSum);
 
 
-        if(!"".equals(basketName) && !"".equals(basketDate) && !"".equals(basketTotal) && !"".equals(basketNotice) && !"".equals(basketVendor) && !"".equals(basketPayment) && basketItems!=null)
+        if(!"".equals(name) && !"".equals(notice) && !"".equals(amount) && !"".equals(purchaseDate) && vendor!=null && payment!=null  && items!=null)
         {
             ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
             if(networkInfo != null && networkInfo.isConnected()){
                 CreateOrUpdateBasketTask task = new CreateOrUpdateBasketTask(this,myApp, this);
-                // BasketResponse createOrUpdateBasket(int sessionId, int basketId, String name, String notice, double amount, long purchaseDate, int paymentId, int vendorId, List<ItemTO> items);
-                task.execute(basketId, basketName, basketNotice, basketTotal, basketDate, basketPayment.getId(), basketVendor.getId(), basketItems);
+                task.execute(basketId,  name, notice, amount, purchaseDate, payment.getId(), vendor.getId(), items);
             }
             else {
-                CharSequence text = "Keine Netzwerkverbindung! :(";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(this, text, duration);
-                toast.show();
+                Toast.makeText(this, "Keine Netzwerkverbindung! :(!", Toast.LENGTH_SHORT).show();
             }
         }
         else
         {
-            //Toast anzeigen
-            CharSequence text = "Bitte alle Felder ausfüllen!";
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(this, text, duration);
-            toast.show();
+            Toast.makeText(this, "Bitte alle Felder ausfüllen!", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    /*
-     * Zeige ein Dialog an um den Namen der Ausgabe und den Wert zu ermitteln
-     */
-    @Author(name="Mark")
-    private void showDialog() {
-        FragmentManager fm = getSupportFragmentManager();
-        LossDialog lossDialog = new LossDialog();
-        lossDialog.show(fm, "activity_loss_dialog");
     }
 
     /*
@@ -230,12 +219,11 @@ public class LossActivity extends ActionBarActivity {
     @Author(name="Mark")
     public void add(View v){
 
-        String name     = editTextItemName.getText().toString();
-        String amount   = editTextItemAmount.getText().toString();
-        String value    = editTextItemValue.getText().toString();
+        String name         = editTextItemName.getText().toString();
+        String amount       = editTextItemAmount.getText().toString();
+        String value        = editTextItemValue.getText().toString();
         CategoryTO category = (CategoryTO) spinnerCategory.getSelectedItem();
-
-        ItemTO item     = new ItemTO();
+        ItemTO item         = new ItemTO();
 
         if (name.isEmpty()) Toast.makeText(this, "Bitte Item Namen eingeben!", Toast.LENGTH_SHORT).show();
         else {
@@ -260,6 +248,17 @@ public class LossActivity extends ActionBarActivity {
             itemArrayAdapter.add(item);
         }
 
+    }
+
+    @Author(name="Mark")
+    public Double getItemSum(List<ItemTO> items) {
+        Double itemSum = 0.0;
+        Iterator<ItemTO> i = items.iterator();
+        while(i.hasNext()) {
+            ItemTO item = i.next();
+            itemSum += item.getPrice() * item.getQuantity();
+        }
+        return itemSum;
     }
 
     @Author(name="Mark")
@@ -291,6 +290,38 @@ public class LossActivity extends ActionBarActivity {
             value = "1";
         }
         return value;
+    }
+
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+
+    /**
+     * @Author Christopher
+     * @date 14.06.2015
+     */
+    public static class DatePickerFragment extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current date as the default date in the picker
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            // Create a new instance of DatePickerDialog and return it
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            Calendar c = new GregorianCalendar(year, month, day);
+            date = c.getTime();
+            editTextDate.setText(dateFormat.format(c));
+        }
     }
 
 }

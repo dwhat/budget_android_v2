@@ -150,7 +150,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/income_date"
             android:src="@drawable/ic_calendar"
-            android:background="@color/ColorPrimaryDark"
+            android:background="@color/ColorPrimary"
             android:onClick="showDatePickerDialog"/>
 
         <TextView

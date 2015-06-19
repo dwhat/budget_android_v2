@@ -77,7 +77,8 @@ public class IncomeActivity extends ActionBarActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            newIncome = false;
+
+
             // Schreibe Objekt in das Layout
             EditText txtIncomeName = (EditText) findViewById(R.id.income_name);
             EditText txtIncomeNotice = (EditText) findViewById(R.id.income_notice);
@@ -85,26 +86,21 @@ public class IncomeActivity extends ActionBarActivity {
             EditText txtIncomeAmount = (EditText) findViewById(R.id.income_amount);
             EditText txtIncomeQuantity = (EditText) findViewById(R.id.income_quantity);
 
+            int pos = bundle.getInt("POSITION");
 
-            // @author Christopher
-            int incomePos = bundle.getInt("INCOME_POSITION");
-            List<IncomeTO> tmp = myApp.getIncome();
-            IncomeTO income = tmp.get(incomePos);
+            IncomeTO income = myApp.getIncome().get(pos);
+
             txtIncomeName.setText(income.getName());
             txtIncomeNotice.setText(income.getNotice());
             txtIncomeAmount.setText(String.valueOf(income.getAmount()));
             txtIncomeQuantity.setText(String.valueOf(income.getQuantity()));
             txtIncomeId.setText(Integer.toString(income.getId()));
+
             Date savedRecipeDate = new Date(income.getReceiptDate());
             f.format(savedRecipeDate);
             labelIncomeDate.setText(f.format(savedRecipeDate));
 
-            for(int i=0; i< categoryIds.length; i++) {
-                if(income.getCategory().getId() == categoryIds[i]) {
-                    txtCategorySpinner.setSelection(i);
-                }
-            }
-
+            txtCategorySpinner.setSelection(myApp.getCategories().indexOf(income.getCategory()));
         }
     }
 
