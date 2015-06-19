@@ -19,6 +19,7 @@ import java.util.List;
 
 import de.budget.BudgetAndroid.AsyncTasks.GetBasketsAmountForVendorsTask;
 import de.budget.BudgetAndroid.AsyncTasks.GetIncomeAmountForCategoriesTask;
+import de.budget.BudgetAndroid.AsyncTasks.GetItemsAmountForCategoriesTask;
 import de.budget.BudgetAndroid.AsyncTasks.OnTaskCompleted;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.ChartMethods;
@@ -102,7 +103,7 @@ public class DashboardIncomeAndLossAnalysisFragment extends Fragment {
                 }
             });
             taskIncome.execute();
-            GetBasketsAmountForVendorsTask taskLoss = new GetBasketsAmountForVendorsTask(getActivity().getBaseContext(), myApp, new OnTaskCompleted() {
+            GetItemsAmountForCategoriesTask taskLoss = new GetItemsAmountForCategoriesTask(getActivity().getBaseContext(), myApp, new OnTaskCompleted() {
                 @Override
                 public void onTaskCompleted(Object o) {
                     if(o == true){
