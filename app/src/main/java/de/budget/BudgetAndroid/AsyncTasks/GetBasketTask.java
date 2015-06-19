@@ -55,7 +55,7 @@ public class GetBasketTask extends AsyncTask<String, Integer, BasketListResponse
         {
             if(result != null)
             {
-                if (result.getReturnCode() == 200){
+                if (result.getReturnCode() == 200 || result.getReturnCode() == 404 ){
 
                     myApp.setBasket(result.getBasketList());
                     Log.d("INFO", "Liste der Ausgaben erfolgreich angelegt.");

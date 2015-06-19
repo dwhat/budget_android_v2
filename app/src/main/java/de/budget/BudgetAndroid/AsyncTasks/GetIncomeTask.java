@@ -58,7 +58,7 @@ public class GetIncomeTask extends AsyncTask<String, Integer, IncomeListResponse
     {
         if(result != null)
         {
-            if (result.getReturnCode() == 200){
+            if (result.getReturnCode() == 200 || result.getReturnCode() == 404 ){
 
                 myApp.setIncome(result.getIncomeList());
                 myApp.increaseInitialDataCounter();

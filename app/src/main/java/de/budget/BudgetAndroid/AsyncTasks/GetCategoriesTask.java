@@ -56,7 +56,7 @@ public class GetCategoriesTask extends AsyncTask<String, Integer, CategoryListRe
     {
         if(result != null)
         {
-            if (result.getReturnCode() == 200){
+            if (result.getReturnCode() == 200 || result.getReturnCode() == 404 ){
 
                 myApp.setCategories(result.getCategoryList());
                 myApp.increaseInitialDataCounter();
