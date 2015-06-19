@@ -57,6 +57,9 @@ public class GetItemsAmountForCategoriesTask extends AsyncTask<String, Integer, 
                 listener.onTaskCompleted(true);
                 Log.d("INFO", "Diagrammdaten erfolgreich geladen.");
             }
+            else if(result.getReturnCode() == 404) {
+                listener.onTaskCompleted(false);
+            }
         }
         else
         {
