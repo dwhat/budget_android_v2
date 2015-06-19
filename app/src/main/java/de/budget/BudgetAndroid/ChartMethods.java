@@ -58,7 +58,7 @@ public final class ChartMethods {
         set1.setColors(colors);
         PieData data = new PieData(xVals, set1);
         data.setValueTextSize(15f);
-        data.setValueFormatter(new DefaultValueFormatter(2));
+        data.setValueFormatter(new EuroValueFormatter());
         chart.setData(data);
         chart.highlightValues(null);
         chart.invalidate();

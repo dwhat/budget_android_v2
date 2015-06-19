@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ public class DashboardHomeFragment extends Fragment {
     static private boolean incomeFinished = false, lossFinished = false;
     static private GetIncomeByPeriodTask taskIncome;
     static private GetLossByPeriodTask taskLoss;
+    static private RelativeLayout loadingPanel;
 
     public DashboardHomeFragment() {
         // Required empty public constructor
@@ -60,6 +62,7 @@ public class DashboardHomeFragment extends Fragment {
         final View rootView =  inflater.inflate(R.layout.fragment_dashboard_home, container, false);
         myApp = (BudgetAndroidApplication) getActivity().getApplication();
 
+        loadingPanel = (RelativeLayout) rootView.findViewById(R.id.loadingPanel);
         chart = (PieChart) rootView.findViewById(R.id.chart_home);
         final TextView text_period = (TextView) rootView.findViewById(R.id.text_period);
 
@@ -82,6 +85,7 @@ public class DashboardHomeFragment extends Fragment {
                 ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
                 if(networkInfo != null && networkInfo.isConnected()){
+                    loadingPanel.setVisibility(View.VISIBLE);
                     taskIncome = new GetIncomeByPeriodTask();
                     taskIncome.execute(String.valueOf(String.valueOf(progressChanged)));
                     taskLoss = new GetLossByPeriodTask();
@@ -140,6 +144,7 @@ public class DashboardHomeFragment extends Fragment {
 
     public static void refreshChart(boolean startUp){
         if((incomeFinished && lossFinished) || startUp) {
+            loadingPanel.setVisibility(View.INVISIBLE);
             income = new BigDecimal(myApp.getIncomeLastPeriod());
             loss = new BigDecimal(myApp.getLossLastPeriod());
             delta = income.subtract(loss);
@@ -152,7 +157,7 @@ public class DashboardHomeFragment extends Fragment {
             else if( res == 1 )
                 chart.setHoleColor(Color.rgb(0,250,154));
             else if( res == -1 )
-                chart.setHoleColor(Color.rgb(255,0,0));
+                chart.setHoleColor(Color.rgb(240,128,128));
             chart.animateXY(1500, 1500);
             lossFinished = false;
             incomeFinished = false;
