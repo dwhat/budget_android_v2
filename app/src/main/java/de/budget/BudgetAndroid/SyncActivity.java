@@ -74,7 +74,6 @@ public class SyncActivity extends ActionBarActivity implements OnTaskCompleted{
             public void onTaskCompleted(Object o) {
                 loadCounter++;
                 logo.setImageResource(piggery.get(loadCounter));
-                Log.d("INFO", "Schwein Nr : " + loadCounter);
             }
         });
         categoriesTask.execute();
@@ -83,7 +82,6 @@ public class SyncActivity extends ActionBarActivity implements OnTaskCompleted{
             public void onTaskCompleted(Object o) {
                 loadCounter++;
                 logo.setImageResource(piggery.get(loadCounter));
-                Log.d("INFO", "Schwein Nr : " + loadCounter);
             }
         });
         vendorsTask.execute();
@@ -92,7 +90,6 @@ public class SyncActivity extends ActionBarActivity implements OnTaskCompleted{
             public void onTaskCompleted(Object o) {
                 loadCounter++;
                 logo.setImageResource(piggery.get(loadCounter));
-                Log.d("INFO", "Schwein Nr : " + loadCounter);
             }
         });
         paymentsTask.execute();
@@ -101,7 +98,6 @@ public class SyncActivity extends ActionBarActivity implements OnTaskCompleted{
             public void onTaskCompleted(Object o) {
                 loadCounter++;
                 logo.setImageResource(piggery.get(loadCounter));
-                Log.d("INFO", "Schwein Nr : " + loadCounter);
             }
         });
         basketTask.execute();
@@ -110,7 +106,6 @@ public class SyncActivity extends ActionBarActivity implements OnTaskCompleted{
             public void onTaskCompleted(Object o) {
                 loadCounter++;
                 logo.setImageResource(piggery.get(loadCounter));
-                Log.d("INFO", "Schwein Nr : " + loadCounter);
             }
         });
         incomeTask.execute();
@@ -121,7 +116,7 @@ public class SyncActivity extends ActionBarActivity implements OnTaskCompleted{
     public void onTaskCompleted(Object o) {
         loadCounter++;
         logo.setImageResource(piggery.get(loadCounter));
-        Log.d("INFO", "Schwein Nr : " + loadCounter);
+        //Log.d("INFO", "Schwein Nr : " + loadCounter);
     }
 
     @Override

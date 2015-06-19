@@ -6,6 +6,7 @@ import de.budget.BudgetAndroid.Annotations.Author;
 import de.budget.BudgetAndroid.Loss.Item;
 import de.budget.BudgetService.BudgetOnlineService;
 import de.budget.BudgetService.Exception.InvalidLoginException;
+import de.budget.BudgetService.Response.AmountListResponse;
 import de.budget.BudgetService.Response.AmountResponse;
 import de.budget.BudgetService.Response.BasketListResponse;
 import de.budget.BudgetService.Response.BasketResponse;
@@ -1152,6 +1153,143 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
         }
 
     }
+
+    /**
+     * @author Christopher
+     * @date 19.05.2015
+     * @param sessionId
+     * @return
+     */
+    public AmountListResponse getItemsAmountForCategories(int sessionId) throws Exception{
+        AmountListResponse result = new AmountListResponse();
+        String METHOD_NAME = "getItemsAmountForCategories";
+        SoapObject response = null;
+        try {
+            response = executeSoapAction(METHOD_NAME, sessionId);
+            //Log.d(TAG, response.toString() + response.getPropertyCount());
+
+            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            if (tmp == 200) {
+                result.setReturnCode(tmp);
+                ArrayList<AmountTO> list = new ArrayList<>();
+                if (response.getPropertyCount() > 1) {
+                    for (int idx = 1; idx < response.getPropertyCount(); idx++) {
+                        SoapObject ListObject = (SoapObject) response.getProperty(idx);
+                        //Log.d("INFO", "incomeList gefunden : " + ListObject.toString() + "Länge: " + ListObject.getPropertyCount());
+                        String name = ListObject.getPrimitivePropertySafelyAsString("name");
+                        Double value = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString("value"));
+
+                        AmountTO tmp = new AmountTO();
+                        tmp.setName(name);
+                        tmp.setValue(value);
+                        list.add(tmp);
+
+                    }
+                }
+                result.setAmountList(list);
+                return result;
+            }
+            else {
+                throw new Exception("geItemsAmountForCategories was not successful!");
+            }
+        } catch (SoapFault e) {
+            throw new Exception(e.getMessage());
+        }
+
+
+    }
+
+    /**
+     * @author Christopher
+     * @date 19.05.2015
+     * @param sessionId
+     * @return
+     */
+    public AmountListResponse getIncomeAmountForCategories(int sessionId) throws Exception{
+        AmountListResponse result = new AmountListResponse();
+        String METHOD_NAME = "getIncomeAmountForCategories";
+        SoapObject response = null;
+        try {
+            response = executeSoapAction(METHOD_NAME, sessionId);
+            //Log.d(TAG, response.toString() + response.getPropertyCount());
+
+            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            if (tmp == 200) {
+                result.setReturnCode(tmp);
+                ArrayList<AmountTO> list = new ArrayList<>();
+                if (response.getPropertyCount() > 1) {
+                    for (int idx = 1; idx < response.getPropertyCount(); idx++) {
+                        SoapObject ListObject = (SoapObject) response.getProperty(idx);
+                        //Log.d("INFO", "incomeList gefunden : " + ListObject.toString() + "Länge: " + ListObject.getPropertyCount());
+                        String name = ListObject.getPrimitivePropertySafelyAsString("name");
+                        Double value = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString("value"));
+
+                        AmountTO tmp = new AmountTO();
+                        tmp.setName(name);
+                        tmp.setValue(value);
+                        list.add(tmp);
+
+                    }
+                }
+                result.setAmountList(list);
+                return result;
+            }
+            else {
+                throw new Exception("getIncomeAmountForCategories was not successful!");
+            }
+        } catch (SoapFault e) {
+            throw new Exception(e.getMessage());
+        }
+
+
+    }
+
+
+    /**
+     * @author Christopher
+     * @date 19.05.2015
+     * @param sessionId
+     * @return
+     */
+    public AmountListResponse getBasketsAmountForVendors(int sessionId) throws Exception{
+        AmountListResponse result = new AmountListResponse();
+        String METHOD_NAME = "getAmountForVendors";
+        SoapObject response = null;
+        try {
+            response = executeSoapAction(METHOD_NAME, sessionId);
+            Log.d(TAG, response.toString() + response.getPropertyCount());
+
+            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            if (tmp == 200) {
+                result.setReturnCode(tmp);
+                ArrayList<AmountTO> list = new ArrayList<>();
+                if (response.getPropertyCount() > 1) {
+                    for (int idx = 1; idx < response.getPropertyCount(); idx++) {
+                        SoapObject ListObject = (SoapObject) response.getProperty(idx);
+                        //Log.d("INFO", "incomeList gefunden : " + ListObject.toString() + "Länge: " + ListObject.getPropertyCount());
+                        String name = ListObject.getPrimitivePropertySafelyAsString("name");
+                        Double value = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString("value"));
+
+                        AmountTO tmp = new AmountTO();
+                        tmp.setName(name);
+                        tmp.setValue(value);
+                        list.add(tmp);
+
+                    }
+                }
+                result.setAmountList(list);
+                return result;
+            }
+            else {
+                throw new Exception("getBasketsAmountForVendors was not successful!");
+            }
+        } catch (SoapFault e) {
+            throw new Exception(e.getMessage());
+        }
+
+
+    }
+
 
 
 

@@ -496,6 +496,28 @@ public interface BudgetOnlineService {
      */
     public AmountResponse getIncomeByPeriod(int sessionId, int daysOfPeriod) throws Exception;
 
+    /**
+     * @author Marco
+     * @date 19.05.2015
+     * @param sessionId
+     * @return
+     */
+    public AmountListResponse getItemsAmountForCategories(int sessionId) throws Exception;
 
+    /**
+     * @author Marco
+     * @date 19.05.2015
+     * @param sessionId
+     * @return
+     */
+    public AmountListResponse getIncomeAmountForCategories(int sessionId) throws Exception;
+
+    /**
+     * @author Christopher
+     * @date 19.05.2015
+     * @param sessionId
+     * @return
+     */
+    public AmountListResponse getBasketsAmountForVendors(int sessionId) throws Exception;
 
 }

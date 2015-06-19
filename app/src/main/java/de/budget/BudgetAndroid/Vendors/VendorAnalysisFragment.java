@@ -1,24 +1,33 @@
 package de.budget.BudgetAndroid.Vendors;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 
+import de.budget.BudgetAndroid.AsyncTasks.GetBasketsAmountForVendorsTask;
+import de.budget.BudgetAndroid.AsyncTasks.OnTaskCompleted;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.ChartMethods;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import de.budget.BudgetService.dto.AmountTO;
 import de.budget.BudgetService.dto.VendorTO;
 import de.budget.R;
 
@@ -27,10 +36,12 @@ import de.budget.R;
  * @Author Christopher
  * @date 17.06.2015
  */
-public class VendorAnalysisFragment extends Fragment {
+public class VendorAnalysisFragment extends Fragment implements OnTaskCompleted {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     private OnFragmentInteractionListener mListener;
+    private BudgetAndroidApplication myApp;
+    private HorizontalBarChart chart;
 
     private ListView listView;
 
@@ -62,14 +73,18 @@ public class VendorAnalysisFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.fragment_vendor_analysis, container, false);
+        final RelativeLayout loadingPanel = (RelativeLayout) rootView.findViewById(R.id.loadingPanel);
 
-        HorizontalBarChart chart = (HorizontalBarChart) rootView.findViewById(R.id.chart_vendor);
+        myApp = (BudgetAndroidApplication) getActivity().getApplication();
+
+        // Draw Chart
+
+        chart = (HorizontalBarChart) rootView.findViewById(R.id.chart_vendor);
+        chart.setVisibility(View.INVISIBLE);
         // mChart.setHighlightEnabled(false);
 
         chart.setDrawBarShadow(false);
-
         chart.setDrawValueAboveBar(true);
-
         chart.setDescription("");
 
         // if more than 60 entries are displayed in the chart, no values will be
@@ -105,12 +120,39 @@ public class VendorAnalysisFragment extends Fragment {
         yr.setDrawAxisLine(true);
         yr.setDrawGridLines(false);
 //        yr.setInverted(true);
-        BudgetAndroidApplication myApp = (BudgetAndroidApplication) getActivity().getApplication();
-       // List<vendor> vendors = myApp.getVendors();
-       // ChartMethods.setDataOfHorizontalBarChart(chart, vendors);
         chart.animateY(2500);
 
+        // Fetch Data for Charts
+        ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if(networkInfo != null && networkInfo.isConnected()){
+            loadingPanel.setVisibility(View.VISIBLE);
+            GetBasketsAmountForVendorsTask task = new GetBasketsAmountForVendorsTask(getActivity().getBaseContext(), myApp, new OnTaskCompleted() {
+                @Override
+                public void onTaskCompleted(Object o) {
+                    loadingPanel.setVisibility(View.GONE);
+                    chart.setVisibility(View.VISIBLE);
+                    refreshChart(chart);
+                }
+            });
+            task.execute();
+            loadingPanel.setVisibility(View.VISIBLE);
+
+        }
+        else {
+            CharSequence text = "Keine Netzwerkverbindung! :(";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(getActivity().getBaseContext(), text, duration);
+            toast.show();
+        }
+
         return rootView;
+    }
+
+    public void refreshChart(HorizontalBarChart chart){
+        List<AmountTO> vendors = myApp.getVendorsAmount();
+        ChartMethods.setDataOfHorizontalBarChart(chart, vendors);
+
     }
 
     public void onButtonPressed(Uri uri) {
@@ -148,6 +190,10 @@ public class VendorAnalysisFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         public void onVendorAnalysisFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onTaskCompleted(Object o) {
     }
 
 }

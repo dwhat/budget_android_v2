@@ -42,16 +42,17 @@ public class IncomeActivity extends ActionBarActivity {
     private String[] categoryNames;
     private int[] categoryIds;
     private BudgetAndroidApplication myApp;
+    private static TextView labelIncomeDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_income);
 
+        SimpleDateFormat f = new SimpleDateFormat("dd.MM.yyyy");
         final Calendar c = Calendar.getInstance();
-        String incomeReceiptDate = c.get(Calendar.DAY_OF_MONTH)+"-"+c.get(Calendar.MONTH)+"-"+c.get(Calendar.YEAR);
+        String incomeReceiptDate = c.get(Calendar.DAY_OF_MONTH)+"."+c.get(Calendar.MONTH)+"."+c.get(Calendar.YEAR);
         try{
-            SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
             Date d = f.parse(incomeReceiptDate);
             receiptDate = d.getTime();
         }catch (ParseException e){
@@ -68,6 +69,7 @@ public class IncomeActivity extends ActionBarActivity {
             categoryIds[i] = categoryTOs.get(i).getId();
         }
         Spinner txtCategorySpinner = (Spinner) findViewById(R.id.income_category);
+        labelIncomeDate= (TextView) findViewById(R.id.label_income_date);
 
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categoryNames); //selected item will look like a spinner set from XML
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -82,8 +84,7 @@ public class IncomeActivity extends ActionBarActivity {
             TextView txtIncomeId = (TextView) findViewById(R.id.label_income_id);
             EditText txtIncomeAmount = (EditText) findViewById(R.id.income_amount);
             EditText txtIncomeQuantity = (EditText) findViewById(R.id.income_quantity);
-            //TODO
-           // DatePicker txtReceiptDate = (DatePicker) findViewById(R.id.income_receiptDate);
+
 
             // @author Christopher
             int incomePos = bundle.getInt("INCOME_POSITION");
@@ -94,6 +95,9 @@ public class IncomeActivity extends ActionBarActivity {
             txtIncomeAmount.setText(String.valueOf(income.getAmount()));
             txtIncomeQuantity.setText(String.valueOf(income.getQuantity()));
             txtIncomeId.setText(Integer.toString(income.getId()));
+            Date savedRecipeDate = new Date(income.getReceiptDate());
+            f.format(savedRecipeDate);
+            labelIncomeDate.setText(f.format(savedRecipeDate));
 
             for(int i=0; i< categoryIds.length; i++) {
                 if(income.getCategory().getId() == categoryIds[i]) {
@@ -241,17 +245,23 @@ public class IncomeActivity extends ActionBarActivity {
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            SimpleDateFormat f = new SimpleDateFormat("dd/MM/yy");
-            String date= day+"/"+month+"/"+year;
-            try{
-            Date d = f.parse(date);
+            String date= day+"."+month+"."+year;
+            Date d = formatDate(date);
             receiptDate = d.getTime();
-                Log.d("INFO", "LONG DATE: " +receiptDate);
-            }
-            catch (ParseException e){
-                Log.d("ERROR", e.getMessage());
-            }
+            labelIncomeDate.setText(date);
         }
+    }
+
+    public static Date formatDate(String date){
+        SimpleDateFormat f = new SimpleDateFormat("dd.MM.yy");
+        try{
+            Date d = f.parse(date);
+            return d;
+        }
+        catch (ParseException e){
+            Log.d("ERROR", e.getMessage());
+        }
+       return new Date();
     }
 
 
