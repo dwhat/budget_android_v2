@@ -53,7 +53,6 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_weight="1"
-
                 >
 
                 <ImageView
@@ -102,6 +101,72 @@
                     android:ems="10"
                     android:id="@+id/loss_value"
                     android:hint="@string/loss_value"
+                    android:layout_weight="1"
+                    android:layout_gravity="bottom|right"
+                    android:layout_marginLeft="16dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                >
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:id="@+id/imageView6"
+                    android:layout_gravity="center_vertical|left"
+                    android:src="@drawable/ic_vendor_b"
+                    />
+
+                <Spinner
+                    android:spinnerMode="dialog"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="date"
+                    android:ems="10"
+                    android:id="@+id/loss_vendor"
+                    android:layout_weight="1"
+                    android:layout_gravity="bottom|right"
+                    android:layout_marginLeft="16dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                >
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:id="@+id/imageView7"
+                    android:layout_gravity="center_vertical|left"
+                    android:src="@drawable/ic_payment_b"
+                    />
+
+                <Spinner
+                    android:spinnerMode="dialog"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="date"
+                    android:ems="10"
+                    android:id="@+id/loss_payment"
                     android:layout_weight="1"
                     android:layout_gravity="bottom|right"
                     android:layout_marginLeft="16dp" />
