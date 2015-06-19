@@ -20,13 +20,15 @@ import de.budget.BudgetService.Response.VendorListResponse;
     */
 public class GetIncomeTask extends AsyncTask<String, Integer, IncomeListResponse>
 {
+    private OnTaskCompleted listener = null;
     private Context context;
     private static BudgetAndroidApplication myApp;
 
-    public GetIncomeTask(Context context, BudgetAndroidApplication myApp)
+    public GetIncomeTask(Context context, BudgetAndroidApplication myApp, OnTaskCompleted listener)
     {
         this.context = context;
         this.myApp = myApp;
+        this.listener = listener;
     }
 
 
@@ -68,12 +70,14 @@ public class GetIncomeTask extends AsyncTask<String, Integer, IncomeListResponse
                     income = income.add(BigDecimal.valueOf(myApp.getIncome().get(i).getAmount()));
                 }
                 myApp.setIncomeLastPeriod(income.doubleValue());
+                listener.onTaskCompleted(true);
 
             }
         }
         else
         {
             Log.d("INFO", "Einnahmen konnten nicht geladen werden.");
+            listener.onTaskCompleted(false);
 
         }
     }

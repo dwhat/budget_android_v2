@@ -529,6 +529,25 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
     }
 
+    /**
+     * Method to get all Categories of a use where income is true
+     * @author Christopher
+     * @date 19.06.2015
+     * @param sessionId
+     * @return
+     */
+    public CategoryListResponse getCategorysOfIncome(int sessionId){return null;}
+
+    /**
+     * Method to get all Categories of a use where income is false
+     * @author Christopher
+     * @date 19.06.2015
+     * @param sessionId
+     * @return
+     */
+    public CategoryListResponse getCategorysOfLoss(int sessionId){return null;}
+
+
 
 
 
@@ -871,6 +890,16 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 
 
     /**
+     * Method to get the Amount of all income, which are assigned to a special category
+     * @author Marco
+     * @date 18.06.2015
+     * @param sessionId
+     * @param categoryId
+     * @return
+     */
+    public AmountResponse getIncomeAmountByCategory(int sessionId, int categoryId){return null;};
+
+    /**
      * gets all income of the actual month
      * @author Christopher
      * @param sessionId
@@ -1052,6 +1081,10 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
         return null;
     }
 
+    public AmountResponse getItemsAmountByLossCategory(int sessionId, int categoryId) throws Exception{
+        return null;
+    }
+
 
 	/*#################      XYZ - SECTION     ##############*/
 
@@ -1148,7 +1181,8 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
 	     */
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 
-
+        // @author Christopher
+        // @date 16.06.2015
         envelope.implicitTypes = true;
         envelope.encodingStyle = SoapSerializationEnvelope.XSD;
 

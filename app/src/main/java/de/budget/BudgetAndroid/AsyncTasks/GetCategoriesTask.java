@@ -18,13 +18,15 @@ import de.budget.BudgetService.Response.CategoryListResponse;
     */
 public class GetCategoriesTask extends AsyncTask<String, Integer, CategoryListResponse>
 {
+    private OnTaskCompleted listener = null;
     private Context context;
     private static BudgetAndroidApplication myApp;
 
-    public GetCategoriesTask(Context context, BudgetAndroidApplication myApp)
+    public GetCategoriesTask(Context context, BudgetAndroidApplication myApp, OnTaskCompleted listener)
     {
         this.context = context;
         this.myApp = myApp;
+        this.listener = listener;
     }
 
 
@@ -58,12 +60,14 @@ public class GetCategoriesTask extends AsyncTask<String, Integer, CategoryListRe
 
                 myApp.setCategories(result.getCategoryList());
                 myApp.increaseInitialDataCounter();
+                listener.onTaskCompleted(true);
                 Log.d("INFO", "KategorieListe erfolgreich angelegt.");
             }
         }
         else
         {
             Log.d("INFO", "Kategorien konnten nicht geladen werden.");
+            listener.onTaskCompleted(false);
         }
     }
 }

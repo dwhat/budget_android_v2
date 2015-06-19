@@ -17,13 +17,15 @@ import de.budget.BudgetService.dto.BasketTO;
  */
 public class GetBasketTask extends AsyncTask<String, Integer, BasketListResponse>{
 
+        private OnTaskCompleted listener = null;
         private Context context;
         private static BudgetAndroidApplication myApp;
 
-        public GetBasketTask(Context context, BudgetAndroidApplication myApp)
+        public GetBasketTask(Context context, BudgetAndroidApplication myApp, OnTaskCompleted listener)
         {
             this.context = context;
             this.myApp = myApp;
+            this.listener = listener;
         }
 
 
@@ -63,12 +65,14 @@ public class GetBasketTask extends AsyncTask<String, Integer, BasketListResponse
                         loss = loss.add(BigDecimal.valueOf(myApp.getBasket().get(i).getAmount()));
                     }
                     myApp.setLossLastPeriod(loss.doubleValue());
+                    listener.onTaskCompleted(true);
 
                 }
             }
             else
             {
                 Log.d("INFO", "Ausgaben konnten nicht geladen werden.");
+                listener.onTaskCompleted(false);
 
             }
         }
