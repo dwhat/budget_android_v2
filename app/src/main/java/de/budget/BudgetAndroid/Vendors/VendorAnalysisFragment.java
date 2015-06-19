@@ -80,30 +80,7 @@ public class VendorAnalysisFragment extends Fragment implements OnTaskCompleted 
         // Draw Chart
 
         chart = (HorizontalBarChart) rootView.findViewById(R.id.chart_vendor);
-        chart.setVisibility(View.INVISIBLE);
-        // mChart.setHighlightEnabled(false);
-
-        chart.setDrawBarShadow(false);
-        chart.setDrawValueAboveBar(true);
-        chart.setDescription("");
-        chart.setMaxVisibleValueCount(60);
-        chart.setPinchZoom(false);
-        chart.setDrawGridBackground(false);
-
-        XAxis xl = chart.getXAxis();
-        xl.setPosition(XAxis.XAxisPosition.TOP);
-        xl.setDrawAxisLine(true);
-        xl.setDrawGridLines(true);
-        xl.setGridLineWidth(0.3f);
-
-        YAxis yl = chart.getAxisLeft();
-        yl.setDrawAxisLine(true);
-        yl.setDrawGridLines(true);
-        yl.setGridLineWidth(0.3f);
-
-        YAxis yr = chart.getAxisRight();
-        yr.setDrawAxisLine(false);
-        yr.setDrawGridLines(false);
+        ChartMethods.setHorizontalBarChartFundamentals(chart);
         chart.animateY(2500);
 
         // Fetch Data for Charts

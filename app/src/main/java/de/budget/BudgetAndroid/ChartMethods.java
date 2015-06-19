@@ -1,9 +1,12 @@
 package de.budget.BudgetAndroid;
 
 import android.graphics.Color;
+import android.view.View;
 
 import com.github.mikephil.charting.charts.*;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.*;
 import com.github.mikephil.charting.utils.DefaultValueFormatter;
 import com.github.mikephil.charting.utils.PercentFormatter;
@@ -67,7 +70,7 @@ public final class ChartMethods {
     }
 
 
-    public static PieChart setChartFundamentals(PieChart chart, String centerText){
+    public static PieChart setPieChartFundamentals(PieChart chart, String centerText){
         chart.setHoleRadius(50f);
         chart.setDescription("");
         chart.setTransparentCircleRadius(5f);
@@ -87,6 +90,33 @@ public final class ChartMethods {
         l.setTextColor(Color.BLACK);
         return chart;
     }
+
+    public static HorizontalBarChart setHorizontalBarChartFundamentals(HorizontalBarChart chart){
+        chart.setVisibility(View.INVISIBLE);
+        chart.setDrawBarShadow(false);
+        chart.setDrawValueAboveBar(true);
+        chart.setDescription("");
+        chart.setMaxVisibleValueCount(60);
+        chart.setPinchZoom(false);
+        chart.setDrawGridBackground(false);
+
+        XAxis xl = chart.getXAxis();
+        xl.setPosition(XAxis.XAxisPosition.TOP);
+        xl.setDrawAxisLine(true);
+        xl.setDrawGridLines(true);
+        xl.setGridLineWidth(0.3f);
+
+        YAxis yl = chart.getAxisLeft();
+        yl.setDrawAxisLine(true);
+        yl.setDrawGridLines(true);
+        yl.setGridLineWidth(0.3f);
+
+        YAxis yr = chart.getAxisRight();
+        yr.setDrawAxisLine(false);
+        yr.setDrawGridLines(false);
+        return chart;
+    }
+
 
     public static HorizontalBarChart setDataOfHorizontalBarChart(HorizontalBarChart chart, List<AmountTO> values, String yDesc) {
 

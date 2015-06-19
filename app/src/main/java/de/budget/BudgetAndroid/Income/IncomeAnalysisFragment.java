@@ -1,6 +1,9 @@
 package de.budget.BudgetAndroid.Income;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,10 +11,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 
+import java.util.List;
+
+import de.budget.BudgetAndroid.AsyncTasks.GetBasketsAmountForVendorsTask;
+import de.budget.BudgetAndroid.AsyncTasks.GetIncomeAmountForCategoriesTask;
+import de.budget.BudgetAndroid.AsyncTasks.OnTaskCompleted;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
+import de.budget.BudgetAndroid.ChartMethods;
+import de.budget.BudgetService.dto.AmountTO;
+import de.budget.BudgetService.dto.CategoryTO;
+import de.budget.BudgetService.dto.IncomeTO;
 import de.budget.R;
 
 
@@ -58,10 +72,46 @@ public class IncomeAnalysisFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.fragment_income_analysis, container, false);
+        final RelativeLayout loadingPanel = (RelativeLayout) rootView.findViewById(R.id.loadingPanel);
+        myApp = (BudgetAndroidApplication) getActivity().getApplication();
 
+        // Draw Chart
 
+        chart = (HorizontalBarChart) rootView.findViewById(R.id.chart_income);
+        ChartMethods.setHorizontalBarChartFundamentals(chart);
+        chart.animateY(2500);
+
+        // Fetch Data for Charts
+        ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if(networkInfo != null && networkInfo.isConnected()){
+            loadingPanel.setVisibility(View.VISIBLE);
+            GetIncomeAmountForCategoriesTask task = new GetIncomeAmountForCategoriesTask(getActivity().getBaseContext(), myApp, new OnTaskCompleted() {
+                @Override
+                public void onTaskCompleted(Object o) {
+                    loadingPanel.setVisibility(View.GONE);
+                    chart.setVisibility(View.VISIBLE);
+                    refreshChart(chart);
+                }
+            });
+            task.execute();
+            loadingPanel.setVisibility(View.VISIBLE);
+
+        }
+        else {
+            CharSequence text = "Keine Netzwerkverbindung! :(";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(getActivity().getBaseContext(), text, duration);
+            toast.show();
+        }
 
         return rootView;
+    }
+
+    public void refreshChart(HorizontalBarChart chart){
+        List<AmountTO> income = myApp.getIncomeCategoriesAmount();
+        ChartMethods.setDataOfHorizontalBarChart(chart, income, "Einnahmen pro Kategorie in €");
+
     }
 
     public void onButtonPressed(Uri uri) {

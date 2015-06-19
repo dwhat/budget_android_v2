@@ -149,7 +149,7 @@ public class DashboardHomeFragment extends Fragment {
             loss = new BigDecimal(myApp.getLossLastPeriod());
             delta = income.subtract(loss);
             DecimalFormat df = new DecimalFormat(".00");
-            chart = ChartMethods.setChartFundamentals(chart, "Differenz \n" + df.format(delta) + "€");
+            chart = ChartMethods.setPieChartFundamentals(chart, "Differenz \n" + df.format(delta) + "€");
             chart = ChartMethods.setDataNormal(chart, "Einnahmen", "Ausgaben", income.round(new MathContext(3, RoundingMode.HALF_UP)).intValueExact(), loss.round(new MathContext(3, RoundingMode.HALF_UP)).intValueExact());
             int res = delta.compareTo(new BigDecimal(0));
             if( res == 0 )
