@@ -1,4 +1,4 @@
-package de.budget.BudgetAndroid.Income;
+package de.budget.BudgetAndroid.Dashboard;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -24,25 +23,24 @@ import de.budget.BudgetAndroid.AsyncTasks.OnTaskCompleted;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.ChartMethods;
 import de.budget.BudgetService.dto.AmountTO;
-import de.budget.BudgetService.dto.CategoryTO;
-import de.budget.BudgetService.dto.IncomeTO;
 import de.budget.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link IncomeAnalysisFragment.OnFragmentInteractionListener} interface
+ * {@link DashboardIncomeAndLossAnalysisFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link IncomeAnalysisFragment#newInstance} factory method to
+ * Use the {@link DashboardIncomeAndLossAnalysisFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class IncomeAnalysisFragment extends Fragment {
+public class DashboardIncomeAndLossAnalysisFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     private OnFragmentInteractionListener mListener;
     private HorizontalBarChart chart;
     private BudgetAndroidApplication myApp;
+    private boolean refreshIncome = false, refreshLoss = false;
 
 
     /**
@@ -51,14 +49,14 @@ public class IncomeAnalysisFragment extends Fragment {
      *
      * @return A new instance of fragment CategoryFragment.
      */
-    public static IncomeAnalysisFragment newInstance() {
-        IncomeAnalysisFragment fragment = new IncomeAnalysisFragment();
+    public static DashboardIncomeAndLossAnalysisFragment newInstance() {
+        DashboardIncomeAndLossAnalysisFragment fragment = new DashboardIncomeAndLossAnalysisFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public IncomeAnalysisFragment() {
+    public DashboardIncomeAndLossAnalysisFragment() {
         // Required empty public constructor
     }
 
@@ -86,15 +84,24 @@ public class IncomeAnalysisFragment extends Fragment {
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if(networkInfo != null && networkInfo.isConnected()){
             loadingPanel.setVisibility(View.VISIBLE);
-            GetIncomeAmountForCategoriesTask task = new GetIncomeAmountForCategoriesTask(getActivity().getBaseContext(), myApp, new OnTaskCompleted() {
+            GetIncomeAmountForCategoriesTask taskIncome = new GetIncomeAmountForCategoriesTask(getActivity().getBaseContext(), myApp, new OnTaskCompleted() {
                 @Override
                 public void onTaskCompleted(Object o) {
-                    loadingPanel.setVisibility(View.GONE);
-                    chart.setVisibility(View.VISIBLE);
+                    refreshIncome = true;
                     refreshChart(chart);
                 }
             });
-            task.execute();
+            taskIncome.execute();
+            GetBasketsAmountForVendorsTask taskLoss = new GetBasketsAmountForVendorsTask(getActivity().getBaseContext(), myApp, new OnTaskCompleted() {
+                @Override
+                public void onTaskCompleted(Object o) {
+                    loadingPanel.setVisibility(View.GONE);
+                    refreshLoss = true;
+                    refreshChart(chart);
+                }
+            });
+            taskLoss.execute();
+
             loadingPanel.setVisibility(View.VISIBLE);
 
         }
@@ -109,14 +116,20 @@ public class IncomeAnalysisFragment extends Fragment {
     }
 
     public void refreshChart(HorizontalBarChart chart){
-        List<AmountTO> income = myApp.getIncomeCategoriesAmount();
-        ChartMethods.setDataOfHorizontalBarChart(chart, income, "Einnahmen pro Kategorie in €");
+        if(refreshIncome && refreshLoss) {
+            chart.setVisibility(View.VISIBLE);
+            List<AmountTO> income = myApp.getIncomeCategoriesAmount();
+            List<AmountTO> loss = myApp.getItemsCategoriesAmount();
+            ChartMethods.setDataOfHorizontalBarChart(chart, income, loss, "Einnahmen pro Kategorie in €", "Ausgaben pro Kategorie in €");
+            refreshIncome = false;
+            refreshLoss = false;
+        }
 
     }
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onIncomeAnalysisFragmentInteraction(uri);
+            mListener.onDashboardIncomeAndLossAnalysisFragmentInteraction(uri);
         }
     }
 
@@ -148,7 +161,7 @@ public class IncomeAnalysisFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        public void onIncomeAnalysisFragmentInteraction(Uri uri);
+        public void onDashboardIncomeAndLossAnalysisFragmentInteraction(Uri uri);
     }
 
 }

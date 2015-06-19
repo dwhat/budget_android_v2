@@ -80,46 +80,7 @@ public class VendorAnalysisFragment extends Fragment implements OnTaskCompleted 
         // Draw Chart
 
         chart = (HorizontalBarChart) rootView.findViewById(R.id.chart_vendor);
-        chart.setVisibility(View.INVISIBLE);
-        // mChart.setHighlightEnabled(false);
-
-        chart.setDrawBarShadow(false);
-        chart.setDrawValueAboveBar(true);
-        chart.setDescription("");
-
-        // if more than 60 entries are displayed in the chart, no values will be
-        // drawn
-        chart.setMaxVisibleValueCount(60);
-
-        // scaling can now only be done on x- and y-axis separately
-        chart.setPinchZoom(false);
-
-        // draw shadows for each bar that show the maximum value
-        // mChart.setDrawBarShadow(true);
-
-        // mChart.setDrawXLabels(false);
-
-        chart.setDrawGridBackground(false);
-
-        // mChart.setDrawYLabels(false);
-
-
-        XAxis xl = chart.getXAxis();
-        xl.setPosition(XAxis.XAxisPosition.TOP);
-        xl.setDrawAxisLine(true);
-        xl.setDrawGridLines(true);
-        xl.setGridLineWidth(0.3f);
-
-        YAxis yl = chart.getAxisLeft();
-        yl.setDrawAxisLine(true);
-        yl.setDrawGridLines(true);
-        yl.setGridLineWidth(0.3f);
-//        yl.setInverted(true);
-
-        YAxis yr = chart.getAxisRight();
-        yr.setDrawAxisLine(true);
-        yr.setDrawGridLines(false);
-//        yr.setInverted(true);
+        ChartMethods.setHorizontalBarChartFundamentals(chart);
         chart.animateY(2500);
 
         // Fetch Data for Charts
@@ -151,7 +112,7 @@ public class VendorAnalysisFragment extends Fragment implements OnTaskCompleted 
 
     public void refreshChart(HorizontalBarChart chart){
         List<AmountTO> vendors = myApp.getVendorsAmount();
-        ChartMethods.setDataOfHorizontalBarChart(chart, vendors);
+        ChartMethods.setDataOfHorizontalBarChart(chart, vendors, "Händler in €");
 
     }
 

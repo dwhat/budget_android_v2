@@ -1283,7 +1283,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      */
     public AmountListResponse getIncomeAmountForCategories(int sessionId) throws Exception{
         AmountListResponse result = new AmountListResponse();
-        String METHOD_NAME = "getIncomeAmountForCategories";
+        String METHOD_NAME = "getIncomesAmountForCategories";
         SoapObject response = null;
         try {
             response = executeSoapAction(METHOD_NAME, sessionId);
