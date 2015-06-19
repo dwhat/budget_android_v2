@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.github.mikephil.charting.charts.HorizontalBarChart;
+
+import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.R;
 
 
@@ -24,8 +27,9 @@ public class IncomeAnalysisFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     private OnFragmentInteractionListener mListener;
+    private HorizontalBarChart chart;
+    private BudgetAndroidApplication myApp;
 
-    private ListView listView;
 
     /**
      * Use this factory method to create a new instance of

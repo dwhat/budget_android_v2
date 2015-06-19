@@ -88,7 +88,7 @@ public final class ChartMethods {
         return chart;
     }
 
-    public static HorizontalBarChart setDataOfHorizontalBarChart(HorizontalBarChart chart, List<AmountTO> values) {
+    public static HorizontalBarChart setDataOfHorizontalBarChart(HorizontalBarChart chart, List<AmountTO> values, String yDesc) {
 
         ArrayList<String> xVals = new ArrayList<String>();
         for (int i = 0; i < values.size(); i++) {
@@ -101,7 +101,7 @@ public final class ChartMethods {
             yVals1.add(new BarEntry((float) values.get(i).getValue(), i));
         }
 
-        BarDataSet set1 = new BarDataSet(yVals1, "DataSet");
+        BarDataSet set1 = new BarDataSet(yVals1, yDesc);
         set1.setBarSpacePercent(35f);
 
         ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
