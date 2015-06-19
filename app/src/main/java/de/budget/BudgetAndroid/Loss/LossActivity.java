@@ -2,6 +2,8 @@ package de.budget.BudgetAndroid.Loss;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -15,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayInputStream;
@@ -27,26 +30,44 @@ import java.util.Iterator;
 import java.util.List;
 
 import de.budget.BudgetAndroid.Annotations.Author;
+import de.budget.BudgetAndroid.AsyncTasks.CreateOrUpdateBasketTask;
+import de.budget.BudgetAndroid.AsyncTasks.CreateOrUpdateIncomeTask;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.Categories.CategorySpinnerAdapter;
+import de.budget.BudgetAndroid.PaymentSpinnerAdapter;
+import de.budget.BudgetAndroid.Vendors.VendorSpinnerAdapter;
 import de.budget.BudgetService.dto.BasketTO;
 import de.budget.BudgetService.dto.CategoryTO;
 import de.budget.BudgetService.dto.ItemTO;
+import de.budget.BudgetService.dto.PaymentTO;
+import de.budget.BudgetService.dto.VendorTO;
 import de.budget.R;
 
 public class LossActivity extends ActionBarActivity {
 
-    private BudgetAndroidApplication myApp;
-    private List <CategoryTO> categories;
+    private BudgetAndroidApplication    myApp;
+    private List <CategoryTO>           categories;
+    private List <VendorTO>             vendors;
+    private List <PaymentTO>            payments;
+    private BasketTO                    basket;
 
-    private ListView listView;
-    private EditText editTextItemName;
-    private EditText editTextItemAmount;
-    private EditText editTextItemValue;
-    private Spinner spinnerCategory;
+    private EditText    editTextName;
+    private EditText    editTextDate;
+    private EditText    editTextTotal;
+    private EditText    editTextNotice;
+    private Spinner     spinnerPayment;
+    private Spinner     spinnerVendor;
 
-    private CategorySpinnerAdapter spinnerArrayAdapter;
-    private ItemArrayAdapter itemArrayAdapter;
+    private ListView    listView;
+    private EditText    editTextItemName;
+    private EditText    editTextItemAmount;
+    private EditText    editTextItemValue;
+    private Spinner     spinnerCategory;
+
+    private CategorySpinnerAdapter  spinnerCategoryArrayAdapter;
+    private VendorSpinnerAdapter spinnerVendorArrayAdapter;
+    private PaymentSpinnerAdapter   spinnerPaymentArrayAdapter;
+    private ItemArrayAdapter        itemArrayAdapter;
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
 
@@ -57,6 +78,8 @@ public class LossActivity extends ActionBarActivity {
 
         myApp       = (BudgetAndroidApplication) getApplication();
         categories  = myApp.getCategories();
+        vendors     = myApp.getVendors();
+        payments    = myApp.getPayments();
 
         editTextItemName    = (EditText) findViewById(R.id.item_name);
         editTextItemAmount  = (EditText) findViewById(R.id.item_amount);
@@ -70,29 +93,41 @@ public class LossActivity extends ActionBarActivity {
         if (bundle != null) {
 
             int pos = bundle.getInt("POSITION");
-            BasketTO basket = myApp.getBasket().get(pos);
+            basket = myApp.getBasket().get(pos);
 
             Log.d(this.getClass().toString(), "Show Basket: " + basket.toString());
 
-            EditText    editTextName   = (EditText) findViewById(R.id.loss_name);
-            EditText    editTextDate   = (EditText) findViewById(R.id.loss_date);
-            EditText    editTextTotal  = (EditText) findViewById(R.id.loss_value);
-            EditText    editTextNotice = (EditText) findViewById(R.id.loss_notice);
+            editTextName   = (EditText) findViewById(R.id.loss_name);
+            editTextDate   = (EditText) findViewById(R.id.loss_date);
+            editTextTotal  = (EditText) findViewById(R.id.loss_value);
+            editTextNotice = (EditText) findViewById(R.id.loss_notice);
+            spinnerVendor  = (Spinner) findViewById(R.id.loss_vendor);
+            spinnerPayment = (Spinner) findViewById(R.id.loss_payment);
 
-                        editTextName    .setText(basket.getName());
-                        editTextDate    .setText(dateFormat.format(basket.getPurchaseDate()));
-                        editTextTotal   .setText(String.valueOf(basket.getAmount()));
-                        editTextNotice  .setText(basket.getNotice());
+            editTextName    .setText(basket.getName());
+            editTextDate    .setText(dateFormat.format(basket.getPurchaseDate()));
+            editTextTotal   .setText(String.valueOf(basket.getAmount()));
+            editTextNotice  .setText(basket.getNotice());
+            spinnerVendor   .setSelection(myApp.getVendors().indexOf(basket.getVendor()));
+            spinnerPayment  .setSelection(myApp.getPayments().indexOf(basket.getPayment()));
 
-            itemArrayAdapter =  new ItemArrayAdapter(this, R.layout.item_listview, basket.getItems());
+            itemArrayAdapter = new ItemArrayAdapter(this, R.layout.item_listview, basket.getItems());
+
         } else {
-            itemArrayAdapter =  new ItemArrayAdapter(this, R.layout.item_listview, null);
+
+            itemArrayAdapter = new ItemArrayAdapter(this, R.layout.item_listview, null);
+
         }
 
         // ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, myApp.getCategoriesName());
 
-        spinnerArrayAdapter = new CategorySpinnerAdapter(this, R.layout.spinner_category, categories);
-        spinnerCategory.setAdapter(spinnerArrayAdapter);
+        spinnerCategoryArrayAdapter = new CategorySpinnerAdapter(this, R.layout.spinner_category, categories);
+        spinnerVendorArrayAdapter = new VendorSpinnerAdapter(this, R.layout.spinner_vendor, vendors);
+        spinnerPaymentArrayAdapter = new PaymentSpinnerAdapter(this, R.layout.spinner_payment, payments);
+
+        spinnerCategory.setAdapter(spinnerCategoryArrayAdapter);
+        spinnerVendor.setAdapter(spinnerVendorArrayAdapter);
+        spinnerPayment.setAdapter(spinnerPaymentArrayAdapter);
 
         listView.setAdapter(itemArrayAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -116,24 +151,17 @@ public class LossActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_loss_new, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_save) {
             save(null);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -142,9 +170,56 @@ public class LossActivity extends ActionBarActivity {
      */
     @Author(name="Mark")
     public void save(View v) {
+
         showDialog();
+
         //TODO Die eingengeben Werte an den Server schicken
+
         Toast.makeText(this, "Speichern", Toast.LENGTH_SHORT).show();
+
+        int basketId = 0;
+
+        if (basket != null) {
+            basketId = basket.getId();
+            Log.d("Update", basketId + " " + basket.getName());
+        }
+
+        String          basketName      =                       editTextName.getText().toString();
+        Long            basketDate      = Long.parseLong(       editTextDate.getText().toString());
+        Double          basketTotal     = Double.parseDouble(   editTextTotal.getText().toString());
+        String          basketNotice    =                       editTextNotice.getText().toString();
+        VendorTO        basketVendor    = (VendorTO)            spinnerVendor.getSelectedItem();
+        PaymentTO       basketPayment   = (PaymentTO)           spinnerPayment.getSelectedItem();
+        List<ItemTO>    basketItems     =                       itemArrayAdapter.getValues();
+
+        Log.d("INFO", String.valueOf(basketTotal));
+
+
+        if(!"".equals(basketName) && !"".equals(basketDate) && !"".equals(basketTotal) && !"".equals(basketNotice) && !"".equals(basketVendor) && !"".equals(basketPayment) && basketItems!=null)
+        {
+            ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+            if(networkInfo != null && networkInfo.isConnected()){
+                CreateOrUpdateBasketTask task = new CreateOrUpdateBasketTask(this,myApp, this);
+                // BasketResponse createOrUpdateBasket(int sessionId, int basketId, String name, String notice, double amount, long purchaseDate, int paymentId, int vendorId, List<ItemTO> items);
+                task.execute(basketId, basketName, basketNotice, basketTotal, basketDate, basketPayment.getId(), basketVendor.getId(), basketItems);
+            }
+            else {
+                CharSequence text = "Keine Netzwerkverbindung! :(";
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(this, text, duration);
+                toast.show();
+            }
+        }
+        else
+        {
+            //Toast anzeigen
+            CharSequence text = "Bitte alle Felder ausfüllen!";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(this, text, duration);
+            toast.show();
+        }
     }
 
     /*
