@@ -44,7 +44,9 @@ import de.budget.BudgetAndroid.Income.IncomeFragment;
 import de.budget.BudgetAndroid.Income.IncomeListFragment;
 import de.budget.BudgetAndroid.Income.IncomeActivity;
 import de.budget.BudgetAndroid.Loss.LossActivity;
+import de.budget.BudgetAndroid.Loss.LossAnalysisFragment;
 import de.budget.BudgetAndroid.Loss.LossFragment;
+import de.budget.BudgetAndroid.Loss.LossListFragment;
 import de.budget.BudgetAndroid.Vendors.VendorActivity;
 import de.budget.BudgetAndroid.Vendors.VendorAnalysisFragment;
 import de.budget.BudgetAndroid.Vendors.VendorFragment;
@@ -60,7 +62,8 @@ public class MainActivity extends ActionBarActivity
                     DashboardFragment.OnFragmentInteractionListener, DashboardIncomeFragment.OnFragmentInteractionListener, DashboardHomeFragment.OnFragmentInteractionListener,
                     CategoryAnalysisFragment.OnFragmentInteractionListener, DashboardIncomeAndLossAnalysisFragment.OnFragmentInteractionListener,
                     IncomeFragment.OnFragmentInteractionListener, IncomeAnalysisFragment.OnFragmentInteractionListener,
-                    VendorFragment.OnFragmentInteractionListener, VendorAnalysisFragment.OnFragmentInteractionListener{
+                    VendorFragment.OnFragmentInteractionListener, VendorAnalysisFragment.OnFragmentInteractionListener,
+                    LossListFragment.OnFragmentInteractionListener, LossAnalysisFragment.OnFragmentInteractionListener{
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -247,6 +250,12 @@ public class MainActivity extends ActionBarActivity
     }
     @Override
     public void onIncomeAnalysisFragmentInteraction(Uri uri){
+    }
+    @Override
+    public void onLossFragmentInteraction(Uri uri){
+    }
+    @Override
+    public void onLossAnalysisFragmentInteraction(Uri uri){
     }
     @Override
     public void onVendorFragmentInteraction(Uri uri){

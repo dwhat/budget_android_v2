@@ -23,8 +23,8 @@ import de.budget.R;
  * create an instance of this fragment.
  */
 public class IncomeFragment extends Fragment{
-    private FragmentTabHost mTabHost;
 
+    private FragmentTabHost mTabHost;
     private OnFragmentInteractionListener mListener;
 
     /**

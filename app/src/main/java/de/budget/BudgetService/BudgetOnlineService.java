@@ -538,4 +538,5 @@ public interface BudgetOnlineService {
      */
     public AmountListResponse getBasketsAmountForVendors(int sessionId) throws Exception;
 
+
 }
