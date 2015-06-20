@@ -61,7 +61,7 @@ public class IncomeActivity extends ActionBarActivity {
         }
 
         myApp = (BudgetAndroidApplication) getApplication();
-        List<CategoryTO> categoryTOs = myApp.getCategories();
+        List<CategoryTO> categoryTOs = myApp.getCategoriesByFormat(true);
         categoryNames = new String[categoryTOs.size()];
         categoryIds = new int[categoryTOs.size()];
         Log.d("INFO", "Size of Categoryarray: "+categoryTOs.size());

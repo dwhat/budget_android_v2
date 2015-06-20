@@ -85,7 +85,7 @@ public class LossActivity extends ActionBarActivity {
          * Setup ApplikationTO
          */
         myApp       = (BudgetAndroidApplication) getApplication();
-        categories  = myApp.getCategories();
+        categories  = myApp.getCategoriesByFormat(false);
         vendors     = myApp.getVendors();
         payments    = myApp.getPayments();
         date        = new Date();
