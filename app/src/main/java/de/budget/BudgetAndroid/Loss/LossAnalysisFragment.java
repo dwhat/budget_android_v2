@@ -14,7 +14,7 @@ import com.github.mikephil.charting.charts.HorizontalBarChart;
 
 import java.util.List;
 
-import de.budget.BudgetAndroid.AsyncTasks.GetLossAmountForCategoriesTask;
+import de.budget.BudgetAndroid.AsyncTasks.GetBasketsAmountForVendorsTask;
 import de.budget.BudgetAndroid.AsyncTasks.OnTaskCompleted;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.Dashboard.ChartMethods;
@@ -69,7 +69,7 @@ public class LossAnalysisFragment extends Fragment {
         // Fetch Data for Charts
         if (NetworkCommon.getStatus(getActivity())) {
             loadingPanel.setVisibility(View.VISIBLE);
-            GetLossAmountForCategoriesTask task = new GetLossAmountForCategoriesTask(getActivity().getBaseContext(), myApp, new OnTaskCompleted() {
+            GetBasketsAmountForVendorsTask task = new GetBasketsAmountForVendorsTask(getActivity().getBaseContext(), myApp, new OnTaskCompleted() {
                 @Override
                 public void onTaskCompleted(Object o) {
                     boolean success = (boolean) o;
