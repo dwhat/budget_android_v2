@@ -2,12 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context="de.budget.BudgetAndroid.Loss.LossFragment">
 
-    <!-- FAB -->
-    <ImageButton
-        android:src="@drawable/button"
-        android:id="@+id/fab_loss"
-        android:onClick="newLoss"
-        style="@style/FAB" />
+
 
     <LinearLayout
         android:orientation="vertical"
@@ -59,6 +54,13 @@
         </android.support.v4.app.FragmentTabHost>
 
     </LinearLayout>
+
+    <!-- FAB -->
+    <ImageButton
+        android:src="@drawable/button"
+        android:id="@+id/fab_loss"
+        android:onClick="newLoss"
+        style="@style/FAB" />
 
 
 
