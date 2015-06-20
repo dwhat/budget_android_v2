@@ -38,6 +38,7 @@ import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.Categories.CategorySpinnerAdapter;
 import de.budget.BudgetAndroid.PaymentSpinnerAdapter;
 import de.budget.BudgetAndroid.Vendors.VendorSpinnerAdapter;
+import de.budget.BudgetAndroid.common.SwipeDismissListViewTouchListener;
 import de.budget.BudgetService.dto.BasketTO;
 import de.budget.BudgetService.dto.CategoryTO;
 import de.budget.BudgetService.dto.ItemTO;
@@ -177,6 +178,31 @@ public class LossActivity extends ActionBarActivity {
             }
 
         });
+
+        // Create a ListView-specific touch listener. ListViews are given special treatment because
+        // by default they handle touches for their list items... i.e. they're in charge of drawing
+        // the pressed state (the list selector), handling list item clicks, etc.
+        SwipeDismissListViewTouchListener touchListener =
+                new SwipeDismissListViewTouchListener(
+                        listView,
+                        new SwipeDismissListViewTouchListener.DismissCallbacks() {
+                            @Override
+                            public boolean canDismiss(int position) {
+                                return true;
+                            }
+
+                            @Override
+                            public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+                                    itemArrayAdapter.remove(itemArrayAdapter.getItem(position));
+                                }
+                                itemArrayAdapter.notifyDataSetChanged();
+                            }
+                        });
+        listView.setOnTouchListener(touchListener);
+        // Setting this scroll listener is required to ensure that during ListView scrolling,
+        // we don't look for swipes.
+        listView.setOnScrollListener(touchListener.makeScrollListener());
     }
     /*
      * Start the Actionbar Menu,
@@ -274,7 +300,6 @@ public class LossActivity extends ActionBarActivity {
             Toast toast = Toast.makeText(this, text, duration);
             toast.show();
         }
-
 
     };
 
