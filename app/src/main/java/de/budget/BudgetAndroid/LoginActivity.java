@@ -11,9 +11,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.content.Intent;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import de.budget.BudgetAndroid.common.NetworkCommon;
+import de.budget.BudgetAndroid.common.ToastCommon;
 import de.budget.R;
 import de.budget.BudgetAndroid.AsyncTasks.*;
 
@@ -23,6 +28,9 @@ import de.budget.BudgetAndroid.AsyncTasks.*;
  */
 public class LoginActivity extends ActionBarActivity {
 
+    private EditText txtUserName;
+    private EditText txtPassword;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,12 +38,14 @@ public class LoginActivity extends ActionBarActivity {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String prefUsername = prefs.getString("username", "");
-        EditText txtUserName = (EditText) findViewById(R.id.username);
+        String prefPassword = prefs.getString("password", "");
+
+        txtUserName = (EditText) findViewById(R.id.username);
         txtUserName.setText(prefUsername);
 
-        String prefPassword = prefs.getString("password", "");
-        EditText txtPassword = (EditText) findViewById(R.id.password);
+        txtPassword = (EditText) findViewById(R.id.password);
         txtPassword.setText(prefPassword);
+
     }
 
     @Override
@@ -64,34 +74,21 @@ public class LoginActivity extends ActionBarActivity {
     public void login(View view) {
 
 
-        EditText txtUsername = (EditText) findViewById(R.id.username);
-        EditText txtPassword = (EditText) findViewById(R.id.password);
-        String username = txtUsername.getText().toString().toLowerCase();
-        String password = txtPassword.getText().toString();
+        this.txtUserName    = (EditText) findViewById(R.id.username);
+        this.txtPassword    = (EditText) findViewById(R.id.password);
+        String username     = txtUserName.getText().toString().toLowerCase();
+        String password     = txtPassword.getText().toString();
 
         if(!"".equals(username) && !"".equals(password))
         {
-            ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-            if(networkInfo != null && networkInfo.isConnected()){
-                LoginTask loginTask = new LoginTask(view.getContext(), this);
-                loginTask.execute(username, password);
-            }
-            else {
-                CharSequence text = "Keine Netzwerkverbindung! :(";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(this, text, duration);
-                toast.show();
-            }
+            if(NetworkCommon.getStatus(this))
+                new LoginTask(view.getContext(), this).execute(username, password);
+            else
+                ToastCommon.NetworkMissing(this);
         }
         else
-        {
-            //Toast anzeigen
-            CharSequence text = "Fehlende Logindaten bitte in den Einstellungen eintragen!";
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(this, text, duration);
-            toast.show();
-        }
+            Toast.makeText(this, getResources().getString(R.string.login_missing_error), Toast.LENGTH_SHORT).show();
+
     }
 
     /** Called when the user clicks the Register button */

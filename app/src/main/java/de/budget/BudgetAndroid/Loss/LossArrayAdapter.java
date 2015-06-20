@@ -46,7 +46,8 @@ public class LossArrayAdapter extends ArrayAdapter<BasketTO> {
 
                     lossName        .setText(values.get(position).getName());
                     lossDate        .setText(DATE_FORMAT.format(values.get(position).getPurchaseDate()));
-                    lossNotice      .setText(values.get(position).getNotice());
+        if(values.get(position).getItems() != null)
+                    lossNotice      .setText(values.get(position).getItems().toString());
                     lossTotal       .setText(String.valueOf(values.get(position).getAmount()) + " €");
 
         return rowView;

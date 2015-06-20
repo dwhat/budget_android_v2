@@ -21,6 +21,7 @@ import de.budget.BudgetAndroid.AsyncTasks.GetIncomeAmountForCategoriesTask;
 import de.budget.BudgetAndroid.AsyncTasks.GetItemsAmountForCategoriesTask;
 import de.budget.BudgetAndroid.AsyncTasks.OnTaskCompleted;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
+import de.budget.BudgetAndroid.common.ChartMethods;
 import de.budget.BudgetService.dto.AmountTO;
 import de.budget.R;
 

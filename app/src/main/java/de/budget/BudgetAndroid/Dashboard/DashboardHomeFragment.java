@@ -1,10 +1,7 @@
 package de.budget.BudgetAndroid.Dashboard;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 
@@ -25,6 +21,7 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
+import de.budget.BudgetAndroid.common.ChartMethods;
 import de.budget.BudgetAndroid.common.NetworkCommon;
 import de.budget.BudgetAndroid.common.ToastCommon;
 import de.budget.BudgetService.Response.AmountResponse;

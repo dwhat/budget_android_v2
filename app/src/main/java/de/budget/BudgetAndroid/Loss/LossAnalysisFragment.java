@@ -17,7 +17,7 @@ import java.util.List;
 import de.budget.BudgetAndroid.AsyncTasks.GetBasketsAmountForVendorsTask;
 import de.budget.BudgetAndroid.AsyncTasks.OnTaskCompleted;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
-import de.budget.BudgetAndroid.Dashboard.ChartMethods;
+import de.budget.BudgetAndroid.common.ChartMethods;
 import de.budget.BudgetAndroid.common.NetworkCommon;
 import de.budget.BudgetAndroid.common.ToastCommon;
 import de.budget.BudgetService.dto.AmountTO;
@@ -56,9 +56,10 @@ public class LossAnalysisFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View rootView = inflater.inflate(R.layout.fragment_loss_analysis, container, false);
         final RelativeLayout loadingPanel = (RelativeLayout) rootView.findViewById(R.id.loadingPanel);
+
         myApp = (BudgetAndroidApplication) getActivity().getApplication();
 
         // Draw Chart
@@ -97,7 +98,7 @@ public class LossAnalysisFragment extends Fragment {
     }
 
     public void refreshChart(HorizontalBarChart chart) {
-        List<AmountTO> loss = myApp.getLossCategoriesAmount();
+        List<AmountTO> loss = myApp.getVendorsAmount();
         ChartMethods.setDataOfHorizontalBarChart(chart, loss, "Ausgaben pro Kategorie in €");
 
     }

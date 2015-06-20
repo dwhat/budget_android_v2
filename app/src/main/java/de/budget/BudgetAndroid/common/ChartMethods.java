@@ -1,4 +1,4 @@
-package de.budget.BudgetAndroid.Dashboard;
+package de.budget.BudgetAndroid.common;
 
 import android.graphics.Color;
 import android.view.View;

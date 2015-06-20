@@ -418,4 +418,11 @@ public class ItemTO implements Serializable {
 	public void setCategory(int category) {
 		this.category = category;
 	}
+
+	@Override
+	public String toString(){
+		String quantity = String.valueOf(this.quantity);
+		if (this.quantity %1 == 0) quantity = quantity.replace(".0", "");
+		return  quantity +"x " + this.getName();
+	}
 }

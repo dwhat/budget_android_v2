@@ -28,7 +28,6 @@
         android:layout_toRightOf="@id/loss_total"
         android:ellipsize="end"
         android:singleLine="true"
-        android:text="Notiz"
         android:textSize="12sp"
         android:paddingLeft="16dp"
         />

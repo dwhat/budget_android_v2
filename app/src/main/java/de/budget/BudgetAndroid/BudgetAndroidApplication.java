@@ -36,7 +36,6 @@ public class BudgetAndroidApplication extends Application{
     private List<BasketTO> basket;
     private List<AmountTO> itemsCategoriesAmount;
     private List<AmountTO> incomeCategoriesAmount;
-    private List<AmountTO> lossCategoriesAmount;
     private List<AmountTO> vendorsAmount;
     private boolean firstStart = true;
     private int initialDataCounter = 0;
@@ -285,11 +284,6 @@ public class BudgetAndroidApplication extends Application{
             }
         }
     }
-
-    public List<AmountTO> getLossCategoriesAmount() {
-        return this.lossCategoriesAmount;
-    }
-
 
     // Payment Section
     public void setPayments(List<PaymentTO> list){

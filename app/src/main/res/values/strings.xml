@@ -153,5 +153,6 @@
     <!-- Error Messages -->
     <string name="network_missing_error">Keine Netzwerkverbindung! :(!</string>
     <string name="required_fields_missing_error">Bitte alle Felder ausfüllen!</string>
+    <string name="login_missing_error">Fehlende Logindaten bitte in den Einstellungen eintragen!</string>
 
 </resources>

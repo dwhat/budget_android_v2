@@ -19,7 +19,7 @@ import com.github.mikephil.charting.charts.HorizontalBarChart;
 import de.budget.BudgetAndroid.AsyncTasks.GetBasketsAmountForVendorsTask;
 import de.budget.BudgetAndroid.AsyncTasks.OnTaskCompleted;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
-import de.budget.BudgetAndroid.Dashboard.ChartMethods;
+import de.budget.BudgetAndroid.common.ChartMethods;
 
 import java.util.List;
 

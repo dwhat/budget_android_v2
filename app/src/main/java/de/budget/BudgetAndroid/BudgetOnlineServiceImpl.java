@@ -1314,7 +1314,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @return
      */
     public AmountListResponse getBasketsAmountForVendors(int sessionId) throws Exception{
-        return getAmount(sessionId, "getAmountForVendors");
+        return getAmount(sessionId, "getBasketsAmountForVendors");
     }
 
     /**

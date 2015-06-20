@@ -311,8 +311,8 @@ public class LossActivity extends ActionBarActivity {
         ItemTO item         = new ItemTO();
 
         String name         = editTextItemName.getText().toString();
-        Double quantity       = Double.parseDouble(editTextItemAmount.getText().toString());
-        Double price        = Double.parseDouble(editTextItemValue.getText().toString());
+        String quantity     = editTextItemAmount.getText().toString();
+        String price        = editTextItemValue.getText().toString();
         CategoryTO category = (CategoryTO) spinnerCategory.getSelectedItem();
 
 
@@ -371,14 +371,11 @@ public class LossActivity extends ActionBarActivity {
      * @param value - value to validate
      * @return value - corrected value if invalid
      */
-    private Double validateInput (Double value) {
-
-        if(value == null || value <= 0.0) {
+    private Double validateInput (String value) {
+        if (value.isEmpty() || "".equals(value)) {
             Toast.makeText(this, "Input geändert auf 1", Toast.LENGTH_SHORT).show();
-            value = 1.0;
-        }
-
-        return value;
+            return 1.0;
+        } else return Double.parseDouble(value);
     }
 
     public void showDatePickerDialog(View v) {
