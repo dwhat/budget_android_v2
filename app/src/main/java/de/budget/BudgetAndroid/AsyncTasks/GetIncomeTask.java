@@ -67,7 +67,7 @@ public class GetIncomeTask extends AsyncTask<String, Integer, IncomeListResponse
                 // Berechnung der ersten Seite im Dashboard
                 BigDecimal income = new BigDecimal(0);
                 for (int i= 0; i < myApp.getIncome().size(); i++){
-                    income = income.add(BigDecimal.valueOf(myApp.getIncome().get(i).getAmount()));
+                    income = income.add(BigDecimal.valueOf(myApp.getIncome().get(i).getAmount()*myApp.getIncome().get(i).getQuantity()));
                 }
                 myApp.setIncomeLastPeriod(income.doubleValue());
                 listener.onTaskCompleted(true);

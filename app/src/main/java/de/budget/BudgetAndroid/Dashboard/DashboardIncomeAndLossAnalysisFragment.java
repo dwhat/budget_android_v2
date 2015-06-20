@@ -90,9 +90,8 @@ public class DashboardIncomeAndLossAnalysisFragment extends Fragment {
                 public void onTaskCompleted(Object o) {
                     boolean success = (boolean) o;
                     if(success == true){
-                        loadingPanel.setVisibility(View.GONE);
                         refreshIncome = true;
-                        refreshChart(chart);
+                        refreshChart(chart, loadingPanel);
                     } else{
                         loadingPanel.setVisibility(View.GONE);
                         CharSequence text = "Bitte zuerst Einnahmen anlegen";
@@ -108,9 +107,8 @@ public class DashboardIncomeAndLossAnalysisFragment extends Fragment {
                 public void onTaskCompleted(Object o) {
                 boolean success = (boolean) o;
                 if(success == true){
-                    loadingPanel.setVisibility(View.GONE);
                     refreshLoss = true;
-                    refreshChart(chart);
+                    refreshChart(chart, loadingPanel);
                 }else{
                     loadingPanel.setVisibility(View.GONE);
                     CharSequence text = "Bitte zuerst Ausgaben anlegen";
@@ -135,8 +133,9 @@ public class DashboardIncomeAndLossAnalysisFragment extends Fragment {
         return rootView;
     }
 
-    public void refreshChart(HorizontalBarChart chart){
+    public void refreshChart(HorizontalBarChart chart, RelativeLayout loadingPanel){
         if(refreshIncome && refreshLoss) {
+            loadingPanel.setVisibility(View.GONE);
             chart.setVisibility(View.VISIBLE);
             List<AmountTO> income = myApp.getIncomeCategoriesAmount();
             List<AmountTO> loss = myApp.getItemsCategoriesAmount();

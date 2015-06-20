@@ -47,7 +47,7 @@ public class IncomeArrayAdapter extends ArrayAdapter<IncomeTO> {
             incomeName        .setText(values.get(position).getName());
             incomeDate        .setText(DATE_FORMAT.format(values.get(position).getReceiptDate()));
             incomeNotice      .setText(values.get(position).getNotice());
-            incomeTotal       .setText(String.valueOf(values.get(position).getAmount()) + " €");
+            incomeTotal       .setText(String.valueOf(values.get(position).getAmount()*values.get(position).getQuantity()) + " €");
 
             return rowView;
         }

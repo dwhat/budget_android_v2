@@ -1250,8 +1250,9 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                 return result;
             }
             else {
+                result.setReturnCode(tmp);
                 Log.d("INFO", "Keine Ausgaben vorhanden");
-                return null;
+                return result;
             }
         } catch (SoapFault e) {
             throw new Exception(e.getMessage());
@@ -1283,8 +1284,9 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                 return result;
             }
             else {
+                result.setReturnCode(tmp);
                 Log.d("INFO", "Keine Einnahmen vorhanden");
-                return null;
+                return result;
             }
         } catch (SoapFault e) {
             throw new Exception(e.getMessage());
@@ -1328,8 +1330,9 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                 return result;
             }
             else {
+                result.setReturnCode(tmp);
                 Log.d("INFO", "Keine Ausgaben vorhanden");
-                return null;
+                return result;
             }
         } catch (SoapFault e) {
             throw new Exception(e.getMessage());
@@ -1350,7 +1353,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
         SoapObject response = null;
         try {
             response = executeSoapAction(METHOD_NAME, sessionId);
-            //Log.d(TAG, response.toString() + response.getPropertyCount());
+            Log.d(TAG, response.toString() + response.getPropertyCount());
 
             tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
             if (tmp == 200) {
@@ -1374,8 +1377,9 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                 return result;
             }
             else {
+                result.setReturnCode(tmp);
                 Log.d("INFO", "Keine Einnahmen vorhanden");
-                return null;
+                return result;
             }
         } catch (SoapFault e) {
             throw new Exception(e.getMessage());
@@ -1421,8 +1425,9 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                 return result;
             }
             else {
+                result.setReturnCode(tmp);
                 Log.d("INFO", "Keine Ausgaben vorhanden");
-                return null;
+                return result;
             }
         } catch (SoapFault e) {
             throw new Exception(e.getMessage());

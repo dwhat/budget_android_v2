@@ -32,8 +32,8 @@ public class GetIncomeAmountForCategoriesTask extends AsyncTask<String, Integer,
 
         try {
             AmountListResponse repsonse = myApp.getBudgetOnlineService().getIncomeAmountForCategories(myApp.getSession());
-            // Integer rt =  repsonse.getReturnCode();
-            //Log.d("INFO", "Returncode: " + rt.toString());
+            Integer rt =  repsonse.getReturnCode();
+            Log.d("INFO", "Returncode: " + rt.toString());
             return repsonse;
         } catch (Exception e) {
             e.printStackTrace();

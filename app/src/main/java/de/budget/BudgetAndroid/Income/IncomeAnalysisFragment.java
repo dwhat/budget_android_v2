@@ -90,14 +90,14 @@ public class IncomeAnalysisFragment extends Fragment {
                 @Override
                 public void onTaskCompleted(Object o) {
                 boolean success = (boolean) o;
-                if(success == true){
+                if(success){
                     loadingPanel.setVisibility(View.GONE);
                     chart.setVisibility(View.VISIBLE);
                     refreshChart(chart);
                 }
                 else{
                     loadingPanel.setVisibility(View.GONE);
-                    CharSequence text = "Bitte zuerst Ausgabe anlegen";
+                    CharSequence text = "Bitte zuerst Einnahme anlegen";
                     int duration = Toast.LENGTH_SHORT;
                     Toast toast = Toast.makeText(getActivity().getBaseContext(), text, duration);
                     toast.show();
