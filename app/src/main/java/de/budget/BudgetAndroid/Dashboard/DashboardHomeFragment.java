@@ -25,6 +25,8 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
+import de.budget.BudgetAndroid.common.NetworkCommon;
+import de.budget.BudgetAndroid.common.ToastCommon;
 import de.budget.BudgetService.Response.AmountResponse;
 import de.budget.R;
 
@@ -74,27 +76,21 @@ public class DashboardHomeFragment extends Fragment {
 
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progressChanged = progress;
-                text_period.setText("Einnahmen/Ausgaben der letzten " + progressChanged + " Tage");
+                text_period.setText("Zusammenfassung der letzten " + progressChanged + " Tage");
             }
             public void onStartTrackingTouch(SeekBar seekBar) {
 
             }
 
             public void onStopTrackingTouch(SeekBar seekBar) {
-                ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-                if(networkInfo != null && networkInfo.isConnected()){
+                if(NetworkCommon.getStatus(getActivity())){
                     loadingPanel.setVisibility(View.VISIBLE);
                     taskIncome = new GetIncomeByPeriodTask();
                     taskIncome.execute(String.valueOf(String.valueOf(progressChanged)));
                     taskLoss = new GetLossByPeriodTask();
                     taskLoss.execute(String.valueOf(String.valueOf(progressChanged)));
-                }
-                else {
-                    CharSequence text = "Keine Netzwerkverbindung! :(";
-                    int duration = Toast.LENGTH_SHORT;
-                    Toast toast = Toast.makeText(getActivity().getBaseContext(), text, duration);
-                    toast.show();
+                } else {
+                    ToastCommon.NetworkMissing(getActivity().getBaseContext());
                 }
             }
         });
@@ -148,7 +144,7 @@ public class DashboardHomeFragment extends Fragment {
             loss = new BigDecimal(myApp.getLossLastPeriod());
             delta = income.subtract(loss);
             DecimalFormat df = new DecimalFormat(".00");
-            chart = ChartMethods.setPieChartFundamentals(chart, "Differenz \n" + df.format(delta) + "€");
+            chart = ChartMethods.setPieChartFundamentals(chart, df.format(delta) + "€");
             chart = ChartMethods.setDataNormal(chart, "Einnahmen", "Ausgaben", income.round(new MathContext(3, RoundingMode.HALF_UP)).intValueExact(), loss.round(new MathContext(3, RoundingMode.HALF_UP)).intValueExact());
             int res = delta.compareTo(new BigDecimal(0));
             if( res == 0 )
