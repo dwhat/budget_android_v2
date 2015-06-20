@@ -1,9 +1,6 @@
 package de.budget.BudgetAndroid.Loss;
 
 import android.app.Activity;
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,7 +14,6 @@ import com.github.mikephil.charting.charts.HorizontalBarChart;
 
 import java.util.List;
 
-import de.budget.BudgetAndroid.AsyncTasks.GetIncomeAmountForCategoriesTask;
 import de.budget.BudgetAndroid.AsyncTasks.GetLossAmountForCategoriesTask;
 import de.budget.BudgetAndroid.AsyncTasks.OnTaskCompleted;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;

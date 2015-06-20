@@ -142,53 +142,58 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @return VendorListResponse Object
      */
     public VendorListResponse getVendors(int sessionId) throws Exception{
+
         VendorListResponse result = new VendorListResponse();
+        ArrayList<VendorTO> vendorList = new ArrayList<>();
+
         String METHOD_NAME = "getVendors";
         SoapObject response = null;
         try {
             response = executeSoapAction(METHOD_NAME, sessionId);
+            returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            result.setReturnCode(returnCode);
 
-            //Log.d(TAG, response.toString() + response.getPropertyCount());
-
-            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
-            if (tmp == 200) {
-                result.setReturnCode(tmp);
-                ArrayList<VendorTO> vendorList = new ArrayList<>();
+            if (returnCode == 200) {
                 if (response.getPropertyCount() > 1) {
                     for (int idx = 1; idx < response.getPropertyCount(); idx++) {
                         SoapObject ListObject = (SoapObject) response.getProperty(idx);
-                        //Log.d("INFO", "vendorList gefunden : " + ListObject.toString() + "Länge: " + ListObject.getPropertyCount());
-                        String name = ListObject.getPrimitivePropertySafelyAsString("name");
-                        String street = ListObject.getPrimitivePropertySafelyAsString("street");
-                        String city = ListObject.getPrimitivePropertySafelyAsString("city");
-                        int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString("id"));
-                        int hn = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString("houseNumber"));
-                        int plz = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString("PLZ"));
-                        VendorTO tmp = new VendorTO();
-                        tmp.setName(name);
-                        tmp.setId(id);
-                        tmp.setStreet(street);
-                        tmp.setHouseNumber(hn);
-                        tmp.setPLZ(plz);
-                        tmp.setCity(city);
-                        vendorList.add(tmp);
 
+                        vendorList.add(parseVendorResponse(ListObject));
                     }
                 }
-                result.setVendorList(vendorList);
-                return result;
+            } else {
+                throw new Exception(METHOD_NAME + " was not successful!");
             }
-            else if(tmp == 404){
-                result.setReturnCode(tmp);
-                result.setVendorList(new ArrayList<VendorTO>());
-                return result;
-            }
-            else {
-                throw new Exception("getVendors was not successful!");
-            }
+
+            result.setVendorList(vendorList);
+            return result;
+
         } catch (SoapFault e) {
             throw new Exception(e.getMessage());
         }
+    }
+
+    private VendorTO parseVendorResponse (SoapObject ListObject) {
+
+        VendorTO vendorTO = new VendorTO();
+
+        String name = ListObject.getPrimitivePropertySafelyAsString("name");
+        String street = ListObject.getPrimitivePropertySafelyAsString("street");
+        String city = ListObject.getPrimitivePropertySafelyAsString("city");
+        int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString("id"));
+        int hn = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString("houseNumber"));
+        int plz = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString("PLZ"));
+
+
+        vendorTO.setName(name);
+        vendorTO.setId(id);
+        vendorTO.setStreet(street);
+        vendorTO.setHouseNumber(hn);
+        vendorTO.setPLZ(plz);
+        vendorTO.setCity(city);
+
+        return vendorTO;
+
     }
 
     /**
@@ -253,28 +258,8 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @return
      */
     public ReturnCodeResponse deleteVendor(int sessionId, int vendorId) throws Exception{
-        ReturnCodeResponse result = new ReturnCodeResponse();
-        String METHOD_NAME = "deleteVendor";
-        SoapObject response = null;
-        try {
-            response = executeSoapAction(METHOD_NAME, sessionId, vendorId);
-            //Log.d(TAG, response.toString() + response.getPropertyCount());
-
-            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
-            if (tmp == 200) {
-                result.setReturnCode(tmp);
-                return result;
-            }
-            else {
-                throw new Exception("Delete Vendor was not successful!");
-            }
-        } catch (SoapFault e) {
-            throw new Exception(e.getMessage());
-        }
-
+        return deleteObject(sessionId, vendorId, "deleteVendor");
     }
-
-
 
 
 
@@ -522,25 +507,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @return
      */
     public ReturnCodeResponse deleteCategory(int sessionId, int categoryId) throws Exception{
-        ReturnCodeResponse result = new ReturnCodeResponse();
-        String METHOD_NAME = "deleteCategory";
-        SoapObject response = null;
-        try {
-            response = executeSoapAction(METHOD_NAME, sessionId, categoryId);
-            //Log.d(TAG, response.toString() + response.getPropertyCount());
-
-            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
-            if (tmp == 200) {
-                result.setReturnCode(tmp);
-                return result;
-            }
-            else {
-                throw new Exception("Delete Category was not successful!");
-            }
-        } catch (SoapFault e) {
-            throw new Exception(e.getMessage());
-        }
-
+        return deleteObject(sessionId, sessionId, "deleteCategory");
     }
 
     /**
@@ -1060,24 +1027,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @return
      */
     public ReturnCodeResponse deleteIncome(int sessionId, int incomeId) throws Exception{
-        ReturnCodeResponse result = new ReturnCodeResponse();
-        String METHOD_NAME = "deleteIncome";
-        SoapObject response = null;
-        try {
-            response = executeSoapAction(METHOD_NAME, sessionId, incomeId);
-            //Log.d(TAG, response.toString() + response.getPropertyCount());
-
-            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
-            if (tmp == 200) {
-                result.setReturnCode(tmp);
-                return result;
-            }
-            else {
-                throw new Exception("Delete Income was not successful!");
-            }
-        } catch (SoapFault e) {
-            throw new Exception(e.getMessage());
-        }
+        return deleteObject(sessionId, incomeId, "deleteIncome");
 
     }
 
@@ -1149,8 +1099,8 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
     }
 
     /**
-     * @author Christopher
-     * @date 26.05.2015
+     * @author Mark
+     * @date 19.06.2015
      * @param sessionId
      * @param basketId
      * @return
@@ -1248,8 +1198,12 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @return
      */
     public AmountResponse getLossByPeriod(int sessionId, int daysOfPeriod) throws Exception{
+        return getObjectByPeriod(sessionId, daysOfPeriod, "getLossByPeriod");
+    }
+
+    public AmountResponse getObjectByPeriod(int sessionId, int daysOfPeriod, String method) throws Exception {
         AmountResponse result = new AmountResponse();
-        String METHOD_NAME = "getLossByPeriod";
+        String METHOD_NAME = method;
         SoapObject response = null;
         try {
             response = executeSoapAction(METHOD_NAME, sessionId, daysOfPeriod);
@@ -1266,7 +1220,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
             }
             else {
                 result.setReturnCode(tmp);
-                Log.d("INFO", "Keine Ausgaben vorhanden");
+                Log.d("INFO", METHOD_NAME + " keine vorhanden");
                 return result;
             }
         } catch (SoapFault e) {
@@ -1282,30 +1236,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @return
      */
     public AmountResponse getIncomeByPeriod(int sessionId, int daysOfPeriod) throws Exception{
-        AmountResponse result = new AmountResponse();
-        String METHOD_NAME = "getIncomeByPeriod";
-        SoapObject response = null;
-        try {
-            response = executeSoapAction(METHOD_NAME, sessionId, daysOfPeriod);
-            //Log.d(TAG, response.toString() + response.getPropertyCount());
-
-            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
-            if (tmp == 200) {
-                result.setReturnCode(tmp);
-                if (response.getPropertyCount() > 1) {
-                        Double amount = Double.parseDouble(response.getPrimitivePropertySafelyAsString("value"));
-                        result.setValue(amount);
-                }
-                return result;
-            }
-            else {
-                result.setReturnCode(tmp);
-                Log.d("INFO", "Keine Einnahmen vorhanden");
-                return result;
-            }
-        } catch (SoapFault e) {
-            throw new Exception(e.getMessage());
-        }
+        return getObjectByPeriod(sessionId, daysOfPeriod, "getIncomeByPeriod");
 
     }
 
@@ -1316,44 +1247,53 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @return
      */
     public AmountListResponse getItemsAmountForCategories(int sessionId) throws Exception{
-        AmountListResponse result = new AmountListResponse();
-        String METHOD_NAME = "getItemsAmountForCategories";
-        SoapObject response = null;
-        try {
-            response = executeSoapAction(METHOD_NAME, sessionId);
-            //Log.d(TAG, response.toString() + response.getPropertyCount());
+        return getObjectAmountForCategories(sessionId, "getItemsAmountForCategories");
+    }
 
-            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
-            if (tmp == 200) {
-                result.setReturnCode(tmp);
-                ArrayList<AmountTO> list = new ArrayList<>();
-                if (response.getPropertyCount() > 1) {
-                    for (int idx = 1; idx < response.getPropertyCount(); idx++) {
+    public AmountListResponse getObjectAmountForCategories(int sessionId, String method) throws Exception {
+
+        return getAmount(sessionId, method);
+
+        /*
+        AmountListResponse result = new AmountListResponse();
+        ArrayList<AmountTO> list = new ArrayList<>();
+        String METHOD_NAME = method;
+        SoapObject response = null;
+
+        try {
+
+            response = executeSoapAction(METHOD_NAME, sessionId);
+            returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            result.setReturnCode(returnCode);
+
+            int propertyCount = response.getPropertyCount();
+
+            if (returnCode == 200) {
+
+                if (propertyCount > 1) {
+                    for (int idx = 1; idx < propertyCount; idx++) {
+
                         SoapObject ListObject = (SoapObject) response.getProperty(idx);
-                        //Log.d("INFO", "incomeList gefunden : " + ListObject.toString() + "Länge: " + ListObject.getPropertyCount());
+                        AmountTO amountTO = new AmountTO();
+
                         String name = ListObject.getPrimitivePropertySafelyAsString("name");
                         Double value = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString("value"));
 
-                        AmountTO tmp = new AmountTO();
-                        tmp.setName(name);
-                        tmp.setValue(value);
-                        list.add(tmp);
+                        amountTO.setName(name);
+                        amountTO.setValue(value);
 
+                        list.add(amountTO);
                     }
                 }
                 result.setAmountList(list);
-                return result;
-            }
-            else {
-                result.setReturnCode(tmp);
-                Log.d("INFO", "Keine Ausgaben vorhanden");
-                return result;
-            }
+
+            } else Log.d("INFO", METHOD_NAME + " keine vorhanden");
+
+            return result;
+
         } catch (SoapFault e) {
             throw new Exception(e.getMessage());
-        }
-
-
+        }*/
     }
 
     /**
@@ -1363,44 +1303,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @return
      */
     public AmountListResponse getIncomeAmountForCategories(int sessionId) throws Exception{
-        AmountListResponse result = new AmountListResponse();
-        String METHOD_NAME = "getIncomesAmountForCategories";
-        SoapObject response = null;
-        try {
-            response = executeSoapAction(METHOD_NAME, sessionId);
-            Log.d(TAG, response.toString() + response.getPropertyCount());
-
-            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
-            if (tmp == 200) {
-                result.setReturnCode(tmp);
-                ArrayList<AmountTO> list = new ArrayList<>();
-                if (response.getPropertyCount() > 1) {
-                    for (int idx = 1; idx < response.getPropertyCount(); idx++) {
-                        SoapObject ListObject = (SoapObject) response.getProperty(idx);
-                        //Log.d("INFO", "incomeList gefunden : " + ListObject.toString() + "Länge: " + ListObject.getPropertyCount());
-                        String name = ListObject.getPrimitivePropertySafelyAsString("name");
-                        Double value = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString("value"));
-
-                        AmountTO tmp = new AmountTO();
-                        tmp.setName(name);
-                        tmp.setValue(value);
-                        list.add(tmp);
-
-                    }
-                }
-                result.setAmountList(list);
-                return result;
-            }
-            else {
-                result.setReturnCode(tmp);
-                Log.d("INFO", "Keine Einnahmen vorhanden");
-                return result;
-            }
-        } catch (SoapFault e) {
-            throw new Exception(e.getMessage());
-        }
-
-
+        return getObjectAmountForCategories(sessionId, "getIncomesAmountForCategories");
     }
 
 
@@ -1423,31 +1326,29 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      */
     public AmountListResponse getAmount(int sessionId, String method) throws Exception {
 
+        // Create ResultSet
+        AmountListResponse result  = new AmountListResponse();
+        // Create a List to store response items
+        ArrayList<AmountTO> list = new ArrayList<>();
         // Get Method Name to invoke on Server
         String METHOD_NAME = method;
         // Save Soap response - Server method return
         SoapObject response = null;
 
-        // Create ResultSet
-        AmountListResponse result  = new AmountListResponse();
-        // Create a List to store response items
-        ArrayList<AmountTO> list = new ArrayList<>();
-
         try {
 
             response = executeSoapAction(METHOD_NAME, sessionId);
+            returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            result.setReturnCode(returnCode);
 
             int propertyCount = response.getPropertyCount();
 
             // Read the response and get ReturnCode
-            returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+
 
             if (returnCode == 200) {
 
                 if (propertyCount > 1) {
-
-                    result.setReturnCode(returnCode);
-
                     for (int idx = 1; idx < propertyCount; idx++) {
 
                         SoapObject ListObject = (SoapObject) response.getProperty(idx);
@@ -1461,17 +1362,12 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
                     }
 
                     result.setAmountList(list);
-
                 }
 
 
-            } else {
-                result.setReturnCode(returnCode);
-                Log.d("INFO", METHOD_NAME + " keine Werte vorhanden");
-            }
+            } else  Log.d("INFO", METHOD_NAME + " keine Werte vorhanden");
 
             return result;
-
 
         } catch (SoapFault e) {
             throw new Exception(e.getMessage());

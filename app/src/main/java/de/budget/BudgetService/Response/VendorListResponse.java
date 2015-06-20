@@ -32,4 +32,8 @@ public class VendorListResponse extends ReturnCodeResponse{
 		this.vendorList = vendorList;
 	}
 
+	public void set(List<VendorTO> vendorList) {
+		this.vendorList = vendorList;
+	}
+
 }
