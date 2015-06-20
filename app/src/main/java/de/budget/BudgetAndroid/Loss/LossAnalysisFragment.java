@@ -98,7 +98,7 @@ public class LossAnalysisFragment extends Fragment {
     }
 
     public void refreshChart(HorizontalBarChart chart) {
-        List<AmountTO> loss = myApp.getVendorsAmount();
+        List<AmountTO> loss = myApp.getBasketVendorsAmount();
         ChartMethods.setDataOfHorizontalBarChart(chart, loss, "Ausgaben pro Kategorie in €");
 
     }
