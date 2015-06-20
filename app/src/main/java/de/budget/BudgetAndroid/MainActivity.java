@@ -49,6 +49,7 @@ import de.budget.BudgetAndroid.Vendors.VendorActivity;
 import de.budget.BudgetAndroid.Vendors.VendorAnalysisFragment;
 import de.budget.BudgetAndroid.Vendors.VendorFragment;
 import de.budget.BudgetAndroid.Vendors.VendorListFragment;
+import de.budget.BudgetAndroid.common.ToastCommon;
 import de.budget.BudgetService.dto.BasketTO;
 import de.budget.R;
 
@@ -114,8 +115,6 @@ public class MainActivity extends ActionBarActivity
         if (bundle != null)  {
             // Wechsel zum gewünschten Fragment
             int fragmentNavigation = bundle.getInt(FRAGMENT_NAVIGATION);
-
-            Log.d("INFO", getFragmentByPosition(fragmentNavigation).toString());
             onNavigationDrawerItemSelected(fragmentNavigation);
         }
     }
@@ -133,12 +132,8 @@ public class MainActivity extends ActionBarActivity
                     int sessionId = myApp.getSession();
                     logoutTask.execute(sessionId);
                 }
-            }
-            else {
-                CharSequence text = "Keine Netzwerkverbindung! :(";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(this, text, duration);
-                toast.show();
+            } else {
+                ToastCommon.NetworkMissing(this);
             }
 
         }

@@ -73,6 +73,7 @@
     <string name="article_name">Artikel Name</string>
     <string name="article_amount">1 x </string>
     <string name="article_value">5 €</string>
+    <string name="article_name_missing">Bitte Artikel Namen eingeben!</string>
 
     <!-- Income Activity -->
     <string name="title_activity_income">Einnahme</string>
@@ -149,5 +150,8 @@
     <string name="title_activity_sync">Syncing...</string>
 
 
+    <!-- Error Messages -->
+    <string name="network_missing_error">Keine Netzwerkverbindung! :(!</string>
+    <string name="required_fields_missing_error">Bitte alle Felder ausfüllen!</string>
 
 </resources>

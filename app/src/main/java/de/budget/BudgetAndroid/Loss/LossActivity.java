@@ -38,6 +38,7 @@ import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.Categories.CategorySpinnerAdapter;
 import de.budget.BudgetAndroid.PaymentSpinnerAdapter;
 import de.budget.BudgetAndroid.Vendors.VendorSpinnerAdapter;
+import de.budget.BudgetAndroid.common.DateCommon;
 import de.budget.BudgetAndroid.common.SwipeDismissListViewTouchListener;
 import de.budget.BudgetService.dto.BasketTO;
 import de.budget.BudgetService.dto.CategoryTO;
@@ -72,8 +73,6 @@ public class LossActivity extends ActionBarActivity {
     private VendorSpinnerAdapter    spinnerVendorArrayAdapter;
     private PaymentSpinnerAdapter   spinnerPaymentArrayAdapter;
     private ItemArrayAdapter        itemArrayAdapter;
-
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,12 +119,11 @@ public class LossActivity extends ActionBarActivity {
             int pos = bundle.getInt("POSITION");
             basket = myApp.getBasket().get(pos);
 
-
             /*
             * Set Basket Details
             */
             editTextName    .setText(basket.getName());
-            editTextDate    .setText(dateFormat.format(basket.getPurchaseDate()));
+            editTextDate     .setText(DateCommon.format(basket.getPurchaseDate()));
             editTextTotal   .setText(String.valueOf(basket.getAmount()));
             editTextNotice  .setText(basket.getNotice());
             spinnerVendor   .setSelection(myApp.getVendors().indexOf(basket.getVendor()));
@@ -140,9 +138,8 @@ public class LossActivity extends ActionBarActivity {
             /*
             * Set Basket and Item Default Details
             */
-            List<ItemTO> items = new ArrayList<>();
-            itemArrayAdapter = new ItemArrayAdapter(this, myApp, R.layout.listview_item, items);
-            editTextDate.setText(dateFormat.format(date));
+            itemArrayAdapter = new ItemArrayAdapter(this, myApp, R.layout.listview_item, new ArrayList<ItemTO>());
+            editTextDate.setText(DateCommon.format(date));
         }
 
         /*
@@ -304,60 +301,54 @@ public class LossActivity extends ActionBarActivity {
     };
 
     /*
-     *
+     * Adss new ItemTO to the ArrayAdapter of the LossActivity ListView
+     * Validates the Input of the user and checks if everythin is set and valid
+     * Change invalid input into place
      */
     @Author(name="Mark")
     public void add(View v){
 
-        String name         = editTextItemName.getText().toString();
-        String amount       = editTextItemAmount.getText().toString();
-        String value        = editTextItemValue.getText().toString();
-        CategoryTO category = (CategoryTO) spinnerCategory.getSelectedItem();
         ItemTO item         = new ItemTO();
 
-        if (name.isEmpty()) Toast.makeText(this, "Bitte Item Namen eingeben!", Toast.LENGTH_SHORT).show();
+        String name         = editTextItemName.getText().toString();
+        Double quantity       = Double.parseDouble(editTextItemAmount.getText().toString());
+        Double price        = Double.parseDouble(editTextItemValue.getText().toString());
+        CategoryTO category = (CategoryTO) spinnerCategory.getSelectedItem();
+
+
+        if (name.isEmpty()) Toast.makeText(this, this.getString(R.string.article_name_missing), Toast.LENGTH_SHORT).show();
         else {
 
-            amount = validateInput(amount);
-            value = validateInput(value);
-
             item.setName(name);
-            item.setPrice(Double.parseDouble(value));
-            item.setQuantity(Double.parseDouble(amount));
+            item.setQuantity(validateInput(quantity));
+            item.setPrice(validateInput(price));
             item.setCategory(category.getId());
-
-            BigDecimal sum = round( (Float.parseFloat( amount ) * Float.parseFloat( value )) , 2);
-
-            Log.d(this.getClass().toString(),
-                    "ADD= " +
-                            Item.NAME + ": " + name + ", " +
-                            Item.AMOUNT + ": " + amount + ", " +
-                            Item.VALUE + ": " + value
-            );
 
             itemArrayAdapter.add(item);
         }
 
     }
 
+    /*
+     * Get the sum of complete ListView ItemTO Items
+     */
     @Author(name="Mark")
     public Double getItemSum(List<ItemTO> items) {
+
         Double itemSum = 0.0;
         Iterator<ItemTO> i = items.iterator();
+
         while(i.hasNext()) {
             ItemTO item = i.next();
             itemSum += item.getPrice() * item.getQuantity();
         }
+
         return itemSum;
     }
 
-    @Author(name="Mark")
-    public static BigDecimal round(float d, int decimalPlace) {
-        BigDecimal bd = new BigDecimal(Float.toString(d));
-        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
-        return bd;
-    }
-
+    /*
+     * Generate Mock Object
+     */
     @Author(name="Mark")
     private ArrayList<HashMap<String, String>> mock() {
 
@@ -374,17 +365,24 @@ public class LossActivity extends ActionBarActivity {
         return array;
     }
 
-    private String validateInput (String value) {
-        if(value.isEmpty() || Double.parseDouble(value) <= 0) {
+    /*
+     * Checks wether the Double input is set and greater zero to ensure correctness
+     * Puts 1 into place if invalid
+     * @param value - value to validate
+     * @return value - corrected value if invalid
+     */
+    private Double validateInput (Double value) {
+
+        if(value == null || value <= 0.0) {
             Toast.makeText(this, "Input geändert auf 1", Toast.LENGTH_SHORT).show();
-            value = "1";
+            value = 1.0;
         }
+
         return value;
     }
 
     public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "datePicker");
+        new DatePickerFragment().show(getSupportFragmentManager(), "datePicker");
     }
 
 
@@ -409,7 +407,7 @@ public class LossActivity extends ActionBarActivity {
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
             date = new Date(year, month, day);
-            editTextDate.setText(dateFormat.format(date));
+            editTextDate.setText(DateCommon.format(date));
         }
     }
 

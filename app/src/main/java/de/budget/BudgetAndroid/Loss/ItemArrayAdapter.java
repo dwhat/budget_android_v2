@@ -20,39 +20,36 @@ import de.budget.R;
  */
 @Author(name="Mark")
 public class ItemArrayAdapter extends ArrayAdapter<ItemTO> {
+
     private final BudgetAndroidApplication myApp;
     private final Context context;
     private final List<ItemTO> values;
 
     public ItemArrayAdapter(Context context, BudgetAndroidApplication myApp, int resource, List<ItemTO> values) {
-
         super(context, R.layout.listview_item, values);
 
         this.context    = context;
-        this.myApp = myApp;
+        this.myApp      = myApp;
         this.values     = values;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.listview_item, parent, false);
 
         TextView itemName       = (TextView) rowView.findViewById(R.id.item_name);
         TextView itemCategory   = (TextView) rowView.findViewById(R.id.item_category);
-        TextView itemAmount     = (TextView) rowView.findViewById(R.id.item_amount);
-        TextView itemValue      = (TextView) rowView.findViewById(R.id.item_value);
         TextView itemTotal      = (TextView) rowView.findViewById(R.id.item_total);
 
-        double value = values.get(position).getPrice();
+        double value    = values.get(position).getPrice();
         double quantity = values.get(position).getQuantity();
+
         BigDecimal total = round(value * quantity, 2);
 
-        // TODO Categories
         itemName        .setText(values.get(position).getName());
         itemCategory    .setText(myApp.getCategory(values.get(position).getCategory()).getName());
-//        itemAmount      .setText(String.valueOf(quantity));
-//        itemValue       .setText(String.valueOf(value));
         itemTotal       .setText( total + " €");
 
         return rowView;
