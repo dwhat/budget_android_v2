@@ -31,6 +31,7 @@ import de.budget.BudgetAndroid.AsyncTasks.CreateOrUpdateIncomeTask;
 import de.budget.BudgetAndroid.AsyncTasks.DeleteIncomeTask;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.MainActivity;
+import de.budget.BudgetAndroid.common.ToastCommon;
 import de.budget.BudgetService.dto.CategoryTO;
 import de.budget.BudgetService.dto.IncomeTO;
 import de.budget.R;
@@ -170,19 +171,17 @@ public class IncomeActivity extends ActionBarActivity {
                 task.execute(incomeId, incomeName,  incomeQuantity, incomeAmount, incomeNotice, String.valueOf(receiptDate), incomeCategory);
             }
             else {
-                CharSequence text = "Keine Netzwerkverbindung! :(";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(this, text, duration);
-                toast.show();
+//                CharSequence text = "Keine Netzwerkverbindung! :(";
+//                int duration = Toast.LENGTH_SHORT;
+//                Toast toast = Toast.makeText(this, text, duration);
+//                toast.show();
+
+                ToastCommon.NetworkMissing(this);
             }
         }
         else
         {
-            //Toast anzeigen
-            CharSequence text = "Bitte alle Felder ausfüllen!";
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(this, text, duration);
-            toast.show();
+            ToastCommon.RequireFields(this);
         }
 
     }
@@ -202,10 +201,7 @@ public class IncomeActivity extends ActionBarActivity {
                 task.execute(Integer.parseInt(txtIncomeId.getText().toString()));
             }
             else {
-                CharSequence text = "Keine Netzwerkverbindung! :(";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(this, text, duration);
-                toast.show();
+                ToastCommon.NetworkMissing(this);
             }
 
     }
