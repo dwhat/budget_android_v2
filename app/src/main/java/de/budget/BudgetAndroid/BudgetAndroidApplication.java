@@ -105,7 +105,7 @@ public class BudgetAndroidApplication extends Application{
 
     public List<CategoryTO> getCategoriesByFormat(boolean income){
         Iterator<CategoryTO> i = categories.iterator();
-        ArrayList<CategoryTO> result = null;
+        List<CategoryTO> result = new ArrayList<>();
         while(i.hasNext()) {
             CategoryTO categoryTO = i.next();
             if(categoryTO.isIncome() == income) result.add(categoryTO);
