@@ -17,12 +17,10 @@ import com.github.mikephil.charting.charts.HorizontalBarChart;
 
 import java.util.List;
 
-import de.budget.BudgetAndroid.AsyncTasks.GetBasketsAmountForVendorsTask;
 import de.budget.BudgetAndroid.AsyncTasks.GetIncomeAmountForCategoriesTask;
 import de.budget.BudgetAndroid.AsyncTasks.GetItemsAmountForCategoriesTask;
 import de.budget.BudgetAndroid.AsyncTasks.OnTaskCompleted;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
-import de.budget.BudgetAndroid.ChartMethods;
 import de.budget.BudgetService.dto.AmountTO;
 import de.budget.R;
 

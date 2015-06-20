@@ -1,4 +1,4 @@
-package de.budget.BudgetAndroid;
+package de.budget.BudgetAndroid.Dashboard;
 
 import android.graphics.Color;
 import android.view.View;
@@ -8,16 +8,13 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.*;
-import com.github.mikephil.charting.utils.DefaultValueFormatter;
 import com.github.mikephil.charting.utils.PercentFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import de.budget.BudgetAndroid.common.EuroValueFormatter;
 import de.budget.BudgetService.dto.AmountTO;
-import de.budget.BudgetService.dto.ObjectTO;
-import de.budget.BudgetService.dto.VendorTO;
-import de.budget.R;
 
 /**
  * @author christopher

@@ -25,7 +25,6 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
-import de.budget.BudgetAndroid.ChartMethods;
 import de.budget.BudgetService.Response.AmountResponse;
 import de.budget.R;
 

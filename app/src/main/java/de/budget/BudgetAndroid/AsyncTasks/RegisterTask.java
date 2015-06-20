@@ -13,8 +13,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
-import de.budget.BudgetAndroid.MainActivity;
-import de.budget.BudgetAndroid.Register;
+import de.budget.BudgetAndroid.RegisterActivity;
 import de.budget.BudgetAndroid.SyncActivity;
 import de.budget.BudgetService.Response.UserLoginResponse;
 
@@ -25,12 +24,12 @@ import de.budget.BudgetService.Response.UserLoginResponse;
 public class RegisterTask extends AsyncTask<String, Integer, UserLoginResponse>
 {
     private Context context;
-    private static Register activity;
+    private static RegisterActivity activity;
     private static BudgetAndroidApplication myApp;
     public static SyncActivity nextActivity = new SyncActivity();
 
 
-    public RegisterTask(Context context, BudgetAndroidApplication myApp, Register pActivity)
+    public RegisterTask(Context context, BudgetAndroidApplication myApp, RegisterActivity pActivity)
     {
         this.context = context;
         this.activity = pActivity;

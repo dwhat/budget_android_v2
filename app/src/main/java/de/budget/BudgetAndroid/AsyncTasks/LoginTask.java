@@ -11,11 +11,9 @@ import android.widget.Toast;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
-import de.budget.BudgetAndroid.Login;
-import de.budget.BudgetAndroid.MainActivity;
+import de.budget.BudgetAndroid.LoginActivity;
 import de.budget.BudgetAndroid.SyncActivity;
 import de.budget.BudgetService.Response.UserLoginResponse;
 
@@ -26,10 +24,10 @@ import de.budget.BudgetService.Response.UserLoginResponse;
 public class LoginTask extends AsyncTask<String, Integer, UserLoginResponse>
 {
     private Context context;
-    private static Login activity;
+    private static LoginActivity activity;
     public static SyncActivity nextActivity = new SyncActivity();
 
-    public LoginTask(Context context, Login pActivity)
+    public LoginTask(Context context, LoginActivity pActivity)
     {
         this.context = context;
         this.activity = pActivity;

@@ -1,15 +1,10 @@
 package de.budget.BudgetAndroid.AsyncTasks;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
-import de.budget.BudgetAndroid.Login;
-import de.budget.BudgetAndroid.MainActivity;
-import de.budget.BudgetAndroid.SyncActivity;
 import de.budget.BudgetService.Response.CategoryListResponse;
 
 /*

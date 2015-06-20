@@ -1,4 +1,4 @@
-package de.budget.BudgetAndroid;
+package de.budget.BudgetAndroid.common;
 
 import com.github.mikephil.charting.utils.ValueFormatter;
 

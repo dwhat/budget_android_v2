@@ -24,7 +24,7 @@ import de.budget.BudgetAndroid.AsyncTasks.RegisterTask;
     * @Author Christopher
     * @Date 09.06.2015
     */
-public class Register extends ActionBarActivity {
+public class RegisterActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

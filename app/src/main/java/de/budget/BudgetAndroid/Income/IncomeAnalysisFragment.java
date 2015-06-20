@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -18,14 +17,11 @@ import com.github.mikephil.charting.charts.HorizontalBarChart;
 
 import java.util.List;
 
-import de.budget.BudgetAndroid.AsyncTasks.GetBasketsAmountForVendorsTask;
 import de.budget.BudgetAndroid.AsyncTasks.GetIncomeAmountForCategoriesTask;
 import de.budget.BudgetAndroid.AsyncTasks.OnTaskCompleted;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
-import de.budget.BudgetAndroid.ChartMethods;
+import de.budget.BudgetAndroid.Dashboard.ChartMethods;
 import de.budget.BudgetService.dto.AmountTO;
-import de.budget.BudgetService.dto.CategoryTO;
-import de.budget.BudgetService.dto.IncomeTO;
 import de.budget.R;
 
 

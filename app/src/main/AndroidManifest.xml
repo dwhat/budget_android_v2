@@ -16,7 +16,7 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".BudgetAndroid.Login"
+            android:name=".BudgetAndroid.LoginActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,12 +25,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".BudgetAndroid.Register"
+            android:name=".BudgetAndroid.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:parentActivityName=".BudgetAndroid.Login" >
+            android:parentActivityName=".BudgetAndroid.LoginActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".BudgetAndroid.Login" />
+                android:value=".BudgetAndroid.LoginActivity" />
         </activity>
         <activity
             android:name=".BudgetAndroid.Loss.LossActivity"

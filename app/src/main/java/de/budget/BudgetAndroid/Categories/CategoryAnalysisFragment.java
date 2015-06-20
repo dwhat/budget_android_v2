@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
-import de.budget.BudgetAndroid.ChartMethods;
+import de.budget.BudgetAndroid.Dashboard.ChartMethods;
 
 import com.github.mikephil.charting.charts.PieChart;
 

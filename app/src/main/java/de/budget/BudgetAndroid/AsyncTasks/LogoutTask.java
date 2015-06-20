@@ -7,7 +7,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
-import de.budget.BudgetAndroid.Login;
+import de.budget.BudgetAndroid.LoginActivity;
 import de.budget.BudgetAndroid.MainActivity;
 import de.budget.BudgetService.Response.ReturnCodeResponse;
 
@@ -58,7 +58,7 @@ public class LogoutTask extends AsyncTask<Integer, Integer, ReturnCodeResponse>
             if (result.getReturnCode() == 200){
 
                 myApp.reset();
-                Intent intent = new Intent(activity.getBaseContext(), Login.class);
+                Intent intent = new Intent(activity.getBaseContext(), LoginActivity.class);
                 activity.startActivity(intent);
             }
         }

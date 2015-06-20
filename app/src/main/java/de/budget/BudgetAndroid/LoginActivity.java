@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -15,16 +14,14 @@ import android.content.Intent;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import de.budget.BudgetService.Response.CategoryListResponse;
 import de.budget.R;
-import android.util.Log;
 import de.budget.BudgetAndroid.AsyncTasks.*;
 
 /**
  * @author christopher
  * @date 01.06,2015
  */
-public class Login extends ActionBarActivity {
+public class LoginActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +96,7 @@ public class Login extends ActionBarActivity {
 
     /** Called when the user clicks the Register button */
     public void register(View view) {
-        Intent intent = new Intent(this, Register.class);
+        Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
