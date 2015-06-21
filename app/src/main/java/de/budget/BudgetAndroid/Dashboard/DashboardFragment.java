@@ -51,8 +51,7 @@ public class DashboardFragment extends Fragment{
         mTabHost.addTab(mTabHost.newTabSpec("Kategorien").setIndicator("Kategorien"),
                 DashboardIncomeAndLossAnalysisFragment.class, null);
 
-        mTabHost.addTab(mTabHost.newTabSpec("Ausgaben").setIndicator("Ausgaben"),
-                DashboardIncomeFragment.class, null);
+      //  mTabHost.addTab(mTabHost.newTabSpec("Ausgaben").setIndicator("Ausgaben"), DashboardIncomeFragment.class, null);
 
         return rootView;
     }

@@ -536,7 +536,7 @@ public interface BudgetOnlineService {
      * @param sessionId
      * @return
      */
-    public AmountListResponse getBasketsAmountForVendors(int sessionId) throws Exception;
+    public AmountListResponse getAmountForVendors(int sessionId) throws Exception;
 
 
 }

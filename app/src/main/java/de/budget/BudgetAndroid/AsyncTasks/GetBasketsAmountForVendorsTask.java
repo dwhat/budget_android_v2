@@ -31,7 +31,7 @@ public class GetBasketsAmountForVendorsTask extends AsyncTask<String, Integer, A
             return null;
 
         try {
-            AmountListResponse repsonse = myApp.getBudgetOnlineService().getBasketsAmountForVendors(myApp.getSession());
+            AmountListResponse repsonse = myApp.getBudgetOnlineService().getAmountForVendors(myApp.getSession());
             Integer rt =  repsonse.getReturnCode();
             Log.d("INFO", "Returncode: " + rt.toString());
             return repsonse;
