@@ -1,6 +1,5 @@
 package de.budget.BudgetService.dto;
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 /**
  * @date 18.05.2015
@@ -16,10 +15,10 @@ public class CategoryTO implements Serializable {
 	private String notice;
 	private boolean active;
 	private boolean income; //True, if IncomeCategory; false, if LossesCategory
-	private Timestamp createDate;
-	private Timestamp lastChanged;
+	private long createDate;
+	private long lastChanged;
 	private UserTO user;
-	private String colour;
+	private String color;
 	
 	/**
 	 * Default Constructor
@@ -41,7 +40,7 @@ public class CategoryTO implements Serializable {
 	 * @param lastChanged
 	 * @param user
 	 */
-	public CategoryTO(int id, String name, String notice, boolean active, boolean income, Timestamp createDate, Timestamp lastChanged, UserTO user, String colour) {
+	public CategoryTO(int id, String name, String notice, boolean active, boolean income, long createDate, long lastChanged, UserTO user, String color) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -51,9 +50,22 @@ public class CategoryTO implements Serializable {
 		this.createDate = createDate;
 		this.lastChanged = lastChanged;
 		this.user = user;
-		this.colour = colour;
+		this.color = color;
 	}
-	
+
+	public CategoryTO(int id, String name, String notice, boolean active, boolean income, long createDate, long lastChanged,  String color) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.notice = notice;
+		this.active = active;
+		this.income = income;
+		this.createDate = createDate;
+		this.lastChanged = lastChanged;
+		this.color = color;
+	}
+
+
 	/**
 	 * @return the id
 	 */
@@ -117,26 +129,26 @@ public class CategoryTO implements Serializable {
 	/**
 	 * @return the createDate
 	 */
-	public Timestamp getCreateDate() {
+	public long getCreateDate() {
 		return createDate;
 	}
 	/**
 	 * @param createDate the createDate to set
 	 */
-	public void setCreateDate(Timestamp createDate) {
+	public void setCreateDate(long createDate) {
 		this.createDate = createDate;
 	}
 	/**
 	 * @return the lastChanged
 	 */
-	public Timestamp getLastChanged() {
+	public long getLastChanged() {
 		return lastChanged;
 	}
 
 	/**
 	 * @param lastChanged the lastChanged to set
 	 */
-	public void setLastChanged(Timestamp lastChanged) {
+	public void setLastChanged(long lastChanged) {
 		this.lastChanged = lastChanged;
 	}
 
@@ -156,13 +168,13 @@ public class CategoryTO implements Serializable {
 	 * @return the user
 	 */
 	public String getColour() {
-		return colour;
+		return color;
 	}
 	/**
-	 * @param colour the user to set
+	 * @param color the user to set
 	 */
-	public void setColour(String colour) {
-		this.colour = colour;
+	public void setColour(String color) {
+		this.color = color;
 	}
 
 }

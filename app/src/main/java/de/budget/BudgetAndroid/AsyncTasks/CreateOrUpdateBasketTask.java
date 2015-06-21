@@ -56,7 +56,7 @@ public class CreateOrUpdateBasketTask extends AsyncTask<Object, Integer, BasketR
 
         try {
             //     public BasketResponse createOrUpdateBasket(int sessionId, int basketId, String name, String notice, double amount, long purchaseDate, int paymentId, int vendorId);
-            BasketResponse basket = myApp.getBudgetOnlineService().createOrUpdateBasket(myApp.getSession(), basketId, name, notice, amount, date, paymentId, vendorId, myApp);
+            BasketResponse basket = myApp.getBudgetOnlineService().createOrUpdateBasket(myApp.getSession(), basketId, name, notice, amount, date, paymentId, vendorId);
             Log.d("INFO", basket.toString());
             Integer rt =  basket.getReturnCode();
             Log.d("INFO", "Returncode: " + rt.toString());

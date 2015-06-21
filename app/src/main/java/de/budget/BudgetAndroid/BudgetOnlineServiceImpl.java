@@ -43,7 +43,7 @@ import java.util.List;
  * @author christopher
  * @date 01.06.2015
  */
-public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
+public class BudgetOnlineServiceImpl implements BudgetOnlineService {
 
     private static final String NAMESPACE = "http://onlinebudget.budget.de/";
 
@@ -54,20 +54,32 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
 
     private int tmp, rt;
 
+    private String METHOD_NAME;
+    private SoapObject response = null;
     private int returnCode;
+
+    Calendar calendar = new GregorianCalendar();
+
+    private BudgetAndroidApplication myApp;
+
+    public BudgetOnlineServiceImpl (BudgetAndroidApplication myApp) {
+        this.myApp = myApp;
+    }
+
+    /*#################      USER - SECTION     ##############*/
 
     @Override
     public UserLoginResponse setUser(String username, String password, String email) {
 
         UserLoginResponse result = new UserLoginResponse();
-        int returnCode = 0;
-        String METHOD_NAME = "setUser";
         SoapObject response = null;
+        String METHOD_NAME = "setUser";
+        int returnCode = 0;
         int sessionId;
 
         try {
+
             response = executeSoapAction(METHOD_NAME, username, password, email);
-            //Log.d(TAG, response.toString());
             returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
             result.setReturnCode(returnCode);
 
@@ -85,45 +97,51 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
     }
 
     @Override
-    public UserLoginResponse login(String username, String password) throws InvalidLoginException{
+    public UserLoginResponse login(String username, String password) {
+
         UserLoginResponse result = new UserLoginResponse();
-        String METHOD_NAME = "login";
         SoapObject response = null;
+        String METHOD_NAME = "login";
+        int returnCode = 0;
+        int sessionId;
+
         try {
             response = executeSoapAction(METHOD_NAME, username, password);
-            //Log.d(TAG, response.toString());
-            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("sessionId"));
-            if (tmp != 0) {
-                result.setSessionId(tmp);
-                return result;
+            returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            result.setReturnCode(returnCode);
+
+            sessionId = Integer.parseInt(response.getPrimitivePropertySafelyAsString("sessionId"));
+
+            if (sessionId != 0) {
+                result.setSessionId(sessionId);
             }
-            else {
-                throw new InvalidLoginException("Login not successful!");
-            }
+
         } catch (SoapFault e) {
-            throw new InvalidLoginException(e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
+
+        return result;
+
     }
 
     @Override
-    public ReturnCodeResponse logout(int sessionID) throws Exception{
+    public ReturnCodeResponse logout(int sessionID) {
+
         ReturnCodeResponse result = new ReturnCodeResponse();
-        String METHOD_NAME = "logout";
         SoapObject response = null;
+        String METHOD_NAME = "logout";
+        int returnCode = 0;
+
         try {
             response = executeSoapAction(METHOD_NAME, sessionID);
-            //Log.d(TAG, response.toString());
-            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
-            if (tmp != 0) {
-                result.setReturnCode(tmp);
-                return result;
-            }
-            else {
-                throw new Exception("Logout not successful!");
-            }
+            returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            result.setReturnCode(returnCode);
+
         } catch (SoapFault e) {
-            throw new Exception(e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
+
+        return result;
     }
 
     @Override
@@ -146,58 +164,51 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @param sessionId
      * @return VendorListResponse Object
      */
-    public VendorListResponse getVendors(int sessionId) throws Exception{
+    public VendorListResponse getVendors(int sessionId) {
 
         VendorListResponse result = new VendorListResponse();
+        SoapObject response = null;
+        String METHOD_NAME = "getVendors";
+        int returnCode = 0;
+
         ArrayList<VendorTO> vendorList = new ArrayList<>();
 
-        String METHOD_NAME = "getVendors";
-        SoapObject response = null;
+
         try {
             response = executeSoapAction(METHOD_NAME, sessionId);
             returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
             result.setReturnCode(returnCode);
+            int propertyCount = response.getPropertyCount();
 
             if (returnCode == 200) {
-                if (response.getPropertyCount() > 1) {
-                    for (int idx = 1; idx < response.getPropertyCount(); idx++) {
+                if (propertyCount > 1) {
+                    for (int idx = 1; idx < propertyCount; idx++) {
                         SoapObject ListObject = (SoapObject) response.getProperty(idx);
-
                         vendorList.add(parseVendorResponse(ListObject));
                     }
                 }
-            } else {
-                throw new Exception(METHOD_NAME + " was not successful!");
             }
 
             result.setVendorList(vendorList);
-            return result;
 
         } catch (SoapFault e) {
-            throw new Exception(e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
+
+        return result;
     }
 
     private VendorTO parseVendorResponse (SoapObject ListObject) {
 
-        VendorTO vendorTO = new VendorTO();
-
+        int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString("id"));
         String name = ListObject.getPrimitivePropertySafelyAsString("name");
         String street = ListObject.getPrimitivePropertySafelyAsString("street");
         String city = ListObject.getPrimitivePropertySafelyAsString("city");
-        int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString("id"));
-        int hn = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString("houseNumber"));
         int plz = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString("PLZ"));
+        int hn = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString("houseNumber"));
 
 
-        vendorTO.setName(name);
-        vendorTO.setId(id);
-        vendorTO.setStreet(street);
-        vendorTO.setHouseNumber(hn);
-        vendorTO.setPLZ(plz);
-        vendorTO.setCity(city);
-
-        return vendorTO;
+        return new VendorTO(id, name, street, city, plz, hn);
 
     }
 
@@ -223,35 +234,32 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @param logo (base64 String)
      * @return
      */
-    public VendorResponse createOrUpdateVendor(int sessionId, int vendorId, String name, String logo, String street, String city, int PLZ, int houseNumber) throws Exception{
+    public VendorResponse createOrUpdateVendor(int sessionId, int vendorId, String name, String logo, String street, String city, int plz, int houseNumber) {
+
         VendorResponse result = new VendorResponse();
-        String METHOD_NAME = "createOrUpdateVendor";
         SoapObject response = null;
+        String METHOD_NAME = "createOrUpdateVendor";
+        int returnCode = 0;
+
         try {
-            response = executeSoapAction(METHOD_NAME, sessionId, vendorId, name, logo, street, city, PLZ, houseNumber);
-            //Log.d(TAG, "Response: " + response.toString());
-            //Log.d(TAG, "Response: " + response.getPropertyCount());
-            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
-            SoapObject test= (SoapObject) response.getProperty(1);
-            int id = Integer.parseInt(test.getPrimitivePropertySafelyAsString("id"));
-            if (tmp == 200) {
-                result.setReturnCode(tmp);
-                VendorTO vendor = new VendorTO();
-                vendor.setName(name);
-                vendor.setId(id);
-                vendor.setStreet(street);
-                vendor.setHouseNumber(houseNumber);
-                vendor.setPLZ(PLZ);
-                vendor.setCity(city);
-                result.setVendorTo(vendor);
-                return result;
+            response = executeSoapAction(METHOD_NAME, sessionId, vendorId, name, logo, street, city, plz, houseNumber);
+            returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            result.setReturnCode(returnCode);
+
+            SoapObject vendorResponse = (SoapObject) response.getProperty(1);
+            int id = Integer.parseInt(vendorResponse.getPrimitivePropertySafelyAsString("id"));
+
+            if (returnCode == 200) {
+                Long createDate = calendar.getTimeInMillis();
+                Long lastChanged = calendar.getTimeInMillis();
+                result.setVendorTo(new VendorTO(id, name, createDate, lastChanged, street, city, plz, houseNumber));
             }
-            else {
-                throw new Exception("Create/Update vendor was not successful!");
-            }
+
         } catch (SoapFault e) {
-            throw new Exception(e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
+
+        return result;
     }
 
     /**
@@ -262,8 +270,20 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @param vendorId
      * @return
      */
-    public ReturnCodeResponse deleteVendor(int sessionId, int vendorId) throws Exception{
+    public ReturnCodeResponse deleteVendor(int sessionId, int vendorId) {
         return deleteObject(sessionId, vendorId, "deleteVendor");
+    }
+
+    /**
+     * Methode um die Betr�ge pro Vendor zur�ck zugeben
+     * <p> Author: Marco </p>
+     *
+     * @param sessionId
+     * @return AmountListResponse
+     */
+    @Override
+    public AmountListResponse getAmountForVendors(int sessionId) {
+        return null;
     }
 
 
@@ -276,50 +296,46 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @param sessionId
      * @return PaymentListResponse Object
      */
-    public PaymentListResponse getPayments(int sessionId) throws Exception{
+    public PaymentListResponse getPayments(int sessionId) {
         PaymentListResponse result = new PaymentListResponse();
-        String METHOD_NAME = "getPayments";
         SoapObject response = null;
+        String METHOD_NAME = "getPayments";
+        int returnCode = 0;
+
+        ArrayList<PaymentTO> paymentList = new ArrayList<>();
+
         try {
             response = executeSoapAction(METHOD_NAME, sessionId);
-            //Log.d(TAG, response.toString() + response.getPropertyCount());
+            returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            result.setReturnCode(returnCode);
+            int propertyCount = response.getPropertyCount();
 
-            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
-            if (tmp == 200) {
-                result.setReturnCode(tmp);
-                ArrayList<PaymentTO> paymentList = new ArrayList<>();
-                if (response.getPropertyCount() > 1) {
-                    for (int idx = 1; idx < response.getPropertyCount(); idx++) {
+            if (returnCode == 200) {
+                if (propertyCount > 1) {
+                    for (int idx = 1; idx < propertyCount; idx++) {
                         SoapObject ListObject = (SoapObject) response.getProperty(idx);
-                        //Log.d("INFO", "paymentList gefunden : " + ListObject.toString() + "Länge: " + ListObject.getPropertyCount());
-                        int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString("id"));
-                        String name = ListObject.getPrimitivePropertySafelyAsString("name");
-                        boolean active = Boolean.parseBoolean(ListObject.getPrimitivePropertySafelyAsString("active"));
-                        String bic = ListObject.getPrimitivePropertySafelyAsString("bic");
-                        String number = ListObject.getPrimitivePropertySafelyAsString("number");
-                        PaymentTO tmp = new PaymentTO();
-                        tmp.setName(name);
-                        tmp.setId(id);
-                        tmp.setActive(active);
-                        tmp.setBic(bic);
-                        tmp.setNumber(number);
-                        paymentList.add(tmp);
+                        paymentList.add(parsePayment(ListObject));
                     }
                 }
-                result.setPaymentList(paymentList);
-                return result;
             }
-            else if(tmp == 404){
-                result.setReturnCode(tmp);
-                result.setPaymentList(new ArrayList<PaymentTO>());
-                return result;
-            }
-            else {
-                throw new Exception("getPayments was not successful!");
-            }
+
+            result.setPaymentList(paymentList);
+
         } catch (SoapFault e) {
-            throw new Exception(e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
+
+        return result;
+    }
+
+    public PaymentTO parsePayment (SoapObject ListObject) {
+        int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString("id"));
+        String name = ListObject.getPrimitivePropertySafelyAsString("name");
+        boolean active = Boolean.parseBoolean(ListObject.getPrimitivePropertySafelyAsString("active"));
+        String bic = ListObject.getPrimitivePropertySafelyAsString("bic");
+        String number = ListObject.getPrimitivePropertySafelyAsString("number");
+
+        return new PaymentTO(id, name, number, bic, active);
     }
 
     /**
@@ -358,33 +374,31 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @param active
      * @return PaymentResponse
      */
-    public PaymentResponse createOrUpdatePayment(int sessionId, int paymentId, String name, String number, String bic, boolean active) throws Exception{
+    public PaymentResponse createOrUpdatePayment(int sessionId, int paymentId, String name, String number, String bic, boolean active) {
+
         PaymentResponse result = new PaymentResponse();
-        String METHOD_NAME = "createOrUpdatePayment";
         SoapObject response = null;
+        String METHOD_NAME = "createOrUpdatePayment";
+        int returnCode = 0;
+
         try {
             response = executeSoapAction(METHOD_NAME, sessionId, paymentId, name, number, bic, active);
-            //Log.d(TAG, response.toString());
-            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
-            SoapObject test= (SoapObject) response.getProperty(1);
-            int id = Integer.parseInt(test.getPrimitivePropertySafelyAsString("id"));
-            if (tmp != 0) {
-                result.setReturnCode(tmp);
-                PaymentTO payment = new PaymentTO();
-                payment.setName(name);
-                payment.setId(id);
-                payment.setNumber(number);
-                payment.setBic(bic);
-                payment.setActive(active);
-                result.setPaymentTo(payment);
-                return result;
+            returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            result.setReturnCode(returnCode);
+
+            SoapObject vendorResponse = (SoapObject) response.getProperty(1);
+
+            int id = Integer.parseInt(vendorResponse.getPrimitivePropertySafelyAsString("id"));
+
+            if (returnCode == 200) {
+                result.setPaymentTo(new PaymentTO(id, name, number, bic, active));
             }
-            else {
-                throw new Exception("Create/Update payment was not successful!");
-            }
+
         } catch (SoapFault e) {
-            throw new Exception(e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
+
+        return result;
     }
 
 
@@ -409,58 +423,51 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @param sessionId
      * @return CategoryListResponse Object
      */
-    public CategoryListResponse getCategorys(int sessionId) throws Exception{
+    public CategoryListResponse getCategorys(int sessionId) {
         CategoryListResponse result = new CategoryListResponse();
-        String METHOD_NAME = "getCategorys";
         SoapObject response = null;
+        String METHOD_NAME = "getCategorys";
+        int returnCode = 0;
+
+        ArrayList<CategoryTO> categoryList = new ArrayList<>();
+
         try {
             response = executeSoapAction(METHOD_NAME, sessionId);
-            //Log.d(TAG, response.toString() + response.getPropertyCount());
+            returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            result.setReturnCode(returnCode);
+            int propertyCount = response.getPropertyCount();
 
-            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
-            if (tmp == 200) {
-                result.setReturnCode(tmp);
-                ArrayList<CategoryTO> categoryList = new ArrayList<>();
-                if (response.getPropertyCount() > 1) {
-                    for (int idx = 1; idx < response.getPropertyCount(); idx++) {
+            if (returnCode == 200) {
+                if (propertyCount > 1) {
+                    for (int idx = 1; idx < propertyCount; idx++) {
                         SoapObject ListObject = (SoapObject) response.getProperty(idx);
-                        //Log.d("INFO", "categoryList gefunden : " + ListObject.toString() + "Länge: " + ListObject.getPropertyCount());
-                        String name = ListObject.getPrimitivePropertySafelyAsString("name");
-                        String activeString = ListObject.getPrimitivePropertySafelyAsString("active");
-                        boolean active = false;
-                        if("true".equals(activeString)){
-                            active = true;
-                        }
-                        int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString("id"));
-                        boolean income = Boolean.parseBoolean(ListObject.getPrimitivePropertySafelyAsString("income"));
-                        String notice = ListObject.getPrimitivePropertySafelyAsString("notice");
-                        String colour = ListObject.getPrimitivePropertySafelyAsString("colour");
-                        CategoryTO tmp = new CategoryTO();
-                        tmp.setName(name);
-                        tmp.setActive(active);
-                        tmp.setId(id);
-                        tmp.setNotice(notice);
-                        tmp.setColour(colour);
-                        tmp.setIncome(income);
-                        categoryList.add(tmp);
-
+                        categoryList.add(parseCategoryResponse(ListObject));
                     }
                 }
-                result.setCategoryList(categoryList);
-                return result;
             }
-            else if(tmp == 404){
-                result.setReturnCode(tmp);
-                result.setCategoryList(new ArrayList<CategoryTO>());
-                return result;
-            }
-            else {
-                throw new Exception("getCategorys was not successful!");
-            }
-        } catch (SoapFault e) {
-            throw new Exception(e.getMessage());
-        }
 
+            result.setCategoryList(categoryList);
+
+        } catch (SoapFault e) {
+            Log.e(TAG, e.getMessage());
+        }
+        return result;
+    }
+
+    private CategoryTO parseCategoryResponse (SoapObject ListObject) {
+
+        int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString("id"));
+        String name = ListObject.getPrimitivePropertySafelyAsString("name");
+        String notice = ListObject.getPrimitivePropertySafelyAsString("notice");
+        String activeString = ListObject.getPrimitivePropertySafelyAsString("active");
+        boolean active = "true".equals(activeString) ? true : false;
+        boolean income = Boolean.parseBoolean(ListObject.getPrimitivePropertySafelyAsString("income"));
+        String color = ListObject.getPrimitivePropertySafelyAsString("colour");
+
+        Long createDate = calendar.getTimeInMillis();
+        Long lastChanged = calendar.getTimeInMillis();
+
+        return new CategoryTO(id, name, notice, active, income, createDate, lastChanged, null, color);
     }
 
     /**
@@ -474,34 +481,31 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @param notice
      * @return
      */
-    public CategoryResponse createOrUpdateCategory(int sessionId, int categoryId, boolean income, boolean active, String name, String notice, String colour)throws Exception{
+    public CategoryResponse createOrUpdateCategory(int sessionId, int categoryId, boolean income, boolean active, String name, String notice, String color){
         CategoryResponse result = new CategoryResponse();
-        String METHOD_NAME = "createOrUpdateCategory";
         SoapObject response = null;
+        String METHOD_NAME = "createOrUpdateCategory";
+        int returnCode = 0;
+
         try {
-            response = executeSoapAction(METHOD_NAME, sessionId, categoryId, income, active, name, notice, colour);
-            //Log.d(TAG, response.toString());
-            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
-            SoapObject test= (SoapObject) response.getProperty(1);
-            int id = Integer.parseInt(test.getPrimitivePropertySafelyAsString("id"));
-            if (tmp == 200) {
-                result.setReturnCode(tmp);
-                CategoryTO category = new CategoryTO();
-                category.setName(name);
-                category.setId(id);
-                category.setIncome(income);
-                category.setActive(active);
-                category.setNotice(notice);
-                category.setColour(colour);
-                result.setCategoryTo(category);
-                return result;
+            response = executeSoapAction(METHOD_NAME, sessionId, categoryId, income, active, name, notice, color);
+            returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            result.setReturnCode(returnCode);
+
+            SoapObject categoryResponse = (SoapObject) response.getProperty(1);
+            int id = Integer.parseInt(categoryResponse.getPrimitivePropertySafelyAsString("id"));
+
+            if (returnCode == 200) {
+                Long createDate = calendar.getTimeInMillis();
+                Long lastChanged = calendar.getTimeInMillis();
+                result.setCategoryTo(new CategoryTO(id, name, notice, active, income, createDate, lastChanged, color));
             }
-            else {
-                throw new Exception("Create/Update category was not successful!");
-            }
+
         } catch (SoapFault e) {
-            throw new Exception(e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
+
+        return result;
     }
 
     /**
@@ -511,7 +515,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @param categoryId
      * @return
      */
-    public ReturnCodeResponse deleteCategory(int sessionId, int categoryId) throws Exception{
+    public ReturnCodeResponse deleteCategory(int sessionId, int categoryId) {
         return deleteObject(sessionId, sessionId, "deleteCategory");
     }
 
@@ -549,100 +553,62 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @return BasketListResponse Object
      */
     @Author(name="Mark")
-    public BasketListResponse getBaskets(int sessionId, BudgetAndroidApplication myApp) throws Exception{
+    public BasketListResponse getBaskets(int sessionId) {
 
         BasketListResponse result = new BasketListResponse();
-        String METHOD_NAME = BasketTOConstants.GET_BASKETS;
+        String METHOD_NAME = "getBaskets";
         SoapObject response = null;
 
-        try {
+        // Create new List for Basket Obejcts
+        ArrayList<BasketTO> basketList = new ArrayList<>();
 
+        try {
             // Get Response from SOAP Object specified Method Name
             response = executeSoapAction(METHOD_NAME, sessionId);
-
-
-            //Log.d(TAG, "getBaskets: " + response.toString() +
-            //        "/n Count: " + response.getPropertyCount());
-
-
             // Get Return Code from SOAP Object
             returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            // Set Returncode for successs
+            result.setReturnCode(returnCode);
+            int propertyCount = response.getPropertyCount();
 
-
-            Log.d("INO", String.valueOf(returnCode));
             if (returnCode == 200) {
-
-                // Create new List for Basket Obejcts
-                ArrayList<BasketTO> basketList = new ArrayList<>();
-
-                // Set Returncode for successs
-                result.setReturnCode(returnCode);
-
-                // Response has Propertys
-                if (response.getPropertyCount() > 1) {
-
-
-                    for (int i = 1; i < response.getPropertyCount(); i++) {
-
-                        // Iterate throu SoapObject response by Property ID
-                        SoapObject ListObject = (SoapObject) response.getProperty(i);
-
-                        //Log.d("INFO", "basketList gefunden : " + ListObject.toString() +
-                        //        " Länge: " + ListObject.getPropertyCount());
-
-                        int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString(BasketTOConstants.ID));
-                        String name = ListObject.getPrimitivePropertySafelyAsString(BasketTOConstants.NAME);
-                        String notice = ListObject.getPrimitivePropertySafelyAsString(BasketTOConstants.NOTICE);
-                        double amount = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString(BasketTOConstants.AMOUNT));
-                        long createDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(BasketTOConstants.CREATE_DATE));
-                        long purchaseDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(BasketTOConstants.PURCHASE_DATE));
-                        long lastChanged = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(BasketTOConstants.LAST_CHANGED));
-
-                        SoapObject payment = (SoapObject) ListObject.getProperty(BasketTOConstants.PAYMENT);
-                        int paymentId = Integer.parseInt(payment.getPrimitivePropertyAsString("id"));
-
-                        SoapObject vendor = (SoapObject) ListObject.getProperty(BasketTOConstants.VENDOR);
-                        int vendorId = Integer.parseInt(payment.getPrimitivePropertyAsString("id"));
-
-                        VendorTO vendorTO = myApp.getVendorById(vendorId);
-                        PaymentTO paymentTO = myApp.getPaymentById(paymentId);
-
-
-                        // int id, String notice, double amount, Timestamp createDate, Timestamp purchaseDate, Timestamp lastChanged, UserTO user, VendorTO vendor, PaymentTO payment, List<ItemTO> items
-                        BasketTO basket = new BasketTO(id, name, notice, amount, createDate, purchaseDate, lastChanged, null, vendorTO, paymentTO, null);
-
-//                        basket.setId(id);
-//                        basket.setNotice(notice);
-//                        basket.setAmount(amount);
-//                        basket.setCreateDate(createDate);
-//                        basket.setPurchaseDate(purchaseDate);
-//                        basket.setLastChanged(lastChanged);
-//                        basket.setUser(null);
-//                        basket.setVendor(null);
-//                        basket.setPayment(null);
-//                        basket.setItems(null);
-
-                        basketList.add(basket);
-
+                if (propertyCount > 1) {
+                    for (int idx = 1; idx < propertyCount; idx++) {
+                        SoapObject ListObject = (SoapObject) response.getProperty(idx);
+                        basketList.add(parseBasket(ListObject));
                     }
                 }
+            }
 
-                result.setBasketList(basketList);
+            result.setBasketList(basketList);
 
-                return result;
-            }
-            else if(returnCode == 404){
-                result.setReturnCode(returnCode);
-                result.setBasketList(new ArrayList<BasketTO>());
-                return result;
-            }
-            else {
-                throw new Exception("Get Basket was not successful!");
-            }
         } catch (SoapFault e) {
-            throw new Exception(e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
 
+        return result;
+
+    }
+
+    public BasketTO parseBasket (SoapObject ListObject) {
+        int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString(BasketTOConstants.ID));
+        String name = ListObject.getPrimitivePropertySafelyAsString(BasketTOConstants.NAME);
+        String notice = ListObject.getPrimitivePropertySafelyAsString(BasketTOConstants.NOTICE);
+        double amount = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString(BasketTOConstants.AMOUNT));
+        long createDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(BasketTOConstants.CREATE_DATE));
+        long purchaseDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(BasketTOConstants.PURCHASE_DATE));
+        long lastChanged = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(BasketTOConstants.LAST_CHANGED));
+
+        SoapObject payment = (SoapObject) ListObject.getProperty(BasketTOConstants.PAYMENT);
+        int paymentId = Integer.parseInt(payment.getPrimitivePropertyAsString("id"));
+
+        SoapObject vendor = (SoapObject) ListObject.getProperty(BasketTOConstants.VENDOR);
+        int vendorId = Integer.parseInt(payment.getPrimitivePropertyAsString("id"));
+
+        VendorTO vendorTO = myApp.getVendorById(vendorId);
+        PaymentTO paymentTO = myApp.getPaymentById(paymentId);
+
+        return new BasketTO(id, name, notice, amount, createDate, purchaseDate, lastChanged, null, vendorTO, paymentTO, null);
     }
 
     /**
@@ -658,8 +624,8 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
 
     /**
      * Method to create a basket
-     * @author Christopher
-     * @date 26.05.2015
+     * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param basketId
      * @param name
@@ -668,44 +634,12 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @param purchaseDate
      * @param paymentId
      * @param vendorId
-     * @param myApp
-     * @return
+     * @param items        List with itemTO Objects to add to the basket
+     * @return BasketResponse
      */
-    public BasketResponse createOrUpdateBasket(int sessionId, int basketId, String name, String notice, double amount, long purchaseDate, int paymentId, int vendorId, BudgetAndroidApplication myApp) throws Exception{
-
-        BasketResponse result = new BasketResponse();
-
-        String METHOD_NAME = "createOrUpdateBasket";
-
-        SoapObject response = null;
-
-        try {
-
-            response = executeSoapAction(METHOD_NAME, sessionId, basketId, name, notice, amount, purchaseDate, paymentId, vendorId);
-
-            Log.d(TAG, response.toString());
-
-            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
-
-            SoapObject test= (SoapObject) response.getProperty(1);
-
-            int id = Integer.parseInt(test.getPrimitivePropertySafelyAsString("id"));
-
-            if (tmp == 200) {
-                result.setReturnCode(tmp);
-                Calendar c = new GregorianCalendar();
-                Long createDate = c.getTimeInMillis();
-                Long lastChanged = c.getTimeInMillis();
-                BasketTO basket = new BasketTO(id, name, notice, amount, createDate, purchaseDate, lastChanged, null, myApp.getVendorById(vendorId), myApp.getPaymentById(paymentId));
-                result.setBasketTo(basket);
-                return result;
-            }
-            else {
-                throw new Exception("Create/Update category was not successful!");
-            }
-        } catch (SoapFault e) {
-            throw new Exception(e.getMessage());
-        }
+    @Override
+    public BasketResponse createOrUpdateBasketList(int sessionId, int basketId, String name, String notice, double amount, long purchaseDate, int paymentId, int vendorId, List<ItemTO> items) {
+        return null;
     }
 
     /**
@@ -720,42 +654,34 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @param purchaseDate
      * @param paymentId
      * @param vendorId
-     * @param myApp
      * @return
      */
-    public BasketResponse createOrUpdateBasket(int sessionId, int basketId, String name, String notice, double amount, long purchaseDate, int paymentId, int vendorId, List<ItemTO> items, BudgetAndroidApplication myApp) throws Exception{
+    public BasketResponse createOrUpdateBasket(int sessionId, int basketId, String name, String notice, double amount, long purchaseDate, int paymentId, int vendorId) {
 
         BasketResponse result = new BasketResponse();
-
-        String METHOD_NAME = "createOrUpdateBasket";
-
         SoapObject response = null;
+        String METHOD_NAME = "createOrUpdateBasket";
+        int returnCode = 0;
 
         try {
 
-            response = executeSoapAction(METHOD_NAME, sessionId, basketId, name, notice, amount, purchaseDate, paymentId, vendorId, items);
-            Log.d(TAG, response.toString());
+            response = executeSoapAction(METHOD_NAME, sessionId, basketId, name, notice, amount, purchaseDate, paymentId, vendorId);
+            returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            result.setReturnCode(returnCode);
 
-            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            SoapObject basketResponse = (SoapObject) response.getProperty(1);
+            int id = Integer.parseInt(basketResponse.getPrimitivePropertySafelyAsString("id"));
 
-            SoapObject test= (SoapObject) response.getProperty(1);
+            if (returnCode == 200) {
 
-            int id = Integer.parseInt(test.getPrimitivePropertySafelyAsString("id"));
-
-            if (tmp == 200) {
-                result.setReturnCode(tmp);
-                Calendar c = new GregorianCalendar();
-                Long createDate = c.getTimeInMillis();
-                Long lastChanged = c.getTimeInMillis();
-                BasketTO basket = new BasketTO(id, name, notice, amount, createDate, purchaseDate, lastChanged, null, myApp.getVendorById(vendorId), myApp.getPaymentById(paymentId), items);
-                return result;
-            }
-            else {
-                throw new Exception("Create/Update category was not successful!");
+                Long createDate = calendar.getTimeInMillis();
+                Long lastChanged = calendar.getTimeInMillis();
+                result.setBasketTo(new BasketTO(id, name, notice, amount, createDate, purchaseDate, lastChanged, null, myApp.getVendorById(vendorId), myApp.getPaymentById(paymentId)));
             }
         } catch (SoapFault e) {
-            throw new Exception(e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
+        return result;
     }
 
 
@@ -767,8 +693,22 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @param basketId
      * @return
      */
-    public ReturnCodeResponse deleteBasket(int sessionId, int basketId) throws Exception{
+    public ReturnCodeResponse deleteBasket(int sessionId, int basketId) {
         return deleteObject(sessionId, basketId, "deleteBasket");
+    }
+
+    /**
+     * Gibt die letzten Baskets als Liste zur�ck
+     * <p> Author: Marco </p>
+     *
+     * @param sessionId
+     * @param startPosition startPosition of the incomes sorted by date
+     * @param endPosition   endPosition of the incomes sorted by date
+     * @return BasketListResponse Object
+     */
+    @Override
+    public BasketListResponse getLastBaskets(int sessionId, int startPosition, int endPosition) {
+        return null;
     }
 
 
@@ -781,27 +721,23 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @param method
      * @return
      */
-    public ReturnCodeResponse deleteObject (int sessionId, int objectId, String method) throws Exception{
+    public ReturnCodeResponse deleteObject (int sessionId, int objectId, String method) {
 
         ReturnCodeResponse result = new ReturnCodeResponse();
-        String METHOD_NAME = method;
         SoapObject response = null;
+        String METHOD_NAME = method;
+        int returnCode = 0;
 
         try {
             response = executeSoapAction(METHOD_NAME, sessionId, objectId);
             returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            result.setReturnCode(returnCode);
 
-            if (returnCode == 200) {
-                result.setReturnCode(returnCode);
-                return result;
-            }
-            else {
-                throw new Exception(METHOD_NAME + " was not successful!");
-            }
         } catch (SoapFault e) {
-            throw new Exception(e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
 
+        return result;
     }
 
     /**
@@ -833,7 +769,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @param sessionId
      * @return
      */
-    public BasketListResponse getBasketsOfActualMonth(int sessionId){
+    public AmountResponse getBasketsOfActualMonth(int sessionId){
         return null;
     }
 
@@ -850,12 +786,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
         return null;
     }
 
-
-
-
-
-
-
+    
 
 	/*#################      INCOME - SECTION     ##############*/
 
@@ -871,35 +802,28 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @param categoryId
      * @return
      */
-    public IncomeResponse createOrUpdateIncome(int sessionId, int incomeId, String name, double  quantity, double amount, String notice, long receiptDate, int categoryId, BudgetAndroidApplication myApp) throws Exception{
-        IncomeResponse result = new IncomeResponse();;
-        String METHOD_NAME = "createOrUpdateIncome";
+    public IncomeResponse createOrUpdateIncome(int sessionId, int incomeId, String name, double  quantity, double amount, String notice, long receiptDate, int categoryId) {
+        IncomeResponse result = new IncomeResponse();
         SoapObject response = null;
+        String METHOD_NAME = "createOrUpdateIncome";
+        int returnCode = 0;
+        
         try {
             response = executeSoapAction(METHOD_NAME, sessionId, incomeId, name, quantity, amount, notice, receiptDate, categoryId);
-            //Log.d(TAG, response.toString());
-            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
-            SoapObject test= (SoapObject) response.getProperty(1);
-            int id = Integer.parseInt(test.getPrimitivePropertySafelyAsString("id"));
-            if (tmp == 200) {
-                result.setReturnCode(tmp);
-                IncomeTO income = new IncomeTO();
-                income.setName(name);
-                income.setId(id);
-                income.setQuantity(quantity);
-                income.setAmount(amount);
-                income.setNotice(notice);
-                income.setReceiptDate(receiptDate);
-                income.setCategory(myApp.getCategory(categoryId));
-                result.setIncomeTo(income);
-                return result;
+            returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            result.setReturnCode(returnCode);
+            
+            SoapObject incomeResponse= (SoapObject) response.getProperty(1);
+            int id = Integer.parseInt(incomeResponse.getPrimitivePropertySafelyAsString("id"));
+
+            if (returnCode == 200) {
+                result.setIncomeTo(new IncomeTO(id, name, quantity, amount, notice, receiptDate, null, myApp.getCategory(categoryId)));
             }
-            else {
-                throw new Exception("Create/Update Income was not successful!");
-            }
+            
         } catch (SoapFault e) {
-            throw new Exception(e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
+        return result;
     }
 
 
@@ -921,61 +845,67 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @param sessionId
      * @return
      */
-    public IncomeListResponse getIncomes(int sessionId, BudgetAndroidApplication myApp) throws Exception{
+    public IncomeListResponse getIncomes(int sessionId) {
+
         IncomeListResponse result = new IncomeListResponse();
-        //MainActivity activity = new MainActivity();
-        String METHOD_NAME = "getIncomes";
         SoapObject response = null;
+        String METHOD_NAME = "getIncomes";
+        int returnCode = 0;
+
+        ArrayList<IncomeTO> incomeList = new ArrayList<>();
+
         try {
             response = executeSoapAction(METHOD_NAME, sessionId);
-            //Log.d(TAG, response.toString() + response.getPropertyCount());
+            returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            result.setReturnCode(returnCode);
+            int propertyCount = response.getPropertyCount();
 
-            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
-            if (tmp == 200) {
-                result.setReturnCode(tmp);
-                ArrayList<IncomeTO> incomeList = new ArrayList<>();
-                if (response.getPropertyCount() > 1) {
-                    for (int idx = 1; idx < response.getPropertyCount(); idx++) {
+            if (returnCode == 200) {
+                if (propertyCount > 1) {
+                    for (int idx = 1; idx < propertyCount; idx++) {
                         SoapObject ListObject = (SoapObject) response.getProperty(idx);
-                        //Log.d("INFO", "incomeList gefunden : " + ListObject.toString() + "Länge: " + ListObject.getPropertyCount());
-                        String name = ListObject.getPrimitivePropertySafelyAsString("name");
-                        String notice = ListObject.getPrimitivePropertySafelyAsString("notice");
-                        int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString("id"));
-                        Double amount = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString("amount"));
-                        Double quantity = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString("quantity"));
-                        Long receiptDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString("receiptDate"));
-
-                        // Kategorie holen
-                        SoapObject CategoryObject = (SoapObject) ListObject.getProperty("category");
-                        int categoryId = Integer.parseInt(CategoryObject.getPrimitivePropertyAsString("id"));
-
-                        IncomeTO tmp = new IncomeTO();
-                        tmp.setName(name);
-                        tmp.setCategory(myApp.getCategory(categoryId));
-                        tmp.setId(id);
-                        tmp.setNotice(notice);
-                        tmp.setAmount(amount);
-                        tmp.setQuantity(quantity);
-                        tmp.setReceiptDate(receiptDate);
-                        incomeList.add(tmp);
-
+                        incomeList.add(parseIncome(ListObject));
                     }
                 }
-                result.setIncomeList(incomeList);
-                return result;
             }
-            else if(tmp == 404){
-                result.setReturnCode(tmp);
-                result.setIncomeList(new ArrayList<IncomeTO>());
-                return result;
-            }
-            else {
-                throw new Exception("Get Incomes was not successful!");
-            }
+
+            result.setIncomeList(incomeList);
+
         } catch (SoapFault e) {
-            throw new Exception(e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
 
+        return result;
+
+    }
+
+    /**
+     * Gibt die letzten Incomes als Liste zur�ck
+     * <p> Author: Marco </p>
+     *
+     * @param sessionId
+     * @param startPosition startPosition of the incomes sorted by date
+     * @param endPosition   endPosition of the incomes sorted by date
+     * @return IncomeListResponse
+     */
+    @Override
+    public IncomeListResponse getLastIncomes(int sessionId, int startPosition, int endPosition) {
+        return null;
+    }
+
+    private IncomeTO parseIncome (SoapObject ListObject) {
+        String name = ListObject.getPrimitivePropertySafelyAsString("name");
+        String notice = ListObject.getPrimitivePropertySafelyAsString("notice");
+        int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString("id"));
+        Double amount = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString("amount"));
+        Double quantity = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString("quantity"));
+        Long receiptDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString("receiptDate"));
+
+        // Kategorie holen
+        SoapObject CategoryObject = (SoapObject) ListObject.getProperty("category");
+        int categoryId = Integer.parseInt(CategoryObject.getPrimitivePropertyAsString("id"));
+
+        return new IncomeTO(id, name, quantity, amount, notice, receiptDate, null, myApp.getCategory(categoryId));
     }
 
     /**
@@ -1002,6 +932,18 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
         return null;
     }
 
+    /**
+     * Method to get the Amount of all income, which are assigned to a special category
+     * <p> Author: Marco </p>
+     *
+     * @param sessionId
+     * @return AmountListResponse
+     */
+    @Override
+    public AmountListResponse getIncomesAmountForCategories(int sessionId) {
+        return getObjectAmountForCategories(sessionId, "getIncomesAmountForCategories");
+    }
+
 
     /**
      * Method to get the Amount of all income, which are assigned to a special category
@@ -1019,7 +961,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @param sessionId
      * @return
      */
-    public IncomeListResponse getIncomesOfActualMonth(int sessionId){
+    public AmountResponse getIncomesOfActualMonth(int sessionId){
         return null;
     }
 
@@ -1031,7 +973,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @param incomeId
      * @return
      */
-    public ReturnCodeResponse deleteIncome(int sessionId, int incomeId) throws Exception{
+    public ReturnCodeResponse deleteIncome(int sessionId, int incomeId) {
         return deleteObject(sessionId, incomeId, "deleteIncome");
 
     }
@@ -1053,32 +995,30 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @param categoryId
      * @return
      */
-    public ItemResponse createOrUpdateItem(int sessionId, int itemId, String name, double  quantity, double price, String notice, long receiptDate, int basketId, int categoryId) throws Exception{
-        ItemResponse result = new ItemResponse();;
-        String METHOD_NAME = "createOrUpdateItem";
+    public ItemResponse createOrUpdateItem(int sessionId, int itemId, String name, double  quantity, double price, String notice, long receiptDate, int basketId, int categoryId) {
+        ItemResponse result = new ItemResponse();
         SoapObject response = null;
+        String METHOD_NAME = "createOrUpdateItem";
+        int returnCode = 0;
+
         try {
             response = executeSoapAction(METHOD_NAME, sessionId, itemId, name,  quantity, price, notice, receiptDate, basketId, categoryId);
-
-            Log.d(TAG, response.toString());
-
             returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            result.setReturnCode(returnCode);
 
-            SoapObject test= (SoapObject) response.getProperty(1);
+            SoapObject itemResponse = (SoapObject) response.getProperty(1);
 
-            int id = Integer.parseInt(test.getPrimitivePropertySafelyAsString("id"));
+            int id = Integer.parseInt(itemResponse.getPrimitivePropertySafelyAsString("id"));
+
             if (returnCode == 200) {
-                result.setReturnCode(returnCode);
-                ItemTO item = new ItemTO(name, quantity, price, notice, receiptDate, basketId, categoryId);
-                result.setItemTo(item);
-                return result;
+                result.setItemTo(new ItemTO(name, quantity, price, notice, receiptDate, basketId, categoryId));
             }
-            else {
-                throw new Exception("Create/Update Income was not successful!");
-            }
+
         } catch (SoapFault e) {
-            throw new Exception(e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
+
+        return result;
     }
 
     /**
@@ -1110,69 +1050,53 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @param basketId
      * @return
      */
-    public ItemListResponse getItemsByBasket(int sessionId, int basketId,  BudgetAndroidApplication myApp) throws Exception{
+    public ItemListResponse getItemsByBasket(int sessionId, int basketId) {
 
         ItemListResponse result = new ItemListResponse();
-        String METHOD_NAME = ItemTO.GET_ITEMS_BY_BASKET;
         SoapObject response = null;
+        String METHOD_NAME = ItemTO.GET_ITEMS_BY_BASKET;
+        int returnCode = 0;
 
+        // Create new List for Basket Obejcts
+        ArrayList<ItemTO> itemList = new ArrayList<>();
 
         try {
 
             // Get Response from SOAP Object specified Method Name
             response = executeSoapAction(METHOD_NAME, sessionId, basketId);
-
-
-            //Log.d(TAG, ItemTOConstant.GET_ITEMS_BY_BASKET + ": " + response.toString() +
-            //        "/n Count: " + response.getPropertyCount());
-
-
-            // Get Return Code from SOAP Object
             returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
-
+            result.setReturnCode(returnCode);
+            int propertyCount = response.getPropertyCount();
 
             if (returnCode == 200) {
-
-                // Create new List for Basket Obejcts
-                ArrayList<ItemTO> itemList = new ArrayList<>();
-
-                // Set Returncode for successs
-                result.setReturnCode(returnCode);
-
-                // Response has Propertys
-                if (response.getPropertyCount() > 1) {
-
-
-                    for (int i = 1; i < response.getPropertyCount(); i++) {
-
-                        SoapObject ListObject = (SoapObject) response.getProperty(i);
-
-                        int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString(ItemTO.ID));
-                        String name = ListObject.getPrimitivePropertySafelyAsString(ItemTO.NAME);
-                        double quantity = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString(ItemTO.QUANTITY));
-                        double price = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString(ItemTO.PRICE));
-                        String notice = ListObject.getPrimitivePropertySafelyAsString(ItemTO.NOTICE);
-                        long receiptDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(ItemTO.RECEIPTDATE));
-                        int categoryId = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString(ItemTO.CATEGORY));
-
-
-                        ItemTO item = new ItemTO(id, name, quantity, price, notice, receiptDate, basketId, categoryId);
-
-                        itemList.add(item);
-
+                if (propertyCount > 1) {
+                    for (int idx = 1; idx < propertyCount; idx++) {
+                        SoapObject ListObject = (SoapObject) response.getProperty(idx);
+                        itemList.add(parseItem(ListObject, basketId));
                     }
                 }
-
-                result.setItemList(itemList);
-
-                return result;
             }
-            else {
-                throw new Exception("Create/Update item was not successful!");
-            }
+
+            result.setItemList(itemList);
+
         } catch (SoapFault e) {
-            throw new Exception(e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
+
+        return result;
+    }
+
+    private ItemTO parseItem (SoapObject ListObject, int basketId) {
+        int id = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString(ItemTO.ID));
+        String name = ListObject.getPrimitivePropertySafelyAsString(ItemTO.NAME);
+        double quantity = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString(ItemTO.QUANTITY));
+        double price = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString(ItemTO.PRICE));
+        String notice = ListObject.getPrimitivePropertySafelyAsString(ItemTO.NOTICE);
+        long receiptDate = Long.parseLong(ListObject.getPrimitivePropertySafelyAsString(ItemTO.RECEIPTDATE));
+        int categoryId = Integer.parseInt(ListObject.getPrimitivePropertySafelyAsString(ItemTO.CATEGORY));
+
+        return new ItemTO(id, name, quantity, price, notice, receiptDate, basketId, categoryId);
+
     }
 
 
@@ -1188,10 +1112,6 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
         return null;
     }
 
-    public AmountResponse getItemsAmountByLossCategory(int sessionId, int categoryId) throws Exception{
-        return null;
-    }
-
 
 	/*#################      XYZ - SECTION     ##############*/
 
@@ -1202,35 +1122,35 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @param daysOfPeriod
      * @return
      */
-    public AmountResponse getLossByPeriod(int sessionId, int daysOfPeriod) throws Exception{
+    public AmountResponse getLossByPeriod(int sessionId, int daysOfPeriod) {
         return getObjectByPeriod(sessionId, daysOfPeriod, "getLossByPeriod");
     }
 
-    public AmountResponse getObjectByPeriod(int sessionId, int daysOfPeriod, String method) throws Exception {
+    public AmountResponse getObjectByPeriod(int sessionId, int daysOfPeriod, String method)  {
+
         AmountResponse result = new AmountResponse();
-        String METHOD_NAME = method;
         SoapObject response = null;
+        String METHOD_NAME = method;
+        int returnCode = 0;
+
         try {
             response = executeSoapAction(METHOD_NAME, sessionId, daysOfPeriod);
-            //Log.d(TAG, response.toString() + response.getPropertyCount());
+            returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            result.setReturnCode(returnCode);
+            int propertyCount = response.getPropertyCount();
 
-            tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
-            if (tmp == 200) {
-                result.setReturnCode(tmp);
-                if (response.getPropertyCount() > 1) {
+            if (returnCode == 200) {
+                if (propertyCount > 1) {
                     Double amount = Double.parseDouble(response.getPrimitivePropertySafelyAsString("value"));
                     result.setValue(amount);
                 }
-                return result;
             }
-            else {
-                result.setReturnCode(tmp);
-                Log.d("INFO", METHOD_NAME + " keine vorhanden");
-                return result;
-            }
+
         } catch (SoapFault e) {
-            throw new Exception(e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
+
+        return result;
     }
 
     /**
@@ -1240,7 +1160,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @param daysOfPeriod
      * @return
      */
-    public AmountResponse getIncomeByPeriod(int sessionId, int daysOfPeriod) throws Exception {
+    public AmountResponse getIncomeByPeriod(int sessionId, int daysOfPeriod)  {
         return getObjectByPeriod(sessionId, daysOfPeriod, "getIncomeByPeriod");
 
     }
@@ -1251,64 +1171,14 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @param sessionId
      * @return
      */
-    public AmountListResponse getItemsAmountForCategories(int sessionId) throws Exception{
+    public AmountListResponse getItemsAmountForCategories(int sessionId) {
         return getObjectAmountForCategories(sessionId, "getItemsAmountForCategories");
     }
 
-    public AmountListResponse getObjectAmountForCategories(int sessionId, String method) throws Exception {
-
+    public AmountListResponse getObjectAmountForCategories(int sessionId, String method)  {
+ggit
         return getAmount(sessionId, method);
 
-        /*
-        AmountListResponse result = new AmountListResponse();
-        ArrayList<AmountTO> list = new ArrayList<>();
-        String METHOD_NAME = method;
-        SoapObject response = null;
-
-        try {
-
-            response = executeSoapAction(METHOD_NAME, sessionId);
-            returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
-            result.setReturnCode(returnCode);
-
-            int propertyCount = response.getPropertyCount();
-
-            if (returnCode == 200) {
-
-                if (propertyCount > 1) {
-                    for (int idx = 1; idx < propertyCount; idx++) {
-
-                        SoapObject ListObject = (SoapObject) response.getProperty(idx);
-                        AmountTO amountTO = new AmountTO();
-
-                        String name = ListObject.getPrimitivePropertySafelyAsString("name");
-                        Double value = Double.parseDouble(ListObject.getPrimitivePropertySafelyAsString("value"));
-
-                        amountTO.setName(name);
-                        amountTO.setValue(value);
-
-                        list.add(amountTO);
-                    }
-                }
-                result.setAmountList(list);
-
-            } else Log.d("INFO", METHOD_NAME + " keine vorhanden");
-
-            return result;
-
-        } catch (SoapFault e) {
-            throw new Exception(e.getMessage());
-        }*/
-    }
-
-    /**
-     * @author Christopher
-     * @date 19.05.2015
-     * @param sessionId
-     * @return
-     */
-    public AmountListResponse getIncomeAmountForCategories(int sessionId) throws Exception{
-        return getObjectAmountForCategories(sessionId, "getIncomesAmountForCategories");
     }
 
 
@@ -1318,7 +1188,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @param sessionId
      * @return
      */
-    public AmountListResponse getBasketsAmountForVendors(int sessionId) throws Exception{
+    public AmountListResponse getBasketsAmountForVendors(int sessionId) {
         return getAmount(sessionId, "getBasketsAmountForVendors");
     }
 
@@ -1329,7 +1199,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
      * @param method
      * @return
      */
-    public AmountListResponse getAmount(int sessionId, String method) throws Exception {
+    public AmountListResponse getAmount(int sessionId, String method)  {
 
         // Create ResultSet
         AmountListResponse result  = new AmountListResponse();
@@ -1345,14 +1215,9 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
             response = executeSoapAction(METHOD_NAME, sessionId);
             returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
             result.setReturnCode(returnCode);
-
             int propertyCount = response.getPropertyCount();
 
-            // Read the response and get ReturnCode
-
-
             if (returnCode == 200) {
-
                 if (propertyCount > 1) {
                     for (int idx = 1; idx < propertyCount; idx++) {
 
@@ -1365,19 +1230,17 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
                         AmountTO amountTO = new AmountTO(name, value);
                         list.add(amountTO);
                     }
-
-                    result.setAmountList(list);
                 }
-
 
             } else  Log.d("INFO", METHOD_NAME + " keine Werte vorhanden");
 
-            return result;
+            result.setAmountList(list);
+
 
         } catch (SoapFault e) {
-            throw new Exception(e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
-
+        return result;
     }
 
 

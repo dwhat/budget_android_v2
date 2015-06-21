@@ -36,7 +36,7 @@ public class GetBasketTask extends AsyncTask<String, Integer, BasketListResponse
 
             try {
 
-                BasketListResponse basket = myApp.getBudgetOnlineService().getBaskets(myApp.getSession(), myApp);
+                BasketListResponse basket = myApp.getBudgetOnlineService().getBaskets(myApp.getSession());
                 Integer returnCode =  basket.getReturnCode();
                 return basket;
             } catch (Exception e) {

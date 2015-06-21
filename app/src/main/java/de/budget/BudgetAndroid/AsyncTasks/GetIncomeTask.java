@@ -38,7 +38,7 @@ public class GetIncomeTask extends AsyncTask<String, Integer, IncomeListResponse
             return null;
 
         try {
-            IncomeListResponse myIncome = myApp.getBudgetOnlineService().getIncomes(myApp.getSession(), myApp);
+            IncomeListResponse myIncome = myApp.getBudgetOnlineService().getIncomes(myApp.getSession());
             Integer rt =  myIncome.getReturnCode();
 
             return myIncome;

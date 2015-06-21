@@ -55,6 +55,35 @@ public class VendorTO implements Serializable {
 		this.PLZ = PLZ;
 	}
 
+	public VendorTO(int id, String name, long createDate, long lastChanged, String street, String city, int PLZ, int houseNumber) {
+		this.id = id;
+		this.name = name;
+		this.createDate = createDate;
+		this.lastChanged = lastChanged;
+		this.street = street;
+		this.houseNumber = houseNumber;
+		this.city = city;
+		this.PLZ = PLZ;
+	}
+
+	/**
+	 * Constructor
+	 * @author Marco
+	 * @date 19.05.2015
+	 * @param id
+	 * @param name
+	 */
+	public VendorTO(int id, String name, String street, String city, int PLZ, int houseNumber) {
+		this.id = id;
+		this.name = name;
+		this.street = street;
+		this.houseNumber = houseNumber;
+		this.city = city;
+		this.PLZ = PLZ;
+	}
+
+
+
 	/**
 	 * @author Marco
 	 * @date 19.05.2015

@@ -37,7 +37,7 @@ public class GetItemsTask extends AsyncTask<String, Integer, ItemListResponse> {
             if(params.length != 0)
                 return null;
             try {
-                ItemListResponse item = myApp.getBudgetOnlineService().getItemsByBasket(myApp.getSession(), basket.getId(), myApp);
+                ItemListResponse item = myApp.getBudgetOnlineService().getItemsByBasket(myApp.getSession(), basket.getId());
                 Integer returnCode =  item.getReturnCode();
                 return item;
             } catch (Exception e) {

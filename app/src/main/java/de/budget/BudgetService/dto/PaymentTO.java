@@ -47,12 +47,21 @@ public class PaymentTO implements Serializable {
 	public PaymentTO(int id, String name, String number, String bic, boolean active, Timestamp createDate, Timestamp lastChanged, UserTO user) {
 		this.id = id;
 		this.name = name;
+		this.number = number;
 		this.bic = bic; 
 		this.active = active;
 		this.createDate = createDate;
 		this.lastChanged = lastChanged;
 		this.user = user;
 		
+	}
+
+	public PaymentTO(int id, String name, String number, String bic, boolean active){
+		this.id = id;
+		this.name = name;
+		this.number = number;
+		this.bic = bic;
+		this.active = active;
 	}
 
 

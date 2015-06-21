@@ -44,7 +44,7 @@ public class CreateOrUpdateIncomeTask extends AsyncTask<String, Integer, IncomeR
         String categoryId = params[6];
 
         try {
-            IncomeResponse myIncome = myApp.getBudgetOnlineService().createOrUpdateIncome(myApp.getSession(), Integer.parseInt(incomeId), name, Double.parseDouble(quantity),  Double.parseDouble(amount), notice, Long.parseLong(receiptDate), Integer.parseInt(categoryId),myApp);
+            IncomeResponse myIncome = myApp.getBudgetOnlineService().createOrUpdateIncome(myApp.getSession(), Integer.parseInt(incomeId), name, Double.parseDouble(quantity),  Double.parseDouble(amount), notice, Long.parseLong(receiptDate), Integer.parseInt(categoryId));
             Integer rt =  myIncome.getReturnCode();
             Log.d("INFO", "Returncode: " + rt.toString());
             return myIncome;

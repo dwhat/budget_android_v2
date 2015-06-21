@@ -29,7 +29,7 @@ import de.budget.BudgetService.dto.VendorTO;
  */
 public class BudgetAndroidApplication extends Application{
     private int sessionId;
-    private BudgetOnlineServiceOld budgetOnlineService;
+    private BudgetOnlineService budgetOnlineService;
     private List<CategoryTO> categories;
     private List<VendorTO> vendors;
     private List<PaymentTO> payments;
@@ -45,10 +45,10 @@ public class BudgetAndroidApplication extends Application{
     private double lossLastPeriod = 0.0;
 
     public BudgetAndroidApplication() {
-        this.budgetOnlineService = new BudgetOnlineServiceImpl();
+        this.budgetOnlineService = new BudgetOnlineServiceImpl(this);
     }
 
-    public BudgetOnlineServiceOld getBudgetOnlineService() {
+    public BudgetOnlineService getBudgetOnlineService() {
         return this.budgetOnlineService;
     }
 
