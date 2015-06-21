@@ -5,7 +5,6 @@ package de.budget.BudgetService;
 //Java Datentypen Import
 import java.util.List;
 
-import de.budget.BudgetService.Exception.InvalidLoginException;
 import de.budget.BudgetService.Response.AmountListResponse;
 import de.budget.BudgetService.Response.AmountResponse;
 import de.budget.BudgetService.Response.BasketListResponse;
@@ -31,7 +30,7 @@ import de.budget.BudgetService.dto.ItemTO;
  * @author Marco
  * @version 1
  */
-public interface BudgetOnlineService {
+public interface BudgetOnlineService2 {
 
 		
 	/*#################      USER - SECTION     ##############*/

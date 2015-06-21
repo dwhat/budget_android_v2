@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import de.budget.BudgetService.BudgetOnlineService;
+import de.budget.BudgetService.BudgetOnlineServiceOld;
 import de.budget.BudgetService.Response.CategoryListResponse;
 import de.budget.BudgetService.dto.AmountTO;
 import de.budget.BudgetService.dto.BasketTO;
@@ -28,7 +29,7 @@ import de.budget.BudgetService.dto.VendorTO;
  */
 public class BudgetAndroidApplication extends Application{
     private int sessionId;
-    private BudgetOnlineService budgetOnlineService;
+    private BudgetOnlineServiceOld budgetOnlineService;
     private List<CategoryTO> categories;
     private List<VendorTO> vendors;
     private List<PaymentTO> payments;
@@ -47,7 +48,7 @@ public class BudgetAndroidApplication extends Application{
         this.budgetOnlineService = new BudgetOnlineServiceImpl();
     }
 
-    public BudgetOnlineService getBudgetOnlineService() {
+    public BudgetOnlineServiceOld getBudgetOnlineService() {
         return this.budgetOnlineService;
     }
 

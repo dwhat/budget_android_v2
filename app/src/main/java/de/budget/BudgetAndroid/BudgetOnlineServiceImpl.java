@@ -4,6 +4,7 @@ import android.util.Log;
 
 import de.budget.BudgetAndroid.Annotations.Author;
 import de.budget.BudgetService.BudgetOnlineService;
+import de.budget.BudgetService.BudgetOnlineServiceOld;
 import de.budget.BudgetService.Exception.InvalidLoginException;
 import de.budget.BudgetService.Response.AmountListResponse;
 import de.budget.BudgetService.Response.AmountResponse;
@@ -42,7 +43,7 @@ import java.util.List;
  * @author christopher
  * @date 01.06.2015
  */
-public class BudgetOnlineServiceImpl implements BudgetOnlineService{
+public class BudgetOnlineServiceImpl implements BudgetOnlineServiceOld {
 
     private static final String NAMESPACE = "http://onlinebudget.budget.de/";
 
@@ -56,27 +57,31 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
     private int returnCode;
 
     @Override
-    public UserLoginResponse setUser(String username, String password, String email) throws  Exception{
+    public UserLoginResponse setUser(String username, String password, String email) {
+
         UserLoginResponse result = new UserLoginResponse();
+        int returnCode = 0;
         String METHOD_NAME = "setUser";
         SoapObject response = null;
+        int sessionId;
+
         try {
             response = executeSoapAction(METHOD_NAME, username, password, email);
             //Log.d(TAG, response.toString());
-            rt = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
-            if (rt == 200) {
-                tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("sessionId"));
-                result.setSessionId(tmp);
-                return result;
+            returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
+            result.setReturnCode(returnCode);
+
+            if (returnCode == 200) {
+                sessionId = Integer.parseInt(response.getPrimitivePropertySafelyAsString("sessionId"));
+                result.setSessionId(sessionId);
             }
-            else {
-                tmp = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
-                result.setReturnCode(tmp);
-                return result;
-            }
+
+
         } catch (SoapFault e) {
-            throw new Exception(e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
+
+        return result;
     }
 
     @Override
@@ -1235,7 +1240,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService{
      * @param daysOfPeriod
      * @return
      */
-    public AmountResponse getIncomeByPeriod(int sessionId, int daysOfPeriod) throws Exception{
+    public AmountResponse getIncomeByPeriod(int sessionId, int daysOfPeriod) throws Exception {
         return getObjectByPeriod(sessionId, daysOfPeriod, "getIncomeByPeriod");
 
     }

@@ -39,6 +39,7 @@ public class RegisterTask extends AsyncTask<String, Integer, UserLoginResponse>
     protected UserLoginResponse doInBackground(String... params){
         if(params.length != 3)
             return null;
+
         String username = params[0];
         String password = params[1];
         String email = params[2];
@@ -52,21 +53,21 @@ public class RegisterTask extends AsyncTask<String, Integer, UserLoginResponse>
         catch (NoSuchAlgorithmException e){
             Log.d("Error", e.getMessage());
         }
-        try {
+
             UserLoginResponse myUser = myApp.getBudgetOnlineService().setUser(username, md5,email);
             Integer rt =  myUser.getReturnCode();
             Log.d("INFO", "Returncode: " + rt.toString());
-            // Speichern der Benutzerdaten
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity.getBaseContext());
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString("username", username);
-            editor.putString("password", password);
-            editor.apply();
-            return myUser;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+
+            if (rt == 200) {
+                // Speichern der Benutzerdaten
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity.getBaseContext());
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("username", username);
+                editor.putString("password", password);
+                editor.apply();
+            }
+
+        return myUser;
     }
 
     protected void onProgessUpdate(Integer... values)
