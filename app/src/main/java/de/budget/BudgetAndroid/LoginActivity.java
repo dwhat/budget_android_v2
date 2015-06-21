@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.net.SocketTimeoutException;
+
 import de.budget.BudgetAndroid.common.NetworkCommon;
 import de.budget.BudgetAndroid.common.ToastCommon;
 import de.budget.R;
@@ -82,7 +84,9 @@ public class LoginActivity extends ActionBarActivity {
         if(!"".equals(username) && !"".equals(password))
         {
             if(NetworkCommon.getStatus(this))
+
                 new LoginTask(view.getContext(), this).execute(username, password);
+
             else
                 ToastCommon.NetworkMissing(this);
         }

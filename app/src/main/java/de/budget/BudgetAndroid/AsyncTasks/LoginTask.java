@@ -8,6 +8,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.ksoap2.SoapFault;
+
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -27,6 +29,9 @@ public class LoginTask extends AsyncTask<String, Integer, UserLoginResponse>
     private static LoginActivity activity;
     public static SyncActivity nextActivity = new SyncActivity();
 
+    private String username;
+    private String password;
+
     public LoginTask(Context context, LoginActivity pActivity)
     {
         this.context = context;
@@ -34,11 +39,11 @@ public class LoginTask extends AsyncTask<String, Integer, UserLoginResponse>
     }
 
     @Override
-    protected UserLoginResponse doInBackground(String... params){
+    protected UserLoginResponse doInBackground(String... params) {
         if(params.length != 2)
             return null;
-        String username = params[0];
-        String password = params[1];
+        username = params[0];
+        password = params[1];
         BudgetAndroidApplication myApp = (BudgetAndroidApplication) activity.getApplication();
         String md5 = new String();
         try {
@@ -52,15 +57,8 @@ public class LoginTask extends AsyncTask<String, Integer, UserLoginResponse>
         }
         try {
             UserLoginResponse myUser = myApp.getBudgetOnlineService().login(username, md5);
-            Integer rt =  myUser.getReturnCode();
-            //Log.d("INFO", "Returncode: " + rt.toString());
-            // Speichern der Benutzerdaten
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity.getBaseContext());
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString("username", username);
-            editor.putString("password", password);
-            editor.apply();
             return myUser;
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -78,6 +76,16 @@ public class LoginTask extends AsyncTask<String, Integer, UserLoginResponse>
         {
             //erfolgreich eingeloggt
             if (result.getReturnCode() == 200){
+
+                //Log.d("INFO", "Returncode: " + rt.toString());
+                // Speichern der Benutzerdaten
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity.getBaseContext());
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("username", username);
+                editor.putString("password", password);
+                editor.apply();
+
+
                 BudgetAndroidApplication myApp = (BudgetAndroidApplication) activity.getApplication();
                 myApp.setSession(result.getSessionId());
                 Log.d("INFO", "Login erfolgreich, SessionId: " + myApp.getSession());

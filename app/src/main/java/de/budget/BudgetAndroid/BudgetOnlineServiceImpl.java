@@ -33,6 +33,7 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -91,6 +92,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService {
 
         } catch (SoapFault e) {
             Log.e(TAG, e.getMessage());
+            return result;
         }
 
         return result;
@@ -107,6 +109,9 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService {
 
         try {
             response = executeSoapAction(METHOD_NAME, username, password);
+
+            if (response == null) return null;
+
             returnCode = Integer.parseInt(response.getPrimitivePropertySafelyAsString("returnCode"));
             result.setReturnCode(returnCode);
 
@@ -1176,7 +1181,6 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService {
     }
 
     public AmountListResponse getObjectAmountForCategories(int sessionId, String method)  {
-ggit
         return getAmount(sessionId, method);
 
     }
