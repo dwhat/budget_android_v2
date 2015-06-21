@@ -279,18 +279,6 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService {
         return deleteObject(sessionId, vendorId, "deleteVendor");
     }
 
-    /**
-     * Methode um die Betr�ge pro Vendor zur�ck zugeben
-     * <p> Author: Marco </p>
-     *
-     * @param sessionId
-     * @return AmountListResponse
-     */
-    @Override
-    public AmountListResponse getAmountForVendors(int sessionId) {
-        return null;
-    }
-
 
 
 	/*#################      PAYMENT - SECTION     ##############*/
@@ -1170,6 +1158,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService {
 
     }
 
+
     /**
      * @author Christopher
      * @date 19.05.2015
@@ -1192,8 +1181,9 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService {
      * @param sessionId
      * @return
      */
-    public AmountListResponse getBasketsAmountForVendors(int sessionId) {
+    public AmountListResponse getAmountForVendors(int sessionId) {
         return getAmount(sessionId, "getBasketsAmountForVendors");
+
     }
 
     /**

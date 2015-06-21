@@ -39,11 +39,11 @@ public interface BudgetOnlineService {
     /**
      * Method to Register a new User
      * <p> Author: Marco </p>
+     *
      * @param username
      * @param password
      * @param email
      * @return UserLoginResponse
-     *
      */
     public UserLoginResponse setUser(String username, String password, String email);
 
@@ -51,6 +51,7 @@ public interface BudgetOnlineService {
     /**
      * Method to login with Username and Password
      * <p> Author: Marco </p>
+     *
      * @param username
      * @param password
      * @return UserLoginResponse
@@ -61,6 +62,7 @@ public interface BudgetOnlineService {
     /**
      * Method to log out
      * <p> Author: Marco </p>
+     *
      * @param sessionID
      * @return ReturnCodeResponse
      */
@@ -70,6 +72,7 @@ public interface BudgetOnlineService {
     /**
      * Method to get a User by name
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param userName
      * @return UserResponse
@@ -79,6 +82,7 @@ public interface BudgetOnlineService {
     /**
      * Method to delete the own user
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param username
      * @return ReturnCodeResponse
@@ -91,6 +95,7 @@ public interface BudgetOnlineService {
     /**
      * Method to get a special vendor
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @return VendorListResponse Object
      */
@@ -99,6 +104,7 @@ public interface BudgetOnlineService {
     /**
      * Method to get a Vendor with the SessionId and the vendorId
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param vendorId
      * @return VendorResponse Object
@@ -108,6 +114,7 @@ public interface BudgetOnlineService {
     /**
      * Method to create a vendor
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param vendorId
      * @param name
@@ -123,6 +130,7 @@ public interface BudgetOnlineService {
     /**
      * Method to delete a vendor
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param vendorId
      * @return ReturnCodeResponse
@@ -132,6 +140,7 @@ public interface BudgetOnlineService {
     /**
      * Methode um die Betr�ge pro Vendor zur�ck zugeben
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @return AmountListResponse
      */
@@ -143,6 +152,7 @@ public interface BudgetOnlineService {
     /**
      * Method to get all payments of a user
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @return PaymentListResponse Object
      */
@@ -151,6 +161,7 @@ public interface BudgetOnlineService {
     /**
      * Method to get a payment with the SessionId and the paymentId
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param paymentId
      * @return PaymentResponse Object
@@ -160,6 +171,7 @@ public interface BudgetOnlineService {
     /**
      * Method to delete a payment
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param paymentId
      * @return ReturnCodeResponse Object
@@ -171,6 +183,7 @@ public interface BudgetOnlineService {
      * method to create or update a payment
      * <p> Author: Marco </p>
      * <p> Author: Moritz </p>
+     *
      * @param sessionId
      * @param paymentId
      * @param name
@@ -186,6 +199,7 @@ public interface BudgetOnlineService {
     /**
      * Method to get a special category of a user
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param categoryId
      * @return CategoryResponse
@@ -195,6 +209,7 @@ public interface BudgetOnlineService {
     /**
      * Method to get all categories of a user
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @return CategoryListResponse Object
      */
@@ -203,6 +218,7 @@ public interface BudgetOnlineService {
     /**
      * Method to get all Categories of a use where income is true
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @return CategoryListResponse
      */
@@ -211,6 +227,7 @@ public interface BudgetOnlineService {
     /**
      * Method to get all Categories of a use where income is false
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @return CategoryListResponse
      */
@@ -219,9 +236,10 @@ public interface BudgetOnlineService {
     /**
      * Method to create or update d category
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param categoryId
-     * @param income true if income, false if loss
+     * @param income     true if income, false if loss
      * @param active
      * @param name
      * @param notice
@@ -233,6 +251,7 @@ public interface BudgetOnlineService {
     /**
      * Method to delete a category
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param categoryId
      * @return ReturnCodeResponse
@@ -244,6 +263,7 @@ public interface BudgetOnlineService {
     /**
      * Gives a Response Object with all Baskets in a list
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @return BasketListResponse Object
      */
@@ -252,6 +272,7 @@ public interface BudgetOnlineService {
     /**
      * Method to delete a basket
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param basketId
      * @return BasketResponse Object
@@ -261,6 +282,7 @@ public interface BudgetOnlineService {
     /**
      * Method to create a basket
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param basketId
      * @param name
@@ -269,7 +291,7 @@ public interface BudgetOnlineService {
      * @param purchaseDate
      * @param paymentId
      * @param vendorId
-     * @param items   List with itemTO Objects to add to the basket
+     * @param items        List with itemTO Objects to add to the basket
      * @return BasketResponse
      */
     public BasketResponse createOrUpdateBasketList(int sessionId, int basketId, String name, String notice, double amount, long purchaseDate, int paymentId, int vendorId, List<ItemTO> items);
@@ -277,6 +299,7 @@ public interface BudgetOnlineService {
     /**
      * Method to create a basket
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param basketId
      * @param name
@@ -292,6 +315,7 @@ public interface BudgetOnlineService {
     /**
      * Method to delete a basket
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param basketId
      * @return ReturnCodeResponse
@@ -301,9 +325,10 @@ public interface BudgetOnlineService {
     /**
      * Gibt die letzten Baskets als Liste zur�ck
      * <p> Author: Marco </p>
+     *
      * @param sessionId
-     * @param startPosition  startPosition of the incomes sorted by date
-     * @param endPosition  endPosition of the incomes sorted by date
+     * @param startPosition startPosition of the incomes sorted by date
+     * @param endPosition   endPosition of the incomes sorted by date
      * @return BasketListResponse Object
      */
     public BasketListResponse getLastBaskets(int sessionId, int startPosition, int endPosition);
@@ -311,6 +336,7 @@ public interface BudgetOnlineService {
     /**
      * Method to find all baskets of a vendor
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param vendorId
      * @return BasketListResponse - a list with all baskets of a vendor
@@ -320,6 +346,7 @@ public interface BudgetOnlineService {
     /**
      * gets the sum of all basketsamounts of the actual month
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @return AmountResponse
      */
@@ -329,6 +356,7 @@ public interface BudgetOnlineService {
     /**
      * gets all baskets of a specific payment
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param paymentId
      * @return BasketListResponse - a list with all baskets of a payment
@@ -340,6 +368,7 @@ public interface BudgetOnlineService {
     /**
      * Method to create or update an income
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param incomeId
      * @param name
@@ -350,11 +379,12 @@ public interface BudgetOnlineService {
      * @param categoryId
      * @return IncomeResponse
      */
-    public IncomeResponse createOrUpdateIncome(int sessionId, int incomeId, String name, double  quantity, double amount, String notice, long receiptDate, int categoryId);
+    public IncomeResponse createOrUpdateIncome(int sessionId, int incomeId, String name, double quantity, double amount, String notice, long receiptDate, int categoryId);
 
     /**
      * Method to get a special income
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param itemId
      * @return Incomeresponse
@@ -364,6 +394,7 @@ public interface BudgetOnlineService {
     /**
      * Method to get all incomes of a user
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @return IncomeListResponse
      */
@@ -372,9 +403,10 @@ public interface BudgetOnlineService {
     /**
      * Gibt die letzten Incomes als Liste zur�ck
      * <p> Author: Marco </p>
+     *
      * @param sessionId
-     * @param startPosition  startPosition of the incomes sorted by date
-     * @param endPosition  endPosition of the incomes sorted by date
+     * @param startPosition startPosition of the incomes sorted by date
+     * @param endPosition   endPosition of the incomes sorted by date
      * @return IncomeListResponse
      */
     public IncomeListResponse getLastIncomes(int sessionId, int startPosition, int endPosition);
@@ -382,6 +414,7 @@ public interface BudgetOnlineService {
     /**
      * Method to get all Incomes of a specific category for incomes
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param categoryId
      * @return IncomeListResponse
@@ -391,6 +424,7 @@ public interface BudgetOnlineService {
     /**
      * Method to get the Amount of all income, which are assigned to a special category
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @return AmountListResponse
      */
@@ -399,6 +433,7 @@ public interface BudgetOnlineService {
     /**
      * gets the sum of all income of the actual month
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @return AmountResponse
      */
@@ -408,6 +443,7 @@ public interface BudgetOnlineService {
     /**
      * Method to delete an income
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param incomeId
      * @return ReturnCodeResponse
@@ -419,6 +455,7 @@ public interface BudgetOnlineService {
     /**
      * Method to create or update an item
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param itemId
      * @param name
@@ -430,11 +467,12 @@ public interface BudgetOnlineService {
      * @param categoryId
      * @return ItemResponse
      */
-    public ItemResponse createOrUpdateItem(int sessionId, int itemId, String name, double  quantity, double price, String notice, long receiptDate, int basketId, int categoryId);
+    public ItemResponse createOrUpdateItem(int sessionId, int itemId, String name, double quantity, double price, String notice, long receiptDate, int basketId, int categoryId);
 
     /**
      * Method to delete an item
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param lossId
      * @return ReturnCodeResponse
@@ -444,6 +482,7 @@ public interface BudgetOnlineService {
     /**
      * Method to get a special item out of the basket
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param itemId
      * @param basketId
@@ -454,6 +493,7 @@ public interface BudgetOnlineService {
     /**
      * Method to get all items of a basket
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param basketId
      * @return ItemListResponse
@@ -464,6 +504,7 @@ public interface BudgetOnlineService {
     /**
      * Method to ge all Items of a specific category for losses
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param categoryId
      * @return ItemListResponse
@@ -473,6 +514,7 @@ public interface BudgetOnlineService {
     /**
      * Method to get the amount of all items
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @return AmountListResponse
      */
@@ -484,6 +526,7 @@ public interface BudgetOnlineService {
     /**
      * Method to get the amount of all investments of a period
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param daysOfPeriod
      * @return AmountResponse
@@ -493,13 +536,12 @@ public interface BudgetOnlineService {
     /**
      * Method to get the amount of all income of a period
      * <p> Author: Marco </p>
+     *
      * @param sessionId
      * @param daysOfPeriod
      * @return AmountResponse
      */
     public AmountResponse getIncomeByPeriod(int sessionId, int daysOfPeriod);
-
-
 
 }
 

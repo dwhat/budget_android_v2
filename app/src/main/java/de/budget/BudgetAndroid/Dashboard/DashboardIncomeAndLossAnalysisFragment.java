@@ -22,6 +22,7 @@ import de.budget.BudgetAndroid.AsyncTasks.GetItemsAmountForCategoriesTask;
 import de.budget.BudgetAndroid.AsyncTasks.OnTaskCompleted;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetAndroid.common.ChartMethods;
+import de.budget.BudgetAndroid.common.ToastCommon;
 import de.budget.BudgetService.dto.AmountTO;
 import de.budget.R;
 
@@ -122,12 +123,7 @@ public class DashboardIncomeAndLossAnalysisFragment extends Fragment {
             loadingPanel.setVisibility(View.VISIBLE);
 
         }
-        else {
-            CharSequence text = "Keine Netzwerkverbindung! :(";
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(getActivity().getBaseContext(), text, duration);
-            toast.show();
-        }
+        else ToastCommon.NetworkMissing(getActivity());
 
         return rootView;
     }

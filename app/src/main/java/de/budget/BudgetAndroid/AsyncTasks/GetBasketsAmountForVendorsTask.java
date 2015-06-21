@@ -53,7 +53,7 @@ public class GetBasketsAmountForVendorsTask extends AsyncTask<String, Integer, A
         {
             if (result.getReturnCode() == 200){
 
-                myApp.setBasketVendorsAmount(result.getAmountList());
+                myApp.setVendorsAmount(result.getAmountList());
                 listener.onTaskCompleted(true);
                 Log.d("INFO", "Diagrammdaten erfolgreich geladen.");
             }

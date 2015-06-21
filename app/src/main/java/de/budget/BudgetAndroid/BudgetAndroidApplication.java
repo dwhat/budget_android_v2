@@ -38,7 +38,7 @@ public class BudgetAndroidApplication extends Application{
     private List<AmountTO> itemsCategoriesAmount;
     private List<AmountTO> incomeCategoriesAmount;
     private List<AmountTO> vendorsAmount;
-    private List<AmountTO> basketVendorsAmount;
+    private List<AmountTO> basketAmount;
     private boolean firstStart = true;
     private int initialDataCounter = 0;
     private double incomeLastPeriod = 0.0;
@@ -287,6 +287,18 @@ public class BudgetAndroidApplication extends Application{
         }
     }
 
+    public List<AmountTO> getBasketAmount() {
+        return this.basketAmount;
+    }
+
+    public void setBasketAmount () {
+        List <AmountTO> amounts = new ArrayList<>();
+        for(BasketTO basketTO : basket) {
+            amounts.add(new AmountTO(basketTO.getName(), basketTO.getAmount()));
+        }
+        this.basketAmount = amounts;
+    }
+
     // Payment Section
     public void setPayments(List<PaymentTO> list){
         this.payments = list;
@@ -347,14 +359,6 @@ public class BudgetAndroidApplication extends Application{
 
     public void setVendorsAmount(List<AmountTO> vendorsAmount) {
         this.vendorsAmount = vendorsAmount;
-    }
-
-    public void setBasketVendorsAmount(List<AmountTO> basketVendorsAmount) {
-        this.basketVendorsAmount = basketVendorsAmount;
-    }
-
-    public List<AmountTO> getBasketVendorsAmount() {
-        return this.basketVendorsAmount ;
     }
 
     public List<AmountTO> getIncomeCategoriesAmount() {

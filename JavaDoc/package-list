@@ -1,0 +1,15 @@
+de.budget
+de.budget.BudgetAndroid
+de.budget.BudgetAndroid.Annotations
+de.budget.BudgetAndroid.AsyncTasks
+de.budget.BudgetAndroid.Categories
+de.budget.BudgetAndroid.Dashboard
+de.budget.BudgetAndroid.Income
+de.budget.BudgetAndroid.Loss
+de.budget.BudgetAndroid.Vendors
+de.budget.BudgetAndroid.common
+de.budget.BudgetService
+de.budget.BudgetService.Exception
+de.budget.BudgetService.Response
+de.budget.BudgetService.constants
+de.budget.BudgetService.dto
