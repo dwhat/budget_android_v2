@@ -21,6 +21,7 @@ import de.budget.BudgetAndroid.common.ChartMethods;
 import de.budget.BudgetAndroid.common.NetworkCommon;
 import de.budget.BudgetAndroid.common.ToastCommon;
 import de.budget.BudgetService.dto.AmountTO;
+import de.budget.BudgetService.dto.BasketTO;
 import de.budget.R;
 
 /**
@@ -67,39 +68,43 @@ public class LossAnalysisFragment extends Fragment {
         ChartMethods.setHorizontalBarChartFundamentals(chart);
         chart.animateY(2500);
 
-        // Fetch Data for Charts
-        if (NetworkCommon.getStatus(getActivity())) {
-            loadingPanel.setVisibility(View.VISIBLE);
-            GetBasketsAmountForVendorsTask task = new GetBasketsAmountForVendorsTask(getActivity().getBaseContext(), myApp, new OnTaskCompleted() {
-                @Override
-                public void onTaskCompleted(Object o) {
-                    boolean success = (boolean) o;
-                    if (success) {
-                        loadingPanel.setVisibility(View.GONE);
-                        chart.setVisibility(View.VISIBLE);
-                        refreshChart(chart);
-                    } else {
-                        loadingPanel.setVisibility(View.GONE);
-                        CharSequence text = "Bitte zuerst Ausgaben anlegen";
-                        int duration = Toast.LENGTH_SHORT;
-                        Toast toast = Toast.makeText(getActivity().getBaseContext(), text, duration);
-                        toast.show();
-                    }
-                }
-            });
-            task.execute();
-            loadingPanel.setVisibility(View.VISIBLE);
+        myApp.setBasketAmount();
+        chart.setVisibility(View.VISIBLE);
+        refreshChart(chart);
 
-        } else {
-            ToastCommon.NetworkMissing(getActivity());
-        }
+//        // Fetch Data for Charts
+//        if (NetworkCommon.getStatus(getActivity())) {
+//            loadingPanel.setVisibility(View.VISIBLE);
+//            GetBasketsAmountForVendorsTask task = new GetBasketsAmountForVendorsTask(getActivity().getBaseContext(), myApp, new OnTaskCompleted() {
+//                @Override
+//                public void onTaskCompleted(Object o) {
+//                    boolean success = (boolean) o;
+//                    if (success) {
+//                        loadingPanel.setVisibility(View.GONE);
+//                        chart.setVisibility(View.VISIBLE);
+//                        refreshChart(chart);
+//                    } else {
+//                        loadingPanel.setVisibility(View.GONE);
+//                        CharSequence text = "Bitte zuerst Ausgaben anlegen";
+//                        int duration = Toast.LENGTH_SHORT;
+//                        Toast toast = Toast.makeText(getActivity().getBaseContext(), text, duration);
+//                        toast.show();
+//                    }
+//                }
+//            });
+//            task.execute();
+//            loadingPanel.setVisibility(View.VISIBLE);
+//
+//        } else {
+//            ToastCommon.NetworkMissing(getActivity());
+//        }
 
         return rootView;
     }
 
     public void refreshChart(HorizontalBarChart chart) {
-        List<AmountTO> loss = myApp.getBasketVendorsAmount();
-        ChartMethods.setDataOfHorizontalBarChart(chart, loss, "Ausgaben pro Kategorie in €");
+        List<AmountTO> loss = myApp.getBasketAmount();
+        ChartMethods.setDataOfHorizontalBarChart(chart, loss, "Ausgaben pro Basket in €");
 
     }
 
