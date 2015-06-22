@@ -12,8 +12,9 @@ import de.budget.BudgetAndroid.MainActivity;
 import de.budget.BudgetAndroid.Vendors.VendorActivity;
 import de.budget.BudgetService.Response.ReturnCodeResponse;
 
+
     /**
-     *  *  * <p>  Asynchroner Task um ein Income zu löschen.
+     * <p>  Asynchroner Task um ein Income zu löschen.
      *
      *      Der Task nimmt einen Parameter eines zu löschenden Objects entgegen.
      *      Die Parameter werden über die BudgetAndroidApplication an das Interface übermittelt,
@@ -24,9 +25,9 @@ import de.budget.BudgetService.Response.ReturnCodeResponse;
      *      Nach Abschluss des Tasks wird die Response geprüft und je nach ReturnCode entschieden
      *      welche Interaktion durchgeführt werden soll.
      * </p>
-    * @Author Christopher
-    * @Date 16.06.2015
-    */
+     * @Author Christopher
+     * @Date 16.06.2015
+     */
 public class DeleteIncomeTask extends AsyncTask<Integer, Integer, ReturnCodeResponse>
 {
     private static BudgetAndroidApplication myApp;
