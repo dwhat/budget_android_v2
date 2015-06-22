@@ -12,7 +12,7 @@ import de.budget.BudgetAndroid.MainActivity;
 import de.budget.BudgetAndroid.Vendors.VendorActivity;
 import de.budget.BudgetService.Response.ReturnCodeResponse;
 
-/*
+/**
     * @Author Christopher
     * @Date 16.06.2015
     */

@@ -31,6 +31,9 @@ public class CategoryActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
 
+        RadioGroup rgIncomeOrLoss =(RadioGroup)findViewById(R.id.category_type);
+        rgIncomeOrLoss.check(findViewById(R.id.rb_category_income).getId());
+
         myApp = (BudgetAndroidApplication) getApplication();
 
         Bundle bundle = getIntent().getExtras();
