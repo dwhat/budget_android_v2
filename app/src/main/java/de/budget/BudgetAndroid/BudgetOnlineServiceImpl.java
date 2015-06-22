@@ -1182,7 +1182,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService {
      * @return
      */
     public AmountListResponse getAmountForVendors(int sessionId) {
-        return getAmount(sessionId, "getBasketsAmountForVendors");
+        return getAmount(sessionId, "getAmountForVendors");
 
     }
 
