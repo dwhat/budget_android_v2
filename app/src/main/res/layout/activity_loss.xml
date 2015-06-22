@@ -262,7 +262,6 @@
                 android:textColorHint="@android:color/holo_blue_light"
                 android:textColor="@android:color/holo_orange_light"
                 android:textColorHighlight="@android:color/holo_orange_light"
-                android:digits="2"
                 android:backgroundTint="@color/ColorPrimaryDark" />
 
 

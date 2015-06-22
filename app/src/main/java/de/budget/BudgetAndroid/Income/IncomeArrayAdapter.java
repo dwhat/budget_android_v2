@@ -30,7 +30,7 @@ public class IncomeArrayAdapter extends ArrayAdapter<IncomeTO> {
 
 
         public IncomeArrayAdapter(Context context, int resource, List<IncomeTO> values) {
-            super(context, R.layout.listview_loss, values);
+            super(context, R.layout.listview_income, values);
 
             this.context    = context;
             this.values     = values;
