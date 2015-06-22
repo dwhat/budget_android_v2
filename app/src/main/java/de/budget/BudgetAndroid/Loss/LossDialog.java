@@ -12,8 +12,11 @@ import android.widget.EditText;
 import de.budget.R;
 
 /**
+ * <p> Eine Bestätigungs Meldung zur Speicherung des Users</p>
  * Created by mark on 06/06/15.
+ * @Author Mark
  */
+@Deprecated
 public class LossDialog extends DialogFragment {
 
     private EditText mEditText;

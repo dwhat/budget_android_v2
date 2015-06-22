@@ -13,6 +13,7 @@ import de.budget.R;
 
 
 /**
+ * <p> Ein Oberfragment des Dashbarods, initialisiert die Tabs und startet entsprehcende Subfragments</p>
  * @Author Christopher
  * @date 17.06.2015
  */

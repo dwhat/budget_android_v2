@@ -13,7 +13,18 @@ import de.budget.BudgetService.Response.IncomeListResponse;
 import de.budget.BudgetService.dto.BasketTO;
 
 /**
+ * <p>  Asynchroner Task um eine Liste Basket zu erhalten.
+ *
+ *      Der Task nimmt keine Parameter entgegen. Der Task schickt die aktuelle SessionID zur Ermittlung
+ *      der aktiven Baskets zum Interface.
+ *
+ *      Die Antwort des Servers wird in einer Response gespeichert.
+ *
+ *      Nach Abschluss des Tasks wird die Response geprüft und je nach ReturnCode entschieden
+ *      welche Interaktion durchgeführt werden soll.
+ *  </p>
  * Created by mark on 17/06/15.
+ * @Author Mark
  */
 public class GetBasketTask extends AsyncTask<String, Integer, BasketListResponse>{
 

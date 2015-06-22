@@ -41,7 +41,19 @@ import java.util.List;
 
 
 /**
- * @author christopher
+ * <p>
+ *     Implementierung des Interfaces.
+ *     Es wird mit Hilfe einer zentralen Methode ksoap Objecte an den Server geschickt.
+ *     Die Objekte werden mit Hilfe der einzelnen Methoden erzeugt.
+ *     Die Klasse hält den Namespace sowie die Url zum Webservice bereit.
+ *
+ *     Die Methoden bestehen aus einem Methodennamen, der auf dem Server ausgeführt werden soll,
+ *     sowie eines SoapObjects zur Abhandlung des Response vom Server.
+ *     die Methoden liefern entsprechende ResponseObjecte an den Aufrufer.
+ *     Die ResponseObjecte erhalten den entsprehcenden Returncode des response des Servers.
+ *
+ *     Exceptions werden nicht geworfen, es wurde sich darauf geeinigt Returncodes zu verwenden.
+ * </p>
  * @date 01.06.2015
  */
 public class BudgetOnlineServiceImpl implements BudgetOnlineService {

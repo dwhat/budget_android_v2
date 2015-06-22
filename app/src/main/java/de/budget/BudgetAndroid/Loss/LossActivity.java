@@ -47,6 +47,18 @@ import de.budget.BudgetService.dto.PaymentTO;
 import de.budget.BudgetService.dto.VendorTO;
 import de.budget.R;
 
+/**
+ * <p> Activity zur Darstellung eines Basket-Objectes
+ *     Der Activity kann ein Bundle übergeben werden, um ein spezielles Object darzustellen.
+ *     Bei keiner Übergabe wird ein leeres Object dargestellt, was bei Interaktion zur neu Erstellung des Objectes führt.
+ *     Bei interaktion über die Buttons wird ein entsprechender asynchroner Task ausgeführt.
+ *
+ *     Die LossActivity wird um eine Items Section erweitert.
+ *     In einem Basket können daher dynamisch Items angelegt und gelöscht werden.
+ *     Die Items werden in einer Liste dargestellt und können über Wischgesten gelöscht bzw. geändert werden.
+ * </p>
+ * @Author Mark
+ */
 public class LossActivity extends ActionBarActivity {
 
     private BudgetAndroidApplication    myApp;

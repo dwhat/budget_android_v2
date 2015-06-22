@@ -21,6 +21,7 @@ import de.budget.R;
 
 
 /**
+ * <p> Ein Fragment zum Darstellen einer Vendor liste</p>
  * @Author Christopher
  * @date 17.06.2015
  */

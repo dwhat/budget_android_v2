@@ -11,7 +11,17 @@ import de.budget.BudgetAndroid.SyncActivity;
 import de.budget.BudgetService.Response.CategoryListResponse;
 import de.budget.BudgetService.Response.VendorListResponse;
 
-/*
+    /**
+     *  <p>  Asynchroner Task um eine Liste Vendors zu erhalten.
+     *
+     *      Der Task nimmt keine Parameter entgegen. Der Task schickt die aktuelle SessionID zur Ermittlung
+     *      der Vendors zum Interface.
+     *
+     *      Die Antwort des Servers wird in einer Response gespeichert.
+     *
+     *      Nach Abschluss des Tasks wird die Response geprüft und je nach ReturnCode entschieden
+     *      welche Interaktion durchgeführt werden soll.
+     *  </p>
     * @Author Christopher
     * @Date 09.06.2015
     */

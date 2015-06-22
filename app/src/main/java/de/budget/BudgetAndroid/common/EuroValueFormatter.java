@@ -5,6 +5,9 @@ import com.github.mikephil.charting.utils.ValueFormatter;
 import java.text.DecimalFormat;
 
 /**
+ * <p>
+ *     Eine Objekt um Zugriff auf ein einheitliches Euroformat zu bieten
+ * </p>
  * @author christopher
  * @date 19.06.2015
  */

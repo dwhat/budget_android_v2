@@ -6,7 +6,12 @@ import android.widget.Toast;
 import de.budget.R;
 
 /**
+ *
+ * <p>
+ *     Eine Objekt um Zugriff auf ein einheitliches Toast für wiederkehrende Fälle zu bieten
+ * </p>
  * Created by mark on 20/06/15.
+ * @Author Mark
  */
 public class ToastCommon {
 

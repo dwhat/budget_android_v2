@@ -25,6 +25,7 @@ import de.budget.BudgetAndroid.AsyncTasks.OnTaskCompleted;
 import de.budget.R;
 
 /**
+ * <p>Ein Wartebildschirm bis die Synchronisation mti dem Server abgeschlossen ist.</p>
  * @author christopher
  * @date 15.06,2015
  */

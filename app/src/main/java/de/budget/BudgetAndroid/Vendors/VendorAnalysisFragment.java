@@ -29,6 +29,9 @@ import de.budget.R;
 
 
 /**
+ * <p>
+ *     Ein Fragement zur Darstellung eines Charts aufgrund der bestehenden Vendor Objecte und der zugeordneten Basket Gesamtwert
+ * </p>
  * @Author Christopher
  * @date 17.06.2015
  */

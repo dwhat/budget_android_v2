@@ -12,6 +12,14 @@ import android.util.Log;
 import de.budget.BudgetAndroid.AsyncTasks.CreateOrUpdatePaymentTask;
 import de.budget.R;
 
+/**
+ * <p> Eine Activity zur Darstellung der Einstellungen.
+ *      In den Einstellungen wird der Username und das Passowrt gespeichert,
+ *      sowie die Möglichkeit Zahlungsmethoden.
+ *
+ *      Die Daten werden innerhalb der SharePreference vorgehalten.
+ * </p>
+ */
 public class PreferencesActivity extends PreferenceActivity {
 
     @Override

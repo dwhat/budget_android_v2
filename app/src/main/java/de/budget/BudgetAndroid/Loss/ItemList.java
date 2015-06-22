@@ -6,7 +6,11 @@ import java.util.Vector;
 import org.ksoap2.serialization.KvmSerializable;
 import org.ksoap2.serialization.PropertyInfo;
 /**
+ * <p>
+ *     Eine Klasse zur Speicherung des Items zur KSOAP Übermittlung
+ * </p>
  * Created by mark on 19/06/15.
+ * @Author Mark
  */
 public class ItemList extends Vector<String> implements KvmSerializable {
     /**

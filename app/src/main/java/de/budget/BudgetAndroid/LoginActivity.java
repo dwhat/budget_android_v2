@@ -25,6 +25,9 @@ import de.budget.R;
 import de.budget.BudgetAndroid.AsyncTasks.*;
 
 /**
+ * <p>
+ *     Activity zur Darstellung eines Loginfensters
+ * </p>
  * @author christopher
  * @date 01.06,2015
  */

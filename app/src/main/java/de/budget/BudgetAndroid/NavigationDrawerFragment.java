@@ -29,6 +29,7 @@ import de.budget.R;
 
 
 /**
+ * <p> Fragment zur Darstellung eines Off-Canvas Navigationselements</p>
  * @author christopher
  * @date 01.06.2015
  */

@@ -13,6 +13,9 @@ import de.budget.R;
 
 
 /**
+ * <p>
+ * <p> Ein Oberfragment des Vendors, initialisiert die Tabs und startet entsprehcende Subfragments</p>
+ * </p>
  * @Author Christopher
  * @date 17.06.2015
  */

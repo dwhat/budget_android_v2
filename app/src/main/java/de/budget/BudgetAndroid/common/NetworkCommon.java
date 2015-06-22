@@ -6,7 +6,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 /**
+ * <p>
+ *     Eine Objekt um Zugriff auf die Netzwerkprüfung zu bieten
+ * </p>
  * Created by mark on 20/06/15.
+ * @Author Mark
  */
 public class NetworkCommon {
 

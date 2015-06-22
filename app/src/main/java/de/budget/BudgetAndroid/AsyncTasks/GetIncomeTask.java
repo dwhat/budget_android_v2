@@ -14,7 +14,17 @@ import de.budget.BudgetAndroid.SyncActivity;
 import de.budget.BudgetService.Response.IncomeListResponse;
 import de.budget.BudgetService.Response.VendorListResponse;
 
-/*
+    /**
+     *  * <p>  Asynchroner Task um eine Liste Incomes zu erhalten.
+     *
+     *      Der Task nimmt keine Parameter entgegen. Der Task schickt die aktuelle SessionID zur Ermittlung
+     *      der Incomes.
+     *
+     *      Die Antwort des Servers wird in einer Response gespeichert.
+     *
+     *      Nach Abschluss des Tasks wird die Response geprüft und je nach ReturnCode entschieden
+     *      welche Interaktion durchgeführt werden soll.
+     *  </p>
     * @Author Christopher
     * @Date 14.06.2015
     */

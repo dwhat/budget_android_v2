@@ -19,7 +19,13 @@ import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetService.dto.VendorTO;
 import de.budget.R;
 import de.budget.BudgetAndroid.AsyncTasks.CreateOrUpdateVendorTask;
-
+/**
+ * <p> Activity zur Darstellung eines Vendor-Objectes
+ *     Der Activity kann ein Bundle übergeben werden, um ein spezielles Object darzustellen.
+ *     Bei keiner Übergabe wird ein leeres Object dargestellt, was bei Interaktion zur neu Erstellung des Objectes führt.
+ *     Bei interaktion über die Buttons wird ein entsprechender asynchroner Task ausgeführt.
+ * </p>
+ */
 public class VendorActivity extends ActionBarActivity {
 
     private boolean newVendor = true;

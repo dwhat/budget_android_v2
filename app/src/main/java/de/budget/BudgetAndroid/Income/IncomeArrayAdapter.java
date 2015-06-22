@@ -15,7 +15,11 @@ import de.budget.BudgetService.dto.IncomeTO;
 import de.budget.R;
 
 /**
+ * <p>
+ *     Eine Erweiterung des ArrayAdapters um ein Income Objekt innerhalb einer ListView anzuzeigen und zu verwalten
+ * </p>
  * Created by mark on 19/06/15.
+ * @Author Mark
  */
 @Author(name="Mark")
 public class IncomeArrayAdapter extends ArrayAdapter<IncomeTO> {

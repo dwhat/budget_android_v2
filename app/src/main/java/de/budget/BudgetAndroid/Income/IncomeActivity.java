@@ -35,7 +35,13 @@ import de.budget.BudgetAndroid.common.ToastCommon;
 import de.budget.BudgetService.dto.CategoryTO;
 import de.budget.BudgetService.dto.IncomeTO;
 import de.budget.R;
-
+/**
+ * <p> Activity zur Darstellung eines Income-Objectes
+ *     Der Activity kann ein Bundle übergeben werden, um ein spezielles Object darzustellen.
+ *     Bei keiner Übergabe wird ein leeres Object dargestellt, was bei Interaktion zur neu Erstellung des Objectes führt.
+ *     Bei interaktion über die Buttons wird ein entsprechender asynchroner Task ausgeführt.
+ * </p>
+ */
 public class IncomeActivity extends ActionBarActivity {
 
     private boolean newIncome = true;

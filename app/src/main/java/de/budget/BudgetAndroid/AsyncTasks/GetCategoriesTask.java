@@ -7,7 +7,17 @@ import android.util.Log;
 import de.budget.BudgetAndroid.BudgetAndroidApplication;
 import de.budget.BudgetService.Response.CategoryListResponse;
 
-/*
+    /**
+     *  <p>  Asynchroner Task um eine Liste Categories zu erhalten.
+     *
+     *      Der Task nimmt keine Parameter entgegen. Der Task schickt die aktuelle SessionID zur Ermittlung
+     *      der aktiven Categories zum Interface.
+     *
+     *      Die Antwort des Servers wird in einer Response gespeichert.
+     *
+     *      Nach Abschluss des Tasks wird die Response geprüft und je nach ReturnCode entschieden
+     *      welche Interaktion durchgeführt werden soll.
+     *  </p>
     * @Author Christopher
     * @Date 09.06.2015
     */

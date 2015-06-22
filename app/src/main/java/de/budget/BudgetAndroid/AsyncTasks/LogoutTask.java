@@ -11,7 +11,16 @@ import de.budget.BudgetAndroid.LoginActivity;
 import de.budget.BudgetAndroid.MainActivity;
 import de.budget.BudgetService.Response.ReturnCodeResponse;
 
-/*
+    /**
+     *  * <p>  Asynchroner Task um die Session zu zverstören
+     *
+     *      Der Task nimmt einen Parameter entgegen.
+     *
+     *      Die Antwort des Servers wird in einer Response gespeichert.
+     *
+     *      Nach Abschluss des Tasks wird die Response geprüft und je nach ReturnCode entschieden
+     *      welche Interaktion durchgeführt werden soll.
+     *  </p>
     * @Author Christopher
     * @Date 09.06.2015
     */

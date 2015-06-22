@@ -28,6 +28,7 @@ import de.budget.BudgetService.Response.AmountResponse;
 import de.budget.R;
 
 /**
+ * <p> Stellt ein Diagramm im Fragment dar</p>
  * @Author Christopher
  * @date 18.06.2015
  */

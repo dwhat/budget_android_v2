@@ -20,6 +20,18 @@ import de.budget.BudgetService.dto.ItemTO;
 
 /**
  * Created by mark on 18/06/15.
+ * <p>  Asynchroner Task um ein Basket anzulegen oder zu ändern.
+ *
+ *      Der Task nimmt die Parameter eines neuen oder zu ändernden Objects entgegen.
+ *      Die Parameter werden über die BudgetAndroidApplication an das Interface übermittelt,
+ *      welches die Versendung an den OnlineService übernimmt.
+ *
+ *      Die Antwort des Servers wird in einer BasketResponse gespeichert.
+ *       *
+ *      Nach Abschluss des Tasks wird die Response geprüft und je nach ReturnCode entschieden
+ *      welche Interaktion durchgeführt werden soll.
+ * </p>
+ * @author Mark
  */
 public class CreateOrUpdateBasketTask extends AsyncTask<Object, Integer, BasketResponse> {
 

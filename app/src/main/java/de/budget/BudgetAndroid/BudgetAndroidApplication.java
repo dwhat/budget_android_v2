@@ -24,7 +24,14 @@ import de.budget.BudgetService.dto.PaymentTO;
 import de.budget.BudgetService.dto.VendorTO;
 
 /**
- * @Author Christopher
+ * <p> Zentrale Applikation zur Vorhaltung der Daten
+ *      Es werden alle Listen des Users hier zwischengespeichert
+ *      die Objekte sind innerhalb der Acitivitys erreichbar.
+ *
+ *      Es wird die SessionID hier vorgehalten.
+ *      Das Interface zur Kommunikation mit dem Server wird hier zentral referenziert
+ * </p>
+ *
  * @date 01.06.2015
  */
 public class BudgetAndroidApplication extends Application{

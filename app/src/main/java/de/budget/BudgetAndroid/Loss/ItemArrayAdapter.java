@@ -16,7 +16,11 @@ import de.budget.BudgetService.dto.ItemTO;
 import de.budget.R;
 
 /**
- * Created by mark on 09/06/15.
+ * <p>
+ *     Eine Erweiterung des ArrayAdapters um ein Item Objekt innerhalb einer ListView anzuzeigen und zu verwalten
+ * </p>
+ * Created by mark on 19/06/15.
+ * @Author Mark
  */
 @Author(name="Mark")
 public class ItemArrayAdapter extends ArrayAdapter<ItemTO> {

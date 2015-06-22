@@ -14,6 +14,7 @@ import de.budget.R;
  * @Author Christopher
  * @date 17.06.2015
  */
+@Deprecated
 public class DashboardIncomeFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;

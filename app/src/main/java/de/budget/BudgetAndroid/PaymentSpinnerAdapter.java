@@ -13,7 +13,12 @@ import de.budget.BudgetService.dto.PaymentTO;
 import de.budget.R;
 
 /**
- * Created by mark on 19/06/15.
+ * <p>
+ *     Eine Erweiterung des BaseAdapters zur Darstellung von Payment Objecten innerhalb eines Spinners
+ *
+ * </p>
+ * Created by mark on 17/06/15.
+ *@Author Mark
  */
 public class PaymentSpinnerAdapter extends BaseAdapter {
 

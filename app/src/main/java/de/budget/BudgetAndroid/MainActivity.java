@@ -55,7 +55,12 @@ import de.budget.BudgetAndroid.common.ToastCommon;
 import de.budget.BudgetService.dto.BasketTO;
 import de.budget.R;
 
-
+/**
+ * <p>
+ *     Acitivty, die nach dem Laden der einzelnen Objekte aufgerufen wird.
+ *     Zentrale Acitivty, die die Fragments initialisiert, sowie die Navigation bereitstellt.
+ * </p>
+ */
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, CategoryListFragment.OnFragmentInteractionListener, VendorListFragment.OnFragmentInteractionListener,
                     IncomeListFragment.OnFragmentInteractionListener, LossFragment.OnFragmentInteractionListener, CategoryFragment.OnFragmentInteractionListener,

@@ -25,7 +25,11 @@ import de.budget.BudgetService.dto.BasketTO;
 import de.budget.R;
 
 /**
+ * <p>
+ *     Ein Fragement zur Darstellung eines Charts aufgrund der bestehenden Baskets und deren Gesamtwert
+ * </p>
  * Created by mark on 20/06/15.
+ * @Author Mark
  */
 public class LossAnalysisFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

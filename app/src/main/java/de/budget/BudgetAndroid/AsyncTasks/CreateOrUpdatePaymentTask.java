@@ -13,7 +13,18 @@ import de.budget.BudgetAndroid.Vendors.VendorActivity;
 import de.budget.BudgetService.Response.PaymentResponse;
 import de.budget.BudgetService.Response.VendorResponse;
 
-/*
+    /**
+     *  * <p>  Asynchroner Task um ein Payment anzulegen oder zu ändern.
+     *
+     *      Der Task nimmt die Parameter eines neuen oder zu ändernden Basket Objects entgegen.
+     *      Die Parameter werden über die BudgetAndroidApplication an das Interface übermittelt,
+     *      welches die Versendung an den OnlineService übernimmt.
+     *
+     *      Die Antwort des Servers wird in einer Response gespeichert.
+     *       *
+     *      Nach Abschluss des Tasks wird die Response geprüft und je nach ReturnCode entschieden
+     *      welche Interaktion durchgeführt werden soll.
+     * </p>
     * @Author Christopher
     * @Date 11.06.2015
     */

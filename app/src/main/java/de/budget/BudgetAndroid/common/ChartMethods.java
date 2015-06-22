@@ -17,6 +17,9 @@ import de.budget.BudgetAndroid.common.EuroValueFormatter;
 import de.budget.BudgetService.dto.AmountTO;
 
 /**
+ * <p>
+ *     Dient zur Darstellung der Charts innerhalb der Fragments
+ * </p>
  * @author christopher
  * @date 18.06.2015
  */

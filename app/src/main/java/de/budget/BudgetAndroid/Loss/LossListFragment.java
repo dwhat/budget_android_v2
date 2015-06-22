@@ -24,7 +24,17 @@ import de.budget.BudgetService.dto.BasketTO;
 import de.budget.R;
 
 /**
- * Created by mark on 20/06/15.
+ * <p>
+ *     Stellt die Basets in einer Liste dar,
+ *     bei Interaktion mit der Liste wird entsprechend ein Basket angezeigt.
+ *     Wenn die Items eines Baskets noch nicht geladen worden sind, wird ein Asynchroner Task zur Ermittlung dieser angestoßen.
+ *     Der User erhält eine Response in Form eines Ladebalkens.
+ *
+ *     Die Items sind nach dem Laden innerhalb der App verfügbar.
+ *     Die Items können zentral komplett über den Synchronisieren Button geladen werden.
+ * </p>
+ * Created by mark on 19/06/15.
+ * @Author Mark
  */
 public class LossListFragment extends Fragment implements OnTaskCompleted {
 

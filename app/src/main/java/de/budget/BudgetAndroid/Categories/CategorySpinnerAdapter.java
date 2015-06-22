@@ -15,7 +15,12 @@ import de.budget.BudgetService.dto.CategoryTO;
 import de.budget.R;
 
 /**
+ * <p>
+ *     Eine Erweiterung des BaseAdapters zur Darstellung von Category Objecten innerhalb eines Spinners
+ *
+ * </p>
  * Created by mark on 17/06/15.
+ *@Author Mark
  */
 @Author(name="Mark")
 public class CategorySpinnerAdapter extends BaseAdapter {

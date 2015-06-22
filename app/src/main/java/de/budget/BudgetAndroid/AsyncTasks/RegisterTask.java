@@ -17,7 +17,21 @@ import de.budget.BudgetAndroid.RegisterActivity;
 import de.budget.BudgetAndroid.SyncActivity;
 import de.budget.BudgetService.Response.UserLoginResponse;
 
-/*
+
+    /**
+     *
+     * <p>  Asynchroner Task um den User zu registrieren.
+     *
+     *      Der Task nimmt drei Parameter entgegen.
+     *      Das übergebene Passwort wird mittels MD5 gehasht und so zusammen mit dem Usernamen an den Server geschickt.
+     *
+     *
+     *      Die Antwort des Servers wird in einer Response gespeichert.
+     *
+     *      Nach Abschluss des Tasks wird die Response geprüft und je nach ReturnCode entschieden
+     *      welche Interaktion durchgeführt werden soll.
+     *  </p>Interaktion durchgeführt werden soll.
+     *
     * @Author Christopher
     * @Date 09.06.2015
     */

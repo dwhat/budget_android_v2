@@ -15,7 +15,11 @@ import de.budget.BudgetService.dto.BasketTO;
 import de.budget.R;
 
 /**
- * Created by mark on 09/06/15.
+ * <p>
+ *     Eine Erweiterung des ArrayAdapters um ein Basket Objekt innerhalb einer ListView anzuzeigen und zu verwalten
+ * </p>
+ * Created by mark on 19/06/15.
+ * @Author Mark
  */
 @Author(name="Mark")
 public class LossArrayAdapter extends ArrayAdapter<BasketTO> {

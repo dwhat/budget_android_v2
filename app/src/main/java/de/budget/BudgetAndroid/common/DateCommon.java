@@ -4,7 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * <p>
+ *     Eine Objekt um Zugriff auf ein einheitliches Dateformat zu bieten
+ * </p>
  * Created by mark on 20/06/15.
+ *  @Author Mark
  */
 public class DateCommon {
 
