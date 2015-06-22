@@ -25,14 +25,13 @@ public class BasketTO implements Serializable{
 	private long createDate;
 	private long purchaseDate;
 	private long lastChanged;
-//	private Timestamp createDate;
-//	private Timestamp purchaseDate;
-//	private Timestamp lastChanged;
 	private UserTO user;
 	private VendorTO vendor;
 	private PaymentTO payment;
 	private List<ItemTO> items;
-	
+//	private Timestamp createDate;
+//	private Timestamp purchaseDate;
+//	private Timestamp lastChanged;
 	/**
 	 * Default Constructor
 	 * @author Marco

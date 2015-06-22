@@ -580,6 +580,7 @@ public class BudgetOnlineServiceImpl implements BudgetOnlineService {
                 if (propertyCount > 1) {
                     for (int idx = 1; idx < propertyCount; idx++) {
                         SoapObject ListObject = (SoapObject) response.getProperty(idx);
+                        Log.d("BASKET RESPONSE", ListObject.toString());
                         basketList.add(parseBasket(ListObject));
                     }
                 }

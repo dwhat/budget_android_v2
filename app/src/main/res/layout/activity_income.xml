@@ -64,7 +64,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_width="wrap_content"
 
-                    />
+                    android:numeric="decimal" />
             </LinearLayout>
 
             <LinearLayout
@@ -93,7 +93,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentStart="true"
 
-                    />
+                    android:numeric="decimal" />
             </LinearLayout>
         </LinearLayout>
 
@@ -136,7 +136,8 @@
             android:id="@+id/income_notice"
             android:hint="@string/notice"
             android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:imeOptions="actionDone"/>
 
     <LinearLayout
         android:layout_width="match_parent"
